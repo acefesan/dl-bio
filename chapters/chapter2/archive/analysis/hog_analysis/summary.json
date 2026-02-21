@@ -1,0 +1,10 @@
+{
+  "n_proteins_with_hog": 91870,
+  "n_unique_hogs": 36148,
+  "n_hogs_analyzed": 18,
+  "min_hog_size": 100,
+  "variance_mean": 1.4682377576828003,
+  "variance_median": 1.4763821363449097,
+  "coherence_mean": 0.8509588241577148,
+  "corr_variance_ntaxa": 0.14515450885641984
+}

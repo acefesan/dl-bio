@@ -1,0 +1,6 @@
+[submodule "dlfb"]
+	path = dlfb
+	url = https://github.com/deep-learning-for-biology/dlfb.git
+[submodule "notebooks"]
+	path = notebooks
+	url = https://github.com/deep-learning-for-biology/notebooks.git

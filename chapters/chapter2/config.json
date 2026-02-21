@@ -1,0 +1,23 @@
+{
+  "name": "default",
+  "steps": [1, 2, 3],
+  "embeddings": {
+    "model": "facebook/esm2_t33_650M_UR50D",
+    "batch_size": 32,
+    "max_seq_length": 5000,
+    "limit": null
+  },
+  "dataset": {
+    "skip_taxonomy": false,
+    "fetch_hogs": false,
+    "hog_cache": "assets/proteins/datasets/cafa3_merged/hog_cache.csv",
+    "format": "feather"
+  },
+  "clustering": {
+    "sample_size": 500,
+    "min_taxa": 500,
+    "min_hog": 100,
+    "n_clusters": 20,
+    "seed": 42
+  }
+}

@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# uv
+uv.lock
+
+# Data & generated artifacts
+assets/
+checkpoints/
+chapters/chapter2/runs/
+
+# Tool configs
+opencode.json
+
+# Hugging Face model cache
+.cache/

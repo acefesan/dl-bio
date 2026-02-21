@@ -1,0 +1,27 @@
+[project]
+name = "dl-bio"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "bioservices>=1.12.1",
+    "dlfb",
+    "goatools>=1.5.2",
+    "graphviz>=0.21",
+    "ipykernel>=7.1.0",
+    "jax[cuda12]>=0.8.2",
+    "matplotlib>=3.10.8",
+    "networkx>=3.6.1",
+    "numpy>=2.4.1",
+    "obonet>=1.1.1",
+    "transformers>=4.57.6",
+]
+
+[tool.uv.workspace]
+members = [
+    "dlfb",
+]
+
+[tool.uv.sources]
+dlfb = { workspace = true }
