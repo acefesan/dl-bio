@@ -77,6 +77,18 @@ All raw and derived datasets live under `assets/proteins/datasets/` (git-ignored
 | `all_species_embeddings.feather` | Pre-computed ESM2 embeddings (1280 dims) |
 | `cafa3_merged/` | Merged dataset + HOG cache + metadata |
 
+### Results
+
+UMAP projections of 11k sampled proteins (500 per taxon, 22 taxa with >= 500 proteins):
+
+![UMAP by taxa](chapters/chapter2/figures/umap_by_taxa.png)
+
+![UMAP by root HOG](chapters/chapter2/figures/umap_by_hog.png)
+
+HOG distribution across species:
+
+![Taxa-HOG heatmap](chapters/chapter2/figures/taxa_hog_heatmap.png)
+
 ### Archive
 
 Previous experimental scripts, notebooks, and analysis outputs are preserved in `chapters/chapter2/archive/`.
