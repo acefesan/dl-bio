@@ -35,10 +35,17 @@ def load_config(config_path: Path) -> dict:
         return json.load(f)
 
 
-def build_step1_args(cfg: dict) -> list[str]:
+def build_step1_args(cfg: dict, run_dir: Path) -> list[str]:
     """Build CLI args for 01_compute_embeddings.py."""
     emb = cfg["embeddings"]
     args = ["--batch-size", str(emb["batch_size"])]
+    if emb.get("model"):
+        args += ["--model", emb["model"]]
+    if emb.get("output"):
+        output_path = PROJECT_ROOT / emb["output"]
+        args += ["--output", str(output_path)]
+    if emb.get("checkpoint_dir"):
+        args += ["--checkpoint-dir", str(PROJECT_ROOT / emb["checkpoint_dir"])]
     if emb.get("max_seq_length") is not None:
         args += ["--max-seq-length", str(emb["max_seq_length"])]
     if emb.get("limit") is not None:
@@ -49,6 +56,7 @@ def build_step1_args(cfg: dict) -> list[str]:
 def build_step2_args(cfg: dict, run_dir: Path) -> list[str]:
     """Build CLI args for 02_build_dataset.py."""
     ds = cfg["dataset"]
+    emb = cfg.get("embeddings", {})
     output_dir = run_dir / "dataset"
     args = ["--output-dir", str(output_dir), "--format", ds.get("format", "feather")]
     if ds.get("skip_taxonomy"):
@@ -58,6 +66,8 @@ def build_step2_args(cfg: dict, run_dir: Path) -> list[str]:
     if ds.get("hog_cache"):
         hog_path = PROJECT_ROOT / ds["hog_cache"]
         args += ["--hog-cache", str(hog_path)]
+    if emb.get("output"):
+        args += ["--embeddings", str(PROJECT_ROOT / emb["output"])]
     return args
 
 
@@ -83,7 +93,7 @@ def run_step(step: int, cfg: dict, run_dir: Path) -> bool:
         return False
 
     if step == 1:
-        args = build_step1_args(cfg)
+        args = build_step1_args(cfg, run_dir)
     elif step == 2:
         args = build_step2_args(cfg, run_dir)
     elif step == 3:

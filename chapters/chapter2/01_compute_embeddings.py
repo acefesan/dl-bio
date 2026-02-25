@@ -244,18 +244,21 @@ def main():
                         help="Directory to save batch checkpoints")
     parser.add_argument("--max-seq-length", type=int, default=None,
                         help="Skip sequences longer than this (to avoid OOM)")
+    parser.add_argument("--model", type=str, default=MODEL_CHECKPOINT,
+                        help=f"HuggingFace model checkpoint (default: {MODEL_CHECKPOINT})")
     args = parser.parse_args()
 
     fasta_path = FASTA_FILE
     output_path = Path(args.output) if args.output else DEFAULT_OUTPUT
     checkpoint_dir = Path(args.checkpoint_dir) if args.checkpoint_dir else DEFAULT_CHECKPOINT_DIR
+    model_checkpoint = args.model
 
-    print(f"Model: {MODEL_CHECKPOINT}")
+    print(f"Model: {model_checkpoint}")
 
     # Load model and tokenizer
     print("Loading tokenizer and model...")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
-    model = EsmModel.from_pretrained(MODEL_CHECKPOINT)
+    tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+    model = EsmModel.from_pretrained(model_checkpoint)
 
     # Load sequences
     sequence_df = load_sequences(fasta_path, limit=args.limit)

@@ -2,7 +2,7 @@
 """Clustering analysis of ESM2 protein embeddings.
 
 Loads the merged CAFA3 dataset, performs KMeans clustering in the original
-640-dimensional embedding space, computes silhouette scores, runs UMAP for
+original embedding space, computes silhouette scores, runs UMAP for
 visualization, and generates plots colored by taxa and HOGs.
 
 Usage:

@@ -265,6 +265,7 @@ def build_dataset(
     fetch_hogs: bool = False,
     hog_cache_path: Path | None = None,
     output_dir: Path | None = None,
+    embeddings_file: Path | None = None,
 ) -> tuple[pd.DataFrame, dict]:
     """Build the merged CAFA3 dataset with embeddings and optional HOGs.
 
@@ -297,7 +298,7 @@ def build_dataset(
     go_descriptions_df = load_go_descriptions(GO_DESCRIPTIONS_FILE)
     stats["n_go_terms"] = len(go_descriptions_df)
 
-    embeddings_df = load_embeddings(EMBEDDINGS_FILE)
+    embeddings_df = load_embeddings(embeddings_file or EMBEDDINGS_FILE)
     stats["n_embeddings"] = len(embeddings_df)
     stats["embedding_dim"] = len([c for c in embeddings_df.columns if c.startswith("ME:")])
 
@@ -440,6 +441,8 @@ def main():
                         help="Path to HOG cache CSV file (load if exists, save if fetching)")
     parser.add_argument("--format", type=str, choices=["feather", "parquet", "csv"],
                         default="feather", help="Output format (default: feather)")
+    parser.add_argument("--embeddings", type=str, default=None,
+                        help="Path to embeddings feather file (default: all_species_embeddings.feather)")
     args = parser.parse_args()
 
     if args.output_dir:
@@ -456,11 +459,14 @@ def main():
     print("Building CAFA3 dataset with embeddings" + (" and HOGs" if args.fetch_hogs or hog_cache_path else ""))
     print("=" * 60 + "\n")
 
+    embeddings_file = Path(args.embeddings) if args.embeddings else EMBEDDINGS_FILE
+
     merged_df, stats = build_dataset(
         fetch_taxonomy_names=not args.skip_taxonomy,
         fetch_hogs=args.fetch_hogs,
         hog_cache_path=hog_cache_path,
         output_dir=output_dir,
+        embeddings_file=embeddings_file,
     )
 
     # Save dataset

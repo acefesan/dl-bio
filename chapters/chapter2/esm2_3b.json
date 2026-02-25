@@ -1,0 +1,25 @@
+{
+  "name": "esm2_3b",
+  "steps": [1, 2, 3],
+  "embeddings": {
+    "model": "facebook/esm2_t36_3B_UR50D",
+    "batch_size": 4,
+    "max_seq_length": 3000,
+    "limit": null,
+    "output": "assets/proteins/datasets/esm2_3b_embeddings.feather",
+    "checkpoint_dir": "checkpoints/esm2_3b"
+  },
+  "dataset": {
+    "skip_taxonomy": false,
+    "fetch_hogs": false,
+    "hog_cache": "assets/proteins/datasets/cafa3_merged/hog_cache.csv",
+    "format": "feather"
+  },
+  "clustering": {
+    "sample_size": 500,
+    "min_taxa": 500,
+    "min_hog": 100,
+    "n_clusters": 20,
+    "seed": 42
+  }
+}
