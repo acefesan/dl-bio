@@ -66,22 +66,24 @@ def build_step2_args(cfg: dict, run_dir: Path) -> list[str]:
     if ds.get("hog_cache"):
         hog_path = PROJECT_ROOT / ds["hog_cache"]
         args += ["--hog-cache", str(hog_path)]
-    if emb.get("output"):
-        args += ["--embeddings", str(PROJECT_ROOT / emb["output"])]
     return args
 
 
 def build_step3_args(cfg: dict, run_dir: Path) -> list[str]:
     """Build CLI args for 03_clustering_analysis.py."""
     cl = cfg["clustering"]
+    emb = cfg.get("embeddings", {})
     output_dir = run_dir / "clustering"
     args = [
         "--output-dir", str(output_dir),
+        "--data", str(run_dir / "dataset" / "cafa3_annotations.feather"),
         "--sample-size", str(cl["sample_size"]),
         "--min-taxa", str(cl["min_taxa"]),
         "--min-hog", str(cl["min_hog"]),
         "--n-clusters", str(cl["n_clusters"]),
     ]
+    if emb.get("output"):
+        args += ["--embeddings", str(PROJECT_ROOT / emb["output"])]
     return args
 
 

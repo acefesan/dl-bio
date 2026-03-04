@@ -265,7 +265,6 @@ def build_dataset(
     fetch_hogs: bool = False,
     hog_cache_path: Path | None = None,
     output_dir: Path | None = None,
-    embeddings_file: Path | None = None,
 ) -> tuple[pd.DataFrame, dict]:
     """Build the merged CAFA3 dataset with embeddings and optional HOGs.
 
@@ -297,10 +296,6 @@ def build_dataset(
 
     go_descriptions_df = load_go_descriptions(GO_DESCRIPTIONS_FILE)
     stats["n_go_terms"] = len(go_descriptions_df)
-
-    embeddings_df = load_embeddings(embeddings_file or EMBEDDINGS_FILE)
-    stats["n_embeddings"] = len(embeddings_df)
-    stats["embedding_dim"] = len([c for c in embeddings_df.columns if c.startswith("ME:")])
 
     # Load or fetch HOGs
     hog_df = None
@@ -345,14 +340,9 @@ def build_dataset(
     merged_df = merged_df.merge(labels_df, on="EntryID", how="inner")
     print(f"  After labels merge: {len(merged_df):,} rows")
 
-    merged_df = merged_df.merge(embeddings_df, on="EntryID", how="left")
-    n_with_embeddings = merged_df[merged_df.columns[merged_df.columns.str.startswith("ME:")]].notna().any(axis=1).sum()
-    print(f"  After embeddings merge: {len(merged_df):,} rows ({n_with_embeddings:,} with embeddings)")
-
     stats["n_final_rows"] = len(merged_df)
     stats["n_unique_proteins"] = merged_df["EntryID"].nunique()
     stats["n_unique_go_terms"] = merged_df["term"].nunique()
-    stats["n_rows_with_embeddings"] = int(n_with_embeddings)
     stats["n_rows_with_hog"] = int(merged_df["hog_id"].notna().sum())
 
     return merged_df, stats
@@ -441,8 +431,6 @@ def main():
                         help="Path to HOG cache CSV file (load if exists, save if fetching)")
     parser.add_argument("--format", type=str, choices=["feather", "parquet", "csv"],
                         default="feather", help="Output format (default: feather)")
-    parser.add_argument("--embeddings", type=str, default=None,
-                        help="Path to embeddings feather file (default: all_species_embeddings.feather)")
     args = parser.parse_args()
 
     if args.output_dir:
@@ -459,14 +447,11 @@ def main():
     print("Building CAFA3 dataset with embeddings" + (" and HOGs" if args.fetch_hogs or hog_cache_path else ""))
     print("=" * 60 + "\n")
 
-    embeddings_file = Path(args.embeddings) if args.embeddings else EMBEDDINGS_FILE
-
     merged_df, stats = build_dataset(
         fetch_taxonomy_names=not args.skip_taxonomy,
         fetch_hogs=args.fetch_hogs,
         hog_cache_path=hog_cache_path,
         output_dir=output_dir,
-        embeddings_file=embeddings_file,
     )
 
     # Save dataset
@@ -475,13 +460,13 @@ def main():
     print("=" * 60 + "\n")
 
     if args.format == "feather":
-        output_file = output_dir / "cafa3_with_embeddings.feather"
+        output_file = output_dir / "cafa3_annotations.feather"
         merged_df.to_feather(output_file)
     elif args.format == "parquet":
-        output_file = output_dir / "cafa3_with_embeddings.parquet"
+        output_file = output_dir / "cafa3_annotations.parquet"
         merged_df.to_parquet(output_file)
     else:
-        output_file = output_dir / "cafa3_with_embeddings.csv"
+        output_file = output_dir / "cafa3_annotations.csv"
         merged_df.to_csv(output_file, index=False)
 
     print(f"Saved dataset to: {output_file}")
@@ -503,12 +488,10 @@ def main():
     print(f"  Total rows: {stats['n_final_rows']:,}")
     print(f"  Unique proteins: {stats['n_unique_proteins']:,}")
     print(f"  Unique GO terms: {stats['n_unique_go_terms']:,}")
-    print(f"  Rows with embeddings: {stats['n_rows_with_embeddings']:,}")
     print(f"  Rows with HOG: {stats.get('n_rows_with_hog', 0):,}")
     if "n_unique_hogs" in stats:
         print(f"  Unique HOGs: {stats['n_unique_hogs']:,}")
         print(f"  Unique root HOGs: {stats['n_unique_roothogs']:,}")
-    print(f"  Embedding dimensions: {stats['embedding_dim']}")
     print("\nDone!")
 
 

@@ -79,7 +79,14 @@ All raw and derived datasets live under `assets/proteins/datasets/` (git-ignored
 
 ### Results
 
-UMAP projections of 11k sampled proteins (500 per taxon, 22 taxa with >= 500 proteins):
+UMAP projections of 11k sampled proteins (500 per taxon, 22 taxa with >= 500 proteins).
+
+#### ESM2 650M (`esm2_t33_650M_UR50D`, 1280D, max_seq_length=5000)
+
+| Metric | Value |
+|--------|-------|
+| KMeans silhouette (1280D) | 0.0396 |
+| HOG silhouette (1280D) | 0.0313 |
 
 ![UMAP by taxa](chapters/chapter2/figures/umap_by_taxa.png)
 
@@ -88,6 +95,19 @@ UMAP projections of 11k sampled proteins (500 per taxon, 22 taxa with >= 500 pro
 HOG distribution across species:
 
 ![Taxa-HOG heatmap](chapters/chapter2/figures/taxa_hog_heatmap.png)
+
+#### ESM2 3B (`esm2_t36_3B_UR50D`, 2560D, max_seq_length=3000)
+
+| Metric | Value |
+|--------|-------|
+| KMeans silhouette (2560D) | 0.0003 |
+| HOG silhouette (2560D) | -0.2131 |
+
+![UMAP by taxa](chapters/chapter2/figures/esm2_3b/umap_by_taxa.png)
+
+![UMAP by root HOG](chapters/chapter2/figures/esm2_3b/umap_by_hog.png)
+
+![Taxa-HOG heatmap](chapters/chapter2/figures/esm2_3b/taxa_hog_heatmap.png)
 
 ### Archive
 

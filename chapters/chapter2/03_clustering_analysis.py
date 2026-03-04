@@ -26,7 +26,8 @@ from umap import UMAP
 
 # Paths relative to this script's location (chapters/chapter2/)
 PROJECT_ROOT = Path(__file__).parent.parent.parent
-DATA_PATH = PROJECT_ROOT / "assets/proteins/datasets/cafa3_merged/cafa3_with_embeddings.feather"
+DEFAULT_DATA_PATH = PROJECT_ROOT / "assets/proteins/datasets/cafa3_merged/cafa3_annotations.feather"
+DEFAULT_EMBEDDINGS_PATH = PROJECT_ROOT / "assets/proteins/datasets/all_species_embeddings.feather"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "chapters/chapter2/results"
 
 
@@ -35,21 +36,30 @@ DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "chapters/chapter2/results"
 # =============================================================================
 
 def load_dataset(data_path: Path) -> pd.DataFrame:
-    """Load the CAFA3 merged dataset."""
-    print(f"Loading dataset from {data_path.name}...")
+    """Load the CAFA3 annotations dataset."""
+    print(f"Loading annotations from {data_path.name}...")
     df = pd.read_feather(data_path)
     print(f"  Loaded {len(df):,} rows, {df['EntryID'].nunique():,} unique proteins")
     return df
 
 
-def get_unique_proteins(df: pd.DataFrame) -> pd.DataFrame:
-    """Deduplicate to unique proteins with embeddings."""
-    embedding_cols = [c for c in df.columns if c.startswith('ME:')]
+def load_embeddings(embeddings_path: Path) -> pd.DataFrame:
+    """Load pre-computed embeddings, returning EntryID + ME:* columns."""
+    print(f"Loading embeddings from {embeddings_path.name}...")
+    df = pd.read_feather(embeddings_path)
+    embedding_cols = [c for c in df.columns if c.startswith("ME:")]
+    df = df[["EntryID"] + embedding_cols]
+    print(f"  Loaded {len(df):,} embeddings with {len(embedding_cols)} dimensions")
+    return df
+
+
+def get_unique_proteins(df: pd.DataFrame, embeddings_df: pd.DataFrame) -> pd.DataFrame:
+    """Deduplicate to unique proteins and join embeddings."""
     protein_cols = ['EntryID', 'Length', 'taxonomyID', 'scientific_name',
-                    'oma_id', 'hog_id', 'roothog_id'] + embedding_cols
+                    'oma_id', 'hog_id', 'roothog_id']
 
     protein_df = df[protein_cols].drop_duplicates(subset='EntryID')
-    protein_df = protein_df[protein_df[embedding_cols[0]].notna()]
+    protein_df = protein_df.merge(embeddings_df, on='EntryID', how='inner')
 
     print(f"  Unique proteins with embeddings: {len(protein_df):,}")
     return protein_df
@@ -288,14 +298,23 @@ def main():
                         help='Number of KMeans clusters (default: 20)')
     parser.add_argument('--output-dir', type=str, default=None,
                         help='Output directory for plots and metrics')
+    parser.add_argument('--data', type=str, default=None,
+                        help='Path to annotations feather file (default: cafa3_annotations.feather)')
+    parser.add_argument('--embeddings', type=str, default=None,
+                        help='Path to embeddings feather file (default: all_species_embeddings.feather)')
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir) if args.output_dir else DEFAULT_OUTPUT_DIR
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    data_path = Path(args.data) if args.data else DEFAULT_DATA_PATH
+    embeddings_path = Path(args.embeddings) if args.embeddings else DEFAULT_EMBEDDINGS_PATH
+
     # Load and prepare data
-    df = load_dataset(DATA_PATH)
-    protein_df = get_unique_proteins(df)
+    df = load_dataset(data_path)
+    embeddings_df = load_embeddings(embeddings_path)
+    protein_df = get_unique_proteins(df, embeddings_df)
+    del embeddings_df  # free memory after join
 
     taxa_map = get_abundant_taxa(protein_df, min_count=args.min_taxa)
     abundant_hogs = get_abundant_hogs(protein_df, min_count=args.min_hog)
