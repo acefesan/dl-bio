@@ -1,0 +1,6 @@
+{
+  "artifact": "chapters/chapter2/lab/008_1b_pretraining/figures/scaling_dynamics_6models.png",
+  "command": ".venv/bin/python chapters/chapter2/analyze_training_dynamics.py chapters/chapter2/runs/pretrain_esm2_20260304_133526 chapters/chapter2/runs/pretrain_esm2_20260304_192041 chapters/chapter2/runs/pretrain_esm2_20260307_102803 chapters/chapter2/runs/pretrain_esm2_20260307_112149 chapters/chapter2/runs/pretrain_esm2_20260307_130445 chapters/chapter2/runs/pretrain_esm2_20260308_095902 --output chapters/chapter2/runs/scaling_dynamics_6models.png --sample-every 1",
+  "commit": "de5a4f595d9b50a197317c4dd3e807fede79a3c0-dirty",
+  "timestamp": "2026-03-08T22:10:14.118162+00:00"
+}

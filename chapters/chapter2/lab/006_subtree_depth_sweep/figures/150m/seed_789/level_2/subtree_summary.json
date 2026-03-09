@@ -1,0 +1,21 @@
+{
+  "hog_level": 2,
+  "selected_hogs": {
+    "801468": {
+      "n_proteins": 195,
+      "pct_of_sample": 1.77
+    },
+    "792940": {
+      "n_proteins": 61,
+      "pct_of_sample": 0.55
+    },
+    "136254": {
+      "n_proteins": 56,
+      "pct_of_sample": 0.51
+    },
+    "801484": {
+      "n_proteins": 30,
+      "pct_of_sample": 0.27
+    }
+  }
+}

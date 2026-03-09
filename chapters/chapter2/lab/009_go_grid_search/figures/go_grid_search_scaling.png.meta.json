@@ -1,0 +1,6 @@
+{
+  "artifact": "chapters/chapter2/lab/009_go_grid_search/figures/go_grid_search_scaling.png",
+  "command": ".venv/bin/python chapters/chapter2/06_go_grid_search.py --output-dir chapters/chapter2/runs/go_grid_search_20260308",
+  "commit": "aa8cd846b7d3ffdd510d58b32e14a252c1f5e06a-dirty",
+  "timestamp": "2026-03-08T22:36:28.469046+00:00"
+}

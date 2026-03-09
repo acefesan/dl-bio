@@ -1,0 +1,19 @@
+{
+  "date": "2026-03-07",
+  "commit": "d5563130021e61909804d3c4781bda1b08bfddd2",
+  "scripts": ["chapters/chapter2/05_go_prediction.py"],
+  "commands": [
+    ".venv/bin/python chapters/chapter2/05_go_prediction.py --output-dir chapters/chapter2/runs/go_prediction_20260307 --num-steps 300 --eval-every 30"
+  ],
+  "output_dir": "chapters/chapter2/runs/go_prediction_20260307",
+  "params": {
+    "num_steps": 300,
+    "batch_size": 64,
+    "lr": 0.001,
+    "hidden_dim": 256,
+    "eval_every": 30,
+    "seed": 42,
+    "models": ["150m", "650m", "3b"],
+    "n_go_targets": 303
+  }
+}

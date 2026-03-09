@@ -1,0 +1,21 @@
+{
+  "date": "2026-03-06",
+  "commit": "32efa57838ad07368120db82adedcd57d69493f3",
+  "scripts": [
+    "chapters/chapter2/run.py",
+    "chapters/chapter2/03_clustering_analysis.py",
+    "chapters/chapter2/04_subtree_hog_analysis.py"
+  ],
+  "runs": {
+    "150m": "chapters/chapter2/runs/esm2_150m_20260306_225615",
+    "650m": "chapters/chapter2/runs/default_20260216_213052",
+    "3b": "chapters/chapter2/runs/esm2_3b_20260304_015127"
+  },
+  "params": {
+    "sample_size": 500,
+    "min_taxa": 500,
+    "n_clusters": 20,
+    "subtree_top_hogs": 4,
+    "subtree_hog_level": 1
+  }
+}

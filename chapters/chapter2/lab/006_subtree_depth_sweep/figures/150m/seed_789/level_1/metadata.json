@@ -1,0 +1,13 @@
+{
+  "date": "2026-03-07",
+  "commit": "32efa57838ad07368120db82adedcd57d69493f3",
+  "script": "chapters/chapter2/04_subtree_hog_analysis.py",
+  "command": ".venv/bin/python chapters/chapter2/04_subtree_hog_analysis.py --umap chapters/chapter2/runs/esm2_150m_20260306_225615/clustering/seed_789/umap_coordinates.csv --data chapters/chapter2/runs/esm2_3b_20260304_015127/dataset/cafa3_annotations.feather --output-dir chapters/chapter2/lab/006_subtree_depth_sweep/figures/150m/seed_789/level_1/ --top-hogs 4 --hog-level 1 --min-subhog-size 3",
+  "params": {
+    "model": "150m",
+    "seed": 789,
+    "hog_level": 1,
+    "top_hogs": 4,
+    "min_subhog_size": 3
+  }
+}

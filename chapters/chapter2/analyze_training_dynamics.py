@@ -202,6 +202,9 @@ def plot_effective_rank(weight_results: list, run_name: str, ax: plt.Axes):
 
 def plot_layer_rank_heatmap(weight_results: list, run_name: str, ax: plt.Axes):
     """Heatmap of effective rank per layer over training."""
+    if not weight_results:
+        ax.text(0.5, 0.5, "No checkpoints", ha="center", va="center")
+        return
     # Collect attention query weight effective ranks per layer
     layer_names = []
     for name in weight_results[0][1]:

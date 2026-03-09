@@ -1,0 +1,20 @@
+{
+  "date": "2026-03-04",
+  "commit": "32efa57838ad07368120db82adedcd57d69493f3",
+  "scripts": [
+    "chapters/chapter2/01_compute_embeddings.py",
+    "chapters/chapter2/02_build_dataset.py",
+    "chapters/chapter2/03_clustering_analysis.py"
+  ],
+  "command": "python chapters/chapter2/run.py --config chapters/chapter2/esm2_3b.json",
+  "output_dir": "chapters/chapter2/runs/esm2_3b_20260304_015127",
+  "params": {
+    "model": "facebook/esm2_t36_3B_UR50D",
+    "batch_size": 4,
+    "max_seq_length": 3000,
+    "sample_size": 500,
+    "min_taxa": 500,
+    "n_clusters": 20,
+    "seeds": [42, 123, 456, 789]
+  }
+}

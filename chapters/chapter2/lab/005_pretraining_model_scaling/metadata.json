@@ -1,0 +1,31 @@
+{
+  "date": "2026-03-07",
+  "commit": "32efa57838ad07368120db82adedcd57d69493f3",
+  "scripts": [
+    "chapters/chapter2/pretrain_esm2.py",
+    "chapters/chapter2/analyze_training_dynamics.py"
+  ],
+  "commands": [
+    ".venv/bin/python chapters/chapter2/pretrain_esm2.py --dataset-slice --num-layers 6 --num-steps 50000 --batch-size 16 --eval-steps 500 --save-steps 500 --save-total-limit -1 --lr 4e-4",
+    ".venv/bin/python chapters/chapter2/pretrain_esm2.py --dataset-slice --num-layers 12 --num-steps 50000 --batch-size 16 --eval-steps 500 --save-steps 500 --save-total-limit -1 --lr 4e-4",
+    ".venv/bin/python chapters/chapter2/pretrain_esm2.py --dataset-slice --num-layers 20 --hidden-size 480 --num-heads 20 --num-steps 50000 --batch-size 16 --eval-steps 500 --save-steps 2500 --save-total-limit -1 --lr 4e-4",
+    ".venv/bin/python chapters/chapter2/pretrain_esm2.py --dataset-slice --num-layers 30 --hidden-size 640 --num-heads 20 --num-steps 50000 --batch-size 16 --eval-steps 500 --save-steps 2500 --save-total-limit -1 --lr 4e-4",
+    ".venv/bin/python chapters/chapter2/pretrain_esm2.py --dataset-slice --num-layers 33 --hidden-size 1280 --num-heads 20 --num-steps 50000 --batch-size 8 --eval-steps 500 --save-steps 2500 --save-total-limit -1 --lr 4e-4"
+  ],
+  "output_dirs": [
+    "chapters/chapter2/runs/pretrain_esm2_20260304_133526",
+    "chapters/chapter2/runs/pretrain_esm2_20260304_192041",
+    "chapters/chapter2/runs/pretrain_esm2_20260307_102803",
+    "chapters/chapter2/runs/pretrain_esm2_20260307_112149",
+    "chapters/chapter2/runs/pretrain_esm2_20260307_130445"
+  ],
+  "params": {
+    "dataset": "nvidia/esm2_uniref_pretraining_data (first 10K via streaming)",
+    "lr": 4e-4,
+    "weight_decay": 0.01,
+    "warmup_steps": 500,
+    "max_length": 512,
+    "seed": 42,
+    "mlm_probability": 0.15
+  }
+}

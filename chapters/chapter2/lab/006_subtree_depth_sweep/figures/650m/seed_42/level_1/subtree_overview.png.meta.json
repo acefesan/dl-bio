@@ -1,0 +1,6 @@
+{
+  "artifact": "chapters/chapter2/lab/006_subtree_depth_sweep/figures/650m/seed_42/level_1/subtree_overview.png",
+  "command": ".venv/bin/python chapters/chapter2/04_subtree_hog_analysis.py --umap chapters/chapter2/runs/default_20260216_213052/clustering/umap_coordinates.csv --data chapters/chapter2/runs/esm2_3b_20260304_015127/dataset/cafa3_annotations.feather --output-dir chapters/chapter2/lab/006_subtree_depth_sweep/figures/650m/seed_42/level_1 --top-hogs 4 --hog-level 1 --min-subhog-size 3",
+  "commit": "32efa57838ad07368120db82adedcd57d69493f3-dirty",
+  "timestamp": "2026-03-08T06:07:13.498085+00:00"
+}

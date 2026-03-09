@@ -1,0 +1,19 @@
+{
+  "date": "2026-03-08",
+  "commit": "aa8cd846b7d3ffdd510d58b32e14a252c1f5e06a",
+  "scripts": ["chapters/chapter2/06_go_grid_search.py"],
+  "commands": [
+    ".venv/bin/python chapters/chapter2/06_go_grid_search.py --output-dir chapters/chapter2/runs/go_grid_search_20260308"
+  ],
+  "output_dir": "chapters/chapter2/runs/go_grid_search_20260308",
+  "params": {
+    "hidden_dims": [128, 256, 512, 1024],
+    "num_layers": [1, 2, 3],
+    "models": ["150m", "650m", "3b"],
+    "num_steps": 300,
+    "batch_size": 64,
+    "lr": 0.001,
+    "seed": 42,
+    "total_runs": 36
+  }
+}
