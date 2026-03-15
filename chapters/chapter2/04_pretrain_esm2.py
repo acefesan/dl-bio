@@ -124,6 +124,7 @@ def main():
           f"{args.hidden_size} hidden, {args.num_heads} heads")
     config = EsmConfig(
         vocab_size=tokenizer.vocab_size,
+        pad_token_id=tokenizer.pad_token_id,
         num_hidden_layers=args.num_layers,
         hidden_size=args.hidden_size,
         num_attention_heads=args.num_heads,
