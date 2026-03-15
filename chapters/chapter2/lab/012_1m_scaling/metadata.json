@@ -1,0 +1,23 @@
+{
+  "date": "2026-03-15",
+  "commit": "eb8119dc24d7d1d53cabd57531ac3f6824ebf239",
+  "scripts": ["chapters/chapter2/04_pretrain_esm2.py"],
+  "commands": [
+    ".venv/bin/python chapters/chapter2/04_pretrain_esm2.py --num-sequences 1000000 --num-layers 6 --hidden-size 320 --num-heads 20 --batch-size 16 --lr 4e-4 --num-steps 50000 --eval-steps 2500 --save-steps 10000",
+    ".venv/bin/python chapters/chapter2/04_pretrain_esm2.py --num-sequences 1000000 --num-layers 12 --hidden-size 320 --num-heads 20 --batch-size 16 --lr 4e-4 --num-steps 50000 --eval-steps 2500 --save-steps 10000",
+    ".venv/bin/python chapters/chapter2/04_pretrain_esm2.py --num-sequences 1000000 --num-layers 20 --hidden-size 480 --num-heads 20 --batch-size 16 --lr 4e-4 --num-steps 50000 --eval-steps 2500 --save-steps 10000",
+    ".venv/bin/python chapters/chapter2/04_pretrain_esm2.py --num-sequences 1000000 --num-layers 30 --hidden-size 640 --num-heads 20 --batch-size 16 --lr 4e-4 --num-steps 50000 --eval-steps 2500 --save-steps 10000",
+    ".venv/bin/python chapters/chapter2/04_pretrain_esm2.py --num-sequences 1000000 --num-layers 33 --hidden-size 1280 --num-heads 20 --batch-size 8 --lr 2e-4 --num-steps 50000 --eval-steps 2500 --save-steps 10000"
+  ],
+  "params": {
+    "num_sequences": 1000000,
+    "num_steps": 50000,
+    "eval_steps": 2500,
+    "save_steps": 10000,
+    "weight_decay": 0.01,
+    "max_grad_norm": 1.0,
+    "max_length": 512,
+    "mlm_probability": 0.15,
+    "seed": 42
+  }
+}

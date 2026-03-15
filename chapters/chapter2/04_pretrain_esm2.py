@@ -61,6 +61,8 @@ def parse_args() -> argparse.Namespace:
     # Data
     parser.add_argument("--dataset-slice", action="store_true",
                         help="Use 10K subset instead of full UniRef dataset")
+    parser.add_argument("--num-sequences", type=int, default=None,
+                        help="Limit dataset to first N sequences (default: use all)")
     parser.add_argument("--max-length", type=int, default=512,
                         help="Max sequence length for tokenizer (default: 512)")
 
@@ -146,6 +148,11 @@ def main():
         uaw_dataset = dataset[split_name]
     print(f"Sequences loaded: {len(raw_dataset):,}")
 
+    # Limit dataset size if requested
+    if args.num_sequences and args.num_sequences < len(raw_dataset):
+        raw_dataset = raw_dataset.select(range(args.num_sequences))
+        print(f"Limited to first {args.num_sequences:,} sequences")
+
     # Tokenize
     print("Tokenizing sequences...")
     tokenized = raw_dataset.map(
@@ -177,6 +184,7 @@ def main():
         learning_rate=args.lr,
         weight_decay=0.01,
         warmup_steps=min(500, args.num_steps // 10),
+        max_grad_norm=1.0,
         eval_strategy="steps",
         eval_steps=args.eval_steps,
         save_strategy="steps",
