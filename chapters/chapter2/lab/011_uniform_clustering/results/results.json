@@ -1,0 +1,134 @@
+[
+  {
+    "kmeans_sil_original": 0.04947476089000702,
+    "kmeans_sil_umap": -0.06805388629436493,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 640,
+    "seed": 42,
+    "time_kmeans_s": 2.5,
+    "time_umap_s": 12.0,
+    "model": "150M"
+  },
+  {
+    "kmeans_sil_original": 0.04095872864127159,
+    "kmeans_sil_umap": -0.09907404333353043,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 1280,
+    "seed": 42,
+    "time_kmeans_s": 5.6,
+    "time_umap_s": 3.5,
+    "model": "650M"
+  },
+  {
+    "kmeans_sil_original": 0.004529166035354137,
+    "kmeans_sil_umap": -0.1606658697128296,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 2560,
+    "seed": 42,
+    "time_kmeans_s": 13.5,
+    "time_umap_s": 4.5,
+    "model": "3B"
+  },
+  {
+    "kmeans_sil_original": 0.047114934772253036,
+    "kmeans_sil_umap": -0.04819672182202339,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 640,
+    "seed": 123,
+    "time_kmeans_s": 2.3,
+    "time_umap_s": 3.0,
+    "model": "150M"
+  },
+  {
+    "kmeans_sil_original": 0.033652447164058685,
+    "kmeans_sil_umap": -0.07940041273832321,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 1280,
+    "seed": 123,
+    "time_kmeans_s": 6.4,
+    "time_umap_s": 3.5,
+    "model": "650M"
+  },
+  {
+    "kmeans_sil_original": -0.0009479952859692276,
+    "kmeans_sil_umap": -0.1714872568845749,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 2560,
+    "seed": 123,
+    "time_kmeans_s": 12.4,
+    "time_umap_s": 4.4,
+    "model": "3B"
+  },
+  {
+    "kmeans_sil_original": 0.05202934518456459,
+    "kmeans_sil_umap": -0.11210396885871887,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 640,
+    "seed": 456,
+    "time_kmeans_s": 2.3,
+    "time_umap_s": 3.0,
+    "model": "150M"
+  },
+  {
+    "kmeans_sil_original": 0.03844619169831276,
+    "kmeans_sil_umap": -0.08929349482059479,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 1280,
+    "seed": 456,
+    "time_kmeans_s": 5.8,
+    "time_umap_s": 4.0,
+    "model": "650M"
+  },
+  {
+    "kmeans_sil_original": -0.0009779662359505892,
+    "kmeans_sil_umap": -0.17748790979385376,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 2560,
+    "seed": 456,
+    "time_kmeans_s": 12.8,
+    "time_umap_s": 4.5,
+    "model": "3B"
+  },
+  {
+    "kmeans_sil_original": 0.05844583362340927,
+    "kmeans_sil_umap": -0.0382598340511322,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 640,
+    "seed": 789,
+    "time_kmeans_s": 2.3,
+    "time_umap_s": 3.1,
+    "model": "150M"
+  },
+  {
+    "kmeans_sil_original": 0.03504214808344841,
+    "kmeans_sil_umap": -0.0949254035949707,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 1280,
+    "seed": 789,
+    "time_kmeans_s": 5.8,
+    "time_umap_s": 3.5,
+    "model": "650M"
+  },
+  {
+    "kmeans_sil_original": -0.0022236856166273355,
+    "kmeans_sil_umap": -0.18416376411914825,
+    "n_clusters": 20,
+    "n_proteins": 11000,
+    "embedding_dim": 2560,
+    "seed": 789,
+    "time_kmeans_s": 12.9,
+    "time_umap_s": 4.4,
+    "model": "3B"
+  }
+]

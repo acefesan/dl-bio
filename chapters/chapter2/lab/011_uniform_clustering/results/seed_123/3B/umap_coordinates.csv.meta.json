@@ -1,0 +1,6 @@
+{
+  "artifact": "chapters/chapter2/lab/011_uniform_clustering/results/seed_123/3B/umap_coordinates.csv",
+  "command": ".venv/bin/python chapters/chapter2/05_model_size_clustering.py --output-dir chapters/chapter2/lab/011_uniform_clustering/results --seeds 42,123,456,789 --sample-size 500 --n-clusters 20",
+  "commit": "a8f3a4af6be981e42e1a34f6d0f04b51fab4d619-dirty",
+  "timestamp": "2026-03-15T16:17:00.504430+00:00"
+}
