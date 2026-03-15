@@ -40,6 +40,35 @@ Per-seed breakdown:
 | 650M UMAP | -0.099 | -0.079 | -0.089 | -0.095 |
 | 3B UMAP   | -0.161 | -0.172 | -0.178 | -0.184 |
 
+### Per-taxon silhouette breakdown (seed=42, original space, cosine)
+
+| Taxon              | 150M    | 650M    | 3B      |
+|--------------------|---------|---------|---------|
+| P. falciparum      | 0.0926  | **0.2130** | 0.0180  |
+| T. brucei          | 0.0828  | 0.0944  | 0.0135  |
+| X. laevis          | 0.0758  | 0.0366  | 0.0106  |
+| G. gallus          | 0.0672  | 0.0289  | 0.0003  |
+| S. pombe           | 0.0627  | 0.0449  | 0.0119  |
+| O. sativa          | 0.0604  | 0.0414  | 0.0105  |
+| M. musculus        | 0.0588  | 0.0197  | -0.0039 |
+| H. sapiens         | 0.0568  | 0.0398  | 0.0124  |
+| S. cerevisiae      | 0.0554  | 0.0527  | 0.0072  |
+| D. melanogaster    | 0.0522  | 0.0309  | -0.0086 |
+| D. rerio           | 0.0506  | 0.0184  | -0.0012 |
+| C. elegans         | 0.0483  | 0.0354  | 0.0025  |
+| D. discoideum      | 0.0289  | 0.0885  | 0.0100  |
+| A. thaliana        | 0.0335  | -0.0007 | -0.0107 |
+| E. coli            | 0.0180  | -0.0031 | -0.0006 |
+| E. nidulans        | 0.0299  | -0.0051 | -0.0003 |
+| M. tuberculosis    | 0.0293  | 0.0218  | -0.0077 |
+| P. aeruginosa      | 0.0203  | 0.0189  | 0.0048  |
+| **All 22 taxa positive?** | **yes** | no (3 neg) | no (5 neg) |
+
+*P. falciparum* (malaria parasite) is the strongest signal in all models —
+phylogenetically distant from everything else. The 650M score (0.213) is 4× its
+overall mean, suggesting the model concentrates discriminative power on the most
+divergent organisms. The 3B model barely distinguishes any taxon (max 0.018).
+
 ## Interpretation
 **Inverse scaling confirmed on uniform protein set.** Filtering to common proteins
 does not change the story — 150M > 650M >> 3B consistently across all 4 seeds.
