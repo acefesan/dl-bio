@@ -1,0 +1,13 @@
+{
+  "date": "2026-03-15",
+  "commit": "bbb7962fb426fba3c11cdf13587d95c6b6386863",
+  "scripts": ["chapters/chapter2/lab/012_hog_explorer/hog_explorer.ipynb"],
+  "commands": ["jupyter lab chapters/chapter2/lab/012_hog_explorer/hog_explorer.ipynb"],
+  "output_dir": "chapters/chapter2/lab/012_hog_explorer",
+  "params": {
+    "focus_hog": 801468,
+    "n_proteins": 2236,
+    "max_depth": 14,
+    "recommended_level": 3
+  }
+}

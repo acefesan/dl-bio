@@ -18,6 +18,7 @@ and functional structure (taxonomy, HOG phylogenetic groups).
 | 009 | GO grid search       | 150M/650M/3B  | **Not classifier capacity**: best 3B (0.114) < worst 150M (0.120); depth hurts 3B | 2026-03-08 |
 | 010 | 200-epoch divergence | 7.7M→1.47B scratch | 650M **diverged** (eval 2.68→4.38) due to lr/batch interaction; 7.7M–148M stable at 2.58 | 2026-03-09 |
 | 011 | Uniform clustering | 150M/650M/3B | Inverse scaling confirmed on common protein set (141K); UMAP sil negative for all models; 150M best (0.052), 3B ~0 | 2026-03-15 |
+| 012 | HOG explorer | N/A | HOG 801468 (2236 proteins): L3 best trade-off (53 classes, CV=0.46, 19% coverage); L6 most balanced (CV=0.22) but 8% coverage | 2026-03-15 |
 
 ## Key Result: Inverse Scaling
 
