@@ -17,17 +17,19 @@ and functional structure (taxonomy, HOG phylogenetic groups).
 | 008 | 1.47B pretraining    | 1.47B scratch | Inverse scaling extends to 1.47B; best eval 2.68 vs 2.56 for small models; peaks at step 2500 like 650M | 2026-03-08 |
 | 009 | GO grid search       | 150M/650M/3B  | **Not classifier capacity**: best 3B (0.114) < worst 150M (0.120); depth hurts 3B | 2026-03-08 |
 | 010 | 200-epoch divergence | 7.7M→1.47B scratch | 650M **diverged** (eval 2.68→4.38) due to lr/batch interaction; 7.7M–148M stable at 2.58 | 2026-03-09 |
+| 011 | Uniform clustering | 150M/650M/3B | Inverse scaling confirmed on common protein set (141K); UMAP sil negative for all models; 150M best (0.052), 3B ~0 | 2026-03-15 |
 
 ## Key Result: Inverse Scaling
 
-| Model | Avg KMeans sil | Avg HOG sil |
-|-------|---------------|-------------|
-| 150M  | **0.0504**    | 0.0023      |
-| 650M  | 0.0396        | **0.0313**  |
-| 3B    | 0.0009        | -0.2116     |
+| Model | Avg KMeans sil (orig) | Avg KMeans sil (UMAP) | Entry |
+|-------|-----------------------|-----------------------|-------|
+| 150M  | **0.0518**            | **-0.067**            | 011   |
+| 650M  | 0.0370                | -0.091                | 011   |
+| 3B    | 0.0001                | -0.174                | 011   |
 
-Larger ESM2 models produce worse embeddings for unsupervised clustering by
-taxonomy and HOG. The 3B model's HOG silhouette is strongly negative (anti-clustered).
+Entry 011 (uniform protein set, 4 seeds): larger ESM2 models produce worse
+KMeans clusters. UMAP silhouette is negative for all models — KMeans clusters
+from high-D do not form compact regions in 2D. 3B is worst on both metrics.
 
 ## Key Result: Pretraining Scaling (entry 005)
 

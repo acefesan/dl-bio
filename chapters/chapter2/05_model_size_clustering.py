@@ -23,7 +23,7 @@ from umap import UMAP
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 DATASETS = PROJECT_ROOT / "assets/proteins/datasets"
-DEFAULT_DATA = DATASETS / "cafa3_merged/cafa3_annotations.feather"
+DEFAULT_DATA = Path(__file__).parent / "runs/esm2_3b_20260304_015127/dataset/cafa3_annotations.feather"
 
 MODELS = {
     "150M": {

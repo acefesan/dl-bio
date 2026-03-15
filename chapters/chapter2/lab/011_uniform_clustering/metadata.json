@@ -1,0 +1,17 @@
+{
+  "date": "2026-03-15",
+  "commit": "a8f3a4af6be981e42e1a34f6d0f04b51fab4d619",
+  "scripts": ["chapters/chapter2/05_model_size_clustering.py"],
+  "commands": [
+    ".venv/bin/python chapters/chapter2/05_model_size_clustering.py --output-dir chapters/chapter2/lab/011_uniform_clustering/results --seeds 42,123,456,789 --sample-size 500 --n-clusters 20"
+  ],
+  "output_dir": "chapters/chapter2/lab/011_uniform_clustering/results",
+  "params": {
+    "seeds": [42, 123, 456, 789],
+    "sample_size": 500,
+    "n_clusters": 20,
+    "n_taxa": 22,
+    "n_proteins_per_run": 11000,
+    "common_proteins": 141091
+  }
+}
