@@ -302,6 +302,8 @@ def main():
                         help='Path to annotations feather file (default: cafa3_annotations.feather)')
     parser.add_argument('--embeddings', type=str, default=None,
                         help='Path to embeddings feather file (default: all_species_embeddings.feather)')
+    parser.add_argument('--seeds', type=str, default='42',
+                        help='Comma-separated seeds to run (default: 42). Multiple seeds save to seed_N/ subdirs.')
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir) if args.output_dir else DEFAULT_OUTPUT_DIR
@@ -309,52 +311,52 @@ def main():
 
     data_path = Path(args.data) if args.data else DEFAULT_DATA_PATH
     embeddings_path = Path(args.embeddings) if args.embeddings else DEFAULT_EMBEDDINGS_PATH
+    seeds = [int(s.strip()) for s in args.seeds.split(',')]
+    multi_seed = len(seeds) > 1
 
-    # Load and prepare data
+    # Load data once, reuse across seeds
     df = load_dataset(data_path)
     embeddings_df = load_embeddings(embeddings_path)
     protein_df = get_unique_proteins(df, embeddings_df)
-    del embeddings_df  # free memory after join
+    del embeddings_df
 
     taxa_map = get_abundant_taxa(protein_df, min_count=args.min_taxa)
     abundant_hogs = get_abundant_hogs(protein_df, min_count=args.min_hog)
 
-    # Sample proteins
-    sample_df = sample_proteins(protein_df, taxa_map, sample_size=args.sample_size)
+    for seed in seeds:
+        seed_dir = output_dir / f"seed_{seed}" if multi_seed else output_dir
+        seed_dir.mkdir(parents=True, exist_ok=True)
+        print(f"\n{'=' * 60}")
+        print(f"SEED {seed}" + (f"  →  {seed_dir}" if multi_seed else ""))
+        print(f"{'=' * 60}")
 
-    # Extract embeddings
-    embedding_cols = [c for c in sample_df.columns if c.startswith('ME:')]
-    X = sample_df[embedding_cols].values
-    print(f"\nEmbedding matrix: {X.shape}")
+        sample_df = sample_proteins(protein_df, taxa_map, sample_size=args.sample_size, seed=seed)
 
-    # Clustering metrics in original embedding space
-    hog_labels = sample_df['roothog_id'].values
-    metrics, kmeans_labels = compute_clustering_metrics(
-        X, hog_labels, n_clusters=args.n_clusters
-    )
-    sample_df['kmeans_cluster'] = kmeans_labels
+        embedding_cols = [c for c in sample_df.columns if c.startswith('ME:')]
+        X = sample_df[embedding_cols].values
+        print(f"\nEmbedding matrix: {X.shape}")
 
-    # UMAP for visualization
-    umap_coords = run_umap(X)
-    sample_df['umap_x'] = umap_coords[:, 0]
-    sample_df['umap_y'] = umap_coords[:, 1]
+        hog_labels = sample_df['roothog_id'].values
+        metrics, kmeans_labels = compute_clustering_metrics(X, hog_labels, n_clusters=args.n_clusters, seed=seed)
+        sample_df['kmeans_cluster'] = kmeans_labels
 
-    # Generate plots
-    print("\nGenerating plots...")
-    plot_by_taxa(sample_df, output_dir / 'umap_by_taxa.png')
-    plot_by_hog(sample_df, abundant_hogs, output_dir / 'umap_by_hog.png')
-    plot_taxa_hog_grid(sample_df, abundant_hogs, output_dir / 'taxa_hog_heatmap.png')
+        umap_coords = run_umap(X, seed=seed)
+        sample_df['umap_x'] = umap_coords[:, 0]
+        sample_df['umap_y'] = umap_coords[:, 1]
 
-    # Save UMAP coordinates
-    coords_df = sample_df[['EntryID', 'taxonomyID', 'taxon_name', 'roothog_id',
-                            'kmeans_cluster', 'umap_x', 'umap_y']]
-    coords_df.to_csv(output_dir / 'umap_coordinates.csv', index=False)
-    print(f"Saved UMAP coordinates: {output_dir / 'umap_coordinates.csv'}")
+        print("\nGenerating plots...")
+        plot_by_taxa(sample_df, seed_dir / 'umap_by_taxa.png')
+        plot_by_hog(sample_df, abundant_hogs, seed_dir / 'umap_by_hog.png')
+        plot_taxa_hog_grid(sample_df, abundant_hogs, seed_dir / 'taxa_hog_heatmap.png')
 
-    # Save metrics
-    with open(output_dir / 'clustering_metrics.json', 'w') as f:
-        json.dump(metrics, f, indent=2)
-    print(f"Saved metrics: {output_dir / 'clustering_metrics.json'}")
+        coords_df = sample_df[['EntryID', 'taxonomyID', 'taxon_name', 'roothog_id',
+                                'kmeans_cluster', 'umap_x', 'umap_y']]
+        coords_df.to_csv(seed_dir / 'umap_coordinates.csv', index=False)
+        print(f"Saved UMAP coordinates: {seed_dir / 'umap_coordinates.csv'}")
+
+        with open(seed_dir / 'clustering_metrics.json', 'w') as f:
+            json.dump(metrics, f, indent=2)
+        print(f"Saved metrics: {seed_dir / 'clustering_metrics.json'}")
 
     # Summary
     print("\n" + "=" * 60)

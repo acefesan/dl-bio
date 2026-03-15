@@ -1,13 +1,13 @@
 {
-  "name": "esm2_3b",
+  "name": "esm2_150m",
   "steps": [1, 2, 3],
   "embeddings": {
-    "model": "facebook/esm2_t36_3B_UR50D",
-    "batch_size": 4,
+    "model": "facebook/esm2_t30_150M_UR50D",
+    "batch_size": 8,
     "max_seq_length": 3000,
     "limit": null,
-    "output": "assets/proteins/datasets/esm2_3b_embeddings.feather",
-    "checkpoint_dir": "checkpoints/esm2_3b"
+    "output": "assets/proteins/datasets/esm2_150m_embeddings.feather",
+    "checkpoint_dir": "checkpoints/esm2_150m"
   },
   "dataset": {
     "skip_taxonomy": false,

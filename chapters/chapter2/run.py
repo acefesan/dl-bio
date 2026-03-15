@@ -84,6 +84,9 @@ def build_step3_args(cfg: dict, run_dir: Path) -> list[str]:
     ]
     if emb.get("output"):
         args += ["--embeddings", str(PROJECT_ROOT / emb["output"])]
+    if cl.get("seeds"):
+        seeds = cl["seeds"] if isinstance(cl["seeds"], str) else ",".join(str(s) for s in cl["seeds"])
+        args += ["--seeds", seeds]
     return args
 
 

@@ -1,0 +1,26 @@
+{
+  "date": "2026-03-09",
+  "commit": "4d51d23272d6ade9d668205f1a46acc0d8da74b7",
+  "scripts": [
+    "chapters/chapter2/pretrain_esm2.py",
+    "chapters/chapter2/run_200epoch_sweep.sh"
+  ],
+  "commands": [
+    "bash chapters/chapter2/run_200epoch_sweep.sh"
+  ],
+  "output_dirs": [
+    "chapters/chapter2/runs/pretrain_esm2_20260308_223611",
+    "chapters/chapter2/runs/pretrain_esm2_20260308_225858",
+    "chapters/chapter2/runs/pretrain_esm2_20260308_233719",
+    "chapters/chapter2/runs/pretrain_esm2_20260309_005006",
+    "chapters/chapter2/runs/pretrain_esm2_20260309_031049"
+  ],
+  "params": {
+    "dataset": "nvidia/esm2_uniref_pretraining_data (first 10K via streaming)",
+    "lr": 4e-4,
+    "target_epochs": 200,
+    "eval_steps": 1000,
+    "save_total_limit": 2,
+    "bug": "resume reset step counter, restarting lr schedule"
+  }
+}

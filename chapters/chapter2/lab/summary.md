@@ -16,6 +16,7 @@ and functional structure (taxonomy, HOG phylogenetic groups).
 | 007 | GO prediction        | 150M/650M/3B | **Inverse scaling in supervised task**: 650M best (auPRC 0.24), 3B worst (0.09) | 2026-03-07 |
 | 008 | 1.47B pretraining    | 1.47B scratch | Inverse scaling extends to 1.47B; best eval 2.68 vs 2.56 for small models; peaks at step 2500 like 650M | 2026-03-08 |
 | 009 | GO grid search       | 150M/650M/3B  | **Not classifier capacity**: best 3B (0.114) < worst 150M (0.120); depth hurts 3B | 2026-03-08 |
+| 010 | 200-epoch divergence | 7.7M→1.47B scratch | 650M **diverged** (eval 2.68→4.38) due to lr/batch interaction; 7.7M–148M stable at 2.58 | 2026-03-09 |
 
 ## Key Result: Inverse Scaling
 
@@ -67,7 +68,7 @@ from richer representations while unsupervised methods suffer dimensionality cur
 5. ~~**Feature granularity vs geometry**: is the inverse scaling a geometry artifact?~~ *(entry 007 shows it's not — supervised prediction also shows inverse scaling)*
 6. **Force overfitting**: remove weight decay or shrink dataset to <1K to see if
    memorization finally occurs
-7. **Fair epoch comparison**: run 650M for 100K steps and 1.47B for 200K steps to match epoch counts
+7. **Fair epoch comparison**: rerun all from scratch for 200 epochs with lr scaled by batch size *(entry 010: first attempt diverged due to resume bug + lr/batch mismatch)*
 8. **Dataset cartography**: track per-sequence confidence/variability across checkpoints
 9. **3B rescue**: can PCA/whitening on 3B embeddings before GO prediction improve performance?
 10. **Longer training**: does 3B catch up with more steps (currently only 300)?
