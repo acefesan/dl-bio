@@ -1,0 +1,21 @@
+{
+  "date": "2026-03-22",
+  "commit": "a3f8c306a2544a992ef008d19012873ee8743acb",
+  "scripts": [],
+  "commands": [],
+  "output_dir": "assets/proteins/mammalia",
+  "params": {
+    "n_species": 30,
+    "n_orders": 14,
+    "target_proteins_per_species": 12000,
+    "total_mammalia_hogs": 56136,
+    "oma_api_base": "https://omabrowser.org/api/",
+    "species_codes": [
+      "ORNAN", "TACAU", "MONDO", "SARHA", "LOXAF", "ECHTE", "DASNO",
+      "ERIEU", "RHIFE", "MYOLU", "FELCA", "CANLF", "AILME", "HORSE",
+      "BOVIN", "PIGXX", "TURTR", "HUMAN", "MACMU", "CALJA", "NOMLE",
+      "MICMU", "MOUSE", "RATNO", "CAVPO", "HETGA", "RABIT", "TUPBE",
+      "MANJA", "BALMU"
+    ]
+  }
+}
