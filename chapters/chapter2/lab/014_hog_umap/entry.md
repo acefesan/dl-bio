@@ -62,6 +62,7 @@ Key observations:
 - `figures/umap_esm2_t30_150M_UR50D.png` — 150M model UMAP
 - `figures/umap_esm2_t33_650M_UR50D.png` — 650M model UMAP
 - `figures/umap_esm2_t36_3B_UR50D.png` — 3B model UMAP
+- `figures/umap_interactive.html` — Interactive plotly viewer (hover for protein details, model switcher)
 
 ## Interpretation
 
