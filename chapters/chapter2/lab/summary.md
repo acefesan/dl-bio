@@ -20,6 +20,7 @@ and functional structure (taxonomy, HOG phylogenetic groups).
 | 011 | Uniform clustering | 150M/650M/3B | Inverse scaling confirmed on common protein set (141K); UMAP sil negative for all models; 150M best (0.052), 3B ~0 | 2026-03-15 |
 | 012 | HOG explorer | N/A | HOG 801468 (2236 proteins): L3 best trade-off (53 classes, CV=0.46, 19% coverage); L6 most balanced (CV=0.22) but 8% coverage | 2026-03-15 |
 | 013 | Mammalian dataset | N/A | **New dataset design**: 30 species × 14 orders from OMA (78 mammalian species avail), HOG-balanced sampling, 56K HOGs at Mammalia level | 2026-03-22 |
+| 014 | HOG UMAP | 8M/150M/650M/3B | 8 root HOGs (1,576 proteins, 30 species): all models separate HOGs cleanly; larger models resolve paralog subtypes (SCN, myosin) | 2026-04-02 |
 
 ## Key Result: Inverse Scaling
 

@@ -1,0 +1,47 @@
+{
+  "date": "2026-04-02",
+  "commit": "f7e6a8b8a64c4d17ec5480a1bfd605eacba5fb33",
+  "scripts": [
+    "chapters/chapter2/hog_umap.py",
+    "chapters/chapter2/fetch_mammalia.py"
+  ],
+  "commands": [
+    "python chapters/chapter2/fetch_mammalia.py all --bulk-fasta assets/proteins/mammalia/oma-seqs.fa.gz",
+    "python chapters/chapter2/hog_umap.py extract",
+    "python chapters/chapter2/hog_umap.py embed",
+    "python chapters/chapter2/hog_umap.py plot"
+  ],
+  "output_dir": "assets/proteins/mammalia/hog_study",
+  "params": {
+    "n_species": 30,
+    "n_proteins": 1576,
+    "n_hogs": 8,
+    "root_hogs": {
+      "HOG:E0754125": "Rhodopsin",
+      "HOG:E0747130": "Cone opsin LW",
+      "HOG:E0736973": "Crystallin gamma",
+      "HOG:E0801852": "Sodium channel",
+      "HOG:E0781053": "Synaptotagmin",
+      "HOG:E0738002": "Keratin type I",
+      "HOG:E0793067": "Myosin heavy chain",
+      "HOG:E1027835": "Actin"
+    },
+    "esm2_models": [
+      "facebook/esm2_t6_8M_UR50D",
+      "facebook/esm2_t30_150M_UR50D",
+      "facebook/esm2_t33_650M_UR50D",
+      "facebook/esm2_t36_3B_UR50D"
+    ],
+    "umap": {
+      "n_neighbors": 15,
+      "min_dist": 0.1,
+      "metric": "cosine",
+      "random_state": 42
+    },
+    "embedding": {
+      "pooling": "mean",
+      "max_seq_length": 1024
+    },
+    "shape_taxa": ["HUMAN", "MOUSE", "BOVIN", "CANLF", "ORNAN"]
+  }
+}
