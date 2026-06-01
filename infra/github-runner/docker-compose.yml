@@ -1,0 +1,50 @@
+services:
+  github-egress-proxy:
+    image: ubuntu/squid:6.10-24.04_beta
+    container_name: dl-bio-github-egress-proxy
+    restart: unless-stopped
+    volumes:
+      - ./squid.conf:/etc/squid/squid.conf:ro
+    networks:
+      - runner_internal
+      - proxy_egress
+    ports: []
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+  runner:
+    build:
+      context: .
+      args:
+        RUNNER_VERSION: "2.328.0"
+    container_name: dl-bio-github-runner
+    restart: unless-stopped
+    environment:
+      RUNNER_REPO_URL: "https://github.com/acefesan/dl-bio"
+      RUNNER_TOKEN: "${RUNNER_TOKEN}"
+      RUNNER_NAME: "dl-bio-container"
+      RUNNER_LABELS: "dl-bio-container,linux"
+      HTTPS_PROXY: "http://github-egress-proxy:3128"
+      HTTP_PROXY: "http://github-egress-proxy:3128"
+      NO_PROXY: "localhost,127.0.0.1"
+    volumes:
+      - runner_work:/runner/_work
+    networks:
+      - runner_internal
+    ports: []
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - github-egress-proxy
+
+networks:
+  runner_internal:
+    internal: true
+  proxy_egress:
+
+volumes:
+  runner_work:
