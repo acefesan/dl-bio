@@ -54,6 +54,8 @@ The broader frame is that caffeine is not only an adenosine-receptor ligand in h
 - [unexpected responsive cell types](concepts/unexpected-responsive-cell-types.md)
 - [computational pipeline](concepts/computational-pipeline.md)
 - [research questions](concepts/research-questions.md)
+- [Census core objects](concepts/census-core-objects.md): the object vocabulary behind CellxGene Census: Collection, DataFrame, TableReadIter, Arrow table, Experiment, Measurement, X array, and `soma_joinid`.
+- [SOMA axes and X](concepts/soma-axes-and-x.md): how `obs.soma_joinid` and `var.soma_joinid` define the cell and gene coordinates of the sparse expression array.
 - [TileDB-SOMA storage](concepts/tiledb-soma-storage.md): what the Census actually stores on S3 and why "few genes, all cells" is the worst-case query.
 - [network and I/O instrumentation](concepts/network-and-io-instrumentation.md): tools and signals for measuring what a slow fetch is really doing.
 

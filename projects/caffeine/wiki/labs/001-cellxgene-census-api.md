@@ -21,7 +21,7 @@ Useful official sources:
 
 ## What the API Is
 
-The `cellxgene_census` Python package is a convenience layer around **TileDB-SOMA**. SOMA stands for **stack of matrices, annotated**. That name is literal: the data are organized as matrices plus cell and gene annotations. For how those matrices are physically partitioned on S3 and which query shapes that layout favors, see [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md).
+The `cellxgene_census` Python package is a convenience layer around **TileDB-SOMA**. SOMA stands for **stack of matrices, annotated**. That name is literal: the data are organized as matrices plus cell and gene annotations. For the object vocabulary behind paths such as `Collection`, `DataFrame`, `Experiment`, and `soma_joinid`, see [Census core objects](../concepts/census-core-objects.md). For how those matrices are physically partitioned on S3 and which query shapes that layout favors, see [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md).
 
 The API gives us:
 
@@ -56,13 +56,14 @@ census = cellxgene_census.open_soma()
 
 This opens the Census object. It does not mean "download the whole Census." It gives the notebook a handle to query remote, versioned data.
 
-The script version uses:
+The script version builds a Census default context, then layers timeout settings on top:
 
 ```python
+ctx = cellxgene_census.get_default_soma_context(tiledb_config={...})
 cellxgene_census.open_soma(context=ctx)
 ```
 
-with a TileDB-SOMA context that increases S3 timeouts because the live query streams sparse matrix data and can fail on slow networks.
+This matters. A raw `tiledbsoma.SOMATileDBContext(...)` can bypass `cellxgene_census` defaults such as unsigned anonymous S3 requests, making even `open_soma()` much slower. Custom settings should be layered onto `get_default_soma_context(...)`.
 
 ## The Important Top-Level Paths
 
@@ -73,6 +74,62 @@ with a TileDB-SOMA context that increases S3 timeouts because the live query str
 | `census["census_data"]["homo_sapiens"]` | human data object |
 | `census["census_data"]["homo_sapiens"].obs` | cell metadata |
 | `census["census_data"]["homo_sapiens"].ms["RNA"].var` | gene metadata for the RNA measurement |
+
+## How Datasets Map To Cells
+
+`census["census_info"]["datasets"]` is the dataset catalog for the whole Census. It is a remote SOMA dataframe stored under `census_info`, not a local pandas dataframe until we materialize it:
+
+```python
+datasets = (
+    census["census_info"]["datasets"]
+    .read()
+    .concat()
+    .to_pandas()
+)
+```
+
+This table has one row per source dataset, with columns such as:
+
+| Column | Meaning |
+|---|---|
+| `dataset_id` | stable UUID for the source dataset |
+| `collection_id` | UUID for the CELLxGENE Discover collection containing the dataset |
+| `collection_name` | human-readable collection title |
+| `dataset_title` | human-readable dataset title |
+| `dataset_h5ad_path` | path to the source H5AD artifact |
+| `dataset_total_cell_count` | total cells in that source dataset |
+
+The expression data live elsewhere, under `census_data/<organism>`. For human cells:
+
+```python
+human = census["census_data"]["homo_sapiens"]
+human.obs
+human.ms["RNA"].X["raw"]
+```
+
+`human.obs` has one row per cell. Its `dataset_id` column is the bridge back to `census_info["datasets"]`.
+
+```text
+census_info["datasets"]        census_data["homo_sapiens"].obs
+one row per source dataset      one row per human cell
+
+dataset_id  <----------------  dataset_id
+title, DOI, h5ad path           tissue, cell_type, donor_id, disease, ...
+```
+
+So the key join is `dataset_id`, not `soma_joinid`. The `soma_joinid` in the datasets table is just that table's internal row coordinate; the `soma_joinid` in `obs` is the cell-axis coordinate used to align cells with `X`.
+
+For example, after an AnnData query that includes `dataset_id` in `obs_column_names`, we can annotate result cells with source dataset titles:
+
+```python
+dataset_meta = datasets[
+    ["dataset_id", "collection_name", "dataset_title", "dataset_total_cell_count"]
+]
+
+adata.obs = adata.obs.merge(dataset_meta, on="dataset_id", how="left")
+```
+
+Important distinction: a dataset is a biological/source-data provenance unit, not a TileDB fragment. TileDB fragments are physical storage chunks under the hood; datasets are the published source studies/files whose cells were harmonized into the Census.
 
 ## What `get_anndata()` Does
 
@@ -129,4 +186,4 @@ Without the Census, we would need to:
 
 The Census does much of that standardization upfront. Lab 001 can therefore focus on the biological question: where are ADORA receptors expressed?
 
-Related pages: [Lab 001 overview](001-adora-expression.md), [Lab 001 data flow](001-data-flow.md), [H5AD and AnnData cache](001-h5ad-anndata-cache.md), [ADORA receptors](../concepts/adenosine-receptors.md), [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md), [001 fetch stall post-mortem](001-fetch-stall-postmortem.md)
+Related pages: [Lab 001 overview](001-adora-expression.md), [Lab 001 data flow](001-data-flow.md), [H5AD and AnnData cache](001-h5ad-anndata-cache.md), [Census core objects](../concepts/census-core-objects.md), [ADORA receptors](../concepts/adenosine-receptors.md), [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md), [001 fetch stall post-mortem](001-fetch-stall-postmortem.md)

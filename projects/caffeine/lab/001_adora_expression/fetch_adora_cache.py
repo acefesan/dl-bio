@@ -60,7 +60,6 @@ from pathlib import Path
 
 import anndata as ad
 import cellxgene_census
-import tiledbsoma
 
 GENES = ["ADORA1", "ADORA2A", "ADORA2B", "ADORA3"]
 OBS_COLS = ["cell_type", "tissue", "tissue_general", "assay", "dataset_id", "donor_id"]
@@ -105,7 +104,7 @@ def emit_stat(record: dict) -> None:
 
 def open_census():
     """Open Census with generous S3 timeouts and a large initial buffer."""
-    ctx = tiledbsoma.SOMATileDBContext(
+    ctx = cellxgene_census.get_default_soma_context(
         tiledb_config={
             "vfs.s3.connect_timeout_ms": "60000",
             "vfs.s3.request_timeout_ms": "300000",
