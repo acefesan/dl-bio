@@ -6,7 +6,7 @@ The CZ CELLxGENE Census is not a file. It is a **TileDB-SOMA object** stored as 
 
 Understanding this layer matters because the layout of the bytes on S3 decides which queries are fast and which queries are slow. A query that looks trivial in Python ("give me four genes across all human brain cells") can pull a much larger amount of data from S3 than the size of the answer would suggest. This page explains why.
 
-For how the Python API sits on top of this layer, see [001 CellxGene Census API](../labs/001-cellxgene-census-api.md). For the file we produce *after* the query, see [001 H5AD and AnnData cache](../labs/001-h5ad-anndata-cache.md). For the concrete incident motivating this page, see [001 fetch stall post-mortem](../labs/001-fetch-stall-postmortem.md) and the underlying [raw evidence](../raw/lab-001-stall-postmortem.md).
+For how the Python API sits on top of this layer, see [001 CellxGene Census API](../labs/001-cellxgene-census-api.md). For the logical relationship between `obs`, `var`, `soma_joinid`, and `X`, see [SOMA axes and X](soma-axes-and-x.md). For the file we produce *after* the query, see [001 H5AD and AnnData cache](../labs/001-h5ad-anndata-cache.md). For the concrete incident motivating this page, see [001 fetch stall post-mortem](../labs/001-fetch-stall-postmortem.md) and the underlying [raw evidence](../raw/lab-001-stall-postmortem.md).
 
 ## The SOMA Data Model
 
@@ -125,4 +125,4 @@ The dotted line is the cost-of-this-layout: the bytes that travel down the wire 
 
 Each of those deserves its own page if it becomes load-bearing for the project.
 
-Related pages: [001 CellxGene Census API](../labs/001-cellxgene-census-api.md), [001 H5AD and AnnData cache](../labs/001-h5ad-anndata-cache.md), [001 data flow](../labs/001-data-flow.md), [001 fetch stall post-mortem](../labs/001-fetch-stall-postmortem.md), [network and I/O instrumentation](network-and-io-instrumentation.md), [public data landscape](public-data-landscape.md)
+Related pages: [001 CellxGene Census API](../labs/001-cellxgene-census-api.md), [SOMA axes and X](soma-axes-and-x.md), [001 H5AD and AnnData cache](../labs/001-h5ad-anndata-cache.md), [001 data flow](../labs/001-data-flow.md), [001 fetch stall post-mortem](../labs/001-fetch-stall-postmortem.md), [network and I/O instrumentation](network-and-io-instrumentation.md), [public data landscape](public-data-landscape.md)

@@ -72,6 +72,12 @@ and
 [001 notebook guide](labs/001-notebook-guide.md)
 explain the API, data object, download slice, HDF5 cache files, and notebook structure behind Lab 001.
 
+[Census core objects](concepts/census-core-objects.md)
+defines the TileDB-SOMA object vocabulary behind the API: Collection, DataFrame, TableReadIter, Arrow Table, Experiment, Measurement, X array, and `soma_joinid`.
+
+[SOMA axes and X](concepts/soma-axes-and-x.md)
+explains the logical alignment between `obs.soma_joinid`, `var.soma_joinid`, and the sparse `X` array before the discussion drops down to physical storage.
+
 [TileDB-SOMA storage](concepts/tiledb-soma-storage.md)
 explains how the Census is laid out as cell-major sparse fragments on S3, and why that layout makes Lab 001's "few genes, many cells" query the worst-case access pattern.
 

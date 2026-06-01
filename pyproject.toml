@@ -29,6 +29,7 @@ dependencies = [
     "plotly>=6.6.0",
     "cellxgene-census>=1.17.0",
     "scanpy>=1.11.5",
+    "tiledb>=0.36.1",
 ]
 
 [tool.uv.workspace]
