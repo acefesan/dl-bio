@@ -1,0 +1,7 @@
+2026-05-31 00:06:45,124 INFO Cache dir: /home/acefsan/src/dl_bio/projects/caffeine/lab/001_adora_expression/cache
+2026-05-31 00:06:45,124 INFO Tissues:   ['brain']
+2026-05-31 00:06:45,520 INFO The "stable" release is currently 2025-11-08. Specify 'census_version="2025-11-08"' in future calls to open_soma() to ensure data consistency.
+2026-05-31 07:08:10,159 INFO [brain] 186 datasets, 18539831 total cells
+2026-05-31 07:08:10,180 INFO   [1/186] 00476f9f-ebc1-4b72-b541-32f912ce36ea
+2026-05-31 18:22:26,957 INFO   [2/186] 0087cde2-967d-4f7c-8e6e-40e4c9ad1891
+2026-05-31 21:29:10,526 INFO   [3/186] 03d38670-1444-4001-bc53-9936e61d9b20

@@ -1,0 +1,31 @@
+{
+  "date": "2026-04-22",
+  "question_id": "Q1",
+  "question": "Which human cell types express ADORA1/2A/2B/3 at highest levels?",
+  "project": "caffeine_epigenome",
+  "thread": "T7",
+  "status": "in_progress",
+  "genes_of_interest": ["ADORA1", "ADORA2A", "ADORA2B", "ADORA3"],
+  "datasets": {
+    "primary": {
+      "name": "CellxGene Census",
+      "access": "cellxgene_census Python API",
+      "url": "https://cellxgene.cziscience.com/",
+      "notes": "Unified SOMA-backed view of HCA + Tabula Sapiens + community datasets"
+    },
+    "secondary": {
+      "name": "GTEx v8",
+      "access": "gtexportal.org",
+      "url": "https://gtexportal.org/",
+      "purpose": "Bulk-tissue cross-check for pseudobulk aggregation"
+    }
+  },
+  "tools": ["cellxgene_census", "scanpy", "pandas", "matplotlib"],
+  "notebook": "explore_adora_expression.ipynb",
+  "outputs_planned": [
+    "figures/dotplot_adora_cell_type.png",
+    "figures/ranked_top20_per_receptor.png",
+    "pseudobulk_by_cell_type.feather",
+    "cross_receptor_overlap.feather"
+  ]
+}

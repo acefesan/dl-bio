@@ -1,0 +1,42 @@
+[
+  {
+    "config": "Original",
+    "kmeans_silhouette": 0.05217134207487106,
+    "hog_silhouette": 0.015048776753246784
+  },
+  {
+    "config": "Standardized",
+    "kmeans_silhouette": 0.05530073121190071,
+    "hog_silhouette": 0.029848730191588402
+  },
+  {
+    "config": "PCA-50",
+    "kmeans_silhouette": 0.014996584504842758,
+    "hog_silhouette": 0.0011017133947461843
+  },
+  {
+    "config": "PCA-50-Whitened",
+    "kmeans_silhouette": 0.03359384089708328,
+    "hog_silhouette": 0.02590019442141056
+  },
+  {
+    "config": "PCA-100",
+    "kmeans_silhouette": -0.013374279253184795,
+    "hog_silhouette": 0.010091862641274929
+  },
+  {
+    "config": "PCA-100-Whitened",
+    "kmeans_silhouette": -0.024951981380581856,
+    "hog_silhouette": 0.03099037893116474
+  },
+  {
+    "config": "PCA-256",
+    "kmeans_silhouette": -0.029959101229906082,
+    "hog_silhouette": 0.015028050169348717
+  },
+  {
+    "config": "PCA-256-Whitened",
+    "kmeans_silhouette": -0.10446445643901825,
+    "hog_silhouette": 0.03247733414173126
+  }
+]
