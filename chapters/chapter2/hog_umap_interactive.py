@@ -211,6 +211,168 @@ def build_figure(proteins: pd.DataFrame) -> go.Figure:
     return fig
 
 
+COMPARE_JS = """
+<style>
+#compare-panel {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    max-height: 45vh; overflow-y: auto;
+    background: #fff; border-top: 2px solid #333;
+    font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px;
+    padding: 10px 16px; z-index: 9999;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.15);
+    display: none;
+}
+#compare-panel h3 { margin: 0 0 8px 0; font-size: 15px; }
+#compare-panel .actions { margin-bottom: 8px; }
+#compare-panel button {
+    padding: 4px 12px; margin-right: 6px; cursor: pointer;
+    border: 1px solid #888; border-radius: 4px; background: #f0f0f0;
+    font-size: 12px;
+}
+#compare-panel button:hover { background: #ddd; }
+#compare-table {
+    width: 100%; border-collapse: collapse; table-layout: fixed;
+}
+#compare-table th, #compare-table td {
+    border: 1px solid #ddd; padding: 4px 8px; text-align: left;
+    vertical-align: top; word-break: break-all;
+}
+#compare-table th { background: #f5f5f5; font-weight: 600; width: 110px; }
+.hog-match { color: #888; }
+.hog-diverge { color: #d32f2f; font-weight: 700; }
+.hog-level { font-family: monospace; }
+.click-hint {
+    position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.75); color: #fff; padding: 8px 18px;
+    border-radius: 6px; font-family: system-ui; font-size: 13px; z-index: 9998;
+}
+</style>
+
+<div class="click-hint" id="click-hint">Click points to compare HOG paths. Click same point again to remove.</div>
+<div id="compare-panel">
+    <h3>HOG Comparison <span id="compare-count"></span></h3>
+    <div class="actions">
+        <button onclick="clearCompare()">Clear All</button>
+        <button onclick="closePanel()">Close</button>
+    </div>
+    <table id="compare-table"><tbody id="compare-body"></tbody></table>
+</div>
+
+<script>
+var selectedPoints = [];
+
+// Listen for click on any plotly trace
+var plotDiv = document.getElementsByClassName('plotly-graph-div')[0];
+plotDiv.on('plotly_click', function(data) {
+    var pt = data.points[0];
+    var cd = pt.customdata;
+    if (!cd) return;
+    var omaid = cd[0];
+
+    // Toggle: remove if already selected
+    var idx = selectedPoints.findIndex(p => p.omaid === omaid);
+    if (idx >= 0) {
+        selectedPoints.splice(idx, 1);
+    } else {
+        selectedPoints.push({
+            omaid: cd[0],
+            species: cd[1],
+            sciname: cd[2],
+            roothog: cd[3],
+            hogname: cd[4],
+            fullhog: cd[5],
+            depth: cd[6],
+            seqlen: cd[7],
+        });
+    }
+    renderCompare();
+});
+
+function renderCompare() {
+    var panel = document.getElementById('compare-panel');
+    var hint = document.getElementById('click-hint');
+    if (selectedPoints.length === 0) {
+        panel.style.display = 'none';
+        hint.style.display = 'block';
+        return;
+    }
+    hint.style.display = 'none';
+    panel.style.display = 'block';
+    document.getElementById('compare-count').textContent =
+        '(' + selectedPoints.length + ' proteins)';
+
+    // Split HOG paths into levels
+    var maxDepth = 0;
+    var hogLevels = selectedPoints.map(function(p) {
+        var parts = p.fullhog ? p.fullhog.split('.') : [''];
+        if (parts.length > maxDepth) maxDepth = parts.length;
+        return parts;
+    });
+
+    // Find first diverging level between all pairs
+    var divergeLevel = maxDepth;
+    if (selectedPoints.length >= 2) {
+        for (var lv = 0; lv < maxDepth; lv++) {
+            var vals = new Set(hogLevels.map(h => h[lv] || ''));
+            if (vals.size > 1) { divergeLevel = lv; break; }
+        }
+    }
+
+    // Build table
+    var rows = [
+        {label: 'OMA ID', key: 'omaid'},
+        {label: 'Species', fn: function(p) { return p.species + ' (' + p.sciname + ')'; }},
+        {label: 'Root HOG', fn: function(p) { return p.hogname + ' (' + p.roothog + ')'; }},
+        {label: 'Full HOG', key: 'fullhog'},
+        {label: 'Sub-HOG depth', key: 'depth'},
+        {label: 'Seq length', fn: function(p) { return p.seqlen + ' AA'; }},
+    ];
+
+    // Add HOG level rows
+    for (var lv = 0; lv < maxDepth; lv++) {
+        (function(level) {
+            rows.push({
+                label: level === 0 ? 'Root' : 'Level ' + level,
+                fn: function(p, i) {
+                    var val = hogLevels[i][level] || '—';
+                    var cls = level < divergeLevel ? 'hog-match' :
+                              level === divergeLevel ? 'hog-diverge' : 'hog-level';
+                    return '<span class="hog-level ' + cls + '">' + val + '</span>';
+                },
+                isHtml: true
+            });
+        })(lv);
+    }
+
+    var html = '';
+    rows.forEach(function(row) {
+        html += '<tr><th>' + row.label + '</th>';
+        selectedPoints.forEach(function(p, i) {
+            var val = row.fn ? row.fn(p, i) : p[row.key];
+            if (row.isHtml) {
+                html += '<td>' + val + '</td>';
+            } else {
+                html += '<td>' + String(val) + '</td>';
+            }
+        });
+        html += '</tr>';
+    });
+    document.getElementById('compare-body').innerHTML = html;
+}
+
+function clearCompare() {
+    selectedPoints = [];
+    renderCompare();
+}
+
+function closePanel() {
+    document.getElementById('compare-panel').style.display = 'none';
+    document.getElementById('click-hint').style.display = 'block';
+}
+</script>
+"""
+
+
 def main():
     proteins = pd.read_feather(OUTPUT_DIR / "hog_proteins.feather")
     print(f"Loaded {len(proteins):,} proteins")
@@ -218,7 +380,14 @@ def main():
     fig = build_figure(proteins)
 
     out_path = OUTPUT_DIR / "umap_interactive.html"
-    fig.write_html(out_path, include_plotlyjs=True)
+    fig.write_html(out_path, include_plotlyjs=True, post_script="",
+                   full_html=True)
+
+    # Inject comparison JS before closing </body>
+    html = out_path.read_text()
+    html = html.replace("</body>", COMPARE_JS + "\n</body>")
+    out_path.write_text(html)
+
     print(f"\nSaved to {out_path}")
     print(f"File size: {out_path.stat().st_size / 1024**2:.1f} MB")
 
