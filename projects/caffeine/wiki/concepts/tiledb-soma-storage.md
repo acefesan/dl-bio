@@ -23,7 +23,23 @@ The two axes are the **observation axis** (cells) and the **variable axis** (gen
 
 `X` is a sparse matrix at the SOMA level: it stores `(cell_id, gene_id, value)` triples, not a dense table.
 
-## TileDB Sparse Arrays
+## What a Fragment Is, Plainly
+
+Before the TileDB-specific details: a **fragment** is just a self-contained chunk of the matrix on disk. The full Census expression matrix was not written in one go. It was built up over many ingest passes, and each pass wrote its rows as a separate sealed bundle of files. Those bundles are fragments.
+
+Three things to internalize:
+
+- **Fragments are append-only.** No one edits an old fragment to insert a row in the middle; they write a new fragment.
+- **The "real" array is the *union* of its fragments.** When you read the array, TileDB stitches the fragments back together logically. You never see "fragment 17" in your Python objects.
+- **A fragment is the unit of S3 read.** TileDB cannot open half a fragment. To answer a query, it picks fragments that *might* contain matching cells and pulls those fragments' tile files (or large chunks of them, limited by the internal tile structure) from S3.
+
+The everyday analogy: imagine a giant spreadsheet that was assembled by 200 separate contributors. Each contributor zipped their rows into one `chunk_N.zip` and uploaded it to a shared folder. Querying the whole spreadsheet means downloading and unzipping every `chunk_N.zip` whose row range overlaps your query — even if you ultimately only care about four columns and 11 rows of the result.
+
+For Census, each source study's cells were ingested as one or more such chunks. A "brain query" doesn't read a "brain region of the matrix"; it walks every chunk whose rows might include a brain cell, then filters inside.
+
+There is a different physical representation of the same biological data that does *not* have this property — the per-dataset source H5ADs. Each one is a single materialized cells × genes matrix for one source study, with no fragment layer. See [Census source H5ADs](census-source-h5ads.md) for that route.
+
+## TileDB Sparse Arrays — The Mechanics
 
 TileDB stores a sparse array as many **fragments**. Each fragment is a small chunk of `(cell_id, gene_id, value)` triples written together at one point in time. The full array on S3 is a directory that contains:
 
@@ -70,6 +86,56 @@ Lab 001 asks for four genes across every normal brain cell in the Census. Becaus
 The compute cost is similar: TileDB must walk and decompress most of each fragment to find the cells, even though only four columns survive filtering.
 
 This is why the per-`dataset_id` `get_anndata` call in our fetch script took 11 hours for dataset 1 and 3 hours for dataset 2 with no retries firing, despite the final AnnData being tiny. See [001 fetch stall post-mortem](../labs/001-fetch-stall-postmortem.md) for the timing evidence.
+
+## Pushdown — Why Dimensions Are Fast And Attributes Are Slow
+
+"Pushdown" is the storage-layer trick that decides whether a query is fast or slow. It means: send the filter all the way down to the storage layer so the storage reads only the matching data, instead of reading everything and filtering in Python after the bytes have already traveled.
+
+Two paths a filter can take:
+
+```text
+without pushdown:
+  Python: "give me everything from this array"
+  TileDB / S3: sends all the bytes
+  Python: "now keep only the rows where cell_type == 'neuron'"
+  → filtering happens after the bandwidth was already spent
+
+with pushdown:
+  Python: "give me rows where cell_type == 'neuron'"
+  TileDB: applies the filter at storage, skipping non-matching tiles
+  → fewer bytes ever leave the disk
+```
+
+A TileDB sparse array has two kinds of columns and they get treated very differently:
+
+| Column kind | Example here | Has index? | Filterable how |
+|---|---|---|---|
+| **Dimension** | `soma_joinid` on the cell axis, `soma_joinid` on the gene axis | yes | dimension index; TileDB can seek directly to matching coordinates and skip whole fragments and tiles that do not contain them |
+| **Attribute** | `cell_type`, `tissue_general`, `is_primary_data`, the expression value itself | no | no index; TileDB must open the fragment, read the column for every row, compare each one, and discard non-matches |
+
+So when our v1 and v2 scripts said `obs_value_filter="cell_type == 'mast cell'"`, the filter was on an **attribute**. TileDB had no choice but to walk every fragment that overlapped the obs range, read the `cell_type` column for every row in those fragments, decode the categorical, compare to the string `'mast cell'`, and keep the few matches. That is the ~10h-per-call floor we hit.
+
+When v3 says `obs_coords=[12, 47, 891, ...]`, the filter is on the **dimension**. TileDB consults its index, can in principle skip fragments whose `soma_joinid` range does not overlap any of the given coordinates, and within the surviving fragments seek directly to the matching rows instead of scanning all of them.
+
+The same distinction applies on the var (gene) axis:
+
+| Var filter form | Pushdown? | Effect |
+|---|---|---|
+| `var_value_filter="feature_name in ['ADORA1', ...]"` | no, `feature_name` is an attribute | shrinks the AnnData returned, but TileDB still reads all gene columns at the fragment level |
+| `var_coords=[gene_soma_joinid_list]` | yes, `soma_joinid` is the var dimension | TileDB can read only the requested column tiles |
+
+The Python-API shape of these calls is `cellxgene_census.get_anndata(census, ..., obs_coords=..., var_coords=..., obs_value_filter=..., var_value_filter=...)`. The `_coords` variants get pushdown; the `_value_filter` variants do not.
+
+### Why pushdown is not automatic salvation for our query
+
+Pushdown reduces the work *within* the storage layer, but the size of that reduction depends on how the coordinates you ask for line up with fragment boundaries.
+
+- **Best case for pushdown**: your coordinates form a contiguous range that overlaps a small fraction of fragments. TileDB skips most fragments entirely and seeks tight slices in the rest.
+- **Worst case for pushdown**: your coordinates are scattered across the whole dimension range so almost every fragment overlaps at least one. TileDB cannot skip fragments; the savings only come from intra-fragment seeking (skip non-matching rows inside a fragment) rather than from skipping whole fragments.
+
+Lab 001's stratified sample of 735,583 cells across 62.5M total is closer to the worst case for fragment-skipping. If coord pushdown helps us, the help comes from intra-fragment seeking and from the var axis (4 genes out of ~60,000 columns), not from skipping fragments.
+
+That is the empirical question the v3 run is currently answering.
 
 ## What `var_value_filter` Actually Does
 

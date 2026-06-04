@@ -165,6 +165,8 @@ AnnData.var  ~ SOMA Measurement.var
 AnnData.X    ~ SOMA Measurement.X["raw"]
 ```
 
+For the concrete human experiment tree and the keys observed in Census `2025-11-08`, see [Census experiment tree](census-experiment-tree.md).
+
 ## Measurement
 
 A `Measurement` is one modality inside an experiment. For Lab 001, the relevant measurement is `RNA`.
@@ -249,4 +251,4 @@ Context decides which one is meant.
 5. Treat `soma_joinid` as an axis coordinate, not as a universal row ID.
 6. Treat `.read()` as the start of a streaming read; `.concat().to_pandas()` is the moment data become a local dataframe.
 
-Related pages: [SOMA axes and X](soma-axes-and-x.md), [001 CellxGene Census API](../labs/001-cellxgene-census-api.md), [TileDB-SOMA storage](tiledb-soma-storage.md), [001 H5AD and AnnData cache](../labs/001-h5ad-anndata-cache.md), [001 data flow](../labs/001-data-flow.md)
+Related pages: [Census experiment tree](census-experiment-tree.md), [Census obs columns](census-obs-columns.md), [Census var columns](census-var-columns.md), [Census X layers and feature presence](census-x-layers-and-feature-presence.md), [SOMA axes and X](soma-axes-and-x.md), [001 CellxGene Census API](../labs/001-cellxgene-census-api.md), [TileDB-SOMA storage](tiledb-soma-storage.md), [001 H5AD and AnnData cache](../labs/001-h5ad-anndata-cache.md), [001 data flow](../labs/001-data-flow.md)

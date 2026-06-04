@@ -75,17 +75,32 @@ explain the API, data object, download slice, HDF5 cache files, and notebook str
 [Census core objects](concepts/census-core-objects.md)
 defines the TileDB-SOMA object vocabulary behind the API: Collection, DataFrame, TableReadIter, Arrow Table, Experiment, Measurement, X array, and `soma_joinid`.
 
+[Census experiment tree](concepts/census-experiment-tree.md)
+maps the concrete human `Experiment` observed in Census `2025-11-08`: `obs`, `ms["RNA"]`, `var`, `X["raw"]`, `X["normalized"]`, and `feature_dataset_presence_matrix`.
+
+[Census obs columns](concepts/census-obs-columns.md),
+[Census var columns](concepts/census-var-columns.md),
+and
+[Census X layers and feature presence](concepts/census-x-layers-and-feature-presence.md)
+are the column-level glossaries for the object tree. They explain labels such as assay, cell type, tissue, disease, donor, feature name, nonzero counts, raw expression, normalized expression, and feature presence.
+
 [SOMA axes and X](concepts/soma-axes-and-x.md)
 explains the logical alignment between `obs.soma_joinid`, `var.soma_joinid`, and the sparse `X` array before the discussion drops down to physical storage.
 
 [TileDB-SOMA storage](concepts/tiledb-soma-storage.md)
 explains how the Census is laid out as cell-major sparse fragments on S3, and why that layout makes Lab 001's "few genes, many cells" query the worst-case access pattern.
 
+[Census source H5ADs](concepts/census-source-h5ads.md)
+documents the *other* physical projection of the same data — one materialized H5AD per source dataset on S3. The escape hatch from the fragment-walk problem when the query shape is "narrow gene set across many datasets", which is exactly Lab 001's shape.
+
 [network and I/O instrumentation](concepts/network-and-io-instrumentation.md)
 documents the tools and signals needed to measure what a slow fetch is actually doing (bandwidth, requests, syscalls, stacks). It pairs with [TileDB-SOMA storage](concepts/tiledb-soma-storage.md) for diagnosis.
 
 [001 fetch stall post-mortem](labs/001-fetch-stall-postmortem.md)
 is the lessons-learned record of the 2026-05-31 brain fetch and the bridge from those two concept pages back to Lab 001 design decisions. Its source observations are in [raw lab-001 stall post-mortem](raw/lab-001-stall-postmortem.md).
+
+[001 v3 stratified fetch](labs/001-v3-stratified-fetch.md)
+is the phase-by-phase walkthrough of the current fetch pipeline. It applies the lessons from the post-mortem and the [pushdown](concepts/tiledb-soma-storage.md) section: stop filtering on attributes, start filtering on the obs dimension via `obs_coords`. Empirical numbers from the 2026-06-03 run.
 
 ## Supporting Sources
 

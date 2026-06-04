@@ -2,35 +2,47 @@
 
 ## Summary
 
-Lab 001 downloads a very small slice of a very large single-cell atlas: expression of four [ADORA](../concepts/adenosine-receptors.md) genes across selected normal human tissues.
+Lab 001 downloads a very small slice of a very large single-cell atlas: expression of four [ADORA](../concepts/adenosine-receptors.md) genes for a stratified cross-tissue sample of normal human cells.
 
 The point is not to download every gene or every dataset. The point is to build a cell-type-by-receptor map that can seed later chromatin and perturbation analyses.
 
-## What We Download
+The script has gone through three iterations. The current one (**v3**) is documented in detail at [001 v3 stratified fetch](001-v3-stratified-fetch.md). This page provides the cross-iteration overview and history.
 
-The script downloads:
+## Current Shape (V3)
 
-- cells from selected `tissue_general` categories,
-- only cells marked `is_primary_data == True`,
-- only cells marked `disease == 'normal'`,
-- only the RNA measurement,
-- only four genes: `ADORA1`, `ADORA2A`, `ADORA2B`, `ADORA3`,
-- only selected cell metadata columns.
+V3's pipeline in one diagram:
 
-Default tissues:
+```mermaid
+flowchart TD
+    Q[Q1: Which cell types express ADORA genes?]
+    Q --> Scan[Phase 1: global obs.read<br/>primary normal human<br/>~6h, 62.5M cells]
+    Scan --> Parquet[_obs_human_primary_normal.parquet<br/>302 MB, cached]
+    Parquet --> Sample[Phase 2: stratified sample<br/>1000 cells per cell_type<br/>seconds]
+    Sample --> Sampled[_sample_metadata.parquet<br/>735k cells]
+    Sampled --> Fetch[Phase 3: get_anndata<br/>obs_coords=735k ids<br/>var filter for 4 ADORA genes]
+    Fetch --> Out[adora_stratified.h5ad]
+    Out --> Aggregation[Cell-type aggregation, dotplots, rankings]
+```
 
-- brain
-- heart
-- liver
-- adipose tissue
-- kidney
-- blood
-- intestine
-- lung
+Three things distinguish v3 from v1 and v2:
 
-## What We Do Not Download
+1. **Filter on the obs dimension, not on attribute columns.** `obs_coords=<soma_joinid list>` instead of `obs_value_filter="cell_type == ..."`. See [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md) for why dimensions are fast and attributes are slow.
+2. **Pay the obs scan exactly once.** The 6h scan result is cached as parquet; only Phase 3 reruns when we change the gene set or sample size.
+3. **One X read for the whole dataset.** Not 186 calls (v1), not 898 calls (v2). One.
 
-The lab does not download:
+See [001 v3 stratified fetch](001-v3-stratified-fetch.md) for phase-by-phase details and observed costs.
+
+## What V3 Downloads
+
+| Layer | Filter |
+|---|---|
+| organism | `Homo sapiens` |
+| obs filter (Phase 1 scan) | `is_primary_data == True and disease == 'normal'` |
+| obs coords (Phase 3 fetch) | 735,583 sampled `soma_joinid` integers, stratified by `cell_type` |
+| measurement | `RNA` |
+| genes | `feature_name in ['ADORA1', 'ADORA2A', 'ADORA2B', 'ADORA3']` |
+
+## What V3 Does Not Download
 
 - all genes,
 - raw FASTQ files,
@@ -39,95 +51,45 @@ The lab does not download:
 - histone ChIP-seq,
 - methylation,
 - disease cells,
-- non-primary duplicate cells.
+- non-primary duplicate cells,
+- the broader caffeine pathway gene set (CYP1A2, AHR, CREB1, NFAT, PDE4B/D, RYR1/2/3, HDAC4/5, etc.) — see the limitations section of [001 v3 stratified fetch](001-v3-stratified-fetch.md) for the planned expansion.
 
 That restraint is intentional. Q1 only needs receptor expression.
 
-## Data Flow Schematic
+## Output Schema
 
-```mermaid
-flowchart TD
-    Q[Q1: Which cell types express ADORA genes?] --> Tissues[Choose tissues]
-    Tissues --> DatasetIDs[List dataset_ids per tissue]
-    DatasetIDs --> Loop[Loop over tissue x dataset_id]
-    Loop --> Query[get_anndata query]
-    Query --> Genes[Filter genes: ADORA1/2A/2B/3]
-    Query --> Cells[Filter cells: normal + primary + tissue]
-    Query --> Metadata[Keep obs metadata columns]
-    Genes --> AnnData[AnnData piece]
-    Cells --> AnnData
-    Metadata --> AnnData
-    AnnData --> Partial[Partial h5ad checkpoint]
-    Partial --> TissueCache[Per-tissue h5ad cache]
-    TissueCache --> Combined[adora_all_tissues.h5ad]
-    Combined --> Aggregation[Cell-type aggregation]
-    Aggregation --> Outputs[Dotplots, rankings, overlap tables]
-```
+The deliverable is `cache/adora_stratified.h5ad`. As an AnnData object:
 
-## Why Chunk by `dataset_id` (Original Rationale)
+| Slot | Shape | Contents |
+|---|---|---|
+| `adata.X` | up to 735,583 × 4 | sparse expression for the four ADORA receptors |
+| `adata.obs` | up to 735,583 × 7 | per-cell metadata, see table below |
+| `adata.var` | 4 × N | gene metadata; index `feature_id` (Ensembl), `feature_name` is the symbol |
 
-A direct "give me all normal brain cells for these four genes" query can still be large because the cell axis is huge. The first version of the script listed dataset IDs for each tissue and fetched one dataset at a time.
-
-Intended benefits:
-
-- easier retries,
-- smaller streaming chunks,
-- partial progress survives network failures,
-- failed datasets do not kill the whole tissue.
-
-> **Note (2026-05-31).** Empirically this chunking choice was wrong. Brain's first two datasets took 11h and 3h respectively in the 2026-05-31 overnight run, before any checkpoint fired. Root cause: the Census `X` matrix is partitioned **cell-major**, so a per-dataset slice still pulls fragment data for all genes in those cells; the four-gene `var_value_filter` shrinks the answer but not the S3 traffic. See [001 fetch stall post-mortem](001-fetch-stall-postmortem.md) and [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md). The next iteration of the script should chunk inside the obs axis (cell_type or `soma_joinid` ranges via the native iterator), checkpoint per chunk, and instrument the run per [network and I/O instrumentation](../concepts/network-and-io-instrumentation.md).
-
-## The Cell Filter
-
-The script uses:
-
-```python
-tissue_general == '{tissue}'
-and dataset_id == '{dataset_id}'
-and is_primary_data == True
-and disease == 'normal'
-```
-
-Meaning:
-
-- `tissue_general`: broad tissue label, such as `brain` or `heart`,
-- `dataset_id`: one source dataset inside the Census,
-- `is_primary_data`: avoid duplicated cells across datasets/collections,
-- `disease`: keep normal cells for a baseline receptor-expression map.
-
-## The Gene Filter
-
-The script uses:
-
-```python
-feature_name in ['ADORA1', 'ADORA2A', 'ADORA2B', 'ADORA3']
-```
-
-`feature_name` is the gene symbol field in the RNA gene metadata. These four genes encode the adenosine receptor proteins A1, A2A, A2B, and A3.
-
-## The Metadata Columns
-
-The script keeps:
+### Per-Cell Metadata Kept In `adata.obs`
 
 | Column | Why it matters |
 |---|---|
+| `soma_joinid` | join key back to `_obs_human_primary_normal.parquet` |
 | `cell_type` | primary grouping variable for the output |
-| `tissue` | more specific tissue label |
-| `tissue_general` | broad tissue label used for filtering |
-| `assay` | tells which single-cell assay generated the cell |
-| `dataset_id` | provenance and chunking |
-| `donor_id` | later donor-aware summaries or QC |
+| `tissue` | finer tissue label |
+| `tissue_general` | broad tissue label that v3 stratified on |
+| `assay` | which scRNA assay generated the cell |
+| `dataset_id` | provenance back to the source study and its H5AD |
+| `donor_id` | for later donor-aware summaries or QC |
 
-## Cache Files
+## Cache Files (V3)
 
-| File | Meaning |
-|---|---|
-| `cache/adora_<tissue>.partial.h5ad` | checkpoint while a tissue is still downloading |
-| `cache/adora_<tissue>.h5ad` | completed per-tissue cache |
-| `cache/adora_all_tissues.h5ad` | concatenation of completed tissue caches |
-| `cache/fetch.log` | retry/progress log |
+| File | Meaning | Size |
+|---|---|---|
+| `cache/_obs_human_primary_normal.parquet` | Phase 1 obs scan output | ~300 MB |
+| `cache/_sample_metadata.parquet` | Phase 2 stratified sample | ~4 MB |
+| `cache/adora_stratified.h5ad` | Phase 4 deliverable | < 100 MB expected |
+| `cache/fetch.log` | human progress log | small, cumulative |
+| `cache/stats.jsonl` | structured per-phase metrics | small, cumulative |
+| `cache/_enumerate_brain.json` | leftover from v2 brain probe | safe to delete |
 
-For the file schema and how `.h5ad` maps to `AnnData`, see [H5AD and AnnData cache](001-h5ad-anndata-cache.md).
+For the file schema and how `.h5ad` maps to `AnnData`, see [001 H5AD and AnnData cache](001-h5ad-anndata-cache.md).
 
 ## What the Matrix Values Mean
 
@@ -153,4 +115,16 @@ After downloading:
 6. Rank top cell types per receptor.
 7. Identify cell types co-expressing multiple receptors.
 
-Related pages: [CellxGene Census API](001-cellxgene-census-api.md), [H5AD and AnnData cache](001-h5ad-anndata-cache.md), [Lab 001 overview](001-adora-expression.md), [cell type response model](../concepts/cell-type-response-model.md), [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md), [network and I/O instrumentation](../concepts/network-and-io-instrumentation.md), [001 fetch stall post-mortem](001-fetch-stall-postmortem.md)
+---
+
+## Appendix: V1 And V2 History
+
+The original v1 script chunked by `dataset_id` per tissue and fetched one dataset at a time, with the rationale that each per-dataset slice would be a small recoverable chunk.
+
+> **Empirical result (2026-05-31).** This chunking choice was wrong. Brain's first two datasets took 11h and 3h respectively before any checkpoint fired. Root cause: the Census X matrix is partitioned **cell-major**, so a per-dataset slice still pulls fragment data for all genes in those cells; the four-gene `var_value_filter` shrinks the answer but not the S3 traffic.
+
+V2 replaced dataset chunking with `cell_type` chunking via `obs_value_filter`, hypothesizing that smaller obs filters would tighten the fragment set. The v2 probe (2026-06-01) instead confirmed that *any* attribute-based filter pays the full fragment-walk cost: a query for 11 cells took 10h 39m to return.
+
+The combined evidence pointed to a single change: stop filtering on attributes, start filtering on the obs **dimension**. That is what v3 does. See [001 fetch stall post-mortem](001-fetch-stall-postmortem.md) for the full decision trail and [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md) for the storage-layer reasoning.
+
+Related pages: [001 v3 stratified fetch](001-v3-stratified-fetch.md), [CellxGene Census API](001-cellxgene-census-api.md), [H5AD and AnnData cache](001-h5ad-anndata-cache.md), [Lab 001 overview](001-adora-expression.md), [cell type response model](../concepts/cell-type-response-model.md), [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md), [network and I/O instrumentation](../concepts/network-and-io-instrumentation.md), [001 fetch stall post-mortem](001-fetch-stall-postmortem.md)

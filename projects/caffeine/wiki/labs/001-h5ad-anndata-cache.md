@@ -18,12 +18,16 @@ The fetch script writes files under:
 lab/001_adora_expression/cache/
 ```
 
-| File | Meaning |
-|---|---|
-| `adora_<tissue>.partial.h5ad` | in-progress checkpoint for a tissue |
-| `adora_<tissue>.h5ad` | completed cache for one tissue |
-| `adora_all_tissues.h5ad` | concatenation of completed per-tissue caches |
-| `fetch.log` | log of dataset attempts, retries, failures, and completion |
+| File | Meaning | Iteration |
+|---|---|---|
+| `_obs_human_primary_normal.parquet` | global obs scan: (`soma_joinid`, `cell_type`, `tissue_general`) for all primary normal human cells | v3 Phase 1 |
+| `_sample_metadata.parquet` | the 735k stratified-sampled cells (which ones we're fetching ADORA for) | v3 Phase 2 |
+| `adora_stratified.h5ad` | the deliverable — cells × ADORA receptors | v3 Phase 4 |
+| `fetch.log` | human progress log across all phases | every iteration |
+| `stats.jsonl` | structured per-phase metrics, one JSON per line | v2 onwards |
+| `_enumerate_brain.json` | brain cell_type counts from the v2 probe | v2 leftover, safe to delete |
+
+The earlier per-tissue conventions (`adora_<tissue>.h5ad`, `adora_<tissue>.partial.h5ad`, `adora_all_tissues.h5ad`) belonged to v1 and v2. V3 does not produce them. See [001 v3 stratified fetch](001-v3-stratified-fetch.md) for the current pipeline and [001 fetch stall post-mortem](001-fetch-stall-postmortem.md) for why the iteration history matters.
 
 The notebook should **read** these files. It should not run the live Census download unless you intentionally choose to do that.
 
@@ -186,13 +190,19 @@ This does not download the whole Census. It downloads the requested slice. But t
 
 The fetch script uses a simple local-file cache policy:
 
+V3 logic (current):
+
 ```python
-if cache/adora_<tissue>.h5ad exists:
-    skip that tissue
-elif cache/adora_<tissue>.partial.h5ad exists:
-    resume from the partial checkpoint
+if cache/adora_stratified.h5ad exists and --resume:
+    nothing to do
 else:
-    query Census for that tissue
+    if cache/_obs_human_primary_normal.parquet exists and not --rescan:
+        reuse parquet
+    else:
+        run global obs scan (~6h)
+    run stratified sample (seconds)
+    run one coord-based X read (Phase 3)
+    write adora_stratified.h5ad atomically
 ```
 
 This is **not** automatic caching by the Census API. It is our project-level cache.
@@ -200,7 +210,7 @@ This is **not** automatic caching by the Census API. It is our project-level cac
 So:
 
 - `cellxgene_census.get_anndata()` will query the remote Census when called.
-- `anndata.read_h5ad("cache/adora_brain.h5ad")` reads the local file and uses no network.
+- `anndata.read_h5ad("cache/adora_stratified.h5ad")` reads the local file and uses no network.
 - the notebook should prefer `read_h5ad()`.
 - the fetch script is the only place that should do large live downloads.
 
@@ -211,16 +221,18 @@ The cache size depends mostly on:
 - number of cells,
 - number of metadata columns,
 - string/categorical metadata overhead,
-- whether the expression matrix is sparse,
-- whether both per-tissue and combined caches are kept.
+- whether the expression matrix is sparse.
 
-Even though there are only four genes, a tissue with many cells still carries a large `obs` table. Peak disk use is roughly:
+For v3, peak disk use is roughly:
 
 ```text
-per-tissue caches + combined cache + one partial checkpoint + fetch.log
+_obs_human_primary_normal.parquet (~300 MB)
++ _sample_metadata.parquet (~4 MB)
++ adora_stratified.h5ad (<100 MB expected)
++ fetch.log + stats.jsonl (small)
 ```
 
-For Lab 001, this should be much smaller than an all-gene single-cell download, but it is still worth starting with one tissue.
+So about 400 MB total. The obs parquet dominates and is shared across runs with different `--cells-per-cell-type` or `--seed` settings.
 
 ## Useful Inspection Commands
 

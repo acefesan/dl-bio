@@ -75,6 +75,8 @@ This matters. A raw `tiledbsoma.SOMATileDBContext(...)` can bypass `cellxgene_ce
 | `census["census_data"]["homo_sapiens"].obs` | cell metadata |
 | `census["census_data"]["homo_sapiens"].ms["RNA"].var` | gene metadata for the RNA measurement |
 
+For a fuller walkthrough of the keys under the human experiment, see [Census experiment tree](../concepts/census-experiment-tree.md). For column glossaries, see [Census obs columns](../concepts/census-obs-columns.md), [Census var columns](../concepts/census-var-columns.md), and [Census X layers and feature presence](../concepts/census-x-layers-and-feature-presence.md).
+
 ## How Datasets Map To Cells
 
 `census["census_info"]["datasets"]` is the dataset catalog for the whole Census. It is a remote SOMA dataframe stored under `census_info`, not a local pandas dataframe until we materialize it:
@@ -131,6 +133,8 @@ adata.obs = adata.obs.merge(dataset_meta, on="dataset_id", how="left")
 
 Important distinction: a dataset is a biological/source-data provenance unit, not a TileDB fragment. TileDB fragments are physical storage chunks under the hood; datasets are the published source studies/files whose cells were harmonized into the Census.
 
+There is also a separate physical projection of each dataset: the **source H5AD**, a materialized cells × genes file published per `dataset_id`. The `dataset_h5ad_path` column above points to it. For queries with a narrow gene set across many datasets — like Lab 001 — that route is dramatically cheaper than walking SOMA fragments. See [Census source H5ADs](../concepts/census-source-h5ads.md).
+
 ## What `get_anndata()` Does
 
 In the notebook/script, the key call is:
@@ -186,4 +190,4 @@ Without the Census, we would need to:
 
 The Census does much of that standardization upfront. Lab 001 can therefore focus on the biological question: where are ADORA receptors expressed?
 
-Related pages: [Lab 001 overview](001-adora-expression.md), [Lab 001 data flow](001-data-flow.md), [H5AD and AnnData cache](001-h5ad-anndata-cache.md), [Census core objects](../concepts/census-core-objects.md), [ADORA receptors](../concepts/adenosine-receptors.md), [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md), [001 fetch stall post-mortem](001-fetch-stall-postmortem.md)
+Related pages: [Lab 001 overview](001-adora-expression.md), [Lab 001 data flow](001-data-flow.md), [H5AD and AnnData cache](001-h5ad-anndata-cache.md), [Census core objects](../concepts/census-core-objects.md), [Census experiment tree](../concepts/census-experiment-tree.md), [ADORA receptors](../concepts/adenosine-receptors.md), [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md), [001 fetch stall post-mortem](001-fetch-stall-postmortem.md)

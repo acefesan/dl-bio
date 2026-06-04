@@ -1,50 +1,51 @@
-"""Fetch ADORA expression caches for Q1 — v2, post-stall rewrite.
+"""Fetch ADORA cache, v3 — stratified sample via coord-based reads.
 
 Background — read these first:
     wiki/labs/001-fetch-stall-postmortem.md
     wiki/concepts/tiledb-soma-storage.md
-    wiki/concepts/network-and-io-instrumentation.md
+    wiki/concepts/census-source-h5ads.md
 
-The v1 of this script chunked by dataset_id and never produced a usable cache
-(see post-mortem). The hypothesis is that the Census X matrix is partitioned
-cell-major, so a per-dataset_id slice still walks fragments containing every
-gene, while the four-gene var_value_filter only shrinks the answer. We do not
-yet have an instrumented run that proves a faster shape works, so this rewrite
-prioritizes evidence over throughput:
+V2 (per-cell_type chunking with obs_value_filter) confirmed that value-filter
+X reads have a ~10h-per-call floor regardless of cell count — every fragment
+that might contain matching cells must be walked and decompressed. The 2026-06-01
+brain probe took 10h 39m to return 11 cells × 4 genes with nnz=1.
 
-    1. Chunk by (tissue, cell_type) instead of (tissue, dataset_id). Cell types
-       are the analysis grouping we care about anyway, and a cell_type filter
-       reduces both the answer size and the cell range the query walks.
-    2. Checkpoint per cell_type, not per N. Each completed cell_type writes
-       immediately to its own .h5ad. A kill loses at most one cell_type's work.
-    3. Instrument every call. Per-call cells / nnz / seconds / cells-per-second
-       go to fetch.log at INFO and to stats.jsonl as one JSON record per call.
-    4. Cache the obs enumeration. The previous run spent 7h enumerating brain
-       datasets; the same cost applies to cell_type enumeration. We pay it
-       once per tissue and reuse a JSON cache.
-    5. Probe mode. --probe fetches the smallest cell_type per tissue and
-       projects full-tissue time before committing.
+V3 changes the access pattern:
+
+    1. ONE global obs scan to get (soma_joinid, cell_type, tissue_general) for
+       all primary normal human cells. Cached as parquet. Slow but one-time;
+       the prior brain-only scan took ~6h, so a full-human scan is expected
+       in the 1-2 day range.
+    2. Stratified sample up to N cells per cell_type in pandas. Local, seconds.
+    3. ONE X query with obs_coords=<sampled soma_joinids> and var_value_filter
+       for the four ADORA genes. Hypothesis: coordinate lookup on the obs axis
+       uses TileDB's dimension index rather than scanning fragments row by row,
+       so this call should be dramatically faster than v2's value-filter calls.
+    4. Save as cache/adora_stratified.h5ad.
+
+Phase 3 is unproven on this layout. If it is still slow, the post-mortem will
+tell us; the cached obs metadata (phase 1) remains reusable for any fallback
+strategy (e.g., source H5AD downloads — see census-source-h5ads.md wiki page).
 
 Usage:
-    # Probe brain to see whether this shape is even viable (timing report)
-    python fetch_adora_cache.py --tissues brain --probe
+    # Full run, default 1000 cells per cell_type
+    python fetch_adora_cache.py
 
-    # Full per-cell-type fetch (resumable)
-    python fetch_adora_cache.py --tissues brain --resume
+    # Smaller sample for sanity testing
+    python fetch_adora_cache.py --cells-per-cell-type 100
 
-    # Cap individual cell_type queries (skip mega cell_types)
-    python fetch_adora_cache.py --tissues brain --max-cells-per-chunk 200000 --resume
+    # Resume — reuses cached obs scan and final h5ad if present
+    python fetch_adora_cache.py --resume
 
-    # Multi-tissue overnight run after probe shows it is viable
-    python fetch_adora_cache.py --tissues brain heart liver --resume
+    # Force a fresh obs scan (otherwise the parquet cache is reused)
+    python fetch_adora_cache.py --rescan
 
 Output:
-    cache/<tissue>/<cell_type_slug>.h5ad         per-cell-type cache (atomic)
-    cache/<tissue>.h5ad                          concatenated per-tissue cache
-    cache/adora_all_tissues.h5ad                 concatenated cross-tissue cache
-    cache/_enumerate_<tissue>.json               cached cell_type enumeration
-    cache/fetch.log                              human log (appended)
-    cache/stats.jsonl                            per-call metrics (one JSON per line)
+    cache/_obs_human_primary_normal.parquet   global obs scan cache
+    cache/_sample_metadata.parquet            sampled cell metadata
+    cache/adora_stratified.h5ad               final AnnData
+    cache/fetch.log                           human log
+    cache/stats.jsonl                         per-phase structured metrics
 """
 
 from __future__ import annotations
@@ -53,35 +54,28 @@ import argparse
 import json
 import logging
 import os
-import re
 import sys
 import time
 from pathlib import Path
 
 import anndata as ad
 import cellxgene_census
+import pandas as pd
+import tiledbsoma
 
 GENES = ["ADORA1", "ADORA2A", "ADORA2B", "ADORA3"]
-OBS_COLS = ["cell_type", "tissue", "tissue_general", "assay", "dataset_id", "donor_id"]
-DEFAULT_TISSUES = [
-    "brain",
-    "heart",
-    "liver",
-    "adipose tissue",
-    "kidney",
-    "blood",
-    "intestine",
-    "lung",
+OBS_COLS_SCAN = ["soma_joinid", "cell_type", "tissue_general"]
+OBS_COLS_FETCH = [
+    "soma_joinid", "cell_type", "tissue", "tissue_general",
+    "assay", "dataset_id", "donor_id",
 ]
 
 SCRIPT_DIR = Path(__file__).parent
 CACHE_DIR = SCRIPT_DIR / "cache"
+OBS_CACHE = CACHE_DIR / "_obs_human_primary_normal.parquet"
+SAMPLE_CACHE = CACHE_DIR / "_sample_metadata.parquet"
+FINAL_OUT = CACHE_DIR / "adora_stratified.h5ad"
 STATS_FILE = CACHE_DIR / "stats.jsonl"
-SLUG_RE = re.compile(r"[^a-z0-9]+")
-
-
-def slugify(s: str) -> str:
-    return SLUG_RE.sub("_", s.lower()).strip("_") or "unnamed"
 
 
 def setup_logging() -> None:
@@ -104,7 +98,7 @@ def emit_stat(record: dict) -> None:
 
 def open_census():
     """Open Census with generous S3 timeouts and a large initial buffer."""
-    ctx = cellxgene_census.get_default_soma_context(
+    ctx = tiledbsoma.SOMATileDBContext(
         tiledb_config={
             "vfs.s3.connect_timeout_ms": "60000",
             "vfs.s3.request_timeout_ms": "300000",
@@ -114,293 +108,158 @@ def open_census():
     return cellxgene_census.open_soma(context=ctx)
 
 
-def list_cell_types_for_tissue(census, tissue: str, *, use_cache: bool) -> list[tuple[str, int]]:
-    """Return [(cell_type, n_cells)] sorted ascending. Cached as JSON per tissue."""
-    cache_path = CACHE_DIR / f"_enumerate_{slugify(tissue)}.json"
-
-    if use_cache and cache_path.exists():
-        data = json.loads(cache_path.read_text())
+def scan_human_obs(census, *, use_cache: bool) -> pd.DataFrame:
+    """Phase 1: global obs scan. Returns DataFrame[soma_joinid, cell_type, tissue_general]."""
+    if use_cache and OBS_CACHE.exists():
+        df = pd.read_parquet(OBS_CACHE)
         logging.info(
-            "[%s] enumerate cached: %d cell_types (from %s)",
-            tissue, len(data), cache_path.name,
+            "[scan] cached: %d cells across %d cell_types, %d tissues (from %s)",
+            len(df), df["cell_type"].nunique(),
+            df["tissue_general"].nunique(), OBS_CACHE.name,
         )
-        return [(ct, int(n)) for ct, n in data]
+        return df
 
-    logging.info("[%s] enumerate cell_types via obs.read — expect minutes to hours", tissue)
+    logging.info(
+        "[scan] global obs.read for primary normal human — expect many hours"
+    )
     t0 = time.monotonic()
     obs = (
         census["census_data"]["homo_sapiens"]
         .obs.read(
-            column_names=["cell_type"],
-            value_filter=(
-                f"tissue_general == '{tissue}' "
-                f"and is_primary_data == True "
-                f"and disease == 'normal'"
-            ),
+            column_names=OBS_COLS_SCAN,
+            value_filter="is_primary_data == True and disease == 'normal'",
         )
         .concat()
         .to_pandas()
     )
     dt = time.monotonic() - t0
-    counts = obs["cell_type"].value_counts().sort_values(ascending=True)
-    pairs = [(str(ct), int(n)) for ct, n in counts.items()]
 
-    cache_path.write_text(json.dumps(pairs, indent=2))
     logging.info(
-        "[%s] enumerate done: %d total cells, %d cell_types, %.0fs (cached to %s)",
-        tissue, len(obs), len(pairs), dt, cache_path.name,
+        "[scan] done: %d cells, %d cell_types, %d tissues, %.0fs",
+        len(obs), obs["cell_type"].nunique(),
+        obs["tissue_general"].nunique(), dt,
     )
+
+    OBS_CACHE.parent.mkdir(parents=True, exist_ok=True)
+    obs.to_parquet(OBS_CACHE)
+    logging.info("[scan] wrote %s (%.1f MB)",
+                 OBS_CACHE.name, OBS_CACHE.stat().st_size / 1e6)
+
     emit_stat({
-        "op": "enumerate", "tissue": tissue, "cells": int(len(obs)),
-        "cell_types": len(pairs), "seconds": dt,
+        "op": "scan", "cells": int(len(obs)),
+        "cell_types": int(obs["cell_type"].nunique()),
+        "tissues": int(obs["tissue_general"].nunique()),
+        "seconds": dt,
     })
-    return pairs
+    return obs
 
 
-def fetch_one_cell_type(
-    census, tissue: str, cell_type: str, retries: int, backoff: int
-) -> ad.AnnData | None:
-    """Fetch ADORA expression for one (tissue, cell_type). Retries on any exception."""
-    safe_ct = cell_type.replace("'", "''")
-    obs_filter = (
-        f"tissue_general == '{tissue}' "
-        f"and cell_type == '{safe_ct}' "
-        f"and is_primary_data == True "
-        f"and disease == 'normal'"
+def stratified_sample(obs: pd.DataFrame, n_per_ct: int, seed: int) -> pd.DataFrame:
+    """Phase 2: sample up to n_per_ct cells per cell_type. Local, seconds."""
+    t0 = time.monotonic()
+    sampled = (
+        obs.groupby("cell_type", group_keys=False, observed=True)
+        .apply(lambda g: g.sample(n=min(len(g), n_per_ct), random_state=seed))
+        .reset_index(drop=True)
     )
+    dt = time.monotonic() - t0
+    logging.info(
+        "[sample] %d cells across %d cell_types (cap=%d/ct) in %.1fs",
+        len(sampled), sampled["cell_type"].nunique(), n_per_ct, dt,
+    )
+    SAMPLE_CACHE.parent.mkdir(parents=True, exist_ok=True)
+    sampled.to_parquet(SAMPLE_CACHE)
+    logging.info("[sample] wrote %s", SAMPLE_CACHE.name)
+    emit_stat({
+        "op": "sample", "cells": int(len(sampled)),
+        "cell_types": int(sampled["cell_type"].nunique()),
+        "cap_per_cell_type": n_per_ct, "seed": seed, "seconds": dt,
+    })
+    return sampled
+
+
+def fetch_by_coords(census, soma_joinids: list[int]) -> ad.AnnData:
+    """Phase 3: single coord-based X read. Hypothesis: dramatically faster than value filter."""
     gene_list = "[" + ", ".join(f"'{g}'" for g in GENES) + "]"
-    last_err: Exception | None = None
-
-    for attempt in range(1, retries + 1):
-        t0 = time.monotonic()
-        try:
-            adata = cellxgene_census.get_anndata(
-                census=census,
-                organism="Homo sapiens",
-                measurement_name="RNA",
-                var_value_filter=f"feature_name in {gene_list}",
-                obs_value_filter=obs_filter,
-                obs_column_names=OBS_COLS,
-            )
-            dt = time.monotonic() - t0
-            n_cells = int(adata.n_obs)
-            nnz = int(adata.X.nnz) if hasattr(adata.X, "nnz") else int((adata.X != 0).sum())
-            rate = n_cells / dt if dt > 0 else float("inf")
-            logging.info(
-                "    [%s] %s: %d cells in %.1fs (%.0f cells/s, nnz=%d)",
-                tissue, cell_type, n_cells, dt, rate, nnz,
-            )
-            emit_stat({
-                "op": "fetch", "tissue": tissue, "cell_type": cell_type,
-                "cells": n_cells, "nnz": nnz, "seconds": dt,
-            })
-            return adata
-        except Exception as e:
-            last_err = e
-            wait = backoff * (2 ** (attempt - 1))
-            logging.warning(
-                "    [%s] %s attempt %d/%d failed (%s): sleeping %ds",
-                tissue, cell_type, attempt, retries, type(e).__name__, wait,
-            )
-            emit_stat({
-                "op": "fetch_retry", "tissue": tissue, "cell_type": cell_type,
-                "attempt": attempt, "error": type(e).__name__,
-            })
-            time.sleep(wait)
-
-    logging.error(
-        "    [%s] %s: giving up after %d attempts: %s",
-        tissue, cell_type, retries, last_err,
+    logging.info(
+        "[fetch] get_anndata with %d obs_coords + ADORA var filter — testing coord pushdown",
+        len(soma_joinids),
+    )
+    t0 = time.monotonic()
+    adata = cellxgene_census.get_anndata(
+        census=census,
+        organism="Homo sapiens",
+        measurement_name="RNA",
+        obs_coords=soma_joinids,
+        var_value_filter=f"feature_name in {gene_list}",
+        obs_column_names=OBS_COLS_FETCH,
+    )
+    dt = time.monotonic() - t0
+    nnz = int(adata.X.nnz) if hasattr(adata.X, "nnz") else int((adata.X != 0).sum())
+    rate = adata.n_obs / dt if dt > 0 else float("inf")
+    logging.info(
+        "[fetch] done: %d cells × %d genes in %.1fs (%.0f cells/s, nnz=%d)",
+        adata.n_obs, adata.n_vars, dt, rate, nnz,
     )
     emit_stat({
-        "op": "fetch_failed", "tissue": tissue, "cell_type": cell_type,
-        "error": repr(last_err),
+        "op": "fetch", "cells": int(adata.n_obs), "genes": int(adata.n_vars),
+        "nnz": nnz, "seconds": dt,
     })
-    return None
+    return adata
 
 
 def write_atomic(adata: ad.AnnData, path: Path) -> None:
-    """Write h5ad to a tmp file then rename. Avoids half-written files on kill."""
+    """Atomic write so a kill never leaves a half-written .h5ad behind."""
     tmp = path.with_suffix(path.suffix + ".tmp")
     adata.write_h5ad(tmp)
     os.replace(tmp, path)
-
-
-def fetch_tissue(
-    census,
-    tissue: str,
-    retries: int,
-    backoff: int,
-    max_cells_per_chunk: int | None,
-    resume: bool,
-) -> None:
-    safe_tissue = slugify(tissue)
-    tissue_dir = CACHE_DIR / safe_tissue
-    tissue_dir.mkdir(parents=True, exist_ok=True)
-    tissue_h5ad = CACHE_DIR / f"{safe_tissue}.h5ad"
-
-    if tissue_h5ad.exists() and resume:
-        logging.info("[%s] tissue cache exists, skipping: %s", tissue, tissue_h5ad)
-        return
-
-    cell_types = list_cell_types_for_tissue(census, tissue, use_cache=True)
-    if not cell_types:
-        logging.warning("[%s] no cell_types matched filter", tissue)
-        return
-
-    t_start = time.monotonic()
-    for i, (ct, n_cells) in enumerate(cell_types, 1):
-        ct_slug = slugify(ct)
-        ct_path = tissue_dir / f"{ct_slug}.h5ad"
-
-        if ct_path.exists() and resume:
-            logging.info(
-                "  [%s] [%d/%d] %s (n=%d) — cached, skip",
-                tissue, i, len(cell_types), ct, n_cells,
-            )
-            continue
-
-        if max_cells_per_chunk is not None and n_cells > max_cells_per_chunk:
-            logging.info(
-                "  [%s] [%d/%d] %s (n=%d) > --max-cells-per-chunk=%d, skip",
-                tissue, i, len(cell_types), ct, n_cells, max_cells_per_chunk,
-            )
-            continue
-
-        logging.info(
-            "  [%s] [%d/%d] %s (n=%d) — fetching",
-            tissue, i, len(cell_types), ct, n_cells,
-        )
-        adata = fetch_one_cell_type(census, tissue, ct, retries, backoff)
-        if adata is None or adata.n_obs == 0:
-            continue
-        write_atomic(adata, ct_path)
-        size_mb = ct_path.stat().st_size / (1024 * 1024)
-        logging.info("    [%s] %s wrote %s (%.1f MB)", tissue, ct, ct_path.name, size_mb)
-
-    t_total = time.monotonic() - t_start
-    logging.info("[%s] all cell_types attempted in %.0fs", tissue, t_total)
-
-    pieces = []
-    for ct, _ in cell_types:
-        p = tissue_dir / f"{slugify(ct)}.h5ad"
-        if p.exists():
-            pieces.append(ad.read_h5ad(p))
-    if pieces:
-        combined = ad.concat(pieces, axis=0, merge="same")
-        write_atomic(combined, tissue_h5ad)
-        logging.info(
-            "[%s] wrote tissue cache: %s shape=%s",
-            tissue, tissue_h5ad.name, combined.shape,
-        )
-        emit_stat({
-            "op": "tissue_done", "tissue": tissue,
-            "cells": int(combined.n_obs), "cell_types": len(pieces),
-            "seconds": t_total,
-        })
-    else:
-        logging.warning("[%s] no per-cell_type pieces to combine", tissue)
-
-
-def build_combined_cache() -> None:
-    paths = sorted(
-        p for p in CACHE_DIR.glob("*.h5ad")
-        if p.name != "adora_all_tissues.h5ad"
-    )
-    if not paths:
-        logging.warning("No per-tissue caches to combine")
-        return
-    logging.info("Combining %d per-tissue caches", len(paths))
-    combined = ad.concat([ad.read_h5ad(p) for p in paths], axis=0, merge="same")
-    out = CACHE_DIR / "adora_all_tissues.h5ad"
-    write_atomic(combined, out)
-    logging.info("Combined: shape=%s → %s", combined.shape, out.name)
-
-
-def probe(census, tissue: str, retries: int, backoff: int) -> None:
-    """Fetch the smallest cell_type in a tissue and project full-tissue time."""
-    cell_types = list_cell_types_for_tissue(census, tissue, use_cache=True)
-    if not cell_types:
-        logging.warning("[%s] probe: no cell_types", tissue)
-        return
-    # Smallest cell_type with at least 10 cells; fall back to absolute smallest
-    candidates = [(ct, n) for ct, n in cell_types if n >= 10]
-    ct, n = (candidates or cell_types)[0]
-    total = sum(n for _, n in cell_types)
-
-    logging.info(
-        "[%s] probe: fetching smallest viable cell_type '%s' (n=%d of %d total)",
-        tissue, ct, n, total,
-    )
-    t0 = time.monotonic()
-    adata = fetch_one_cell_type(census, tissue, ct, retries, backoff)
-    dt = time.monotonic() - t0
-    if adata is None:
-        logging.error("[%s] probe: fetch failed", tissue)
-        return
-
-    # Linear projection: assumes per-cell time is roughly constant. It will not be —
-    # large cell_types should be cheaper per cell — but it gives an upper bound.
-    proj_s = (total / n) * dt if n > 0 else float("inf")
-    logging.info(
-        "[%s] probe done: %d cells in %.1fs. "
-        "Linear upper-bound projection for full tissue (%d cells) = %.0fs = %.2fh",
-        tissue, adata.n_obs, dt, total, proj_s, proj_s / 3600,
-    )
-    emit_stat({
-        "op": "probe", "tissue": tissue, "cell_type": ct,
-        "cells": int(adata.n_obs), "seconds": dt,
-        "total_cells": total, "projected_seconds": proj_s,
-    })
 
 
 def main() -> None:
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
-    ap.add_argument("--tissues", nargs="+", default=DEFAULT_TISSUES)
-    ap.add_argument("--retries", type=int, default=5)
-    ap.add_argument(
-        "--backoff", type=int, default=30,
-        help="Initial backoff seconds; doubles per attempt",
-    )
-    ap.add_argument(
-        "--max-cells-per-chunk", type=int, default=None,
-        help="Skip cell_types larger than this — safety valve for mega cell_types",
-    )
-    ap.add_argument(
-        "--resume", action="store_true",
-        help="Skip cell_types and tissues that already have .h5ad on disk",
-    )
-    ap.add_argument(
-        "--probe", action="store_true",
-        help="Per tissue, fetch only the smallest cell_type and report projected time",
-    )
+    ap.add_argument("--cells-per-cell-type", type=int, default=1000,
+                    help="Stratification cap (default: 1000)")
+    ap.add_argument("--seed", type=int, default=42,
+                    help="Random seed for stratified sample (default: 42)")
+    ap.add_argument("--resume", action="store_true",
+                    help="Reuse cached obs scan and final h5ad if present")
+    ap.add_argument("--rescan", action="store_true",
+                    help="Force a fresh global obs scan (overrides --resume for phase 1)")
     args = ap.parse_args()
 
     setup_logging()
-    logging.info("Cache dir: %s", CACHE_DIR)
-    logging.info("Tissues:   %s", args.tissues)
-    logging.info("Mode:      %s", "probe" if args.probe else "full")
-    if args.max_cells_per_chunk:
-        logging.info("Cap:       --max-cells-per-chunk=%d", args.max_cells_per_chunk)
+    logging.info("Cache dir:           %s", CACHE_DIR)
+    logging.info("Cells per cell_type: %d", args.cells_per_cell_type)
+    logging.info("Random seed:         %d", args.seed)
+    logging.info("Resume:              %s", args.resume)
+    logging.info("Rescan obs:          %s", args.rescan)
+
+    if FINAL_OUT.exists() and args.resume:
+        size_mb = FINAL_OUT.stat().st_size / 1e6
+        logging.info(
+            "[main] %s already exists (%.1f MB). Nothing to do; "
+            "delete it or drop --resume to redo.", FINAL_OUT.name, size_mb,
+        )
+        return
 
     census = open_census()
     try:
-        for t in args.tissues:
-            try:
-                if args.probe:
-                    probe(census, t, args.retries, args.backoff)
-                else:
-                    fetch_tissue(
-                        census, t, args.retries, args.backoff,
-                        args.max_cells_per_chunk, args.resume,
-                    )
-            except Exception:
-                logging.exception("[%s] unhandled error", t)
-
-        if not args.probe:
-            build_combined_cache()
+        obs = scan_human_obs(census, use_cache=not args.rescan)
+        sample = stratified_sample(obs, args.cells_per_cell_type, args.seed)
+        coords = sorted(sample["soma_joinid"].astype(int).tolist())
+        adata = fetch_by_coords(census, coords)
+        write_atomic(adata, FINAL_OUT)
+        size_mb = FINAL_OUT.stat().st_size / 1e6
+        logging.info(
+            "[main] wrote %s shape=%s (%.1f MB)",
+            FINAL_OUT.name, adata.shape, size_mb,
+        )
+        emit_stat({
+            "op": "final", "cells": int(adata.n_obs),
+            "genes": int(adata.n_vars), "size_mb": size_mb,
+        })
     finally:
         logging.info("Done")
 

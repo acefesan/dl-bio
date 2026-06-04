@@ -55,8 +55,13 @@ The broader frame is that caffeine is not only an adenosine-receptor ligand in h
 - [computational pipeline](concepts/computational-pipeline.md)
 - [research questions](concepts/research-questions.md)
 - [Census core objects](concepts/census-core-objects.md): the object vocabulary behind CellxGene Census: Collection, DataFrame, TableReadIter, Arrow table, Experiment, Measurement, X array, and `soma_joinid`.
+- [Census experiment tree](concepts/census-experiment-tree.md): the human `Experiment` object tree: `obs`, `ms["RNA"]`, `var`, `X`, and `feature_dataset_presence_matrix`.
+- [Census obs columns](concepts/census-obs-columns.md): glossary for human cell metadata columns such as assay, cell type, tissue, disease, donor, and QC summaries.
+- [Census var columns](concepts/census-var-columns.md): glossary for RNA feature metadata columns such as `feature_id`, `feature_name`, `nnz`, and `n_measured_obs`.
+- [Census X layers and feature presence](concepts/census-x-layers-and-feature-presence.md): explains `X["raw"]`, `X["normalized"]`, sparse triples, and the feature presence matrix.
 - [SOMA axes and X](concepts/soma-axes-and-x.md): how `obs.soma_joinid` and `var.soma_joinid` define the cell and gene coordinates of the sparse expression array.
 - [TileDB-SOMA storage](concepts/tiledb-soma-storage.md): what the Census actually stores on S3 and why "few genes, all cells" is the worst-case query.
+- [Census source H5ADs](concepts/census-source-h5ads.md): the *other* physical projection of the same data — one materialized H5AD per source dataset, no fragment walking.
 - [network and I/O instrumentation](concepts/network-and-io-instrumentation.md): tools and signals for measuring what a slow fetch is really doing.
 
 ### Labs
@@ -67,6 +72,7 @@ The broader frame is that caffeine is not only an adenosine-receptor ligand in h
 - [001 H5AD and AnnData cache](labs/001-h5ad-anndata-cache.md)
 - [001 notebook guide](labs/001-notebook-guide.md)
 - [001 fetch stall post-mortem](labs/001-fetch-stall-postmortem.md): why the 2026-05-31 brain fetch was unworkable and what to change next.
+- [001 v3 stratified fetch](labs/001-v3-stratified-fetch.md): phase-by-phase walkthrough of the current fetch pipeline (obs scan → stratified sample → coord-based X read → atomic write) with empirical numbers from the 2026-06-03 run.
 
 ## Current Project State
 

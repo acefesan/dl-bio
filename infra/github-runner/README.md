@@ -54,6 +54,40 @@ Check logs:
 docker logs -f dl-bio-github-runner
 ```
 
+## Start on Reboot with systemd
+
+The Compose file already uses `restart: unless-stopped`, so Docker can restart the existing containers after reboot. A small systemd unit makes that explicit and gives you a normal service name to start/stop.
+
+Install the unit:
+
+```bash
+sudo cp /home/acefsan/src/dl_bio/infra/github-runner/dl-bio-github-runner.service \
+  /etc/systemd/system/dl-bio-github-runner.service
+sudo systemctl daemon-reload
+sudo systemctl enable dl-bio-github-runner.service
+```
+
+Start or stop it:
+
+```bash
+sudo systemctl start dl-bio-github-runner.service
+sudo systemctl stop dl-bio-github-runner.service
+sudo systemctl status dl-bio-github-runner.service
+```
+
+First-time registration still needs a fresh one-hour `RUNNER_TOKEN`. After the runner has registered, normal container restarts do not need that token because the runner config remains in the existing container.
+
+If you delete/recreate the runner container from scratch, register it again:
+
+```bash
+cd /home/acefsan/src/dl_bio/infra/github-runner
+RUNNER_TOKEN="$(gh api \
+  --method POST \
+  repos/acefesan/dl-bio/actions/runners/registration-token \
+  --jq .token)" \
+docker compose up -d --build
+```
+
 The runner should appear in:
 
 ```text

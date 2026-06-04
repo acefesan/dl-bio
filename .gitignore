@@ -10,6 +10,7 @@ uv.lock
 assets/
 checkpoints/
 chapters/chapter2/runs/
+projects/caffeine/lab/*/cache/
 
 # Tool configs
 opencode.json
