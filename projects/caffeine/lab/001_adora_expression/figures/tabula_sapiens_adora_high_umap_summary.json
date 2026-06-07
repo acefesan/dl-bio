@@ -1,0 +1,40 @@
+{
+  "matrix_group": "X",
+  "threshold_rule": "per-gene q0.75 among cells with expression > 0",
+  "n_cells_total": 1136218,
+  "n_cells_any_high": 20501,
+  "n_cells_high_by_gene_independent": {
+    "ADORA1": 2104,
+    "ADORA2A": 806,
+    "ADORA2B": 12101,
+    "ADORA3": 5602
+  },
+  "n_cells_assigned_to_gene": {
+    "ADORA1": 2083,
+    "ADORA2A": 804,
+    "ADORA2B": 12060,
+    "ADORA3": 5554
+  },
+  "genes": {
+    "ADORA1": {
+      "var_index": 11005,
+      "n_cells_positive": 8416,
+      "threshold": 0.6843461394309998
+    },
+    "ADORA2A": {
+      "var_index": 5997,
+      "n_cells_positive": 3223,
+      "threshold": 1.080287218093872
+    },
+    "ADORA2B": {
+      "var_index": 12798,
+      "n_cells_positive": 48403,
+      "threshold": 0.7792786359786987
+    },
+    "ADORA3": {
+      "var_index": 55546,
+      "n_cells_positive": 22399,
+      "threshold": 0.9431801438331604
+    }
+  }
+}

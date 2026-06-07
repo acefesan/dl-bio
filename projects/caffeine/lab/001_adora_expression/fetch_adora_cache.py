@@ -97,8 +97,15 @@ def emit_stat(record: dict) -> None:
 
 
 def open_census():
-    """Open Census with generous S3 timeouts and a large initial buffer."""
-    ctx = tiledbsoma.SOMATileDBContext(
+    """Open Census layering custom timeouts onto the Census default context.
+
+    A raw tiledbsoma.SOMATileDBContext bypasses cellxgene_census defaults
+    such as unsigned anonymous S3 requests. Without those defaults the AWS SDK
+    tries to resolve credentials via EC2 instance metadata (169.254.169.254),
+    which on a non-EC2 host hangs for 60+s then can fail with DNS or timeout
+    errors. Layer on top of get_default_soma_context() instead.
+    """
+    ctx = cellxgene_census.get_default_soma_context(
         tiledb_config={
             "vfs.s3.connect_timeout_ms": "60000",
             "vfs.s3.request_timeout_ms": "300000",

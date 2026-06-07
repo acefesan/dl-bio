@@ -30,7 +30,13 @@ Q1 sharpens this to **cell-type resolution** — which specific T-cell subtype, 
 
 ## Results
 
-*To be filled in as the notebook runs.*
+Initial atlas sanity check:
+- `plot_tabula_embeddings_by_tissue.py` reads the Tabula Sapiens H5AD through `h5py` and plots every `obsm` embedding without materializing `obs` as a pandas frame.
+- `figures/tabula_sapiens_embeddings_by_tissue.png` colors all 1,136,218 cells by `obs/tissue_in_publication` (28 broad tissue labels).
+- `figures/tabula_sapiens_embeddings_by_tissue_fine.png` colors all cells by `obs/tissue` (75 finer anatomical labels).
+- `figures/tabula_sapiens_X_umap_interactive_cell_type.html` is a 250,000-cell Plotly/WebGL explorer colored by `cell_type`, with zoom, hover, and click-to-pin metadata.
+- `figures/tabula_sapiens_X_umap_interactive.html` is the same style of explorer colored by `tissue_in_publication`.
+- `cache/tabula_sapiens_donor_summary.csv` summarizes the 24 donor IDs represented in the H5AD.
 
 Planned outputs:
 - `figures/dotplot_adora_cell_type.png` — cell type × 4 receptors matrix
