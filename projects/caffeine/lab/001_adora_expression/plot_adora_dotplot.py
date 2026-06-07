@@ -70,7 +70,11 @@ def select_groups(summary: pd.DataFrame, top_n: int) -> list[str]:
     return scores.head(top_n).index[::-1].tolist()
 
 
-def plot_dotplot(summary: pd.DataFrame, groups: list[str], output_path: Path, title: str, dpi: int) -> None:
+def display_label(value: str) -> str:
+    return value.replace("_", " ")
+
+
+def plot_dotplot(summary: pd.DataFrame, groups: list[str], output_path: Path, title: str, ylabel: str, dpi: int) -> None:
     plot_df = summary[summary["group"].isin(groups)].copy()
     group_to_y = {group: i for i, group in enumerate(groups)}
     gene_to_x = {gene: i for i, gene in enumerate(GENES)}
@@ -94,14 +98,14 @@ def plot_dotplot(summary: pd.DataFrame, groups: list[str], output_path: Path, ti
     ax.tick_params(axis="x", labelrotation=25)
     for label in ax.get_xticklabels():
         label.set_horizontalalignment("right")
-    ax.set_yticks(range(len(groups)), groups)
+    ax.set_yticks(range(len(groups)), [display_label(group) for group in groups])
     ax.set_xlim(-0.6, len(GENES) - 0.4)
     ax.set_ylim(-0.8, len(groups) - 0.2)
     ax.grid(axis="both", color="#e6e6e6", linewidth=0.7)
     ax.set_axisbelow(True)
     ax.set_title(title, fontsize=12)
     ax.set_xlabel("Adenosine receptor gene")
-    ax.set_ylabel("Cell type")
+    ax.set_ylabel(ylabel)
 
     cbar = fig.colorbar(scatter, ax=ax, pad=0.03)
     cbar.set_label("Mean expression")
@@ -155,8 +159,9 @@ def main() -> None:
     summary.sort_values(["group", "gene"]).to_csv(args.table, index=False)
     print(f"Wrote {args.table}")
 
-    title = f"ADORA receptor expression by {args.group_by} (top {len(groups)} ADORA-enriched groups)"
-    plot_dotplot(summary, groups, args.out, title, args.dpi)
+    group_label = display_label(args.group_by)
+    title = f"ADORA receptor expression by {group_label} (top {len(groups)} ADORA-enriched groups)"
+    plot_dotplot(summary, groups, args.out, title, group_label.title(), args.dpi)
 
 
 if __name__ == "__main__":

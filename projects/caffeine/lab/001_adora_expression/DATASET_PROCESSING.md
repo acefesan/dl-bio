@@ -161,6 +161,19 @@ uv run python projects/caffeine/lab/001_adora_expression/plot_tabula_embeddings_
   --max-points 100000
 ```
 
+Generate ADORA dotplots by cell type and by broad tissue:
+
+```bash
+uv run python projects/caffeine/lab/001_adora_expression/plot_adora_dotplot.py
+
+uv run python projects/caffeine/lab/001_adora_expression/plot_adora_dotplot.py \
+  --group-by tissue_in_publication \
+  --min-cells 50 \
+  --top-n 28 \
+  --out projects/caffeine/lab/001_adora_expression/figures/tabula_sapiens_adora_dotplot_tissue.png \
+  --table projects/caffeine/lab/001_adora_expression/figures/tabula_sapiens_adora_dotplot_tissue.csv
+```
+
 Generate a zoomable/clickable HTML explorer for `X_umap`, colored by cell type:
 
 ```bash

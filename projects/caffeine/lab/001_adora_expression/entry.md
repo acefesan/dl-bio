@@ -34,11 +34,12 @@ Initial atlas sanity check:
 - `plot_tabula_embeddings_by_tissue.py` reads the Tabula Sapiens H5AD through `h5py` and plots every `obsm` embedding without materializing `obs` as a pandas frame.
 - `figures/tabula_sapiens_embeddings_by_tissue.png` colors all 1,136,218 cells by `obs/tissue_in_publication` (28 broad tissue labels).
 - `figures/tabula_sapiens_embeddings_by_tissue_fine.png` colors all cells by `obs/tissue` (75 finer anatomical labels).
+- `figures/tabula_sapiens_adora_dotplot_tissue.png` summarizes ADORA expression by broad tissue (`obs/tissue_in_publication`).
+- `figures/tabula_sapiens_adora_dotplot_cell_type.png` summarizes ADORA expression by cell type.
 - Interactive Plotly/WebGL explorers can be regenerated locally with `make_tabula_interactive_embedding.py`; the HTML outputs are intentionally not committed because they are large.
 - `cache/tabula_sapiens_donor_summary.csv` summarizes the 24 donor IDs represented in the H5AD.
 
 Planned outputs:
-- `figures/dotplot_adora_cell_type.png` — cell type × 4 receptors matrix
 - `figures/ranked_top20_per_receptor.png` — top 20 cell types per receptor
 - `pseudobulk_by_cell_type.feather` — mean expression + % expressing per cell type
 - `cross_receptor_overlap.feather` — cell types with high expression of multiple receptors
