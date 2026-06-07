@@ -138,7 +138,7 @@ Generate all embedding plots colored by broad tissue:
 uv run python projects/caffeine/lab/001_adora_expression/plot_tabula_embeddings_by_tissue.py
 ```
 
-Output:
+Local output (ignored by git because it is large):
 
 ```text
 projects/caffeine/lab/001_adora_expression/figures/tabula_sapiens_embeddings_by_tissue.png
@@ -171,7 +171,7 @@ uv run python projects/caffeine/lab/001_adora_expression/make_tabula_interactive
   --max-marker-size 9.0
 ```
 
-Output:
+Local output (ignored by git because it is large):
 
 ```text
 projects/caffeine/lab/001_adora_expression/figures/tabula_sapiens_X_umap_interactive_cell_type.html
