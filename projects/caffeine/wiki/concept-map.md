@@ -50,6 +50,15 @@ provides the observable data needed for
 and
 [computational pipeline](concepts/computational-pipeline.md).
 
+[single-cell RNA-seq measurement](concepts/single-cell-rna-seq-measurement.md)
+explains what the single-cell RNA experiments actually measure: cells or nuclei, captured transcripts, sparse expression matrices, raw/normalized/scaled layers, dropout, and why ADORA expression should be interpreted as transcript evidence rather than receptor protein.
+
+[epithelial cell types](concepts/epithelial-cell-types.md)
+defines epithelial, basal, and stratified squamous cells so ADORA2B-rich tissue dots such as `Tongue` can be read as barrier/surface-epithelium signals rather than vague tissue names.
+
+[immune cell types](concepts/immune-cell-types.md)
+defines myeloid, dendritic, macrophage, monocyte, T-cell, B-cell, mast-cell, and basophil labels so ADORA3-rich immune dots can be interpreted upstream of any one lab result.
+
 [direct caffeine epigenomics](concepts/direct-caffeine-epigenomics.md)
 anchors the model in actual perturbation evidence, especially HUVEC accessibility and reporter-assay work.
 
@@ -64,6 +73,9 @@ is the source dossier that broadened the wiki beyond the original [ADORA](concep
 
 [001 adora expression](labs/001-adora-expression.md)
 is the first concrete implementation step: receptor expression mapping.
+
+[001 ADORA interpretation](labs/001-adora-interpretation.md)
+is the companion page for reading the current Tabula Sapiens outputs: thresholds, dotplots, sparse UMAP overlays, missing brain coverage, and the checklist for turning blobs into cell-type hypotheses.
 
 [001 CellxGene Census API](labs/001-cellxgene-census-api.md),
 [001 data flow](labs/001-data-flow.md),
@@ -133,7 +145,11 @@ Provenance: which raw dossier each page is built on. Verify a claim by following
 17. Learn [signaling to transcription](concepts/signaling-to-transcription.md).
 18. Learn [epigenomics vocabulary](concepts/epigenomics-vocabulary.md).
 19. Learn [public data landscape](concepts/public-data-landscape.md).
-20. Read [direct caffeine epigenomics](concepts/direct-caffeine-epigenomics.md).
-21. Read [cell type response model](concepts/cell-type-response-model.md).
-22. Run or inspect [001 adora expression](labs/001-adora-expression.md).
-23. Use [research questions](concepts/research-questions.md) to pick the next lab.
+20. Learn [single-cell RNA-seq measurement](concepts/single-cell-rna-seq-measurement.md).
+21. Learn [epithelial cell types](concepts/epithelial-cell-types.md).
+22. Learn [immune cell types](concepts/immune-cell-types.md).
+23. Read [direct caffeine epigenomics](concepts/direct-caffeine-epigenomics.md).
+24. Read [cell type response model](concepts/cell-type-response-model.md).
+25. Run or inspect [001 adora expression](labs/001-adora-expression.md).
+26. Read [001 ADORA interpretation](labs/001-adora-interpretation.md).
+27. Use [research questions](concepts/research-questions.md) to pick the next lab.

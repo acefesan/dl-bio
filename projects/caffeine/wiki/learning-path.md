@@ -40,7 +40,7 @@ Goal: understand the four-layer prediction stack: receptor expression, receptor-
 
 ## 7. Start With the Active Lab
 
-Read [001 CellxGene Census API](labs/001-cellxgene-census-api.md), [001 data flow](labs/001-data-flow.md), [001 H5AD and AnnData cache](labs/001-h5ad-anndata-cache.md), [001 notebook guide](labs/001-notebook-guide.md), and [001 adora expression](labs/001-adora-expression.md), then open `../lab/001_adora_expression/explore_adora_expression.ipynb`.
+Read [single-cell RNA-seq measurement](concepts/single-cell-rna-seq-measurement.md), [epithelial cell types](concepts/epithelial-cell-types.md), [immune cell types](concepts/immune-cell-types.md), [001 CellxGene Census API](labs/001-cellxgene-census-api.md), [001 data flow](labs/001-data-flow.md), [001 H5AD and AnnData cache](labs/001-h5ad-anndata-cache.md), [001 notebook guide](labs/001-notebook-guide.md), [001 adora expression](labs/001-adora-expression.md), and [001 ADORA interpretation](labs/001-adora-interpretation.md), then open `../lab/001_adora_expression/explore_adora_expression.ipynb`.
 
 Goal: produce the first cell-type-by-receptor map and use it to prioritize later chromatin and GRN analyses.
 

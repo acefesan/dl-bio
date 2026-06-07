@@ -105,6 +105,9 @@ def build_html(
     seed: int,
     marker_size: float,
     max_marker_size: float,
+    adora_floor: float,
+    adora_low_opacity: float,
+    adora_high_opacity: float,
 ) -> None:
     with h5py.File(h5ad_path, "r") as f:
         coords_node = f[f"obsm/{embedding}"]
@@ -164,31 +167,51 @@ def build_html(
             )
         )
 
-    adora_trace_indices: dict[str, int] = {}
+    adora_trace_indices: dict[str, list[int]] = {}
     if adora_expression is not None:
         for i, gene in enumerate(adora_genes):
-            adora_trace_indices[gene] = len(fig.data)
             expr = adora_expression[:, i]
+            low_mask = expr < adora_floor
+            high_mask = ~low_mask
             positive = expr[expr > 0]
             cmax = float(np.quantile(positive, 0.99)) if len(positive) else 1.0
+            adora_trace_indices[gene] = []
+            adora_trace_indices[gene].append(len(fig.data))
             fig.add_trace(
                 go.Scattergl(
-                    x=coords[:, 0],
-                    y=coords[:, 1],
+                    x=coords[low_mask, 0],
+                    y=coords[low_mask, 1],
                     mode="markers",
-                    name=f"{gene} expression",
+                    name=f"{gene} < {adora_floor:g}",
+                    visible=False,
+                    hoverinfo="skip",
+                    marker={
+                        "size": marker_size,
+                        "color": "#d2d2d2",
+                        "opacity": adora_low_opacity,
+                        "line": {"width": 0},
+                    },
+                )
+            )
+            adora_trace_indices[gene].append(len(fig.data))
+            fig.add_trace(
+                go.Scattergl(
+                    x=coords[high_mask, 0],
+                    y=coords[high_mask, 1],
+                    mode="markers",
+                    name=f"{gene} >= {adora_floor:g}",
                     visible=False,
                     marker={
                         "size": marker_size,
-                        "color": expr,
+                        "color": expr[high_mask],
                         "colorscale": "Viridis",
-                        "cmin": 0,
+                        "cmin": adora_floor,
                         "cmax": cmax,
-                        "opacity": 0.78,
+                        "opacity": adora_high_opacity,
                         "line": {"width": 0},
                         "colorbar": {"title": gene},
                     },
-                    customdata=np.column_stack([idx.astype(object), expr.astype(object)]),
+                    customdata=np.column_stack([idx[high_mask].astype(object), expr[high_mask].astype(object)]),
                     hovertemplate=(
                         f"<b>{gene}</b>: %{{customdata[1]:.4g}}<br>"
                         "cell index: %{customdata[0]}<br>"
@@ -216,9 +239,10 @@ def build_html(
                 ],
             }
         )
-        for gene, trace_idx in adora_trace_indices.items():
+        for gene, trace_indices in adora_trace_indices.items():
             visible = [False] * n_traces
-            visible[trace_idx] = True
+            for trace_idx in trace_indices:
+                visible[trace_idx] = True
             buttons.append(
                 {
                     "label": gene,
@@ -350,6 +374,10 @@ gd.on('plotly_relayout', function() {{
     print("Metadata columns:", ", ".join(metadata_names))
     if adora_trace_indices:
         print("ADORA expression toggles:", ", ".join(adora_trace_indices))
+        print(
+            f"ADORA low-expression layer: expression < {adora_floor:g}, "
+            f"opacity {adora_low_opacity:g}; high layer opacity {adora_high_opacity:g}"
+        )
 
 
 def parse_args() -> argparse.Namespace:
@@ -378,6 +406,14 @@ def parse_args() -> argparse.Namespace:
         default=8.0,
         help="Largest screen-pixel marker size after zoom-responsive scaling.",
     )
+    parser.add_argument(
+        "--adora-floor",
+        type=float,
+        default=0.04,
+        help="ADORA expression below this value is drawn as a very faint context layer.",
+    )
+    parser.add_argument("--adora-low-opacity", type=float, default=0.025)
+    parser.add_argument("--adora-high-opacity", type=float, default=0.92)
     return parser.parse_args()
 
 
@@ -395,6 +431,9 @@ def main() -> None:
         seed=args.seed,
         marker_size=args.marker_size,
         max_marker_size=args.max_marker_size,
+        adora_floor=args.adora_floor,
+        adora_low_opacity=args.adora_low_opacity,
+        adora_high_opacity=args.adora_high_opacity,
     )
 
 
