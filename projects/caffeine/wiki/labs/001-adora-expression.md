@@ -21,15 +21,16 @@ If you are new to the API and data model, read:
 3. [H5AD and AnnData cache](001-h5ad-anndata-cache.md)
 4. [Notebook guide](001-notebook-guide.md)
 5. [Single-cell RNA-seq measurement](../concepts/single-cell-rna-seq-measurement.md)
-6. This page
-7. [001 ADORA interpretation](001-adora-interpretation.md)
+6. [scRNA visualization and analysis](../concepts/scrna-visualization-and-analysis.md)
+7. This page
+8. [001 ADORA interpretation](001-adora-interpretation.md)
 
 If you are picking the lab back up after the 2026-05-31 fetch stall, also read:
 
-8. [001 fetch stall post-mortem](001-fetch-stall-postmortem.md)
-9. [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md)
-10. [network and I/O instrumentation](../concepts/network-and-io-instrumentation.md)
-11. [001 v3 stratified fetch](001-v3-stratified-fetch.md) — phase-by-phase walkthrough of what the current script actually does, with the 2026-06-03 numbers
+9. [001 fetch stall post-mortem](001-fetch-stall-postmortem.md)
+10. [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md)
+11. [network and I/O instrumentation](../concepts/network-and-io-instrumentation.md)
+12. [001 v3 stratified fetch](001-v3-stratified-fetch.md) — phase-by-phase walkthrough of what the current script actually does, with the 2026-06-03 numbers
 
 ## Inputs
 
@@ -85,4 +86,4 @@ When results exist, fill in:
 - disagreement with GTEx bulk,
 - candidates for Q9 accessibility follow-up.
 
-Related pages: [001 ADORA interpretation](001-adora-interpretation.md), [single-cell RNA-seq measurement](../concepts/single-cell-rna-seq-measurement.md), [001 v3 stratified fetch](001-v3-stratified-fetch.md), [CellxGene Census API](001-cellxgene-census-api.md), [data flow](001-data-flow.md), [H5AD and AnnData cache](001-h5ad-anndata-cache.md), [notebook guide](001-notebook-guide.md), [adenosine receptors](../concepts/adenosine-receptors.md), [public data landscape](../concepts/public-data-landscape.md), [lab 001 source](../raw/lab-001-source.md), [001 fetch stall post-mortem](001-fetch-stall-postmortem.md), [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md), [network and I/O instrumentation](../concepts/network-and-io-instrumentation.md)
+Related pages: [001 ADORA interpretation](001-adora-interpretation.md), [single-cell RNA-seq measurement](../concepts/single-cell-rna-seq-measurement.md), [scRNA visualization and analysis](../concepts/scrna-visualization-and-analysis.md), [001 v3 stratified fetch](001-v3-stratified-fetch.md), [CellxGene Census API](001-cellxgene-census-api.md), [data flow](001-data-flow.md), [H5AD and AnnData cache](001-h5ad-anndata-cache.md), [notebook guide](001-notebook-guide.md), [adenosine receptors](../concepts/adenosine-receptors.md), [public data landscape](../concepts/public-data-landscape.md), [lab 001 source](../raw/lab-001-source.md), [001 fetch stall post-mortem](001-fetch-stall-postmortem.md), [TileDB-SOMA storage](../concepts/tiledb-soma-storage.md), [network and I/O instrumentation](../concepts/network-and-io-instrumentation.md)

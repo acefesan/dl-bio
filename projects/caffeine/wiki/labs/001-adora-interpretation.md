@@ -114,6 +114,8 @@ This separates two different ideas:
 
 For sparse receptor genes, dotplots are usually more interpretable than expression UMAPs because they name the cell populations and show prevalence directly.
 
+For the broader set of plot types available — stacked violin, matrixplot, tracksplot, heatmap, density UMAP — and the standard analysis steps that produced the embeddings and labels this file uses (HVG selection, PCA, scVI integration, Leiden clustering, marker finding), see [scRNA visualization and analysis](../concepts/scrna-visualization-and-analysis.md).
+
 ## What The Current Dotplot Suggests
 
 The top cell-type dotplot suggests:
@@ -191,4 +193,4 @@ Useful next artifacts:
 - chromatin accessibility check at ADORA loci for top cell types,
 - receptor co-expression table: ADORA1-only, ADORA2A-only, ADORA2B-only, ADORA3-only, multi-receptor.
 
-Related pages: [single-cell RNA-seq measurement](../concepts/single-cell-rna-seq-measurement.md), [epithelial cell types](../concepts/epithelial-cell-types.md), [immune cell types](../concepts/immune-cell-types.md), [001 ADORA expression](001-adora-expression.md), [Census X layers and feature presence](../concepts/census-x-layers-and-feature-presence.md), [Census source H5ADs](../concepts/census-source-h5ads.md), [adenosine receptors](../concepts/adenosine-receptors.md), [cell type response model](../concepts/cell-type-response-model.md)
+Related pages: [scRNA visualization and analysis](../concepts/scrna-visualization-and-analysis.md), [single-cell RNA-seq measurement](../concepts/single-cell-rna-seq-measurement.md), [epithelial cell types](../concepts/epithelial-cell-types.md), [immune cell types](../concepts/immune-cell-types.md), [001 ADORA expression](001-adora-expression.md), [Census X layers and feature presence](../concepts/census-x-layers-and-feature-presence.md), [Census source H5ADs](../concepts/census-source-h5ads.md), [adenosine receptors](../concepts/adenosine-receptors.md), [cell type response model](../concepts/cell-type-response-model.md)

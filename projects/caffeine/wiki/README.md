@@ -48,6 +48,7 @@ The broader frame is that caffeine is not only an adenosine-receptor ligand in h
 - [epigenomics vocabulary](concepts/epigenomics-vocabulary.md)
 - [public data landscape](concepts/public-data-landscape.md)
 - [single-cell RNA-seq measurement](concepts/single-cell-rna-seq-measurement.md): what scRNA-seq experiments measure, how an RNA matrix is produced, and how to interpret sparse receptor values.
+- [scRNA visualization and analysis](concepts/scrna-visualization-and-analysis.md): the standard tools (Scanpy, Seurat, scvi-tools, Harmony), the plot landscape (UMAP, dotplot, stacked violin, matrixplot, tracksplot, heatmap, density UMAP), downstream analyses (clustering, marker finding, batch correction, trajectories, cell-cell communication, perturbation), and the recurring traps.
 - [epithelial cell types](concepts/epithelial-cell-types.md): plain-language guide to epithelial, basal, and stratified squamous cells, with the tongue ADORA2B example.
 - [immune cell types](concepts/immune-cell-types.md): plain-language guide to myeloid, dendritic, macrophage, monocyte, T-cell, B-cell, mast-cell, and basophil labels.
 - [direct caffeine epigenomics](concepts/direct-caffeine-epigenomics.md)

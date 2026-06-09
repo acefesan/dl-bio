@@ -102,6 +102,8 @@ The Lab 001 expression results should seed follow-up analyses, especially [cell 
 | Tissue dotplot | Broad anatomical direction | Missing tissues are absent from the atlas, not necessarily receptor-negative |
 | Interactive UMAP | Connecting expression to cell metadata by hover/click | Sparse genes need thresholded/faint zero layers |
 
+For the full landscape of plot types (UMAP/PCA/t-SNE, dotplot, stacked violin, matrixplot, tracksplot, heatmap, violin, density UMAP), the downstream analyses (clustering, marker finding, batch correction, trajectories, cell-cell communication, perturbation simulation), and the recurring traps practitioners flag, see [scRNA visualization and analysis](scrna-visualization-and-analysis.md).
+
 For the local Tabula Sapiens file, broad tissue labels do **not** include brain. Brain ADORA biology needs a dedicated brain atlas rather than extrapolation from this H5AD.
 
 ## Sources
@@ -110,4 +112,4 @@ For the local Tabula Sapiens file, broad tissue labels do **not** include brain.
 - CELLxGENE Census documentation on normalized layers — describes the Census library-size normalized expression layer.
 - Local Lab 001 processing notes: `../../lab/001_adora_expression/DATASET_PROCESSING.md`.
 
-Related pages: [Census X layers and feature presence](census-x-layers-and-feature-presence.md), [Census source H5ADs](census-source-h5ads.md), [Census obs columns](census-obs-columns.md), [Census var columns](census-var-columns.md), [001 ADORA interpretation](../labs/001-adora-interpretation.md), [001 ADORA expression](../labs/001-adora-expression.md)
+Related pages: [scRNA visualization and analysis](scrna-visualization-and-analysis.md), [Census X layers and feature presence](census-x-layers-and-feature-presence.md), [Census source H5ADs](census-source-h5ads.md), [Census obs columns](census-obs-columns.md), [Census var columns](census-var-columns.md), [001 ADORA interpretation](../labs/001-adora-interpretation.md), [001 ADORA expression](../labs/001-adora-expression.md)

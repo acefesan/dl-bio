@@ -53,6 +53,9 @@ and
 [single-cell RNA-seq measurement](concepts/single-cell-rna-seq-measurement.md)
 explains what the single-cell RNA experiments actually measure: cells or nuclei, captured transcripts, sparse expression matrices, raw/normalized/scaled layers, dropout, and why ADORA expression should be interpreted as transcript evidence rather than receptor protein.
 
+[scRNA visualization and analysis](concepts/scrna-visualization-and-analysis.md)
+is the downstream counterpart to the measurement page: the standard Scanpy/Seurat/scvi-tools/Harmony pipeline, every plot type practitioners actually use (UMAP/PCA/t-SNE, dotplot, stacked violin, matrixplot, tracksplot, heatmap, violin, density UMAP, trajectories), and the recurring traps. Each technique is anchored in a Lab 001 figure where one exists.
+
 [epithelial cell types](concepts/epithelial-cell-types.md)
 defines epithelial, basal, and stratified squamous cells so ADORA2B-rich tissue dots such as `Tongue` can be read as barrier/surface-epithelium signals rather than vague tissue names.
 
@@ -146,10 +149,11 @@ Provenance: which raw dossier each page is built on. Verify a claim by following
 18. Learn [epigenomics vocabulary](concepts/epigenomics-vocabulary.md).
 19. Learn [public data landscape](concepts/public-data-landscape.md).
 20. Learn [single-cell RNA-seq measurement](concepts/single-cell-rna-seq-measurement.md).
-21. Learn [epithelial cell types](concepts/epithelial-cell-types.md).
-22. Learn [immune cell types](concepts/immune-cell-types.md).
-23. Read [direct caffeine epigenomics](concepts/direct-caffeine-epigenomics.md).
-24. Read [cell type response model](concepts/cell-type-response-model.md).
-25. Run or inspect [001 adora expression](labs/001-adora-expression.md).
-26. Read [001 ADORA interpretation](labs/001-adora-interpretation.md).
-27. Use [research questions](concepts/research-questions.md) to pick the next lab.
+21. Learn [scRNA visualization and analysis](concepts/scrna-visualization-and-analysis.md).
+22. Learn [epithelial cell types](concepts/epithelial-cell-types.md).
+23. Learn [immune cell types](concepts/immune-cell-types.md).
+24. Read [direct caffeine epigenomics](concepts/direct-caffeine-epigenomics.md).
+25. Read [cell type response model](concepts/cell-type-response-model.md).
+26. Run or inspect [001 adora expression](labs/001-adora-expression.md).
+27. Read [001 ADORA interpretation](labs/001-adora-interpretation.md).
+28. Use [research questions](concepts/research-questions.md) to pick the next lab.
