@@ -1,0 +1,58 @@
+{
+  "dataset": "Human Brain Cell Atlas v1.0, all non-neuronal cells",
+  "matrix_group": "X",
+  "threshold_rule": "per-gene q0.75 among cells with expression > 0",
+  "n_cells_total": 888263,
+  "n_cells_any_positive": 171471,
+  "n_cells_any_high": 171471,
+  "genes": {
+    "ADORA1": {
+      "gene": "ADORA1",
+      "var_index": 10955,
+      "n_cells_total": 888263,
+      "n_cells_positive": 149577,
+      "pct_cells_positive": 16.839269450601904,
+      "mean_expression_all_cells": 0.21937647461891174,
+      "mean_expression_positive_cells": 1.3027671575546265,
+      "high_threshold": 1.0,
+      "n_cells_high": 149577,
+      "pct_cells_high": 16.839269450601904
+    },
+    "ADORA2A": {
+      "gene": "ADORA2A",
+      "var_index": 5975,
+      "n_cells_total": 888263,
+      "n_cells_positive": 5904,
+      "pct_cells_positive": 0.6646680093620921,
+      "mean_expression_all_cells": 0.0071161356754601,
+      "mean_expression_positive_cells": 1.0706300735473633,
+      "high_threshold": 1.0,
+      "n_cells_high": 5904,
+      "pct_cells_high": 0.6646680093620921
+    },
+    "ADORA2B": {
+      "gene": "ADORA2B",
+      "var_index": 12741,
+      "n_cells_total": 888263,
+      "n_cells_positive": 21336,
+      "pct_cells_positive": 2.401991302125609,
+      "mean_expression_all_cells": 0.02933928370475769,
+      "mean_expression_positive_cells": 1.2214566469192505,
+      "high_threshold": 1.0,
+      "n_cells_high": 21336,
+      "pct_cells_high": 2.401991302125609
+    },
+    "ADORA3": {
+      "gene": "ADORA3",
+      "var_index": 54612,
+      "n_cells_total": 888263,
+      "n_cells_positive": 100,
+      "pct_cells_positive": 0.011257926987840313,
+      "mean_expression_all_cells": 0.00011370506399543956,
+      "mean_expression_positive_cells": 1.0099999904632568,
+      "high_threshold": 1.0,
+      "n_cells_high": 100,
+      "pct_cells_high": 0.011257926987840313
+    }
+  }
+}

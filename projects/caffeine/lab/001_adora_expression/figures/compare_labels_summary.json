@@ -1,0 +1,41 @@
+{
+  "inputs": {
+    "tabula_sapiens": "/home/acefsan/src/dl_bio/projects/caffeine/lab/001_adora_expression/cache/tabula_sapiens_all_cells.h5ad",
+    "hbca_non_neuronal": "/home/acefsan/src/dl_bio/projects/caffeine/lab/001_adora_expression/cache/human_brain_cell_atlas/hbca_all_non_neuronal_b165f033.h5ad"
+  },
+  "n_label_fields": {
+    "tabula_requested_fields": 4,
+    "hbca_requested_fields": 7
+  },
+  "cell_type_category_counts": {
+    "tabula_sapiens": 180,
+    "hbca_non_neuronal": 11,
+    "normalized_exact_hbca_to_tabula_matches": 4,
+    "similar_non_exact_hbca_to_tabula_matches": 0
+  },
+  "recommendations": [
+    {
+      "comparison": "cell identity",
+      "tabula_label": "cell_type",
+      "hbca_label": "cell_type or supercluster_term",
+      "reason": "Tabula has fine whole-body cell types, while HBCA non-neuronal has 11 broad cell_type labels and 10 supercluster_term labels. For ADORA summaries, use HBCA cell_type/supercluster_term inside the brain dataset and compare cautiously to Tabula cell_type."
+    },
+    {
+      "comparison": "broad class",
+      "tabula_label": "broad_cell_class",
+      "hbca_label": "supercluster_term",
+      "reason": "These are the closest broad biological groupings across datasets, useful for comparing immune, endothelial, epithelial-like, and glial/non-neuronal compartments."
+    },
+    {
+      "comparison": "anatomical context",
+      "tabula_label": "tissue_in_publication or tissue",
+      "hbca_label": "ROIGroupCoarse, ROIGroupFine, roi, tissue",
+      "reason": "Tabula tissue labels describe organs/tissues; HBCA labels describe brain regions. They should be presented side by side rather than normalized into one shared tissue axis."
+    }
+  ],
+  "notes": [
+    "Existing UMAP coordinates are dataset-specific and should not be merged as if they share axes.",
+    "For ADORA pattern comparison, dotplots/pseudobulk tables by label are more defensible than comparing raw UMAP geometry.",
+    "HBCA non-neuronal is brain-specific; Tabula Sapiens is whole-body and lacks brain tissue in this cache."
+  ]
+}

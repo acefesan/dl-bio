@@ -1,0 +1,497 @@
+dataset,field,label,n_cells,pct_cells
+tabula_sapiens,broad_cell_class,t cell,208196,18.32359635210849
+tabula_sapiens,broad_cell_class,lymphocyte of b lineage,141844,12.483871933026936
+tabula_sapiens,broad_cell_class,myeloid leukocyte,128294,11.291319095455274
+tabula_sapiens,broad_cell_class,fibroblast,100791,8.870744874663137
+tabula_sapiens,broad_cell_class,granulocyte,78199,6.882394047621143
+tabula_sapiens,broad_cell_class,endothelial cell,63106,5.554039805741503
+tabula_sapiens,broad_cell_class,contractile cell,56202,4.946409931896872
+tabula_sapiens,broad_cell_class,stem cell,43527,3.8308669639100947
+tabula_sapiens,broad_cell_class,stromal cell,39919,3.5133222673817874
+tabula_sapiens,broad_cell_class,epithelial cell,35641,3.1368100135713393
+tabula_sapiens,broad_cell_class,intestinal epithelial cell,34178,3.00804951162541
+tabula_sapiens,broad_cell_class,transitional epithelial cell,27241,2.397515265556434
+tabula_sapiens,broad_cell_class,duct epithelial cell,22707,1.9984721241874357
+tabula_sapiens,broad_cell_class,glandular epithelial cell,21942,1.931143495350364
+tabula_sapiens,broad_cell_class,innate lymphoid cell,15202,1.337947471347928
+tabula_sapiens,broad_cell_class,epithelial cell of lung,14710,1.2946459218213406
+tabula_sapiens,broad_cell_class,erythroid lineage cell,14613,1.286108827707359
+tabula_sapiens,broad_cell_class,endo-epithelial cell,14519,1.277835767431954
+tabula_sapiens,broad_cell_class,stratified epithelial cell,12323,1.0845629975937716
+tabula_sapiens,broad_cell_class,conjunctival epithelial cell,11087,0.9757810561001498
+tabula_sapiens,broad_cell_class,cardiac endothelial cell,10092,0.8882098329721937
+tabula_sapiens,broad_cell_class,kidney epithelial cell,9278,0.8165686514383683
+tabula_sapiens,broad_cell_class,hepatocyte,7414,0.6525156264026798
+tabula_sapiens,broad_cell_class,male germ cell,7259,0.6388738780762142
+tabula_sapiens,broad_cell_class,ecto-epithelial cell,4560,0.40133143463666304
+tabula_sapiens,broad_cell_class,hematopoietic cell,3016,0.26544201904916137
+tabula_sapiens,broad_cell_class,ciliated epithelial cell,2242,0.19732128869635931
+tabula_sapiens,broad_cell_class,glial cell,1834,0.16141268664992106
+tabula_sapiens,broad_cell_class,neuron,1685,0.14829900600060902
+tabula_sapiens,broad_cell_class,meso-epithelial cell,1558,0.13712157350085988
+tabula_sapiens,broad_cell_class,adventitial cell,1045,0.09197178710423527
+tabula_sapiens,broad_cell_class,secretory cell,756,0.06653652732134151
+tabula_sapiens,broad_cell_class,dendritic cell,670,0.05896755728214128
+tabula_sapiens,broad_cell_class,melanocyte,234,0.020594639408986655
+tabula_sapiens,broad_cell_class,connective tissue cell,152,0.013377714487888768
+tabula_sapiens,broad_cell_class,retinal pigment epithelial cell,67,0.005896755728214128
+tabula_sapiens,broad_cell_class,vestibular dark cell,49,0.0043125526967536165
+tabula_sapiens,broad_cell_class,fat cell,39,0.0034324399014977764
+tabula_sapiens,broad_cell_class,female germ cell,18,0.001584203031460512
+tabula_sapiens,broad_cell_class,follicle,9,0.000792101515730256
+tabula_sapiens,cell_type,B cell,114495,10.07685144928174
+tabula_sapiens,cell_type,"CD4-positive, alpha-beta T cell",97130,8.548535580319975
+tabula_sapiens,cell_type,fibroblast,83338,7.33468401310312
+tabula_sapiens,cell_type,"CD8-positive, alpha-beta T cell",76277,6.713236368372971
+tabula_sapiens,cell_type,neutrophil,69539,6.1202163669295855
+tabula_sapiens,cell_type,macrophage,69072,6.079115099391138
+tabula_sapiens,cell_type,stromal cell of ovary,35003,3.0806588172340166
+tabula_sapiens,cell_type,endothelial cell,33703,2.9662441538507576
+tabula_sapiens,cell_type,basal cell,33526,2.9506661573747293
+tabula_sapiens,cell_type,plasma cell,27349,2.4070204837451965
+tabula_sapiens,cell_type,bladder urothelial cell,27241,2.397515265556434
+tabula_sapiens,cell_type,monocyte,25753,2.266554481622365
+tabula_sapiens,cell_type,mesenchymal stem cell,23499,2.0681770575716985
+tabula_sapiens,cell_type,smooth muscle cell,18425,1.621607825258885
+tabula_sapiens,cell_type,classical monocyte,18200,1.6018052873656288
+tabula_sapiens,cell_type,luminal epithelial cell of mammary gland,15432,1.3581900656388122
+tabula_sapiens,cell_type,capillary endothelial cell,15298,1.3463965541823841
+tabula_sapiens,cell_type,erythrocyte,14611,1.2859328051483079
+tabula_sapiens,cell_type,natural killer cell,14231,1.252488518928586
+tabula_sapiens,cell_type,enterocyte of epithelium proper of duodenum,13495,1.187712217197756
+tabula_sapiens,cell_type,stratified squamous epithelial cell,12323,1.0845629975937716
+tabula_sapiens,cell_type,acinar cell of salivary gland,12237,1.0769940275545713
+tabula_sapiens,cell_type,pulmonary alveolar type 2 cell,11594,1.020402774819621
+tabula_sapiens,cell_type,conjunctival epithelial cell,11087,0.9757810561001498
+tabula_sapiens,cell_type,pericyte,10888,0.9582668114745585
+tabula_sapiens,cell_type,luminal cell of prostate epithelium,10652,0.9374961495065207
+tabula_sapiens,cell_type,cardiac endothelial cell,10092,0.8882098329721937
+tabula_sapiens,cell_type,"naive thymus-derived CD4-positive, alpha-beta T cell",9827,0.864886843897914
+tabula_sapiens,cell_type,kidney epithelial cell,9278,0.8165686514383683
+tabula_sapiens,cell_type,hepatocyte,7414,0.6525156264026798
+tabula_sapiens,cell_type,blood vessel smooth muscle cell,6642,0.584570918608929
+tabula_sapiens,cell_type,enterocyte of epithelium proper of ileum,6477,0.5700490574872075
+tabula_sapiens,cell_type,T cell,6290,0.5535909482159234
+tabula_sapiens,cell_type,mast cell,6222,0.5476061812081836
+tabula_sapiens,cell_type,skeletal muscle satellite stem cell,6170,0.5430295946728533
+tabula_sapiens,cell_type,regular atrial cardiac myocyte,5816,0.5118736017207965
+tabula_sapiens,cell_type,pancreatic acinar cell,5482,0.48247783435925146
+tabula_sapiens,cell_type,intermediate monocyte,5478,0.4821257892411492
+tabula_sapiens,cell_type,mature NK T cell,5394,0.47473284176100006
+tabula_sapiens,cell_type,mononuclear phagocyte,5336,0.4696281875485162
+tabula_sapiens,cell_type,fibroblast of breast,5270,0.4638194430998277
+tabula_sapiens,cell_type,vascular associated smooth muscle cell,5019,0.44172861193890606
+tabula_sapiens,cell_type,vein endothelial cell,4698,0.41347699121119363
+tabula_sapiens,cell_type,"CD4-positive, alpha-beta thymocyte",4685,0.4123328445773611
+tabula_sapiens,cell_type,enterocyte of epithelium of large intestine,4567,0.40194751359334213
+tabula_sapiens,cell_type,myofibroblast cell,4436,0.39041803597549063
+tabula_sapiens,cell_type,thymic fibroblast type 2,4205,0.37008743040508074
+tabula_sapiens,cell_type,corneal epithelial cell,4187,0.36850322737362023
+tabula_sapiens,cell_type,spermatid,4009,0.35283721961806624
+tabula_sapiens,cell_type,duct epithelial cell,3889,0.34227586607499616
+tabula_sapiens,cell_type,mesenchymal stem cell of adipose tissue,3777,0.33241860276813073
+tabula_sapiens,cell_type,basal cell of prostate epithelium,3495,0.3075994219419161
+tabula_sapiens,cell_type,endothelial cell of artery,3471,0.30548715123330206
+tabula_sapiens,cell_type,stromal cell,3458,0.3043430045994695
+tabula_sapiens,cell_type,thymic fibroblast type 1,3270,0.28779688404865966
+tabula_sapiens,cell_type,pulmonary alveolar type 1 cell,3116,0.27424314700171976
+tabula_sapiens,cell_type,spermatocyte,3070,0.27019462814354284
+tabula_sapiens,cell_type,pancreatic ductal cell,2721,0.23947869158911406
+tabula_sapiens,cell_type,regulatory T cell,2649,0.23314187946327203
+tabula_sapiens,cell_type,ventricular cardiac muscle cell,2599,0.22874131548699278
+tabula_sapiens,cell_type,endothelial cell of lymphatic vessel,2438,0.21457149948337378
+tabula_sapiens,cell_type,hematopoietic precursor cell,2140,0.18834413818474977
+tabula_sapiens,cell_type,retinal blood vessel endothelial cell,2091,0.18403158548799614
+tabula_sapiens,cell_type,small intestine goblet cell,2044,0.1798950553502937
+tabula_sapiens,cell_type,gamma-delta T cell,1977,0.17399829962207958
+tabula_sapiens,cell_type,BEST4+ enterocyte,1970,0.1733822206654005
+tabula_sapiens,cell_type,fibroblast of cardiac tissue,1947,0.17135796123631206
+tabula_sapiens,cell_type,paneth cell of epithelium of small intestine,1853,0.16308490096090716
+tabula_sapiens,cell_type,club cell,1747,0.15375570533119526
+tabula_sapiens,cell_type,intestinal crypt stem cell of colon,1732,0.15243553613831148
+tabula_sapiens,cell_type,progenitor cell of mammary luminal epithelium,1694,0.1490911075163393
+tabula_sapiens,cell_type,epithelial cell,1675,0.1474188932053532
+tabula_sapiens,cell_type,basophil,1669,0.1468908255281997
+tabula_sapiens,cell_type,large intestine goblet cell,1557,0.13703356222133428
+tabula_sapiens,cell_type,eye photoreceptor cell,1536,0.13518532535129701
+tabula_sapiens,cell_type,epithelial cell of uterus,1417,0.12471198308775253
+tabula_sapiens,cell_type,enterocyte of epithelium proper of small intestine,1415,0.12453596052870136
+tabula_sapiens,cell_type,tissue-resident macrophage,1355,0.11925528375716632
+tabula_sapiens,cell_type,acinar cell,1345,0.11837517096191048
+tabula_sapiens,cell_type,non-classical monocyte,1284,0.11300648291084985
+tabula_sapiens,cell_type,lung multiciliated epithelial cell,1209,0.10640563694643106
+tabula_sapiens,cell_type,"activated CD8-positive, alpha-beta T cell",1147,0.10094893761584485
+tabula_sapiens,cell_type,alveolar adventitial fibroblast,1113,0.09795655411197499
+tabula_sapiens,cell_type,"naive thymus-derived CD8-positive, alpha-beta T cell",1056,0.0929399111790167
+tabula_sapiens,cell_type,adventitial cell,1045,0.09197178710423527
+tabula_sapiens,cell_type,respiratory tract goblet cell,1040,0.09153173070660735
+tabula_sapiens,cell_type,theca cell,1038,0.0913557081475562
+tabula_sapiens,cell_type,myeloid leukocyte,1002,0.08818730208463517
+tabula_sapiens,cell_type,keratocyte,1001,0.08809929080510959
+tabula_sapiens,cell_type,enteroglial cell,990,0.08713116673032816
+tabula_sapiens,cell_type,erythroid progenitor cell,971,0.08545895241934207
+tabula_sapiens,cell_type,innate lymphoid cell,971,0.08545895241934207
+tabula_sapiens,cell_type,myometrial cell,917,0.08070634332496053
+tabula_sapiens,cell_type,endothelial cell of vascular tree,875,0.077009869584886
+tabula_sapiens,cell_type,hematopoietic stem cell,858,0.07551367783295107
+tabula_sapiens,cell_type,salivary gland cell,850,0.0748095875967464
+tabula_sapiens,cell_type,granulocyte,769,0.0676806739551741
+tabula_sapiens,cell_type,"CD8-positive, alpha-beta thymocyte",731,0.0643362453332019
+tabula_sapiens,cell_type,multiciliated columnar cell of tracheobronchial tree,713,0.06275204230174139
+tabula_sapiens,cell_type,intrahepatic cholangiocyte,665,0.05852750088451336
+tabula_sapiens,cell_type,mural cell,618,0.054390970746810915
+tabula_sapiens,cell_type,intestinal crypt stem cell of small intestine,587,0.05166262108151781
+tabula_sapiens,cell_type,"activated CD4-positive, alpha-beta T cell",572,0.05034245188863405
+tabula_sapiens,cell_type,myeloid dendritic cell,571,0.05025444060910846
+tabula_sapiens,cell_type,Mueller cell,506,0.0445337074399455
+tabula_sapiens,cell_type,fast muscle cell,495,0.04356558336516408
+tabula_sapiens,cell_type,platelet,494,0.043477572085638495
+tabula_sapiens,cell_type,myoepithelial cell,486,0.042773481849433824
+tabula_sapiens,cell_type,common myeloid progenitor,456,0.0401331434636663
+tabula_sapiens,cell_type,thymocyte,455,0.040045132184140714
+tabula_sapiens,cell_type,intestinal tuft cell,448,0.03942905322746163
+tabula_sapiens,cell_type,pancreatic stellate cell,438,0.03854894043220579
+tabula_sapiens,cell_type,tendon cell,420,0.03696473740074528
+tabula_sapiens,cell_type,microglial cell,410,0.03608462460548944
+tabula_sapiens,cell_type,muscle cell,406,0.0357325794873871
+tabula_sapiens,cell_type,enterocyte of epithelium proper of jejunum,405,0.03564456820786152
+tabula_sapiens,cell_type,mesothelial cell,350,0.0308039478339544
+tabula_sapiens,cell_type,colon endothelial cell,348,0.030627925274903232
+tabula_sapiens,cell_type,colon macrophage,328,0.02886769968439155
+tabula_sapiens,cell_type,serous cell of epithelium of trachea,326,0.028691677125340383
+tabula_sapiens,cell_type,ciliated epithelial cell,320,0.028163609448186883
+tabula_sapiens,cell_type,Schwann cell,318,0.02798758688913571
+tabula_sapiens,cell_type,mucus secreting cell,270,0.02376304547190768
+tabula_sapiens,cell_type,supporting cell of vestibular epithelium,270,0.02376304547190768
+tabula_sapiens,cell_type,enteroendocrine cell of small intestine,264,0.023234977794754176
+tabula_sapiens,cell_type,ovarian surface epithelial cell,241,0.021210718365665744
+tabula_sapiens,cell_type,transit amplifying cell of colon,237,0.02085867324756341
+tabula_sapiens,cell_type,glandular secretory epithelial cell,235,0.02068265068851224
+tabula_sapiens,cell_type,melanocyte,234,0.020594639408986655
+tabula_sapiens,cell_type,tracheal goblet cell,232,0.020418616849935487
+tabula_sapiens,cell_type,hepatic stellate cell,223,0.01962651533420523
+tabula_sapiens,cell_type,bronchial smooth muscle cell,220,0.01936248149562848
+tabula_sapiens,cell_type,paneth cell of colon,217,0.01909844765705173
+tabula_sapiens,cell_type,tongue muscle cell,202,0.017778278464167966
+tabula_sapiens,cell_type,leukocyte,201,0.017690267184642384
+tabula_sapiens,cell_type,tuft cell of colon,178,0.015666007755553952
+tabula_sapiens,cell_type,slow muscle cell,174,0.015313962637451616
+tabula_sapiens,cell_type,ionocyte,160,0.014081804724093441
+tabula_sapiens,cell_type,connective tissue cell,152,0.013377714487888768
+tabula_sapiens,cell_type,neuro-medullary thymic epithelial cell,135,0.01188152273595384
+tabula_sapiens,cell_type,sebocyte,135,0.01188152273595384
+tabula_sapiens,cell_type,endothelial cell of arteriole,132,0.011617488897377088
+tabula_sapiens,cell_type,male germ cell,116,0.010209308424967744
+tabula_sapiens,cell_type,type B pancreatic cell,102,0.008977150511609569
+tabula_sapiens,cell_type,hematopoietic cell,100,0.0088011279525584
+tabula_sapiens,cell_type,plasmacytoid dendritic cell,99,0.008713116673032815
+tabula_sapiens,cell_type,neuron,82,0.007216924921097888
+tabula_sapiens,cell_type,myeloid cell,81,0.007128913641572304
+tabula_sapiens,cell_type,myo-medullary thymic epithelial cell,77,0.006776868523469968
+tabula_sapiens,cell_type,Langerhans cell,76,0.006688857243944384
+tabula_sapiens,cell_type,interstitial cell of Cajal,71,0.006248800846316464
+tabula_sapiens,cell_type,peritubular myoid cell,67,0.005896755728214128
+tabula_sapiens,cell_type,retinal pigment epithelial cell,67,0.005896755728214128
+tabula_sapiens,cell_type,spermatogonium,64,0.005632721889637376
+tabula_sapiens,cell_type,retinal bipolar neuron,61,0.005368688051060624
+tabula_sapiens,cell_type,endothelial cell of venule,52,0.004576586535330368
+tabula_sapiens,cell_type,vestibular dark cell,49,0.0043125526967536165
+tabula_sapiens,cell_type,pancreatic A cell,48,0.004224541417228032
+tabula_sapiens,cell_type,type L enteroendocrine cell,44,0.003872496299125696
+tabula_sapiens,cell_type,medullary thymic epithelial cell,43,0.0037844850196001117
+tabula_sapiens,cell_type,adipocyte,39,0.0034324399014977764
+tabula_sapiens,cell_type,transit amplifying cell of small intestine,34,0.002992383503869856
+tabula_sapiens,cell_type,taste receptor cell,32,0.002816360944818688
+tabula_sapiens,cell_type,enterochromaffin-like cell,27,0.002376304547190768
+tabula_sapiens,cell_type,enteroendocrine cell,25,0.0022002819881396
+tabula_sapiens,cell_type,pulmonary ionocyte,25,0.0022002819881396
+tabula_sapiens,cell_type,glial cell,20,0.0017602255905116802
+tabula_sapiens,cell_type,oocyte,18,0.001584203031460512
+tabula_sapiens,cell_type,serous cell of epithelium of bronchus,15,0.00132016919288376
+tabula_sapiens,cell_type,radial glial cell,13,0.001144146633832592
+tabula_sapiens,cell_type,Leydig cell,10,0.0008801127952558401
+tabula_sapiens,cell_type,pancreatic D cell,9,0.000792101515730256
+tabula_sapiens,cell_type,unknown,9,0.000792101515730256
+tabula_sapiens,cell_type,T follicular helper cell,6,0.000528067677153504
+tabula_sapiens,cell_type,retina horizontal cell,5,0.00044005639762792004
+tabula_sapiens,cell_type,epithelial fate stem cell,2,0.000176022559051168
+tabula_sapiens,cell_type,erythroid lineage cell,2,0.000176022559051168
+tabula_sapiens,cell_type,mesenchymal cell,2,0.000176022559051168
+tabula_sapiens,cell_type,pancreatic PP cell,2,0.000176022559051168
+tabula_sapiens,cell_type,retinal ganglion cell,1,8.8011279525584e-05
+tabula_sapiens,tissue,lymph node,100754,8.867488457320691
+tabula_sapiens,tissue,blood,85233,7.501465387804101
+tabula_sapiens,tissue,spleen,70448,6.200218620018341
+tabula_sapiens,tissue,bladder organ,66385,5.842628791305893
+tabula_sapiens,tissue,lung,65847,5.79527872292113
+tabula_sapiens,tissue,thymus,42729,3.7606339628486785
+tabula_sapiens,tissue,brown adipose tissue,41280,3.6331056188161077
+tabula_sapiens,tissue,muscle of abdomen,35371,3.113046968099432
+tabula_sapiens,tissue,mammary gland,30936,2.7227169434034666
+tabula_sapiens,tissue,adipose tissue,30578,2.6912089053333075
+tabula_sapiens,tissue,bone marrow,27112,2.3861618104976334
+tabula_sapiens,tissue,left ovary,26782,2.357118088254191
+tabula_sapiens,tissue,posterior part of tongue,23935,2.106549975444853
+tabula_sapiens,tissue,parotid gland,22726,2.000144338498422
+tabula_sapiens,tissue,trachea,22671,1.9953037181245148
+tabula_sapiens,tissue,subcutaneous adipose tissue,22557,1.9852704322585981
+tabula_sapiens,tissue,aorta,22228,1.9563147212946812
+tabula_sapiens,tissue,liver,22214,1.955082563381323
+tabula_sapiens,tissue,prostate gland,21030,1.8508772084230314
+tabula_sapiens,tissue,inguinal lymph node,20325,1.7888292563574948
+tabula_sapiens,tissue,duodenum,19377,1.7053945633672412
+tabula_sapiens,tissue,right ovary,18602,1.6371858217349136
+tabula_sapiens,tissue,stomach smooth muscle,16497,1.4519220783335591
+tabula_sapiens,tissue,anterior part of tongue,14656,1.289893312726959
+tabula_sapiens,tissue,coronary artery,13937,1.226613202748064
+tabula_sapiens,tissue,exocrine pancreas,12919,1.1370177201910197
+tabula_sapiens,tissue,skin of body,11729,1.0322842975555748
+tabula_sapiens,tissue,small intestine,11554,1.0168823236385975
+tabula_sapiens,tissue,sublingual gland,11549,1.0164422672409696
+tabula_sapiens,tissue,muscle of pelvic diaphragm,11401,1.003416597871183
+tabula_sapiens,tissue,myometrium,11346,0.998575977497276
+tabula_sapiens,tissue,kidney,11224,0.9878386013951548
+tabula_sapiens,tissue,ascending colon,10664,0.9385522848608278
+tabula_sapiens,tissue,ileum,10485,0.9227982658257482
+tabula_sapiens,tissue,large intestine,10387,0.914173160432241
+tabula_sapiens,tissue,endometrium,10011,0.8810809193306214
+tabula_sapiens,tissue,stomach,9212,0.8107599069896798
+tabula_sapiens,tissue,sigmoid colon,9033,0.7950058879546004
+tabula_sapiens,tissue,cardiac atrium,8539,0.7515283158689618
+tabula_sapiens,tissue,heart,8049,0.7084027889014256
+tabula_sapiens,tissue,mesenteric lymph node,7983,0.702594044452737
+tabula_sapiens,tissue,eyelid,7814,0.6877201382129133
+tabula_sapiens,tissue,testis,7513,0.6612287430757126
+tabula_sapiens,tissue,mucosa of stomach,7063,0.6216236672891998
+tabula_sapiens,tissue,lacrimal gland,6695,0.5892355164237848
+tabula_sapiens,tissue,submandibular gland,5546,0.4881105562488889
+tabula_sapiens,tissue,anterior segment of eyeball,5419,0.4769331237491397
+tabula_sapiens,tissue,eye,3911,0.344212114224559
+tabula_sapiens,tissue,cardiac ventricle,3811,0.3354109862720006
+tabula_sapiens,tissue,conjunctiva,3641,0.32044906875265133
+tabula_sapiens,tissue,cornea,3593,0.31622452733542333
+tabula_sapiens,tissue,ovary,3567,0.3139362340677581
+tabula_sapiens,tissue,right cardiac atrium,3178,0.27969984633230593
+tabula_sapiens,tissue,skin of chest,3008,0.26473792881295666
+tabula_sapiens,tissue,vasculature,2915,0.25655287981707736
+tabula_sapiens,tissue,thoracic aorta,2802,0.24660760523068634
+tabula_sapiens,tissue,skin of abdomen,2747,0.24176698485677922
+tabula_sapiens,tissue,crista ampullaris,2397,0.21096303702282487
+tabula_sapiens,tissue,heart right ventricle,2255,0.19846543533019192
+tabula_sapiens,tissue,sclera,1561,0.1373856073394366
+tabula_sapiens,tissue,endocrine pancreas,1221,0.10746177230073807
+tabula_sapiens,tissue,posterior segment of eyeball,792,0.06970493338426252
+tabula_sapiens,tissue,retinal neural layer,721,0.06345613253794606
+tabula_sapiens,tissue,uterus,672,0.059143579841192444
+tabula_sapiens,tissue,utricle of membranous labyrinth,658,0.05791142192783427
+tabula_sapiens,tissue,jejunum,620,0.05456699330586207
+tabula_sapiens,tissue,buccal mucosa,302,0.02657940641672637
+tabula_sapiens,tissue,muscularis mucosae of stomach,292,0.025699293621470526
+tabula_sapiens,tissue,abdominal aorta,276,0.024291113149061183
+tabula_sapiens,tissue,inferior vena cava,255,0.02244287627902392
+tabula_sapiens,tissue,left coronary artery,237,0.02085867324756341
+tabula_sapiens,tissue,tongue,163,0.014345838562670191
+tabula_sapiens,tissue,cortex of kidney,152,0.013377714487888768
+tabula_sapiens,tissue,chorioretinal region,87,0.007656981318725808
+tabula_sapiens,tissue,ocular surface region,39,0.0034324399014977764
+tabula_sapiens,tissue_in_publication,Lymph_Node,129062,11.358911758130922
+tabula_sapiens,tissue_in_publication,Fat,94415,8.309584956408013
+tabula_sapiens,tissue_in_publication,Blood,85233,7.501465387804101
+tabula_sapiens,tissue_in_publication,Spleen,70448,6.200218620018341
+tabula_sapiens,tissue_in_publication,Bladder,66385,5.842628791305893
+tabula_sapiens,tissue_in_publication,Lung,65847,5.79527872292113
+tabula_sapiens,tissue_in_publication,Ovary,48951,4.308240144056862
+tabula_sapiens,tissue_in_publication,Muscle,46772,4.116463565970615
+tabula_sapiens,tissue_in_publication,Thymus,42729,3.7606339628486785
+tabula_sapiens,tissue_in_publication,Vasculature,42650,3.7536810717661573
+tabula_sapiens,tissue_in_publication,Small_Intestine,42036,3.6996421461374487
+tabula_sapiens,tissue_in_publication,Salivary_Gland,39821,3.5046971619882803
+tabula_sapiens,tissue_in_publication,Tongue,38754,3.4107891267344823
+tabula_sapiens,tissue_in_publication,Eye,34273,3.0164105831803405
+tabula_sapiens,tissue_in_publication,Stomach,33064,2.9100049462339093
+tabula_sapiens,tissue_in_publication,Mammary,30936,2.7227169434034666
+tabula_sapiens,tissue_in_publication,Large_Intestine,30084,2.6477313332476693
+tabula_sapiens,tissue_in_publication,Bone_Marrow,27112,2.3861618104976334
+tabula_sapiens,tissue_in_publication,Heart,25832,2.273507372704886
+tabula_sapiens,tissue_in_publication,Trachea,22671,1.9953037181245148
+tabula_sapiens,tissue_in_publication,Liver,22214,1.955082563381323
+tabula_sapiens,tissue_in_publication,Uterus,22029,1.9388004766690898
+tabula_sapiens,tissue_in_publication,Prostate,21030,1.8508772084230314
+tabula_sapiens,tissue_in_publication,Skin,17786,1.5653686176420372
+tabula_sapiens,tissue_in_publication,Pancreas,14140,1.2444794924917577
+tabula_sapiens,tissue_in_publication,Kidney,11376,1.0012163158830436
+tabula_sapiens,tissue_in_publication,Testis,7513,0.6612287430757126
+tabula_sapiens,tissue_in_publication,Ear,3055,0.2688744589506591
+hbca_non_neuronal,ROIGroup,Hindbrain,184265,20.744419164143952
+hbca_non_neuronal,ROIGroup,Cerebral nuclei,150926,16.99113888566787
+hbca_non_neuronal,ROIGroup,Cerebral cortex,147442,16.598912709411515
+hbca_non_neuronal,ROIGroup,Thalamus,128371,14.451913453560488
+hbca_non_neuronal,ROIGroup,Midbrain,121456,13.673427802351332
+hbca_non_neuronal,ROIGroup,Hippocampus,109980,12.381468101226776
+hbca_non_neuronal,ROIGroup,Hypothalamus,24191,2.72340511762845
+hbca_non_neuronal,ROIGroup,Spinal cord,18152,2.0435389068327736
+hbca_non_neuronal,ROIGroup,Epithalamus,2048,0.23056234471096962
+hbca_non_neuronal,ROIGroup,Paleocortex,1432,0.1612135144658733
+hbca_non_neuronal,ROIGroupCoarse,Cerebral nuclei,150926,16.99113888566787
+hbca_non_neuronal,ROIGroupCoarse,Cerebral cortex,148874,16.76012622387739
+hbca_non_neuronal,ROIGroupCoarse,Thalamus,130419,14.682475798271458
+hbca_non_neuronal,ROIGroupCoarse,Midbrain,121456,13.673427802351332
+hbca_non_neuronal,ROIGroupCoarse,Hippocampus,109980,12.381468101226776
+hbca_non_neuronal,ROIGroupCoarse,Pons,97127,10.934486745479662
+hbca_non_neuronal,ROIGroupCoarse,Cerebellum,49003,5.516721961851389
+hbca_non_neuronal,ROIGroupCoarse,Myelencephalon,38135,4.293210456812903
+hbca_non_neuronal,ROIGroupCoarse,Hypothalamus,24191,2.72340511762845
+hbca_non_neuronal,ROIGroupCoarse,Spinal cord,18152,2.0435389068327736
+hbca_non_neuronal,ROIGroupFine,Cerebral cortex,148874,16.76012622387739
+hbca_non_neuronal,ROIGroupFine,Thalamus,130419,14.682475798271458
+hbca_non_neuronal,ROIGroupFine,Midbrain,121456,13.673427802351332
+hbca_non_neuronal,ROIGroupFine,Hippocampus,109980,12.381468101226776
+hbca_non_neuronal,ROIGroupFine,Pons,97127,10.934486745479662
+hbca_non_neuronal,ROIGroupFine,Basal nuclei,76992,8.667703146478013
+hbca_non_neuronal,ROIGroupFine,Cerebellum,49003,5.516721961851389
+hbca_non_neuronal,ROIGroupFine,Myelencephalon,38135,4.293210456812903
+hbca_non_neuronal,ROIGroupFine,Amygdaloid complex,32911,3.7050963509681254
+hbca_non_neuronal,ROIGroupFine,Basal forebrain,25131,2.829229631314149
+hbca_non_neuronal,ROIGroupFine,Hypothalamus,24191,2.72340511762845
+hbca_non_neuronal,ROIGroupFine,Spinal cord,18152,2.0435389068327736
+hbca_non_neuronal,ROIGroupFine,Claustrum,12236,1.3775199462321408
+hbca_non_neuronal,ROIGroupFine,Extended amygdala,3656,0.41158981067544187
+hbca_non_neuronal,cell_type,oligodendrocyte,494966,55.722910894633685
+hbca_non_neuronal,cell_type,astrocyte,155025,17.452601312899446
+hbca_non_neuronal,cell_type,oligodendrocyte precursor cell,105734,11.903456521323076
+hbca_non_neuronal,cell_type,central nervous system macrophage,91838,10.339054987092787
+hbca_non_neuronal,cell_type,fibroblast,9156,1.030775795006659
+hbca_non_neuronal,cell_type,Bergmann glial cell,8041,0.9052499090922395
+hbca_non_neuronal,cell_type,choroid plexus epithelial cell,7689,0.8656220060950417
+hbca_non_neuronal,cell_type,ependymal cell,5882,0.6621912654247673
+hbca_non_neuronal,cell_type,endothelial cell,5165,0.5814719289219522
+hbca_non_neuronal,cell_type,pericyte,3693,0.41575524366094274
+hbca_non_neuronal,cell_type,vascular associated smooth muscle cell,1074,0.12091013584940495
+hbca_non_neuronal,roi,Human SN,50837,5.72319234280838
+hbca_non_neuronal,roi,Human SN-RN,37737,4.248403907401299
+hbca_non_neuronal,roi,Human PnRF,33322,3.751366430888149
+hbca_non_neuronal,roi,Human GPe,33090,3.7252480402763597
+hbca_non_neuronal,roi,Human GPi,32242,3.629780819419474
+hbca_non_neuronal,roi,Human CbDN,28652,3.2256212405560065
+hbca_non_neuronal,roi,Human CA1U,24394,2.746258709413766
+hbca_non_neuronal,roi,Human PnEN,22144,2.492955352187359
+hbca_non_neuronal,roi,Human MTG,22134,2.4918295594885747
+hbca_non_neuronal,roi,Human SEP,20296,2.28490886145207
+hbca_non_neuronal,roi,Human CA4C-DGC,19743,2.222652525209313
+hbca_non_neuronal,roi,Human STH,19559,2.2019379395516867
+hbca_non_neuronal,roi,Human SpC,18152,2.0435389068327736
+hbca_non_neuronal,roi,Human A35r,17491,1.9691240094431492
+hbca_non_neuronal,roi,Human PAG,17187,1.9348999114001146
+hbca_non_neuronal,roi,Human CBV,17133,1.928820630826681
+hbca_non_neuronal,roi,Human LP-VPL,16179,1.8214200073626845
+hbca_non_neuronal,roi,Human Pul,15945,1.7950764582111378
+hbca_non_neuronal,roi,Human PN,15355,1.72865468898288
+hbca_non_neuronal,roi,Human DGR-CA4Rpy,14520,1.6346509986344133
+hbca_non_neuronal,roi,Human Sub,13773,1.5505542840352464
+hbca_non_neuronal,roi,Human LP,13608,1.5319787045053097
+hbca_non_neuronal,roi,Human DGU-CA4Upy,13331,1.500794246748992
+hbca_non_neuronal,roi,Human STG,13196,1.4855960453154076
+hbca_non_neuronal,roi,Human CEN,12647,1.4237900261521643
+hbca_non_neuronal,roi,Human VLN,12582,1.4164723736100682
+hbca_non_neuronal,roi,Human Cla,12236,1.3775199462321408
+hbca_non_neuronal,roi,Human MoAN,11580,1.3036679451919082
+hbca_non_neuronal,roi,Human IO,11015,1.2400606577106104
+hbca_non_neuronal,roi,Human MN,10739,1.2089887792241711
+hbca_non_neuronal,roi,Human PnAN,9651,1.0865025335964684
+hbca_non_neuronal,roi,Human MoRF-MoEN,9086,1.0228952461151708
+hbca_non_neuronal,roi,Human LG,8595,0.9676188246048749
+hbca_non_neuronal,roi,Human PB,8575,0.9653672392073068
+hbca_non_neuronal,roi,Human TH-TL,8423,0.9482551901857896
+hbca_non_neuronal,roi,Human CM-Pf,8333,0.9381230558967333
+hbca_non_neuronal,roi,Human DTg,8080,0.9096405006174972
+hbca_non_neuronal,roi,Human CA1R-CA2R-CA3R,7010,0.7891806818476059
+hbca_non_neuronal,roi,Human CM,6909,0.7778101755898872
+hbca_non_neuronal,roi,Human MoSR,6454,0.7265866077952138
+hbca_non_neuronal,roi,Human M1C,6320,0.7115009856315078
+hbca_non_neuronal,roi,Human ANC,6272,0.7060971806773444
+hbca_non_neuronal,roi,Human CA1U-CA2U-CA3U,5917,0.6661315398705113
+hbca_non_neuronal,roi,Human SI,4835,0.5443207698620791
+hbca_non_neuronal,roi,Human BM,4806,0.5410559710356054
+hbca_non_neuronal,roi,Human Pir,4755,0.535314428271807
+hbca_non_neuronal,roi,Human BL,4596,0.5174143243611408
+hbca_non_neuronal,roi,Human VPL,4553,0.5125734157563695
+hbca_non_neuronal,roi,Human CA1C-CA3C,4448,0.5007525924191372
+hbca_non_neuronal,roi,Human MD-Re,4439,0.49973937899023146
+hbca_non_neuronal,roi,Human La,4420,0.49760037286254183
+hbca_non_neuronal,roi,Human VA,4310,0.48521665317591745
+hbca_non_neuronal,roi,Human IC,4290,0.48296506777834947
+hbca_non_neuronal,roi,Human CMN,3966,0.44648938433774676
+hbca_non_neuronal,roi,Human A43,3796,0.4273509084584183
+hbca_non_neuronal,roi,Human MG,3691,0.41553008512118594
+hbca_non_neuronal,roi,Human Pu,3675,0.4137288168031315
+hbca_non_neuronal,roi,Human BNST,3656,0.41158981067544187
+hbca_non_neuronal,roi,Human A24,3653,0.4112520728658067
+hbca_non_neuronal,roi,Human Ig,3617,0.40719921915018414
+hbca_non_neuronal,roi,Human MEC,3480,0.3917758591768429
+hbca_non_neuronal,roi,Human PAG-DR,3406,0.3834449932058411
+hbca_non_neuronal,roi,Human MD,3396,0.38231920050705703
+hbca_non_neuronal,roi,Human CA3R,3276,0.36880968812164866
+hbca_non_neuronal,roi,Human Idg,3241,0.36486941367590453
+hbca_non_neuronal,roi,Human CBL,3218,0.36228009046870124
+hbca_non_neuronal,roi,Human A38,3165,0.35631338916514593
+hbca_non_neuronal,roi,Human A46,3136,0.3530485903386722
+hbca_non_neuronal,roi,Human A40,3050,0.34336677312912955
+hbca_non_neuronal,roi,Human HTHso,3013,0.3392013401436286
+hbca_non_neuronal,roi,Human V2,2982,0.33571138277739815
+hbca_non_neuronal,roi,Human RN,2973,0.3346981693484925
+hbca_non_neuronal,roi,Human ITG,2911,0.32771825461603155
+hbca_non_neuronal,roi,Human A19,2886,0.3249037728690714
+hbca_non_neuronal,roi,Human LEC,2878,0.3240031387100442
+hbca_non_neuronal,roi,Human V1C,2872,0.32332766309077376
+hbca_non_neuronal,roi,Human CaB,2787,0.3137584251511095
+hbca_non_neuronal,roi,Human Pro,2760,0.31071878486439264
+hbca_non_neuronal,roi,Human A5-A7,2758,0.31049362632463584
+hbca_non_neuronal,roi,Human SC,2741,0.308579778736703
+hbca_non_neuronal,roi,Human S1C,2726,0.30689108968852696
+hbca_non_neuronal,roi,Human NAC,2720,0.3062156140692565
+hbca_non_neuronal,roi,Human A25,2663,0.2997985956861875
+hbca_non_neuronal,roi,Human A1C,2607,0.293494156572997
+hbca_non_neuronal,roi,Human A44-A45,2555,0.28764003453932
+hbca_non_neuronal,roi,Human TF,2486,0.2798720649177102
+hbca_non_neuronal,roi,Human Gpe,2478,0.27897143075868297
+hbca_non_neuronal,roi,Human CoA,2476,0.27874627221892617
+hbca_non_neuronal,roi,Human A29-A30,2427,0.2732298879948844
+hbca_non_neuronal,roi,Human A23,2409,0.2712034611370731
+hbca_non_neuronal,roi,Human FI,2338,0.2632103329757065
+hbca_non_neuronal,roi,Human PTR,2285,0.25724363167215114
+hbca_non_neuronal,roi,Human A13,2279,0.2565681560528807
+hbca_non_neuronal,roi,Human HTHma-HTHtub,2211,0.2489127657011493
+hbca_non_neuronal,roi,Human HTHtub,2166,0.24384669855662117
+hbca_non_neuronal,roi,Human ETH,2048,0.23056234471096962
+hbca_non_neuronal,roi,Human HTHpo-HTHso,2019,0.22729754588449594
+hbca_non_neuronal,roi,Human A32,2016,0.22695980807486074
+hbca_non_neuronal,roi,Human AON,1967,0.22144342385081897
+hbca_non_neuronal,roi,Human A35-A36,1948,0.21930441772312928
+hbca_non_neuronal,roi,Human HTHpo,1722,0.1938615027306102
+hbca_non_neuronal,roi,Human CA1R-CA2R,1569,0.1766368744392145
+hbca_non_neuronal,roi,Human HTHso-HTHtub,1247,0.1403863495383687
+hbca_non_neuronal,roi,Human CA2U-CA3U,1185,0.1334064348059077
+hbca_non_neuronal,roi,Human HTHma,1074,0.12091013584940495
+hbca_non_neuronal,roi,Human A14,877,0.09873201968335955
+hbca_non_neuronal,roi,Human CA1-3,814,0.09163952568102014
+hbca_non_neuronal,roi,Human A35-36,72,0.008105707431245026
+hbca_non_neuronal,supercluster_term,Oligodendrocyte,490246,55.19153674080762
+hbca_non_neuronal,supercluster_term,Astrocyte,155025,17.452601312899446
+hbca_non_neuronal,supercluster_term,Oligodendrocyte precursor,105734,11.903456521323076
+hbca_non_neuronal,supercluster_term,Microglia,91838,10.339054987092787
+hbca_non_neuronal,supercluster_term,Vascular,9932,1.1181373084322999
+hbca_non_neuronal,supercluster_term,Fibroblast,9156,1.030775795006659
+hbca_non_neuronal,supercluster_term,Bergmann glia,8041,0.9052499090922395
+hbca_non_neuronal,supercluster_term,Choroid plexus,7689,0.8656220060950417
+hbca_non_neuronal,supercluster_term,Ependymal,5882,0.6621912654247673
+hbca_non_neuronal,supercluster_term,Committed oligodendrocyte precursor,4720,0.5313741538260628
+hbca_non_neuronal,tissue,cerebral nuclei,150926,16.99113888566787
+hbca_non_neuronal,tissue,cerebral cortex,148874,16.76012622387739
+hbca_non_neuronal,tissue,thalamic complex,130419,14.682475798271458
+hbca_non_neuronal,tissue,midbrain,121456,13.673427802351332
+hbca_non_neuronal,tissue,hippocampal formation,109980,12.381468101226776
+hbca_non_neuronal,tissue,pons,97127,10.934486745479662
+hbca_non_neuronal,tissue,cerebellum,49003,5.516721961851389
+hbca_non_neuronal,tissue,myelencephalon,38135,4.293210456812903
+hbca_non_neuronal,tissue,hypothalamus,24191,2.72340511762845
+hbca_non_neuronal,tissue,spinal cord,18152,2.0435389068327736

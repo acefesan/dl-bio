@@ -1,0 +1,56 @@
+{
+  "tabula_h5ad": "/home/acefsan/src/dl_bio/projects/caffeine/lab/001_adora_expression/cache/tabula_sapiens_all_cells.h5ad",
+  "hbca_h5ad": "/home/acefsan/src/dl_bio/projects/caffeine/lab/001_adora_expression/cache/human_brain_cell_atlas/hbca_all_non_neuronal_b165f033.h5ad",
+  "tabula_matrix": "raw/X",
+  "hbca_matrix": "X",
+  "cells_per_dataset_requested": 40000,
+  "tabula_cells": 40000,
+  "hbca_cells": 40000,
+  "shared_gene_symbols": 56999,
+  "selected_genes": 2504,
+  "normalization": "counts per cell scaled to 10000, then log1p",
+  "latent": {
+    "method": "TruncatedSVD on concatenated normalized shared-gene matrix",
+    "n_components": 50,
+    "explained_variance_ratio_sum": 0.45893174409866333,
+    "batch_correction": "Harmony correction on SVD components using dataset as batch"
+  },
+  "umap": {
+    "n_neighbors": 15,
+    "min_dist": 0.5,
+    "metric": "cosine",
+    "random_state": 19
+  },
+  "original_umap_provenance": {
+    "tabula": {
+      "neighbors_method": "umap",
+      "neighbors_metric": "euclidean",
+      "neighbors_n_neighbors": 15,
+      "neighbors_use_rep": "X_scvi",
+      "umap_a": 0.583030019901822,
+      "umap_b": 1.3341669931033755
+    },
+    "hbca": "H5AD stores obsm/X_UMAP but no uns/umap or uns/neighbors parameters."
+  },
+  "adora_thresholds": {
+    "tabula": {
+      "ADORA1": 0.684346,
+      "ADORA2A": 1.080287,
+      "ADORA2B": 0.779279,
+      "ADORA3": 0.94318
+    },
+    "hbca": {
+      "ADORA1": 1.0,
+      "ADORA2A": 1.0,
+      "ADORA2B": 1.0,
+      "ADORA3": 1.0
+    }
+  },
+  "outputs": {
+    "cells_csv": "projects/caffeine/lab/001_adora_expression/figures/shared_umap_tabula_hbca_harmony/shared_umap_tabula_hbca_cells.csv",
+    "arrays_npz": "projects/caffeine/lab/001_adora_expression/figures/shared_umap_tabula_hbca_harmony/shared_umap_tabula_hbca_arrays.npz",
+    "genes_txt": "projects/caffeine/lab/001_adora_expression/figures/shared_umap_tabula_hbca_harmony/shared_umap_tabula_hbca_genes.txt",
+    "dataset_figure": "projects/caffeine/lab/001_adora_expression/figures/shared_umap_tabula_hbca_harmony/shared_umap_tabula_hbca_dataset.png",
+    "adora_figure": "projects/caffeine/lab/001_adora_expression/figures/shared_umap_tabula_hbca_harmony/shared_umap_tabula_hbca_adora_high.png"
+  }
+}

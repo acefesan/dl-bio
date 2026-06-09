@@ -1,0 +1,41 @@
+dataset,source_label,group,group_normalized,gene,n_cells,pct_expressing,mean_expression,score,rank_within_dataset_label_gene
+HBCA non-neuronal,supercluster_term,Oligodendrocyte precursor,oligodendrocyte precursor,ADORA1,105734,23.35010498042257,0.31160271167755127,6.333712086838214,1
+HBCA non-neuronal,supercluster_term,Oligodendrocyte,oligodendrocyte,ADORA1,490246,20.20291853477642,0.26457738876342773,4.7423924149113,2
+HBCA non-neuronal,supercluster_term,Committed oligodendrocyte precursor,committed oligodendrocyte precursor,ADORA1,4720,16.101694915254235,0.21313560009002686,3.110982917019528,3
+HBCA non-neuronal,supercluster_term,Astrocyte,astrocyte,ADORA1,155025,13.8409933881632,0.17366231977939606,2.2163450920832606,4
+HBCA non-neuronal,supercluster_term,Bergmann glia,bergmann glia,ADORA1,8041,7.21303320482527,0.08668076246976852,0.5996041458787107,5
+HBCA non-neuronal,supercluster_term,Ependymal,ependymal,ADORA1,5882,3.0431825909554573,0.03451206907629967,0.10325483447696164,6
+HBCA non-neuronal,supercluster_term,Microglia,microglia,ADORA1,91838,2.958470349964067,0.03503996133804321,0.10188982524063883,7
+HBCA non-neuronal,supercluster_term,Choroid plexus,choroid plexus,ADORA1,7689,0.7153075822603719,0.007933411747217178,0.005652437548317407,8
+HBCA non-neuronal,supercluster_term,Vascular,vascular,ADORA1,9932,0.5134917438582359,0.005336286965757608,0.0027328541206717203,9
+HBCA non-neuronal,supercluster_term,Fibroblast,fibroblast,ADORA1,9156,0.49148099606815204,0.005351681727916002,0.0026232367463978495,10
+HBCA non-neuronal,supercluster_term,Vascular,vascular,ADORA2A,9932,12.464760370519533,0.15102697908878326,1.7532254995968168,1
+HBCA non-neuronal,supercluster_term,Fibroblast,fibroblast,ADORA2A,9156,1.9877675840978593,0.0204237662255764,0.04018868124187094,2
+HBCA non-neuronal,supercluster_term,Committed oligodendrocyte precursor,committed oligodendrocyte precursor,ADORA2A,4720,1.0381355932203389,0.010805084370076656,0.011156974611799892,3
+HBCA non-neuronal,supercluster_term,Oligodendrocyte precursor,oligodendrocyte precursor,ADORA2A,105734,0.8824030113303195,0.009126676246523857,0.008016878272607381,4
+HBCA non-neuronal,supercluster_term,Bergmann glia,bergmann glia,ADORA2A,8041,0.6964307921900261,0.007088670507073402,0.0049193531069717305,5
+HBCA non-neuronal,supercluster_term,Oligodendrocyte,oligodendrocyte,ADORA2A,490246,0.48363474663740247,0.004991371650248766,0.002407996148508249,6
+HBCA non-neuronal,supercluster_term,Astrocyte,astrocyte,ADORA2A,155025,0.45347524592807614,0.0046766651794314384,0.002115808276201155,7
+HBCA non-neuronal,supercluster_term,Ependymal,ependymal,ADORA2A,5882,0.42502550153009183,0.00493029598146677,0.0020903527173340877,8
+HBCA non-neuronal,supercluster_term,Microglia,microglia,ADORA2A,91838,0.3615061303599817,0.0037566148675978184,0.0013554948590602392,9
+HBCA non-neuronal,supercluster_term,Choroid plexus,choroid plexus,ADORA2A,7689,0.19508388607101051,0.0019508388359099627,0.000380206480887403,10
+HBCA non-neuronal,supercluster_term,Bergmann glia,bergmann glia,ADORA2B,8041,17.684367615968164,0.22161422669887543,3.5399350552338915,1
+HBCA non-neuronal,supercluster_term,Astrocyte,astrocyte,ADORA2B,155025,10.884696016771489,0.13462990522384644,1.3748081085175377,2
+HBCA non-neuronal,supercluster_term,Vascular,vascular,ADORA2B,9932,6.957309706000806,0.0852799043059349,0.5693718249938776,3
+HBCA non-neuronal,supercluster_term,Fibroblast,fibroblast,ADORA2B,9156,4.641764962865881,0.06105286255478859,0.27507879785893463,4
+HBCA non-neuronal,supercluster_term,Choroid plexus,choroid plexus,ADORA2B,7689,1.7037326050201589,0.020548835396766663,0.034654869321337795,5
+HBCA non-neuronal,supercluster_term,Ependymal,ependymal,ADORA2B,5882,0.6290377422645359,0.006630397867411375,0.00415700438728943,6
+HBCA non-neuronal,supercluster_term,Committed oligodendrocyte precursor,committed oligodendrocyte precursor,ADORA2B,4720,0.2966101694915254,0.003601694945245981,0.0010663801109425343,7
+HBCA non-neuronal,supercluster_term,Oligodendrocyte precursor,oligodendrocyte precursor,ADORA2B,105734,0.31683280685493787,0.0033101935405284166,0.0010470459028808729,8
+HBCA non-neuronal,supercluster_term,Oligodendrocyte,oligodendrocyte,ADORA2B,490246,0.26190932715412263,0.0026741677429527044,0.0006994546609783689,9
+HBCA non-neuronal,supercluster_term,Microglia,microglia,ADORA2B,91838,0.13393148805505348,0.001382869784720242,0.00018508186546863193,10
+HBCA non-neuronal,supercluster_term,Microglia,microglia,ADORA3,91838,0.1067096408893922,0.0010779851581901312,0.0001149694525601878,1
+HBCA non-neuronal,supercluster_term,Committed oligodendrocyte precursor,committed oligodendrocyte precursor,ADORA3,4720,0.0211864406779661,0.00021186440426390618,4.488177207001226e-06,2
+HBCA non-neuronal,supercluster_term,Oligodendrocyte,oligodendrocyte,ADORA3,490246,0.00020397922675554722,2.0397922071424546e-06,4.160748128019728e-10,3
+HBCA non-neuronal,supercluster_term,Astrocyte,astrocyte,ADORA3,155025,0.0,0.0,0.0,4
+HBCA non-neuronal,supercluster_term,Bergmann glia,bergmann glia,ADORA3,8041,0.0,0.0,0.0,5
+HBCA non-neuronal,supercluster_term,Choroid plexus,choroid plexus,ADORA3,7689,0.0,0.0,0.0,6
+HBCA non-neuronal,supercluster_term,Ependymal,ependymal,ADORA3,5882,0.0,0.0,0.0,7
+HBCA non-neuronal,supercluster_term,Fibroblast,fibroblast,ADORA3,9156,0.0,0.0,0.0,8
+HBCA non-neuronal,supercluster_term,Oligodendrocyte precursor,oligodendrocyte precursor,ADORA3,105734,0.0,0.0,0.0,9
+HBCA non-neuronal,supercluster_term,Vascular,vascular,ADORA3,9932,0.0,0.0,0.0,10

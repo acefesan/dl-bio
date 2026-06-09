@@ -1,0 +1,37 @@
+{
+  "note": "Tabula Sapiens X_umap and HBCA X_UMAP are independent UMAP coordinate systems, not a merged embedding.",
+  "cell_type_comparison": {
+    "tabula_cells_total": 1136218,
+    "tabula_cells_plotted": 180000,
+    "hbca_cells_total": 888263,
+    "hbca_cells_plotted": 180000,
+    "top_n_cell_types_per_panel": 16
+  },
+  "adora_high_comparison": {
+    "threshold_rule": "per-gene q0.75 among cells with expression > 0",
+    "tabula_thresholds": {
+      "ADORA1": 0.6843461394309998,
+      "ADORA2A": 1.080287218093872,
+      "ADORA2B": 0.7792786359786987,
+      "ADORA3": 0.9431801438331604
+    },
+    "hbca_thresholds": {
+      "ADORA1": 1.0,
+      "ADORA2A": 1.0,
+      "ADORA2B": 1.0,
+      "ADORA3": 1.0
+    },
+    "tabula_assigned_high": {
+      "ADORA1": 2083,
+      "ADORA2A": 804,
+      "ADORA2B": 12060,
+      "ADORA3": 5554
+    },
+    "hbca_assigned_high": {
+      "ADORA1": 148943,
+      "ADORA2A": 4738,
+      "ADORA2B": 17693,
+      "ADORA3": 97
+    }
+  }
+}

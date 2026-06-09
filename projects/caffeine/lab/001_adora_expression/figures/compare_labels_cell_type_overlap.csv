@@ -1,0 +1,12 @@
+hbca_cell_type,hbca_normalized,hbca_n_cells,hbca_pct_cells,tabula_best_cell_type,tabula_best_normalized,tabula_best_n_cells,tabula_best_pct_cells,normalized_exact_match,match_quality,similarity_score,sequence_similarity,token_jaccard
+fibroblast,fibroblast,9156,1.030775795006659,fibroblast,fibroblast,83338,7.33468401310312,True,exact,1.0,1.0,1.0
+endothelial cell,endothelial,5165,0.5814719289219522,endothelial cell,endothelial,33703,2.9662441538507576,True,exact,1.0,1.0,1.0
+pericyte,pericyte,3693,0.41575524366094274,pericyte,pericyte,10888,0.9582668114745585,True,exact,1.0,1.0,1.0
+vascular associated smooth muscle cell,vascular associated smooth muscle,1074,0.12091013584940495,vascular associated smooth muscle cell,vascular associated smooth muscle,5019,0.44172861193890606,True,exact,1.0,1.0,1.0
+astrocyte,astrocyte,155025,17.452601312899446,hepatocyte,hepatocyte,7414,0.6525156264026798,False,weak_or_no_direct_match,0.7368421052631579,0.7368421052631579,0.0
+ependymal cell,ependymal,5882,0.6621912654247673,mesenchymal cell,mesenchymal,2,0.000176022559051168,False,weak_or_no_direct_match,0.7,0.7,0.0
+choroid plexus epithelial cell,choroid plexus epithelial,7689,0.8656220060950417,corneal epithelial cell,corneal epithelial,4187,0.36850322737362023,False,weak_or_no_direct_match,0.6976744186046512,0.6976744186046512,0.25
+Bergmann glial cell,bergmann glial,8041,0.9052499090922395,radial glial cell,radial glial,13,0.001144146633832592,False,weak_or_no_direct_match,0.6153846153846154,0.6153846153846154,0.3333333333333333
+oligodendrocyte,oligodendrocyte,494966,55.722910894633685,monocyte,monocyte,25753,2.266554481622365,False,weak_or_no_direct_match,0.6086956521739131,0.6086956521739131,0.0
+oligodendrocyte precursor cell,oligodendrocyte precursor,105734,11.903456521323076,hematopoietic precursor cell,hematopoietic precursor,2140,0.18834413818474977,False,weak_or_no_direct_match,0.5833333333333334,0.5833333333333334,0.3333333333333333
+central nervous system macrophage,central nervous system macrophage,91838,10.339054987092787,colon macrophage,colon macrophage,328,0.02886769968439155,False,weak_or_no_direct_match,0.5306122448979592,0.5306122448979592,0.2
