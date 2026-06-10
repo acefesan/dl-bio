@@ -22,7 +22,10 @@ This is the GitHub Pages entry point for the caffeine epigenome wiki.
 ## Project Index
 
 - [Wiki README](README.html)
+- [Reading itinerary](reading-itinerary.html) — one front-to-back sitting: download → UMAP fundamentals → joint UMAP → every figure → open questions
 - [Concept map](concept-map.html)
 - [Learning path](learning-path.html)
+- [UMAP and dimensionality reduction](concepts/umap-and-dimensionality-reduction.html)
+- [Lab 001 joint UMAP](labs/001-joint-umap.html)
 
 Source repository: [acefesan/dl-bio](https://github.com/acefesan/dl-bio)

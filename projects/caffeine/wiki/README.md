@@ -4,6 +4,7 @@ This is a Karpathy-style LLM wiki for the caffeine epigenome project: persistent
 
 Start here:
 
+- [reading itinerary](reading-itinerary.md): a single front-to-back data-and-methods read in one sitting — download → UMAP fundamentals → the joint UMAP → every figure → open questions.
 - [learning path](learning-path.md): the ramp-up order if you are new to the project.
 - [concept map](concept-map.md): the graph of concepts and how they depend on each other.
 - [research questions](concepts/research-questions.md): the project backlog, ordered by difficulty.

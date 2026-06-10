@@ -56,6 +56,12 @@ explains what the single-cell RNA experiments actually measure: cells or nuclei,
 [scRNA visualization and analysis](concepts/scrna-visualization-and-analysis.md)
 is the downstream counterpart to the measurement page: the standard Scanpy/Seurat/scvi-tools/Harmony pipeline, every plot type practitioners actually use (UMAP/PCA/t-SNE, dotplot, stacked violin, matrixplot, tracksplot, heatmap, violin, density UMAP, trajectories), and the recurring traps. Each technique is anchored in a Lab 001 figure where one exists.
 
+[UMAP and dimensionality reduction](concepts/umap-and-dimensionality-reduction.md)
+zooms into the embedding mechanics behind those figures: the normalize → select-genes → PCA/SVD → batch-correct → UMAP chain, what UMAP's two-phase neighbor-graph-plus-force-layout actually computes, the `n_neighbors`/`min_dist` knobs, and which features of a UMAP picture are real versus artifacts not to over-read.
+
+[001 joint UMAP](labs/001-joint-umap.md)
+is the cross-atlas method built on those fundamentals: how `make_shared_umap_tabula_hbca.py` puts Tabula Sapiens and HBCA on one set of axes (shared-gene intersection, stratified sampling, TruncatedSVD, Harmony vs centering batch correction, cosine UMAP) and how to read the resulting dataset-colored QC plot and ADORA-high overlay.
+
 [epithelial cell types](concepts/epithelial-cell-types.md)
 defines epithelial, basal, and stratified squamous cells so ADORA2B-rich tissue dots such as `Tongue` can be read as barrier/surface-epithelium signals rather than vague tissue names.
 
@@ -150,6 +156,7 @@ Provenance: which raw dossier each page is built on. Verify a claim by following
 19. Learn [public data landscape](concepts/public-data-landscape.md).
 20. Learn [single-cell RNA-seq measurement](concepts/single-cell-rna-seq-measurement.md).
 21. Learn [scRNA visualization and analysis](concepts/scrna-visualization-and-analysis.md).
+21a. Learn [UMAP and dimensionality reduction](concepts/umap-and-dimensionality-reduction.md), then [001 joint UMAP](labs/001-joint-umap.md).
 22. Learn [epithelial cell types](concepts/epithelial-cell-types.md).
 23. Learn [immune cell types](concepts/immune-cell-types.md).
 24. Read [direct caffeine epigenomics](concepts/direct-caffeine-epigenomics.md).
