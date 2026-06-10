@@ -22,6 +22,7 @@ Submodules: `dlfb/` ([dlfb library](https://github.com/deep-learning-for-biology
 
 | You want to... | Read |
 |---|---|
+| **read the caffeine epigenome wiki** | **[projects/caffeine/wiki/](projects/caffeine/wiki/index.md)** — start with the [reading itinerary](projects/caffeine/wiki/reading-itinerary.md) |
 | see what's being investigated + status | [WORKSTREAMS.md](WORKSTREAMS.md) |
 | see all experiments and results | [chapters/chapter2/lab/summary.md](chapters/chapter2/lab/summary.md) |
 | understand the pipelines + repo layout | [docs/architecture.md](docs/architecture.md) |
@@ -34,6 +35,6 @@ Agent context (for Claude Code / other coding agents): [AGENTS.md](AGENTS.md).
 ## Current focus
 
 - **Area A — `chapters/chapter2/`:** ESM2 protein embeddings & clustering, following the DL for Biology book (threads T1–T6, active)
-- **Area B — `projects/caffeine/`:** computational cross-tissue caffeine epigenome mapping, standalone (T7, proposal only; see [projects/caffeine/PROPOSAL.md](projects/caffeine/PROPOSAL.md))
+- **Area B — `projects/caffeine/`:** computational cross-tissue caffeine epigenome mapping, standalone (T7). See the [caffeine wiki](projects/caffeine/wiki/index.md) (start with the [reading itinerary](projects/caffeine/wiki/reading-itinerary.md)), the [proposal](projects/caffeine/PROPOSAL.md), and the active [Lab 001 ADORA expression](projects/caffeine/wiki/labs/001-adora-expression.md).
 
 See [WORKSTREAMS.md](WORKSTREAMS.md) for the live status of every thread.
