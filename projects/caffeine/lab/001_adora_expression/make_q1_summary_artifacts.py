@@ -291,7 +291,8 @@ def main() -> None:
     print("Building pseudobulk_by_cell_type...")
     pb_tabula = pseudobulk(tabula_expr, tabula_obs["cell_type"].values, "Tabula Sapiens")
     pb_hbca = pseudobulk(hbca_expr, hbca_obs["cell_type"].values, "HBCA non-neuronal")
-    pb_neurons = pseudobulk(neuron_expr, neuron_obs["cell_type"].values, "HBCA neurons")
+    # HBCA neurons: cell_type is coarse ("neuron"); use granular supercluster_term.
+    pb_neurons = pseudobulk(neuron_expr, neuron_obs["supercluster_term"].values, "HBCA neurons")
     pb = pd.concat([pb_tabula, pb_hbca, pb_neurons], ignore_index=True)
     pb_out = CACHE_DIR / "pseudobulk_by_cell_type.feather"
     pb.to_feather(pb_out)
@@ -307,7 +308,7 @@ def main() -> None:
     print("Building cross_receptor_overlap...")
     ovl_tabula = cross_receptor_overlap(tabula_expr, tabula_obs["cell_type"].values, "Tabula Sapiens")
     ovl_hbca = cross_receptor_overlap(hbca_expr, hbca_obs["cell_type"].values, "HBCA non-neuronal")
-    ovl_neurons = cross_receptor_overlap(neuron_expr, neuron_obs["cell_type"].values, "HBCA neurons")
+    ovl_neurons = cross_receptor_overlap(neuron_expr, neuron_obs["supercluster_term"].values, "HBCA neurons")
     ovl = pd.concat([ovl_tabula, ovl_hbca, ovl_neurons], ignore_index=True)
     ovl_out = CACHE_DIR / "cross_receptor_overlap.feather"
     ovl.to_feather(ovl_out)
