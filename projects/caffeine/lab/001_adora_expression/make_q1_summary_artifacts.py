@@ -3,20 +3,22 @@
 
 Reads ADORA expression that was already extracted into compact npz files plus
 obs metadata read directly from the downloaded H5ADs with h5py (no SOMA, no
-network). Combines Tabula Sapiens (peripheral, 1.14M cells) and HBCA non-
-neuronal (brain, 888k cells) so the pseudobulk table is body-wide.
+network). Combines all three atlases — Tabula Sapiens (peripheral, 1.14M
+cells), HBCA non-neuronal (brain, 888k cells), and HBCA neurons (brain,
+2.48M cells) — so the pseudobulk table is body-wide and brain-complete.
 
 Outputs:
     figures/ranked_top20_per_receptor.png
     figures/donor_stratified_dotplot.png            (Tabula only, donor_id)
     figures/assay_stratified_dotplot.png            (Tabula only, assay)
-    cache/pseudobulk_by_cell_type.feather           (combined Tabula + HBCA)
+    cache/pseudobulk_by_cell_type.feather           (Tabula + both HBCA halves)
     cache/cross_receptor_overlap.feather            (combined; per-cell-type)
     cache/q1_summary.json                           run metadata
 
-What this script does NOT cover:
-    HBCA neurons (30 GB H5AD not yet downloaded) — neurons are the canonical
-    brain ADORA1/2A story. Anything striatal/cortical here is absent.
+Coverage note:
+    Brain is now represented by both HBCA halves (non-neuronal + neurons), so
+    the canonical striatal/cortical ADORA1/2A neuronal signal is included.
+    The neuron file is 100% 10x 3' v3.
 """
 
 from __future__ import annotations
@@ -32,6 +34,11 @@ import numpy as np
 import pandas as pd
 
 GENES = ["ADORA1", "ADORA2A", "ADORA2B", "ADORA3"]
+SOURCE_COLORS = {
+    "Tabula Sapiens": "#1f77b4",
+    "HBCA non-neuronal": "#d62728",
+    "HBCA neurons": "#2ca02c",
+}
 LAB_DIR = Path(__file__).resolve().parent
 CACHE_DIR = LAB_DIR / "cache"
 FIG_DIR = LAB_DIR / "figures"
@@ -40,6 +47,8 @@ TABULA_H5AD = CACHE_DIR / "tabula_sapiens_all_cells.h5ad"
 TABULA_EXPR = CACHE_DIR / "tabula_sapiens_adora_expression.npz"
 HBCA_H5AD = CACHE_DIR / "human_brain_cell_atlas" / "hbca_all_non_neuronal_b165f033.h5ad"
 HBCA_EXPR = CACHE_DIR / "human_brain_cell_atlas" / "hbca_adora_expression.npz"
+NEURONS_H5AD = CACHE_DIR / "human_brain_cell_atlas" / "hbca_all_neurons_8e10f1c4.h5ad"
+NEURONS_EXPR = CACHE_DIR / "human_brain_cell_atlas" / "hbca_neurons_adora_expression.npz"
 
 
 def decode(values):
@@ -108,7 +117,7 @@ def ranked_top20_plot(pb: pd.DataFrame, out_path: Path, min_cells: int = 50) -> 
         if sub.empty:
             ax.set_visible(False)
             continue
-        colors = ["#1f77b4" if s == "Tabula Sapiens" else "#d62728" for s in sub["source"]]
+        colors = [SOURCE_COLORS.get(s, "#7f7f7f") for s in sub["source"]]
         labels = [
             f"{ct}  ({s[0]}, n={int(n)})"
             for ct, s, n in zip(sub["cell_type"], sub["source"], sub["n_cells"])
@@ -121,10 +130,10 @@ def ranked_top20_plot(pb: pd.DataFrame, out_path: Path, min_cells: int = 50) -> 
         ax.set_xlabel(f"{gene} mean expression in expressing cells")
         ax.set_title(f"{gene} — top 20 cell types ({sub['source'].nunique()} atlases)")
     handles = [
-        plt.Rectangle((0, 0), 1, 1, color="#1f77b4", label="Tabula Sapiens"),
-        plt.Rectangle((0, 0), 1, 1, color="#d62728", label="HBCA non-neuronal"),
+        plt.Rectangle((0, 0), 1, 1, color=color, label=label)
+        for label, color in SOURCE_COLORS.items()
     ]
-    fig.legend(handles=handles, loc="upper center", ncol=2, frameon=False)
+    fig.legend(handles=handles, loc="upper center", ncol=len(handles), frameon=False)
     fig.suptitle("Top 20 cell types per ADORA receptor (mean expression among expressing cells)",
                  y=1.02)
     fig.tight_layout()
@@ -251,7 +260,7 @@ def stratified_dotplot(expr: np.ndarray, strat: np.ndarray, ct: np.ndarray,
 
 
 def main() -> None:
-    for p in (TABULA_H5AD, TABULA_EXPR, HBCA_H5AD, HBCA_EXPR):
+    for p in (TABULA_H5AD, TABULA_EXPR, HBCA_H5AD, HBCA_EXPR, NEURONS_H5AD, NEURONS_EXPR):
         if not p.exists():
             sys.exit(f"missing input: {p}")
     FIG_DIR.mkdir(exist_ok=True)
@@ -269,13 +278,22 @@ def main() -> None:
     if hbca_expr.shape[0] != len(hbca_obs):
         sys.exit(f"HBCA expr/obs mismatch: {hbca_expr.shape[0]} vs {len(hbca_obs)}")
 
-    print(f"Tabula: {len(tabula_obs):,} cells; HBCA: {len(hbca_obs):,} cells")
+    print("Loading HBCA neuron metadata...")
+    neuron_obs = load_obs(NEURONS_H5AD, ["cell_type", "tissue", "supercluster_term", "donor_id", "assay"])
+    neuron_expr = load_expression(NEURONS_EXPR)
+    if neuron_expr.shape[0] != len(neuron_obs):
+        sys.exit(f"Neuron expr/obs mismatch: {neuron_expr.shape[0]} vs {len(neuron_obs)}")
+
+    print(f"Tabula: {len(tabula_obs):,} cells; HBCA non-neuronal: {len(hbca_obs):,} cells; "
+          f"HBCA neurons: {len(neuron_obs):,} cells")
 
     # Pseudobulk per source, then concat
     print("Building pseudobulk_by_cell_type...")
     pb_tabula = pseudobulk(tabula_expr, tabula_obs["cell_type"].values, "Tabula Sapiens")
     pb_hbca = pseudobulk(hbca_expr, hbca_obs["cell_type"].values, "HBCA non-neuronal")
-    pb = pd.concat([pb_tabula, pb_hbca], ignore_index=True)
+    # HBCA neurons: cell_type is coarse ("neuron"); use granular supercluster_term.
+    pb_neurons = pseudobulk(neuron_expr, neuron_obs["supercluster_term"].values, "HBCA neurons")
+    pb = pd.concat([pb_tabula, pb_hbca, pb_neurons], ignore_index=True)
     pb_out = CACHE_DIR / "pseudobulk_by_cell_type.feather"
     pb.to_feather(pb_out)
     print(f"  → {pb_out}  ({len(pb)} rows)")
@@ -290,7 +308,8 @@ def main() -> None:
     print("Building cross_receptor_overlap...")
     ovl_tabula = cross_receptor_overlap(tabula_expr, tabula_obs["cell_type"].values, "Tabula Sapiens")
     ovl_hbca = cross_receptor_overlap(hbca_expr, hbca_obs["cell_type"].values, "HBCA non-neuronal")
-    ovl = pd.concat([ovl_tabula, ovl_hbca], ignore_index=True)
+    ovl_neurons = cross_receptor_overlap(neuron_expr, neuron_obs["supercluster_term"].values, "HBCA neurons")
+    ovl = pd.concat([ovl_tabula, ovl_hbca, ovl_neurons], ignore_index=True)
     ovl_out = CACHE_DIR / "cross_receptor_overlap.feather"
     ovl.to_feather(ovl_out)
     print(f"  → {ovl_out}  ({len(ovl)} rows)")
@@ -315,11 +334,14 @@ def main() -> None:
     summary = {
         "tabula_cells": int(len(tabula_obs)),
         "hbca_cells": int(len(hbca_obs)),
+        "neuron_cells": int(len(neuron_obs)),
         "genes": GENES,
         "pseudobulk_rows": int(len(pb)),
         "cross_receptor_rows": int(len(ovl)),
-        "missing_coverage": "HBCA neurons (2.48M cells, 30 GB) not yet downloaded; "
-                            "brain neuronal ADORA1/2A signal absent.",
+        "missing_coverage": "Brain is now fully represented by both HBCA halves "
+                            "(non-neuronal + neurons), so the canonical striatal/"
+                            "cortical ADORA1/2A neuronal signal is included. "
+                            "Note: the neuron file is 100% 10x 3' v3.",
     }
     (CACHE_DIR / "q1_summary.json").write_text(json.dumps(summary, indent=2))
     print("Done.")
