@@ -108,18 +108,18 @@ Per-dataset totals: Tabula 1,136,218 · HBCA non-neuronal 888,263 · HBCA neuron
 - [wiki/labs/001-joint-umap.md](../../wiki/labs/001-joint-umap.md) — the cross-atlas embedding method.
 
 📊
-- **Headline:** [lab/001_adora_expression/figures/ranked_top20_per_receptor.png](figures/ranked_top20_per_receptor.png) — top 20 cell types per receptor (Tabula + HBCA).
+- **Headline:** [lab/001_adora_expression/figures/ranked_top20_per_receptor.png](figures/ranked_top20_per_receptor.png) — top 20 cell types per receptor, now **3-atlas** (Tabula + HBCA non-neuronal + HBCA neurons; **green = HBCA neurons**).
 - [lab/001_adora_expression/figures/tabula_sapiens_adora_dotplot_cell_type.png](figures/tabula_sapiens_adora_dotplot_cell_type.png) — cell-type dotplot.
 - [lab/001_adora_expression/figures/hbca_adora_dotplot_cell_type.png](figures/hbca_adora_dotplot_cell_type.png) — brain non-neuronal.
-- Tables to quote numbers from: `cache/pseudobulk_by_cell_type.feather` (191 cell types × per-gene mean/pct), `cache/cross_receptor_overlap.feather` (multi-receptor cells — the microglia quadruple-positive finding).
+- Tables to quote numbers from: `cache/pseudobulk_by_cell_type.feather` (per-gene mean/pct per cell type, now carrying HBCA neuron superclusters), `cache/cross_receptor_overlap.feather` (multi-receptor cells — the microglia quadruple-positive finding).
 - Sanity checks: [lab/001_adora_expression/figures/donor_stratified_dotplot.png](figures/donor_stratified_dotplot.png), [assay_stratified_dotplot.png](figures/assay_stratified_dotplot.png).
 
-> **Coverage caveat to state plainly:** the brain figures currently shown are the **non-neuronal** half (glia/vascular). The neuronal half (HBCA neurons, 2,480,956 cells) is now **downloaded** (`cache/human_brain_cell_atlas/hbca_all_neurons_8e10f1c4.h5ad`) but **not yet folded into the Q1 figures/pseudobulk** — that regeneration is the next compute step before this section can claim the A1/A2A neuronal story.
+> **Brain coverage — now complete:** both halves of the brain are in. The neuronal half (HBCA neurons, 2,480,956 cells, grouped by `supercluster_term`) is now **folded into the Q1 figures and pseudobulk feather**, alongside the non-neuronal glia/vascular half. The headline neuronal findings confirm the proposal's strongest priors: **medium spiny neurons are the #1 ADORA2A cell type** (mean 2.62 among expressing cells, 36.5% expressing, n=152,189) — the canonical striatal A2A site — while **ADORA1 lights up hippocampal CA4 (68.4% expressing), thalamic excitatory (60.2%), and deep-layer cortical neurons (53–62%)**. The residual caveat is assay homogeneity: the neuron file is 100% 10x 3' v3 (single-assay), so these numbers have no cross-assay corroboration.
 
 ---
 
 ## Open gaps this outline exposes (for your "what's next" / honesty section)
 - ⚠️ **Pathway diagram (1a)** — no asset; needs drawing.
 - ⚠️ **Proteomics (2b)** — no page, no data; decide limitation vs research.
-- ⏳ **Brain neurons (3b)** — downloaded (2.48M cells); assay count updated, but Q1 figures/pseudobulk not yet regenerated to include them (currently glia-only).
+- ✅ **Brain neurons (3b)** — **done.** 2.48M HBCA neurons folded into the Q1 figures and pseudobulk (grouped by `supercluster_term`); `ranked_top20_per_receptor.png` is now 3-atlas. Confirms MSN as #1 for ADORA2A and hippocampal/thalamic/cortical neurons for ADORA1.
 - Future questions queued: GTEx bulk cross-check, Q5 (CYP1A2 liver), Q9 (chromatin at ADORA loci). See [wiki/concepts/research-questions.md](../../wiki/concepts/research-questions.md).
