@@ -38,7 +38,7 @@ Paths are relative to this file (`projects/caffeine/lab/001_adora_expression/`).
 - [wiki/concepts/kinase.md](../../wiki/concepts/kinase.md) — PKA → CREB step.
 - [wiki/concepts/signaling-to-transcription.md](../../wiki/concepts/signaling-to-transcription.md) — how the cascade becomes gene regulation.
 
-📊 *pathway sketch* — ⚠️ no diagram asset exists yet. **Gap:** you'll draw/source the GPCR→Gα→cAMP→PKA→CREB schematic. The text for every arrow is in `camp-signaling.md` and `g-protein-coupling.md`.
+📊 *pathway sketch* — [lab/001_adora_expression/figures/adora_agonist_comic.png](figures/adora_agonist_comic.png) (`.svg` for editing; built by `make_adora_agonist_comic.py`). A 4-panel comic of the agonist→receptor→Gα→adenylyl cyclase→cAMP cascade, one panel per receptor. Covers the per-receptor cascade; a generic single-GPCR→PKA→CREB→transcription schematic is still optional if you want the full downstream arc (text for every arrow is in `camp-signaling.md` and `g-protein-coupling.md`).
 
 ### 1b) The 4 types — what each does differently
 
@@ -49,6 +49,7 @@ Paths are relative to this file (`projects/caffeine/lab/001_adora_expression/`).
 - [wiki/concepts/caffeine-molecular-targets.md](../../wiki/concepts/caffeine-molecular-targets.md) — caffeine as antagonist across the four.
 
 📊
+- **Headline illustration:** [lab/001_adora_expression/figures/adora_agonist_comic.png](figures/adora_agonist_comic.png) — the 4-panel "what each does differently" comic (A1/A3 Gi→cAMP↓ cool; A2A/A2B Gs→cAMP↑ warm), with adenosine docking and caffeine flagged as the antagonist.
 - Per-receptor expected vs observed cell-type biology: [lab/001_adora_expression/entry.md](entry.md) (Hypothesis + Interpretation sections) — your prose source for "A1 = glia/neurons, A2A = striatum/immune, A2B = epithelium/astrocytes, A3 = myeloid/mast".
 
 ---
@@ -119,7 +120,7 @@ Per-dataset totals: Tabula 1,136,218 · HBCA non-neuronal 888,263 · HBCA neuron
 ---
 
 ## Open gaps this outline exposes (for your "what's next" / honesty section)
-- ⚠️ **Pathway diagram (1a)** — no asset; needs drawing.
+- 🟡 **Pathway diagram (1a)** — per-receptor agonist→cAMP comic done (`adora_agonist_comic.png`); a generic single-GPCR→PKA→CREB→transcription schematic is still optional.
 - ⚠️ **Proteomics (2b)** — no page, no data; decide limitation vs research.
 - ✅ **Brain neurons (3b)** — **done.** 2.48M HBCA neurons folded into the Q1 figures and pseudobulk (grouped by `supercluster_term`); `ranked_top20_per_receptor.png` is now 3-atlas. Confirms MSN as #1 for ADORA2A and hippocampal/thalamic/cortical neurons for ADORA1.
 - Future questions queued: GTEx bulk cross-check, Q5 (CYP1A2 liver), Q9 (chromatin at ADORA loci). See [wiki/concepts/research-questions.md](../../wiki/concepts/research-questions.md).
