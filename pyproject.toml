@@ -30,6 +30,7 @@ dependencies = [
     "cellxgene-census>=1.17.0",
     "scanpy>=1.11.5",
     "tiledb>=0.36.1",
+    "rdkit>=2026.3.3",
 ]
 
 [tool.uv.workspace]
