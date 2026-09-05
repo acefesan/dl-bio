@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08080c">
+  <title>A1 Pathway Atlas</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #08080c; color: #f4f4f5; }
+    header { padding: 42px max(20px, 5vw) 24px; background: radial-gradient(circle at 20% 0, #39204f, transparent 42%), #0d0d13; border-bottom: 1px solid #282832; }
+    h1 { margin: 0 0 10px; font-size: clamp(30px, 6vw, 58px); letter-spacing: -.04em; }
+    header p { max-width: 760px; margin: 0; color: #b7b7c3; line-height: 1.55; }
+    main { width: min(1380px, 94vw); margin: 0 auto; padding: 32px 0 60px; }
+    .note { padding: 16px 18px; margin-bottom: 28px; border: 1px solid #343442; border-radius: 14px; background: #111119; color: #cfcfda; line-height: 1.5; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 470px), 1fr)); gap: 24px; }
+    article { overflow: hidden; border: 1px solid #2d2d38; border-radius: 18px; background: #101017; }
+    article img { display: block; width: 100%; height: auto; background: #08080c; }
+    .body { padding: 18px; }
+    h2 { margin: 0 0 8px; font-size: 22px; }
+    .meta { margin: 0 0 16px; color: #a6a6b2; font-size: 14px; line-height: 1.45; }
+    a { display: inline-block; padding: 11px 15px; border-radius: 10px; background: #f0b4ff; color: #211126; font-weight: 750; text-decoration: none; }
+    a + a { margin-left: 7px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header><h1>A1 pathway atlas</h1><p>Branch-balanced expression across every cell processed by the latest ADORA1 analysis. Bright regions have stronger mean pathway expression; opacity reflects local cell density.</p></header>
+  <main>
+    <div class="note"><strong>3,617,174 cells scored.</strong> New neighborhood views separate isolated high cells from coherent local structure. Use <em>Smoothed</em> to see k-neighbor signal and <em>Top-tail support</em> to find neighborhoods containing many top-5% cells. Enrichment tables rank cell types and regions directly instead of requiring a visible UMAP island.</div>
+    <div class="grid">
+      <article><img src="tabula_sapiens_all_cells.png" alt="Tabula Sapiens A1 pathway UMAP"><div class="body"><h2>Tabula Sapiens</h2><p class="meta">Raw, neighborhood-smoothed, and ranked enrichment views.</p><a href="tabula_sapiens_neighborhoods.html">Neighborhoods</a><a href="tabula_sapiens_enrichment.html">Enrichment</a><a href="tabula_sapiens_interactive.html">Raw UMAP</a></div></article>
+      <article><img src="hbca_neurons_all_cells.png" alt="HBCA neuron A1 pathway UMAP"><div class="body"><h2>Human Brain Cell Atlas</h2><p class="meta">Brain-region and neuronal-supercluster drill-downs with local support.</p><a href="hbca_neurons_neighborhoods.html">Neighborhoods</a><a href="hbca_neurons_enrichment.html">Enrichment</a><a href="hbca_neurons_interactive.html">Raw UMAP</a></div></article>
+    </div>
+  </main>
+</body>
+</html>

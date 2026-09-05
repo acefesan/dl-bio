@@ -12,6 +12,8 @@ checkpoints/
 chapters/chapter2/runs/
 projects/caffeine/lab/*/cache/
 projects/caffeine/lab/*/figures/*interactive*.html
+projects/caffeine/lab/*/figures/**/*interactive*.html
+projects/caffeine/lab/*/figures/**/*neighborhoods*.html
 
 # Tool configs
 opencode.json

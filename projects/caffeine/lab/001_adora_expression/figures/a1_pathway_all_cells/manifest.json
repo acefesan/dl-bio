@@ -1,0 +1,12 @@
+{
+  "tabula_sapiens": {
+    "n_cells": 1136218,
+    "missing_genes": [],
+    "score_p90": 0.38477763533592224
+  },
+  "hbca_neurons": {
+    "n_cells": 2480956,
+    "missing_genes": [],
+    "score_p90": 0.7026152610778809
+  }
+}

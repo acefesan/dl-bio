@@ -9,6 +9,8 @@
 
 Paths are relative to this file (`projects/caffeine/lab/001_adora_expression/`).
 
+**Live draft:** the prose itself is written on Bearblog, not in this repo — https://bearblog.dev/acefsan/dashboard/posts/QcQhwVjVrXmpPPuwdYUk/
+
 ---
 
 ## Hook — *caffeine enters your body; neurons, epithelial cells react. How do we paint this story?*
