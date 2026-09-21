@@ -46,6 +46,14 @@ Q1 summary artifacts (built by `make_q1_summary_artifacts.py` on 2026-06-08):
 - `cache/pseudobulk_by_cell_type.feather` — (mean, mean_nonzero, pct_expressing) per gene per cell type per source, across all three atlases (HBCA neurons grouped by `supercluster_term`).
 - `cache/cross_receptor_overlap.feather` — per cell type, count of cells positive for each subset of the four receptors (now also three-atlas).
 
+A1 pathway scoring, all seven scGSA methods (built by `scgsa_*` on 2026-09-21):
+- `figures/a1_allmethods_group_scores_hbca.csv` and `..._tabula.csv` — every method in Wang & Thakar 2024 (scPS, AddModuleScore, AUCell, JASMINE, UCell, SCSE, ssGSEA) run **per-cell**, on two A1 panels (an 8-gene A1-specific panel and the 61-gene exhaustive panel), across both atlases.
+- `figures/a1_allmethods_percell_hbca.csv` and `..._tabula.csv` — per-cell scores behind those means.
+- `figures/a1_scps_sensitivity_hbca.csv` — scPS solver/seed stability.
+- `figures/a1_allmethods_direct_hbca.csv` — independent reimplementation cross-check (Spearman rho +1.000 against the irGSEA path on all five shared methods).
+
+Run on a 200-cell-per-group subsample (the paper's own main sample size), groups with n >= 500 only, no zero imputation. Setup and reruns: `scgsa_setup_env.sh`.
+
 For a guided walkthrough of every artifact, see [ARTIFACTS.md](ARTIFACTS.md).
 
 ## Interpretation
@@ -64,6 +72,8 @@ The most striking pattern is that **myeloid cells, especially microglia and macr
 **Donor- and assay-stratified dotplots:** the patterns are consistent across donors (TSP1–30) and across assays (10x 3' v3 dominates, but Smart-seq2 sees comparable expression where overlap exists). No single donor or assay is driving the top-cell-type signals.
 
 **Atlas-coverage note:** broad tissue labels in the local Tabula H5AD do not include brain, but HBCA is now represented by **both halves** — the non-neuronal release (glia/vascular) and the neuronal release (2,480,956 cells, grouped by `supercluster_term`). The strongest ADORA1/2A biological prior — neuronal expression in striatum (A2A medium spiny neurons), cortex/hippocampus/thalamus (A1) — is therefore now **confirmed** rather than untestable. The main residual caveat is assay homogeneity: the HBCA neuron file is 100% 10x 3' v3 (single-assay), so the neuronal numbers carry no cross-assay corroboration and inherit the dropout characteristics of droplet 3'-tag sequencing for sparse genes like the ADORAs.
+
+**A1 *pathway* scoring is panel-dependent, and the earlier read was wrong.** The receptor-level ADORA1 findings above are unaffected — this concerns the downstream pathway panel only. Earlier pathway numbers came from one method (AddModuleScore) in a simplified pseudobulk variant, which is not the per-cell implementation Wang & Thakar benchmark, so the paper's reassurance about that method never actually applied. Re-run per-cell with all seven methods: on the 61-gene exhaustive panel CA4 is mid-pack (ranks 5–10) and hippocampal CA1-3 leads; on an 8-gene A1-specific panel CA4 is first or second under **all seven** methods. The likely reason is that the exhaustive panel is dominated by ubiquitous signalling genes (PLCβ, PKC, calmodulin, MAPK/AKT) and was partly measuring generic signalling abundance rather than A1 wiring. Tabula makes this sharper still: there the two panels rank cell types essentially independently (rho −0.10 to +0.32), with the 61-gene panel finding monocytes and neutrophils — unsurprising given it carries NF-κB, PI3K/MAPK and PLC/PKC — and the 8-gene panel finding the vascular contractile lineage (mural, smooth muscle, pericyte, myofibroblast in the top six of 105) while endothelium sits near rank 50. That vascular signal is method-independent but **unchecked against vascular A1 literature**, and the panel shares genes with contractile machinery, so treat it as a lead rather than a finding. Also noted: scPS cannot run unmodified on an 8-gene set (authors hardcode `npcs = 10`) and is seed-unstable there under Seurat's default truncated SVD.
 
 **GTEx bulk pseudobulk comparison:** still TODO. The pseudobulk_by_cell_type feather is the right input for that join.
 

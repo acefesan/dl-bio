@@ -326,11 +326,96 @@ Tiny log of the Tabula Sapiens download timing.
 
 ---
 
-## 8. What's Missing (And Where Each Belongs)
+## 8. scGSA Method-Comparison Tables (Built By `scgsa_*`)
+
+All seven single-cell gene-set scoring methods benchmarked in Wang & Thakar
+2024 (NARGAB `lqae124`), run per-cell on two A1 gene panels across both
+atlases. Unlike everything above, **these tables are built from a 200-cell-per-
+group subsample, not all cells** — the rank-based methods score each cell
+against the whole gene axis, which does not scale to 2.5M cells. 200/group is
+the paper's own main sample size. Groups with fewer than 500 cells are excluded.
+
+The two panels: `minimal8` (`ADORA1`, `GNAO1`, `GNAI1`, `KCNJ3`, `KCNJ6`,
+`CACNA1A`, `CACNA1B`, `ADCY5` — chosen for specificity to A1) and `full61`
+(the exhaustive panel). Narrative and full interpretation live in
+[blogs/a1-receptor-pathway/all-methods-scratchpad.md](../../../../blogs/a1-receptor-pathway/all-methods-scratchpad.md).
+
+### `figures/a1_allmethods_group_scores_hbca.csv`
+
+> Mean score per HBCA supercluster, for 7 methods × 2 panels × 21 groups (294 rows).
+
+**How to read it.** Long format: `atlas, method, panel, group, score, n_cells`.
+Rank *within* a (method, panel) pair. Scores are not comparable across methods
+— each has its own scale — so compare ranks, not values.
+
+**What it's good for.** The headline result: on `full61` Hippocampal CA4 sits
+mid-pack (ranks 5–10) and CA1-3 leads, while on `minimal8` CA4 is first or
+second under all seven methods. The panel choice, not the method choice, is
+what moves the answer.
+
+**Caveats.** Single subsample draw at seed 0; stability to a different draw is
+untested. No zero imputation was run, which the paper treats as a benchmark
+variable rather than a preprocessing detail.
+
+### `figures/a1_allmethods_group_scores_tabula.csv`
+
+> Same shape for Tabula Sapiens: 7 methods × 2 panels × 105 cell types (1,470 rows).
+
+**How to read it.** Identical columns. Because both atlases were normalised
+identically from raw counts here (Tabula counts pulled from `raw/X`, not its
+log-normalised `X`), magnitudes *are* comparable to the HBCA table — which is
+not true of the older pseudobulk artifacts.
+
+**What it's good for.** Showing the two panels rank peripheral cell types
+essentially independently (Spearman rho −0.10 to +0.32). `full61` ranks
+monocytes and neutrophils first; `minimal8` ranks the vascular contractile
+lineage first (mural, smooth muscle, pericyte, myofibroblast in the top six)
+with endothelium near rank 50 as a natural negative control.
+
+**Caveats.** The vascular result has not been checked against any vascular A1
+literature. `CACNA1A/B`, `ADCY5` and `KCNJ3` are not neuron-exclusive, so
+panel bleed into contractile machinery is a live alternative explanation.
+
+### `figures/a1_allmethods_percell_hbca.csv` + `_tabula.csv`
+
+Per-cell scores, one row per sampled cell (4,200 and 21,000 respectively),
+columns named `<method>__<panel>`. Use these for distributional questions the
+group means cannot answer — medians, effect sizes, whether a group's lead is
+carried by outliers. CA4's `minimal8` lead holds by median under 5 of 7
+methods, Mann-Whitney p < 1e-22, common-language effect size 0.71–0.79.
+
+### `figures/a1_scps_sensitivity_hbca.csv`
+
+> scPS scores on `minimal8` under two SVD solvers × three random seeds.
+
+**What it's good for.** Documenting that scPS is not usable off-the-shelf on a
+small panel. The authors hardcode `npcs = 10`, which cannot run on 8 genes
+(clamped to 7 here), and Seurat's default truncated SVD then warns
+`did not converge--results might be invalid!`. With `approx = TRUE` the
+top-ranked cell type changes with the seed; with `approx = FALSE` it is stable
+across seeds. The authors' own code has `# approx = FALSE` commented out on
+that line.
+
+### `figures/a1_allmethods_direct_hbca.csv`
+
+> The same five irGSEA-wrapped methods, reimplemented via direct package calls.
+
+**What it's good for.** Validation. AUCell, UCell, GSVA/ssGSEA, the authors'
+JASMINE source and the SCSE formula were called directly and compared against
+the irGSEA path: Spearman rho **+1.000** on all five methods across both
+panels, same top-ranked cell type every time. The wrapper adds no hidden
+transformation.
+
+**Caveats.** Only HBCA was cross-checked this way; Tabula was run through the
+irGSEA path alone.
+
+---
+
+## 9. What's Missing (And Where Each Belongs)
 
 | Open item | Where it would land |
 |---|---|
-| HBCA neurons (30 GB H5AD) — closes brain ADORA1/2A | `cache/human_brain_cell_atlas/hbca_neurons_8e10f1c4.h5ad` |
+| ~~HBCA neurons (30 GB H5AD) — closes brain ADORA1/2A~~ **done** — landed as `cache/human_brain_cell_atlas/hbca_all_neurons_8e10f1c4.h5ad` | — |
 | Heart Cell Atlas — closes cardiac atrial ADORA1 | `cache/heart_cell_atlas/` |
 | Liver Cell Atlas — needed for Q5 CYP1A2 | `cache/liver_cell_atlas/` |
 | Findley 2019 HUVEC + caffeine — Q10 | `cache/findley_2019_huvec/` |
