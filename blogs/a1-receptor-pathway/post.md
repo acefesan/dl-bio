@@ -8,6 +8,40 @@
 Second post in the series. Picks up where the motivation post left off —
 zooms in on one receptor (A1) and goes deep instead of wide.
 
+## 0. Cognitive debt — BLOCKING, answer before writing any of this
+
+> These are questions for *me*, not TODOs to delegate or to look up once
+> and paste in. The post does not get written until I can answer each one
+> in my own words. Reference material is in this folder (`lqae124.pdf`,
+> Wang & Thakar 2024) — but having read it is not the same as being able
+> to answer these.
+
+- [ ] **How do you properly interpret a zero count for a gene?** When
+      does a zero mean "this gene is genuinely not expressed in this
+      cell" versus "the assay missed it"? What would I need to know about
+      the data to tell those two apart — and can I ever tell them apart
+      for a *single* cell, or only in aggregate across many cells?
+- [ ] **How does that relate to how the paper treats this kind of work?**
+      It runs zero imputation (scImpute) and reports that every method
+      improved under it. Why does imputing change the answer at all, what
+      assumption is imputation making, and do I believe that assumption
+      for our data? And what does it signify that the paper treats
+      zero-handling as a *benchmark variable* rather than as a
+      preprocessing detail?
+- [ ] **Why are bigger gene sets shadier, according to the paper?** The
+      naive intuition says more genes means more signal and more
+      statistical power. Scenarios 3 and 4 show the opposite — large sets
+      produced *higher* false-positive rates even with no
+      condition-specific signal present at all. What is the actual
+      mechanism driving that, and does it apply to our 61-gene panel?
+
+Why these are load-bearing rather than academic: our current data claims
+rest on co-expression across a 61-gene panel, and on readings where
+low-detection genes (`NOS2/3`, `PLCB2/3`, `PREX1`, `KCNJ5`) were treated
+as possibly-absent. Both of those are exactly the interpretations these
+three questions govern. Answer them first, or the post asserts things I
+can't defend.
+
 ## 1. Where is A1 expressed?
 
 - [ ] Pull the A1-specific slice out of our existing artifacts (tissue +
