@@ -1,0 +1,1471 @@
+"atlas","method","panel","group","score","n_cells"
+"tabula","AddModuleScore","minimal8","acinar cell",0.00374157617244952,200
+"tabula","AddModuleScore","minimal8","acinar cell of salivary gland",-0.0189793946951177,200
+"tabula","AddModuleScore","minimal8","activated CD4-positive, alpha-beta T cell",-0.0129993395603199,200
+"tabula","AddModuleScore","minimal8","activated CD8-positive, alpha-beta T cell",0.0021840860636502,200
+"tabula","AddModuleScore","minimal8","adventitial cell",-0.0245690178369507,200
+"tabula","AddModuleScore","minimal8","alveolar adventitial fibroblast",0.0137267006481659,200
+"tabula","AddModuleScore","minimal8","B cell",-0.034960390742894,200
+"tabula","AddModuleScore","minimal8","basal cell",-0.00571728650782139,200
+"tabula","AddModuleScore","minimal8","basal cell of prostate epithelium",-0.00966377013521843,200
+"tabula","AddModuleScore","minimal8","basophil",0.00970769319524046,200
+"tabula","AddModuleScore","minimal8","BEST4+ enterocyte",0.0927638224268937,200
+"tabula","AddModuleScore","minimal8","bladder urothelial cell",-0.0075115115027203,200
+"tabula","AddModuleScore","minimal8","blood vessel smooth muscle cell",0.0588458549071275,200
+"tabula","AddModuleScore","minimal8","capillary endothelial cell",0.00958255580835892,200
+"tabula","AddModuleScore","minimal8","cardiac endothelial cell",0.0199672521804373,200
+"tabula","AddModuleScore","minimal8","CD4-positive, alpha-beta T cell",-0.0258397344569045,200
+"tabula","AddModuleScore","minimal8","CD4-positive, alpha-beta thymocyte",-0.0252938363891852,200
+"tabula","AddModuleScore","minimal8","CD8-positive, alpha-beta T cell",-0.0135063540060293,200
+"tabula","AddModuleScore","minimal8","CD8-positive, alpha-beta thymocyte",-0.0360650772322394,200
+"tabula","AddModuleScore","minimal8","classical monocyte",-0.0287103423600322,200
+"tabula","AddModuleScore","minimal8","club cell",-0.0253541672863161,200
+"tabula","AddModuleScore","minimal8","conjunctival epithelial cell",0.0254134892734924,200
+"tabula","AddModuleScore","minimal8","corneal epithelial cell",0.0280201406666969,200
+"tabula","AddModuleScore","minimal8","duct epithelial cell",-0.0330805916682103,200
+"tabula","AddModuleScore","minimal8","endothelial cell",-0.00618559144238741,200
+"tabula","AddModuleScore","minimal8","endothelial cell of artery",-0.00579565957277441,200
+"tabula","AddModuleScore","minimal8","endothelial cell of lymphatic vessel",-0.0151808729752527,200
+"tabula","AddModuleScore","minimal8","endothelial cell of vascular tree",-0.0170885122856707,200
+"tabula","AddModuleScore","minimal8","enterocyte of epithelium of large intestine",-0.00194387799759581,200
+"tabula","AddModuleScore","minimal8","enterocyte of epithelium proper of duodenum",0.0407881705257155,200
+"tabula","AddModuleScore","minimal8","enterocyte of epithelium proper of ileum",0.0224569221032476,200
+"tabula","AddModuleScore","minimal8","enterocyte of epithelium proper of small intestine",0.0101463934464904,200
+"tabula","AddModuleScore","minimal8","enteroglial cell",-0.0284892473369113,200
+"tabula","AddModuleScore","minimal8","epithelial cell",-0.0259538591093326,200
+"tabula","AddModuleScore","minimal8","epithelial cell of uterus",0.0157465409189968,200
+"tabula","AddModuleScore","minimal8","erythrocyte",-0.0036892152037517,200
+"tabula","AddModuleScore","minimal8","erythroid progenitor cell",-0.0249501049270367,200
+"tabula","AddModuleScore","minimal8","eye photoreceptor cell",-0.0595239746705139,200
+"tabula","AddModuleScore","minimal8","fibroblast",0.00495090652837179,200
+"tabula","AddModuleScore","minimal8","fibroblast of breast",-0.00218357376940241,200
+"tabula","AddModuleScore","minimal8","fibroblast of cardiac tissue",0.0305120831893971,200
+"tabula","AddModuleScore","minimal8","gamma-delta T cell",-0.000412107237955496,200
+"tabula","AddModuleScore","minimal8","granulocyte",0.00540866798616586,200
+"tabula","AddModuleScore","minimal8","hematopoietic precursor cell",-0.0247809966727381,200
+"tabula","AddModuleScore","minimal8","hematopoietic stem cell",0.0228427487975925,200
+"tabula","AddModuleScore","minimal8","hepatocyte",0.0461308911160242,200
+"tabula","AddModuleScore","minimal8","innate lymphoid cell",-0.00458981506170892,200
+"tabula","AddModuleScore","minimal8","intermediate monocyte",-0.0364783828615096,200
+"tabula","AddModuleScore","minimal8","intestinal crypt stem cell of colon",-0.0145621860762327,200
+"tabula","AddModuleScore","minimal8","intestinal crypt stem cell of small intestine",0.0367534831791322,200
+"tabula","AddModuleScore","minimal8","intrahepatic cholangiocyte",0.0266847721210109,200
+"tabula","AddModuleScore","minimal8","keratocyte",-0.0232087008918833,200
+"tabula","AddModuleScore","minimal8","kidney epithelial cell",-0.00284038371514268,200
+"tabula","AddModuleScore","minimal8","large intestine goblet cell",-0.00682126734057297,200
+"tabula","AddModuleScore","minimal8","luminal cell of prostate epithelium",-0.00429105232913064,200
+"tabula","AddModuleScore","minimal8","luminal epithelial cell of mammary gland",-0.0237881137118432,200
+"tabula","AddModuleScore","minimal8","lung multiciliated epithelial cell",-0.0425863219547873,200
+"tabula","AddModuleScore","minimal8","macrophage",-0.0314204925065388,200
+"tabula","AddModuleScore","minimal8","mast cell",0.0165443932170049,200
+"tabula","AddModuleScore","minimal8","mature NK T cell",-0.0307469696073667,200
+"tabula","AddModuleScore","minimal8","mesenchymal stem cell",0.00856322157934737,200
+"tabula","AddModuleScore","minimal8","mesenchymal stem cell of adipose tissue",-0.00746687802481903,200
+"tabula","AddModuleScore","minimal8","monocyte",-0.0256919865061595,200
+"tabula","AddModuleScore","minimal8","mononuclear phagocyte",-0.0298825909654142,200
+"tabula","AddModuleScore","minimal8","Mueller cell",0.0376638147338595,200
+"tabula","AddModuleScore","minimal8","multiciliated columnar cell of tracheobronchial tree",-0.0612495792859284,200
+"tabula","AddModuleScore","minimal8","mural cell",0.140075178413872,200
+"tabula","AddModuleScore","minimal8","myeloid dendritic cell",-0.0212227012044134,200
+"tabula","AddModuleScore","minimal8","myeloid leukocyte",-0.0201064476618307,200
+"tabula","AddModuleScore","minimal8","myofibroblast cell",0.0760539097055332,200
+"tabula","AddModuleScore","minimal8","myometrial cell",0.0259747970686811,200
+"tabula","AddModuleScore","minimal8","naive thymus-derived CD4-positive, alpha-beta T cell",-0.0244003064221951,200
+"tabula","AddModuleScore","minimal8","naive thymus-derived CD8-positive, alpha-beta T cell",-0.020111411195695,200
+"tabula","AddModuleScore","minimal8","natural killer cell",-0.0293773948268403,200
+"tabula","AddModuleScore","minimal8","neutrophil",-0.020577692137296,200
+"tabula","AddModuleScore","minimal8","non-classical monocyte",-0.034539202437252,200
+"tabula","AddModuleScore","minimal8","pancreatic acinar cell",-0.014353815844486,200
+"tabula","AddModuleScore","minimal8","pancreatic ductal cell",0.0325187528698934,200
+"tabula","AddModuleScore","minimal8","paneth cell of epithelium of small intestine",0.00938994187808238,200
+"tabula","AddModuleScore","minimal8","pericyte",0.0843282765623124,200
+"tabula","AddModuleScore","minimal8","plasma cell",-0.0381128219905702,200
+"tabula","AddModuleScore","minimal8","progenitor cell of mammary luminal epithelium",-0.0222817279453918,200
+"tabula","AddModuleScore","minimal8","pulmonary alveolar type 1 cell",-0.0437007235757467,200
+"tabula","AddModuleScore","minimal8","pulmonary alveolar type 2 cell",-0.0412953653992814,200
+"tabula","AddModuleScore","minimal8","regular atrial cardiac myocyte",-0.00301472708171666,200
+"tabula","AddModuleScore","minimal8","regulatory T cell",-0.0389433000613158,200
+"tabula","AddModuleScore","minimal8","respiratory tract goblet cell",-0.0190093847970878,200
+"tabula","AddModuleScore","minimal8","retinal blood vessel endothelial cell",-0.0123797667699922,200
+"tabula","AddModuleScore","minimal8","salivary gland cell",-0.0304576125907448,200
+"tabula","AddModuleScore","minimal8","skeletal muscle satellite stem cell",0.00369855873244446,200
+"tabula","AddModuleScore","minimal8","small intestine goblet cell",0.0115325598496337,200
+"tabula","AddModuleScore","minimal8","smooth muscle cell",0.0973511139147097,200
+"tabula","AddModuleScore","minimal8","spermatid",-0.0229616350511528,200
+"tabula","AddModuleScore","minimal8","spermatocyte",0.0257462115871358,200
+"tabula","AddModuleScore","minimal8","stratified squamous epithelial cell",0.00240167045351505,200
+"tabula","AddModuleScore","minimal8","stromal cell",-0.000466479834567502,200
+"tabula","AddModuleScore","minimal8","stromal cell of ovary",0.00431997056672935,200
+"tabula","AddModuleScore","minimal8","T cell",0.0078105178209597,200
+"tabula","AddModuleScore","minimal8","theca cell",-0.00065667815381835,200
+"tabula","AddModuleScore","minimal8","thymic fibroblast type 1",-0.0196531329998177,200
+"tabula","AddModuleScore","minimal8","thymic fibroblast type 2",-0.037460023740617,200
+"tabula","AddModuleScore","minimal8","tissue-resident macrophage",-0.00999670666207296,200
+"tabula","AddModuleScore","minimal8","vascular associated smooth muscle cell",0.0463193905692643,200
+"tabula","AddModuleScore","minimal8","vein endothelial cell",-0.0168184533737184,200
+"tabula","AddModuleScore","minimal8","ventricular cardiac muscle cell",-0.00300470779576673,200
+"tabula","AddModuleScore","full61","acinar cell",-0.0200969123882489,200
+"tabula","AddModuleScore","full61","acinar cell of salivary gland",0.0177822370375355,200
+"tabula","AddModuleScore","full61","activated CD4-positive, alpha-beta T cell",0.049302402227473,200
+"tabula","AddModuleScore","full61","activated CD8-positive, alpha-beta T cell",0.0721846870214431,200
+"tabula","AddModuleScore","full61","adventitial cell",-0.0165078416513759,200
+"tabula","AddModuleScore","full61","alveolar adventitial fibroblast",0.0561652775209892,200
+"tabula","AddModuleScore","full61","B cell",0.0188043299710279,200
+"tabula","AddModuleScore","full61","basal cell",-0.0432512993101843,200
+"tabula","AddModuleScore","full61","basal cell of prostate epithelium",0.00206015302423257,200
+"tabula","AddModuleScore","full61","basophil",0.071119569609059,200
+"tabula","AddModuleScore","full61","BEST4+ enterocyte",0.0664117477212044,200
+"tabula","AddModuleScore","full61","bladder urothelial cell",-0.0140772115260083,200
+"tabula","AddModuleScore","full61","blood vessel smooth muscle cell",0.0708146728765465,200
+"tabula","AddModuleScore","full61","capillary endothelial cell",0.0627633495862366,200
+"tabula","AddModuleScore","full61","cardiac endothelial cell",0.0851181370693928,200
+"tabula","AddModuleScore","full61","CD4-positive, alpha-beta T cell",0.0436077311373954,200
+"tabula","AddModuleScore","full61","CD4-positive, alpha-beta thymocyte",0.0381390536633964,200
+"tabula","AddModuleScore","full61","CD8-positive, alpha-beta T cell",0.077886476031477,200
+"tabula","AddModuleScore","full61","CD8-positive, alpha-beta thymocyte",0.0549458220354469,200
+"tabula","AddModuleScore","full61","classical monocyte",0.126399468425408,200
+"tabula","AddModuleScore","full61","club cell",-0.00920370292769723,200
+"tabula","AddModuleScore","full61","conjunctival epithelial cell",-0.00548420724608393,200
+"tabula","AddModuleScore","full61","corneal epithelial cell",-0.0409013564128978,200
+"tabula","AddModuleScore","full61","duct epithelial cell",0.0170779703159243,200
+"tabula","AddModuleScore","full61","endothelial cell",0.0452455624787772,200
+"tabula","AddModuleScore","full61","endothelial cell of artery",0.0698717791543446,200
+"tabula","AddModuleScore","full61","endothelial cell of lymphatic vessel",0.0387108430862158,200
+"tabula","AddModuleScore","full61","endothelial cell of vascular tree",0.0162458126116411,200
+"tabula","AddModuleScore","full61","enterocyte of epithelium of large intestine",0.00480739198283276,200
+"tabula","AddModuleScore","full61","enterocyte of epithelium proper of duodenum",0.0337731173620649,200
+"tabula","AddModuleScore","full61","enterocyte of epithelium proper of ileum",0.0456935398689489,200
+"tabula","AddModuleScore","full61","enterocyte of epithelium proper of small intestine",0.00401483845115753,200
+"tabula","AddModuleScore","full61","enteroglial cell",0.0502294756939933,200
+"tabula","AddModuleScore","full61","epithelial cell",-0.0224694591753131,200
+"tabula","AddModuleScore","full61","epithelial cell of uterus",0.00164924757439207,200
+"tabula","AddModuleScore","full61","erythrocyte",-0.011064138821718,200
+"tabula","AddModuleScore","full61","erythroid progenitor cell",-0.0257890135732893,200
+"tabula","AddModuleScore","full61","eye photoreceptor cell",-0.0133158948024232,200
+"tabula","AddModuleScore","full61","fibroblast",0.00913319041615101,200
+"tabula","AddModuleScore","full61","fibroblast of breast",0.0198005031462708,200
+"tabula","AddModuleScore","full61","fibroblast of cardiac tissue",0.0767879251173375,200
+"tabula","AddModuleScore","full61","gamma-delta T cell",0.0916178779508038,200
+"tabula","AddModuleScore","full61","granulocyte",0.0953772572661202,200
+"tabula","AddModuleScore","full61","hematopoietic precursor cell",0.101532389587558,200
+"tabula","AddModuleScore","full61","hematopoietic stem cell",0.0505188960385159,200
+"tabula","AddModuleScore","full61","hepatocyte",-0.00977707112154439,200
+"tabula","AddModuleScore","full61","innate lymphoid cell",0.0382273537084258,200
+"tabula","AddModuleScore","full61","intermediate monocyte",0.116102719286822,200
+"tabula","AddModuleScore","full61","intestinal crypt stem cell of colon",-0.0118275242359133,200
+"tabula","AddModuleScore","full61","intestinal crypt stem cell of small intestine",-0.00593223103338468,200
+"tabula","AddModuleScore","full61","intrahepatic cholangiocyte",-0.00872598513433887,200
+"tabula","AddModuleScore","full61","keratocyte",0.017139666199061,200
+"tabula","AddModuleScore","full61","kidney epithelial cell",0.00264800875068051,200
+"tabula","AddModuleScore","full61","large intestine goblet cell",0.0333975043312361,200
+"tabula","AddModuleScore","full61","luminal cell of prostate epithelium",0.00188114492635713,200
+"tabula","AddModuleScore","full61","luminal epithelial cell of mammary gland",-0.0236351738107724,200
+"tabula","AddModuleScore","full61","lung multiciliated epithelial cell",0.0287480715262923,200
+"tabula","AddModuleScore","full61","macrophage",0.0646842447080145,200
+"tabula","AddModuleScore","full61","mast cell",0.0740684848391616,200
+"tabula","AddModuleScore","full61","mature NK T cell",0.0977669912801499,200
+"tabula","AddModuleScore","full61","mesenchymal stem cell",0.00207695068344018,200
+"tabula","AddModuleScore","full61","mesenchymal stem cell of adipose tissue",-0.0130282833994817,200
+"tabula","AddModuleScore","full61","monocyte",0.121250565190019,200
+"tabula","AddModuleScore","full61","mononuclear phagocyte",0.0912035466140354,200
+"tabula","AddModuleScore","full61","Mueller cell",0.0349182216830435,200
+"tabula","AddModuleScore","full61","multiciliated columnar cell of tracheobronchial tree",0.00767493933320551,200
+"tabula","AddModuleScore","full61","mural cell",0.133639494681981,200
+"tabula","AddModuleScore","full61","myeloid dendritic cell",0.0619269920605982,200
+"tabula","AddModuleScore","full61","myeloid leukocyte",0.0801218595783968,200
+"tabula","AddModuleScore","full61","myofibroblast cell",0.0801272041824633,200
+"tabula","AddModuleScore","full61","myometrial cell",0.0736926301970174,200
+"tabula","AddModuleScore","full61","naive thymus-derived CD4-positive, alpha-beta T cell",0.044917629610803,200
+"tabula","AddModuleScore","full61","naive thymus-derived CD8-positive, alpha-beta T cell",0.0764679691951077,200
+"tabula","AddModuleScore","full61","natural killer cell",0.115587216636379,200
+"tabula","AddModuleScore","full61","neutrophil",0.166593337561787,200
+"tabula","AddModuleScore","full61","non-classical monocyte",0.103577451453605,200
+"tabula","AddModuleScore","full61","pancreatic acinar cell",-0.0149497175736003,200
+"tabula","AddModuleScore","full61","pancreatic ductal cell",0.0398783219252707,200
+"tabula","AddModuleScore","full61","paneth cell of epithelium of small intestine",0.0196578387401572,200
+"tabula","AddModuleScore","full61","pericyte",0.107093090576532,200
+"tabula","AddModuleScore","full61","plasma cell",-0.0333833762807603,200
+"tabula","AddModuleScore","full61","progenitor cell of mammary luminal epithelium",-0.0474019626803002,200
+"tabula","AddModuleScore","full61","pulmonary alveolar type 1 cell",-0.0151455142899313,200
+"tabula","AddModuleScore","full61","pulmonary alveolar type 2 cell",0.00652616412962456,200
+"tabula","AddModuleScore","full61","regular atrial cardiac myocyte",2.03355667786589e-05,200
+"tabula","AddModuleScore","full61","regulatory T cell",0.0219033841618966,200
+"tabula","AddModuleScore","full61","respiratory tract goblet cell",-0.0240063658814638,200
+"tabula","AddModuleScore","full61","retinal blood vessel endothelial cell",0.0416697504867242,200
+"tabula","AddModuleScore","full61","salivary gland cell",-0.0226931997507912,200
+"tabula","AddModuleScore","full61","skeletal muscle satellite stem cell",-0.039945237362108,200
+"tabula","AddModuleScore","full61","small intestine goblet cell",0.0302735856675756,200
+"tabula","AddModuleScore","full61","smooth muscle cell",0.0868656814388244,200
+"tabula","AddModuleScore","full61","spermatid",0.0476002061338966,200
+"tabula","AddModuleScore","full61","spermatocyte",0.0124185314734831,200
+"tabula","AddModuleScore","full61","stratified squamous epithelial cell",-0.0437414966191858,200
+"tabula","AddModuleScore","full61","stromal cell",0.00139231849602827,200
+"tabula","AddModuleScore","full61","stromal cell of ovary",-0.0165433264590005,200
+"tabula","AddModuleScore","full61","T cell",0.0634401244424398,200
+"tabula","AddModuleScore","full61","theca cell",-0.00984097902999671,200
+"tabula","AddModuleScore","full61","thymic fibroblast type 1",-0.000952332723298768,200
+"tabula","AddModuleScore","full61","thymic fibroblast type 2",0.00567669322852599,200
+"tabula","AddModuleScore","full61","tissue-resident macrophage",0.0669678336850462,200
+"tabula","AddModuleScore","full61","vascular associated smooth muscle cell",0.0648573932146813,200
+"tabula","AddModuleScore","full61","vein endothelial cell",0.0146249968628769,200
+"tabula","AddModuleScore","full61","ventricular cardiac muscle cell",-0.00200086798653773,200
+"tabula","scPS","minimal8","acinar cell",0.00400490819380778,200
+"tabula","scPS","minimal8","acinar cell of salivary gland",0.00341579441880773,200
+"tabula","scPS","minimal8","activated CD4-positive, alpha-beta T cell",0.00708543427332722,200
+"tabula","scPS","minimal8","activated CD8-positive, alpha-beta T cell",0.0112281831622707,200
+"tabula","scPS","minimal8","adventitial cell",0.00479747486447681,200
+"tabula","scPS","minimal8","alveolar adventitial fibroblast",0.0147471231992651,200
+"tabula","scPS","minimal8","B cell",0.00262701947856098,200
+"tabula","scPS","minimal8","basal cell",0.0119746775751869,200
+"tabula","scPS","minimal8","basal cell of prostate epithelium",0.0098338698948485,200
+"tabula","scPS","minimal8","basophil",0.0117024772994659,200
+"tabula","scPS","minimal8","BEST4+ enterocyte",0.0350656247418109,200
+"tabula","scPS","minimal8","bladder urothelial cell",0.010100806853781,200
+"tabula","scPS","minimal8","blood vessel smooth muscle cell",0.0233590957211268,200
+"tabula","scPS","minimal8","capillary endothelial cell",0.0125010016456864,200
+"tabula","scPS","minimal8","cardiac endothelial cell",0.0155551733281835,200
+"tabula","scPS","minimal8","CD4-positive, alpha-beta T cell",0.00404741613365389,200
+"tabula","scPS","minimal8","CD4-positive, alpha-beta thymocyte",0.00526760860009651,200
+"tabula","scPS","minimal8","CD8-positive, alpha-beta T cell",0.00819729381838124,200
+"tabula","scPS","minimal8","CD8-positive, alpha-beta thymocyte",0.00358260631343983,200
+"tabula","scPS","minimal8","classical monocyte",0.00295412835696011,200
+"tabula","scPS","minimal8","club cell",0.00625211435834319,200
+"tabula","scPS","minimal8","conjunctival epithelial cell",0.0176133992133327,200
+"tabula","scPS","minimal8","corneal epithelial cell",0.0217690739455139,200
+"tabula","scPS","minimal8","duct epithelial cell",0.00517077482175913,200
+"tabula","scPS","minimal8","endothelial cell",0.00954634979166475,200
+"tabula","scPS","minimal8","endothelial cell of artery",0.00981998735219325,200
+"tabula","scPS","minimal8","endothelial cell of lymphatic vessel",0.00829812825347569,200
+"tabula","scPS","minimal8","endothelial cell of vascular tree",0.00354720898856998,200
+"tabula","scPS","minimal8","enterocyte of epithelium of large intestine",0.00736582302245643,200
+"tabula","scPS","minimal8","enterocyte of epithelium proper of duodenum",0.024045774100729,200
+"tabula","scPS","minimal8","enterocyte of epithelium proper of ileum",0.0190615710115634,200
+"tabula","scPS","minimal8","enterocyte of epithelium proper of small intestine",0.010719078868666,200
+"tabula","scPS","minimal8","enteroglial cell",0.00323823165817857,200
+"tabula","scPS","minimal8","epithelial cell",0.00620549119705264,200
+"tabula","scPS","minimal8","epithelial cell of uterus",0.0169089411888317,200
+"tabula","scPS","minimal8","erythrocyte",0.00100505416870589,200
+"tabula","scPS","minimal8","erythroid progenitor cell",0.0079425778847019,200
+"tabula","scPS","minimal8","eye photoreceptor cell",0.00656467670206225,200
+"tabula","scPS","minimal8","fibroblast",0.0114289939569284,200
+"tabula","scPS","minimal8","fibroblast of breast",0.00984596287521933,200
+"tabula","scPS","minimal8","fibroblast of cardiac tissue",0.0197696335629555,200
+"tabula","scPS","minimal8","gamma-delta T cell",0.0102244922393894,200
+"tabula","scPS","minimal8","granulocyte",0.0108006105560688,200
+"tabula","scPS","minimal8","hematopoietic precursor cell",0.00724768856196307,200
+"tabula","scPS","minimal8","hematopoietic stem cell",0.0177513228311101,200
+"tabula","scPS","minimal8","hepatocyte",0.0245184204301048,200
+"tabula","scPS","minimal8","innate lymphoid cell",0.00592963436653247,200
+"tabula","scPS","minimal8","intermediate monocyte",0.00143977010167419,200
+"tabula","scPS","minimal8","intestinal crypt stem cell of colon",0.00625828329432012,200
+"tabula","scPS","minimal8","intestinal crypt stem cell of small intestine",0.0212169306027929,200
+"tabula","scPS","minimal8","intrahepatic cholangiocyte",0.0179107945901724,200
+"tabula","scPS","minimal8","keratocyte",0.00651696236845823,200
+"tabula","scPS","minimal8","kidney epithelial cell",0.00980709606577769,200
+"tabula","scPS","minimal8","large intestine goblet cell",0.00875076368011224,200
+"tabula","scPS","minimal8","luminal cell of prostate epithelium",0.00878386415874883,200
+"tabula","scPS","minimal8","luminal epithelial cell of mammary gland",0.00507230520166801,200
+"tabula","scPS","minimal8","lung multiciliated epithelial cell",0.0114465869680948,200
+"tabula","scPS","minimal8","macrophage",0.00289298543134348,200
+"tabula","scPS","minimal8","mast cell",0.0113874568663018,200
+"tabula","scPS","minimal8","mature NK T cell",0.00390683574609131,200
+"tabula","scPS","minimal8","mesenchymal stem cell",0.0130136224305174,200
+"tabula","scPS","minimal8","mesenchymal stem cell of adipose tissue",0.00855313144645898,200
+"tabula","scPS","minimal8","monocyte",0.00365686506423465,200
+"tabula","scPS","minimal8","mononuclear phagocyte",0.00254761590137587,200
+"tabula","scPS","minimal8","Mueller cell",0.0263498263752177,200
+"tabula","scPS","minimal8","multiciliated columnar cell of tracheobronchial tree",0.0075538032410263,200
+"tabula","scPS","minimal8","mural cell",0.0440326688513916,200
+"tabula","scPS","minimal8","myeloid dendritic cell",0.00368731775909066,200
+"tabula","scPS","minimal8","myeloid leukocyte",0.00442842051206746,200
+"tabula","scPS","minimal8","myofibroblast cell",0.0289606688551228,200
+"tabula","scPS","minimal8","myometrial cell",0.0160321958854749,200
+"tabula","scPS","minimal8","naive thymus-derived CD4-positive, alpha-beta T cell",0.00564650575498021,200
+"tabula","scPS","minimal8","naive thymus-derived CD8-positive, alpha-beta T cell",0.00843627351979173,200
+"tabula","scPS","minimal8","natural killer cell",0.00534628118939518,200
+"tabula","scPS","minimal8","neutrophil",0.00371156398005944,200
+"tabula","scPS","minimal8","non-classical monocyte",0.00228001021688475,200
+"tabula","scPS","minimal8","pancreatic acinar cell",0.004244716154678,200
+"tabula","scPS","minimal8","pancreatic ductal cell",0.0215710695478175,200
+"tabula","scPS","minimal8","paneth cell of epithelium of small intestine",0.0147594271810964,200
+"tabula","scPS","minimal8","pericyte",0.0310828470172253,200
+"tabula","scPS","minimal8","plasma cell",0.00129354852033747,200
+"tabula","scPS","minimal8","progenitor cell of mammary luminal epithelium",0.00533171150534996,200
+"tabula","scPS","minimal8","pulmonary alveolar type 1 cell",0.00334485951637879,200
+"tabula","scPS","minimal8","pulmonary alveolar type 2 cell",0.00457852361740511,200
+"tabula","scPS","minimal8","regular atrial cardiac myocyte",0.0149379888340438,200
+"tabula","scPS","minimal8","regulatory T cell",0.00223621200101926,200
+"tabula","scPS","minimal8","respiratory tract goblet cell",0.00745516077707646,200
+"tabula","scPS","minimal8","retinal blood vessel endothelial cell",0.00759907590629122,200
+"tabula","scPS","minimal8","salivary gland cell",0.00494700632674091,200
+"tabula","scPS","minimal8","skeletal muscle satellite stem cell",0.00970965474479744,200
+"tabula","scPS","minimal8","small intestine goblet cell",0.0158377124504062,200
+"tabula","scPS","minimal8","smooth muscle cell",0.0341080661755451,200
+"tabula","scPS","minimal8","spermatid",0.0140774270770659,200
+"tabula","scPS","minimal8","spermatocyte",0.0392929837346505,200
+"tabula","scPS","minimal8","stratified squamous epithelial cell",0.0122465367157798,200
+"tabula","scPS","minimal8","stromal cell",0.00930783010918942,200
+"tabula","scPS","minimal8","stromal cell of ovary",0.00983913691829221,200
+"tabula","scPS","minimal8","T cell",0.0115702225048962,200
+"tabula","scPS","minimal8","theca cell",0.0130016082268209,200
+"tabula","scPS","minimal8","thymic fibroblast type 1",0.0072522479354711,200
+"tabula","scPS","minimal8","thymic fibroblast type 2",0.00391888415449768,200
+"tabula","scPS","minimal8","tissue-resident macrophage",0.00822310173363909,200
+"tabula","scPS","minimal8","vascular associated smooth muscle cell",0.0193574441137618,200
+"tabula","scPS","minimal8","vein endothelial cell",0.00813935470316418,200
+"tabula","scPS","minimal8","ventricular cardiac muscle cell",0.0126455069423326,200
+"tabula","scPS","full61","acinar cell",0.0159607845048011,200
+"tabula","scPS","full61","acinar cell of salivary gland",0.0375587823202525,200
+"tabula","scPS","full61","activated CD4-positive, alpha-beta T cell",0.0517403215663938,200
+"tabula","scPS","full61","activated CD8-positive, alpha-beta T cell",0.057316566119484,200
+"tabula","scPS","full61","adventitial cell",0.044205232384033,200
+"tabula","scPS","full61","alveolar adventitial fibroblast",0.0561197724815719,200
+"tabula","scPS","full61","B cell",0.0467716434080978,200
+"tabula","scPS","full61","basal cell",0.0429519339237333,200
+"tabula","scPS","full61","basal cell of prostate epithelium",0.0499716328723,200
+"tabula","scPS","full61","basophil",0.0556417472881592,200
+"tabula","scPS","full61","BEST4+ enterocyte",0.052061250221391,200
+"tabula","scPS","full61","bladder urothelial cell",0.0494680777855316,200
+"tabula","scPS","full61","blood vessel smooth muscle cell",0.0585364782615903,200
+"tabula","scPS","full61","capillary endothelial cell",0.0580033049561898,200
+"tabula","scPS","full61","cardiac endothelial cell",0.0613951661402588,200
+"tabula","scPS","full61","CD4-positive, alpha-beta T cell",0.0498850457974588,200
+"tabula","scPS","full61","CD4-positive, alpha-beta thymocyte",0.0506097136749954,200
+"tabula","scPS","full61","CD8-positive, alpha-beta T cell",0.0592192316354976,200
+"tabula","scPS","full61","CD8-positive, alpha-beta thymocyte",0.0513996607093348,200
+"tabula","scPS","full61","classical monocyte",0.0717148162219861,200
+"tabula","scPS","full61","club cell",0.0511936054827989,200
+"tabula","scPS","full61","conjunctival epithelial cell",0.048964540064785,200
+"tabula","scPS","full61","corneal epithelial cell",0.0470839901752612,200
+"tabula","scPS","full61","duct epithelial cell",0.0534881666316018,200
+"tabula","scPS","full61","endothelial cell",0.0585507008690183,200
+"tabula","scPS","full61","endothelial cell of artery",0.0637025702116023,200
+"tabula","scPS","full61","endothelial cell of lymphatic vessel",0.0561854340410676,200
+"tabula","scPS","full61","endothelial cell of vascular tree",0.0391325050859136,200
+"tabula","scPS","full61","enterocyte of epithelium of large intestine",0.0294312745247432,200
+"tabula","scPS","full61","enterocyte of epithelium proper of duodenum",0.0477123571900773,200
+"tabula","scPS","full61","enterocyte of epithelium proper of ileum",0.0521348734061374,200
+"tabula","scPS","full61","enterocyte of epithelium proper of small intestine",0.0277476912065569,200
+"tabula","scPS","full61","enteroglial cell",0.051651206278774,200
+"tabula","scPS","full61","epithelial cell",0.0427176933868146,200
+"tabula","scPS","full61","epithelial cell of uterus",0.0479413059375948,200
+"tabula","scPS","full61","erythrocyte",0.00724380333796676,200
+"tabula","scPS","full61","erythroid progenitor cell",0.0453346139913167,200
+"tabula","scPS","full61","eye photoreceptor cell",0.0419989436487814,200
+"tabula","scPS","full61","fibroblast",0.0495021959831271,200
+"tabula","scPS","full61","fibroblast of breast",0.0515151575678849,200
+"tabula","scPS","full61","fibroblast of cardiac tissue",0.0608490337759829,200
+"tabula","scPS","full61","gamma-delta T cell",0.0614230084059876,200
+"tabula","scPS","full61","granulocyte",0.0521246301309198,200
+"tabula","scPS","full61","hematopoietic precursor cell",0.0690506313444691,200
+"tabula","scPS","full61","hematopoietic stem cell",0.0551954537980232,200
+"tabula","scPS","full61","hepatocyte",0.0366563997570854,200
+"tabula","scPS","full61","innate lymphoid cell",0.0352601354860495,200
+"tabula","scPS","full61","intermediate monocyte",0.0718879039238821,200
+"tabula","scPS","full61","intestinal crypt stem cell of colon",0.0446647873370362,200
+"tabula","scPS","full61","intestinal crypt stem cell of small intestine",0.0436168282931404,200
+"tabula","scPS","full61","intrahepatic cholangiocyte",0.0445024629938693,200
+"tabula","scPS","full61","keratocyte",0.0534382322048516,200
+"tabula","scPS","full61","kidney epithelial cell",0.0444614856921212,200
+"tabula","scPS","full61","large intestine goblet cell",0.0433800719674235,200
+"tabula","scPS","full61","luminal cell of prostate epithelium",0.0423640229779744,200
+"tabula","scPS","full61","luminal epithelial cell of mammary gland",0.0484161873547457,200
+"tabula","scPS","full61","lung multiciliated epithelial cell",0.0553963604901356,200
+"tabula","scPS","full61","macrophage",0.0597526552658505,200
+"tabula","scPS","full61","mast cell",0.0525319356439321,200
+"tabula","scPS","full61","mature NK T cell",0.0619395538974512,200
+"tabula","scPS","full61","mesenchymal stem cell",0.0516170674320368,200
+"tabula","scPS","full61","mesenchymal stem cell of adipose tissue",0.0460379376256448,200
+"tabula","scPS","full61","monocyte",0.0691891021952728,200
+"tabula","scPS","full61","mononuclear phagocyte",0.0654099489290316,200
+"tabula","scPS","full61","Mueller cell",0.0473634581091547,200
+"tabula","scPS","full61","multiciliated columnar cell of tracheobronchial tree",0.0472309086988191,200
+"tabula","scPS","full61","mural cell",0.0683718169421737,200
+"tabula","scPS","full61","myeloid dendritic cell",0.0520437391514514,200
+"tabula","scPS","full61","myeloid leukocyte",0.057748867704288,200
+"tabula","scPS","full61","myofibroblast cell",0.0625240236764317,200
+"tabula","scPS","full61","myometrial cell",0.0626699163051338,200
+"tabula","scPS","full61","naive thymus-derived CD4-positive, alpha-beta T cell",0.0519311185537424,200
+"tabula","scPS","full61","naive thymus-derived CD8-positive, alpha-beta T cell",0.0613752091046823,200
+"tabula","scPS","full61","natural killer cell",0.0661518759770621,200
+"tabula","scPS","full61","neutrophil",0.0639436678406452,200
+"tabula","scPS","full61","non-classical monocyte",0.0681043071477823,200
+"tabula","scPS","full61","pancreatic acinar cell",0.0271895252653295,200
+"tabula","scPS","full61","pancreatic ductal cell",0.0560141418349348,200
+"tabula","scPS","full61","paneth cell of epithelium of small intestine",0.0531916473420781,200
+"tabula","scPS","full61","pericyte",0.0648353286817319,200
+"tabula","scPS","full61","plasma cell",0.0299639449200668,200
+"tabula","scPS","full61","progenitor cell of mammary luminal epithelium",0.0393996372370085,200
+"tabula","scPS","full61","pulmonary alveolar type 1 cell",0.053533812031803,200
+"tabula","scPS","full61","pulmonary alveolar type 2 cell",0.0529854714796251,200
+"tabula","scPS","full61","regular atrial cardiac myocyte",0.0531932161891564,200
+"tabula","scPS","full61","regulatory T cell",0.0490643231254031,200
+"tabula","scPS","full61","respiratory tract goblet cell",0.0445645242088474,200
+"tabula","scPS","full61","retinal blood vessel endothelial cell",0.0568188865037206,200
+"tabula","scPS","full61","salivary gland cell",0.0438203871102551,200
+"tabula","scPS","full61","skeletal muscle satellite stem cell",0.0413591661564499,200
+"tabula","scPS","full61","small intestine goblet cell",0.0467102414889104,200
+"tabula","scPS","full61","smooth muscle cell",0.0606734759689701,200
+"tabula","scPS","full61","spermatid",0.0356268350279022,200
+"tabula","scPS","full61","spermatocyte",0.0488715684659097,200
+"tabula","scPS","full61","stratified squamous epithelial cell",0.0364177358876447,200
+"tabula","scPS","full61","stromal cell",0.0401137972502804,200
+"tabula","scPS","full61","stromal cell of ovary",0.0421033491080946,200
+"tabula","scPS","full61","T cell",0.0521744443081979,200
+"tabula","scPS","full61","theca cell",0.0532449415959546,200
+"tabula","scPS","full61","thymic fibroblast type 1",0.0495897518419041,200
+"tabula","scPS","full61","thymic fibroblast type 2",0.0521773752604325,200
+"tabula","scPS","full61","tissue-resident macrophage",0.0608027060002267,200
+"tabula","scPS","full61","vascular associated smooth muscle cell",0.0552057014619552,200
+"tabula","scPS","full61","vein endothelial cell",0.0544305320221022,200
+"tabula","scPS","full61","ventricular cardiac muscle cell",0.0475382275604904,200
+"tabula","AUCell","minimal8","acinar cell",0.0259629522550801,200
+"tabula","AUCell","minimal8","acinar cell of salivary gland",0.0117041136626466,200
+"tabula","AUCell","minimal8","activated CD4-positive, alpha-beta T cell",0.016830084255741,200
+"tabula","AUCell","minimal8","activated CD8-positive, alpha-beta T cell",0.0234152486370395,200
+"tabula","AUCell","minimal8","adventitial cell",0.00975053692383942,200
+"tabula","AUCell","minimal8","alveolar adventitial fibroblast",0.0293139765405584,200
+"tabula","AUCell","minimal8","B cell",0.00563109202048571,200
+"tabula","AUCell","minimal8","basal cell",0.0240081364612589,200
+"tabula","AUCell","minimal8","basal cell of prostate epithelium",0.0176775978853461,200
+"tabula","AUCell","minimal8","basophil",0.0241617792830002,200
+"tabula","AUCell","minimal8","BEST4+ enterocyte",0.0764112836609945,200
+"tabula","AUCell","minimal8","bladder urothelial cell",0.0166020981331571,200
+"tabula","AUCell","minimal8","blood vessel smooth muscle cell",0.0484067817611102,200
+"tabula","AUCell","minimal8","capillary endothelial cell",0.0218740707087395,200
+"tabula","AUCell","minimal8","cardiac endothelial cell",0.0328064596068065,200
+"tabula","AUCell","minimal8","CD4-positive, alpha-beta T cell",0.0106058979018668,200
+"tabula","AUCell","minimal8","CD4-positive, alpha-beta thymocyte",0.0121619444903354,200
+"tabula","AUCell","minimal8","CD8-positive, alpha-beta T cell",0.0175051627292252,200
+"tabula","AUCell","minimal8","CD8-positive, alpha-beta thymocyte",0.0097994795968941,200
+"tabula","AUCell","minimal8","classical monocyte",0.00632248471832149,200
+"tabula","AUCell","minimal8","club cell",0.00839088055509665,200
+"tabula","AUCell","minimal8","conjunctival epithelial cell",0.0364957459111185,200
+"tabula","AUCell","minimal8","corneal epithelial cell",0.0426051131670246,200
+"tabula","AUCell","minimal8","duct epithelial cell",0.00883817941516603,200
+"tabula","AUCell","minimal8","endothelial cell",0.0181913926978358,200
+"tabula","AUCell","minimal8","endothelial cell of artery",0.0182529324301999,200
+"tabula","AUCell","minimal8","endothelial cell of lymphatic vessel",0.0137138608954238,200
+"tabula","AUCell","minimal8","endothelial cell of vascular tree",0.0122088220717,200
+"tabula","AUCell","minimal8","enterocyte of epithelium of large intestine",0.0263334297042789,200
+"tabula","AUCell","minimal8","enterocyte of epithelium proper of duodenum",0.050696968445399,200
+"tabula","AUCell","minimal8","enterocyte of epithelium proper of ileum",0.0393048901371221,200
+"tabula","AUCell","minimal8","enterocyte of epithelium proper of small intestine",0.042675532793656,200
+"tabula","AUCell","minimal8","enteroglial cell",0.00833326449694366,200
+"tabula","AUCell","minimal8","epithelial cell",0.0118656038328102,200
+"tabula","AUCell","minimal8","epithelial cell of uterus",0.0312466958532959,200
+"tabula","AUCell","minimal8","erythrocyte",0.0179316041632248,200
+"tabula","AUCell","minimal8","erythroid progenitor cell",0.0139028167850653,200
+"tabula","AUCell","minimal8","eye photoreceptor cell",0.0103120353543697,200
+"tabula","AUCell","minimal8","fibroblast",0.0216962663142244,200
+"tabula","AUCell","minimal8","fibroblast of breast",0.0190523294234264,200
+"tabula","AUCell","minimal8","fibroblast of cardiac tissue",0.0372788286799934,200
+"tabula","AUCell","minimal8","gamma-delta T cell",0.0224907070873947,200
+"tabula","AUCell","minimal8","granulocyte",0.0253388815463407,200
+"tabula","AUCell","minimal8","hematopoietic precursor cell",0.00901267966297704,200
+"tabula","AUCell","minimal8","hematopoietic stem cell",0.0385965636874277,200
+"tabula","AUCell","minimal8","hepatocyte",0.0475357260862382,200
+"tabula","AUCell","minimal8","innate lymphoid cell",0.0271962250123906,200
+"tabula","AUCell","minimal8","intermediate monocyte",0.00145155294895093,200
+"tabula","AUCell","minimal8","intestinal crypt stem cell of colon",0.0131176689245002,200
+"tabula","AUCell","minimal8","intestinal crypt stem cell of small intestine",0.0435998678341318,200
+"tabula","AUCell","minimal8","intrahepatic cholangiocyte",0.0337173715512969,200
+"tabula","AUCell","minimal8","keratocyte",0.00828989757145217,200
+"tabula","AUCell","minimal8","kidney epithelial cell",0.0222530150338675,200
+"tabula","AUCell","minimal8","large intestine goblet cell",0.0194676193622997,200
+"tabula","AUCell","minimal8","luminal cell of prostate epithelium",0.0207659425078474,200
+"tabula","AUCell","minimal8","luminal epithelial cell of mammary gland",0.00683318189327606,200
+"tabula","AUCell","minimal8","lung multiciliated epithelial cell",0.0166438129852965,200
+"tabula","AUCell","minimal8","macrophage",0.00378572608623823,200
+"tabula","AUCell","minimal8","mast cell",0.0292501652073352,200
+"tabula","AUCell","minimal8","mature NK T cell",0.00851974227655708,200
+"tabula","AUCell","minimal8","mesenchymal stem cell",0.0179900462580539,200
+"tabula","AUCell","minimal8","mesenchymal stem cell of adipose tissue",0.0127174541549645,200
+"tabula","AUCell","minimal8","monocyte",0.0063778291756154,200
+"tabula","AUCell","minimal8","mononuclear phagocyte",0.00421423261192797,200
+"tabula","AUCell","minimal8","Mueller cell",0.0435447298860069,200
+"tabula","AUCell","minimal8","multiciliated columnar cell of tracheobronchial tree",0.0114674541549645,200
+"tabula","AUCell","minimal8","mural cell",0.090669089707583,200
+"tabula","AUCell","minimal8","myeloid dendritic cell",0.00924644804229308,200
+"tabula","AUCell","minimal8","myeloid leukocyte",0.00994176441434,200
+"tabula","AUCell","minimal8","myofibroblast cell",0.0564317280687263,200
+"tabula","AUCell","minimal8","myometrial cell",0.0312466958532959,200
+"tabula","AUCell","minimal8","naive thymus-derived CD4-positive, alpha-beta T cell",0.0125912770527011,200
+"tabula","AUCell","minimal8","naive thymus-derived CD8-positive, alpha-beta T cell",0.0161066826367091,200
+"tabula","AUCell","minimal8","natural killer cell",0.010900173467702,200
+"tabula","AUCell","minimal8","neutrophil",0.0108652734181398,200
+"tabula","AUCell","minimal8","non-classical monocyte",0.00414278043945151,200
+"tabula","AUCell","minimal8","pancreatic acinar cell",0.0106569056666116,200
+"tabula","AUCell","minimal8","pancreatic ductal cell",0.0372697422765571,200
+"tabula","AUCell","minimal8","paneth cell of epithelium of small intestine",0.0239073599867834,200
+"tabula","AUCell","minimal8","pericyte",0.0622243102593755,200
+"tabula","AUCell","minimal8","plasma cell",0.00555447711878407,200
+"tabula","AUCell","minimal8","progenitor cell of mammary luminal epithelium",0.00999442425243681,200
+"tabula","AUCell","minimal8","pulmonary alveolar type 1 cell",0.00344911614075665,200
+"tabula","AUCell","minimal8","pulmonary alveolar type 2 cell",0.00438109202048571,200
+"tabula","AUCell","minimal8","regular atrial cardiac myocyte",0.0184495291590947,200
+"tabula","AUCell","minimal8","regulatory T cell",0.00616182058483397,200
+"tabula","AUCell","minimal8","respiratory tract goblet cell",0.0131015612093177,200
+"tabula","AUCell","minimal8","retinal blood vessel endothelial cell",0.0145268874938047,200
+"tabula","AUCell","minimal8","salivary gland cell",0.0107589211961011,200
+"tabula","AUCell","minimal8","skeletal muscle satellite stem cell",0.0169649347431026,200
+"tabula","AUCell","minimal8","small intestine goblet cell",0.0334410622831654,200
+"tabula","AUCell","minimal8","smooth muscle cell",0.0710478275235421,200
+"tabula","AUCell","minimal8","spermatid",0.0296185775648439,200
+"tabula","AUCell","minimal8","spermatocyte",0.0514761275400628,200
+"tabula","AUCell","minimal8","stratified squamous epithelial cell",0.0284412687923344,200
+"tabula","AUCell","minimal8","stromal cell",0.0243709730712044,200
+"tabula","AUCell","minimal8","stromal cell of ovary",0.0234342474805881,200
+"tabula","AUCell","minimal8","T cell",0.0242055592268297,200
+"tabula","AUCell","minimal8","theca cell",0.0175026846191971,200
+"tabula","AUCell","minimal8","thymic fibroblast type 1",0.0127015529489509,200
+"tabula","AUCell","minimal8","thymic fibroblast type 2",0.00451057326945316,200
+"tabula","AUCell","minimal8","tissue-resident macrophage",0.0170080951594251,200
+"tabula","AUCell","minimal8","vascular associated smooth muscle cell",0.0426968032380638,200
+"tabula","AUCell","minimal8","vein endothelial cell",0.0132126631422435,200
+"tabula","AUCell","minimal8","ventricular cardiac muscle cell",0.019040971419131,200
+"tabula","AUCell","full61","acinar cell",0.0680236612021858,200
+"tabula","AUCell","full61","acinar cell of salivary gland",0.122834890710383,200
+"tabula","AUCell","full61","activated CD4-positive, alpha-beta T cell",0.148781639344262,200
+"tabula","AUCell","full61","activated CD8-positive, alpha-beta T cell",0.161059234972678,200
+"tabula","AUCell","full61","adventitial cell",0.121336448087432,200
+"tabula","AUCell","full61","alveolar adventitial fibroblast",0.14662762295082,200
+"tabula","AUCell","full61","B cell",0.134890300546448,200
+"tabula","AUCell","full61","basal cell",0.115122595628415,200
+"tabula","AUCell","full61","basal cell of prostate epithelium",0.138559508196721,200
+"tabula","AUCell","full61","basophil",0.157228961748634,200
+"tabula","AUCell","full61","BEST4+ enterocyte",0.157120163934426,200
+"tabula","AUCell","full61","bladder urothelial cell",0.13916912568306,200
+"tabula","AUCell","full61","blood vessel smooth muscle cell",0.15992956284153,200
+"tabula","AUCell","full61","capillary endothelial cell",0.147126393442623,200
+"tabula","AUCell","full61","cardiac endothelial cell",0.158669398907104,200
+"tabula","AUCell","full61","CD4-positive, alpha-beta T cell",0.143509371584699,200
+"tabula","AUCell","full61","CD4-positive, alpha-beta thymocyte",0.145920765027322,200
+"tabula","AUCell","full61","CD8-positive, alpha-beta T cell",0.162562021857924,200
+"tabula","AUCell","full61","CD8-positive, alpha-beta thymocyte",0.138915655737705,200
+"tabula","AUCell","full61","classical monocyte",0.197564617486339,200
+"tabula","AUCell","full61","club cell",0.13446106557377,200
+"tabula","AUCell","full61","conjunctival epithelial cell",0.130689945355191,200
+"tabula","AUCell","full61","corneal epithelial cell",0.116683797814208,200
+"tabula","AUCell","full61","duct epithelial cell",0.146490355191257,200
+"tabula","AUCell","full61","endothelial cell",0.152649071038251,200
+"tabula","AUCell","full61","endothelial cell of artery",0.159925136612022,200
+"tabula","AUCell","full61","endothelial cell of lymphatic vessel",0.143694098360656,200
+"tabula","AUCell","full61","endothelial cell of vascular tree",0.108266775956284,200
+"tabula","AUCell","full61","enterocyte of epithelium of large intestine",0.121539918032787,200
+"tabula","AUCell","full61","enterocyte of epithelium proper of duodenum",0.14856412568306,200
+"tabula","AUCell","full61","enterocyte of epithelium proper of ileum",0.152905628415301,200
+"tabula","AUCell","full61","enterocyte of epithelium proper of small intestine",0.108038224043716,200
+"tabula","AUCell","full61","enteroglial cell",0.135305300546448,200
+"tabula","AUCell","full61","epithelial cell",0.11633631147541,200
+"tabula","AUCell","full61","epithelial cell of uterus",0.124651994535519,200
+"tabula","AUCell","full61","erythrocyte",0.0576743442622951,200
+"tabula","AUCell","full61","erythroid progenitor cell",0.120433224043716,200
+"tabula","AUCell","full61","eye photoreceptor cell",0.106678415300546,200
+"tabula","AUCell","full61","fibroblast",0.138353360655738,200
+"tabula","AUCell","full61","fibroblast of breast",0.138859781420765,200
+"tabula","AUCell","full61","fibroblast of cardiac tissue",0.159606830601093,200
+"tabula","AUCell","full61","gamma-delta T cell",0.170237786885246,200
+"tabula","AUCell","full61","granulocyte",0.146700928961749,200
+"tabula","AUCell","full61","hematopoietic precursor cell",0.189527732240437,200
+"tabula","AUCell","full61","hematopoietic stem cell",0.163389535519126,200
+"tabula","AUCell","full61","hepatocyte",0.110331092896175,200
+"tabula","AUCell","full61","innate lymphoid cell",0.104341147540984,200
+"tabula","AUCell","full61","intermediate monocyte",0.194896557377049,200
+"tabula","AUCell","full61","intestinal crypt stem cell of colon",0.130148852459016,200
+"tabula","AUCell","full61","intestinal crypt stem cell of small intestine",0.133873005464481,200
+"tabula","AUCell","full61","intrahepatic cholangiocyte",0.122882322404372,200
+"tabula","AUCell","full61","keratocyte",0.142199699453552,200
+"tabula","AUCell","full61","kidney epithelial cell",0.122947923497268,200
+"tabula","AUCell","full61","large intestine goblet cell",0.136235573770492,200
+"tabula","AUCell","full61","luminal cell of prostate epithelium",0.119608797814208,200
+"tabula","AUCell","full61","luminal epithelial cell of mammary gland",0.127169316939891,200
+"tabula","AUCell","full61","lung multiciliated epithelial cell",0.124882103825137,200
+"tabula","AUCell","full61","macrophage",0.167053961748634,200
+"tabula","AUCell","full61","mast cell",0.151795956284153,200
+"tabula","AUCell","full61","mature NK T cell",0.167014918032787,200
+"tabula","AUCell","full61","mesenchymal stem cell",0.141170273224044,200
+"tabula","AUCell","full61","mesenchymal stem cell of adipose tissue",0.135438196721311,200
+"tabula","AUCell","full61","monocyte",0.194950355191257,200
+"tabula","AUCell","full61","mononuclear phagocyte",0.173049262295082,200
+"tabula","AUCell","full61","Mueller cell",0.121746174863388,200
+"tabula","AUCell","full61","multiciliated columnar cell of tracheobronchial tree",0.113829863387978,200
+"tabula","AUCell","full61","mural cell",0.180245819672131,200
+"tabula","AUCell","full61","myeloid dendritic cell",0.157889890710383,200
+"tabula","AUCell","full61","myeloid leukocyte",0.160741803278689,200
+"tabula","AUCell","full61","myofibroblast cell",0.170335792349727,200
+"tabula","AUCell","full61","myometrial cell",0.175432404371585,200
+"tabula","AUCell","full61","naive thymus-derived CD4-positive, alpha-beta T cell",0.152110601092896,200
+"tabula","AUCell","full61","naive thymus-derived CD8-positive, alpha-beta T cell",0.166569344262295,200
+"tabula","AUCell","full61","natural killer cell",0.174455765027322,200
+"tabula","AUCell","full61","neutrophil",0.173859590163934,200
+"tabula","AUCell","full61","non-classical monocyte",0.188818633879781,200
+"tabula","AUCell","full61","pancreatic acinar cell",0.12499043715847,200
+"tabula","AUCell","full61","pancreatic ductal cell",0.156972650273224,200
+"tabula","AUCell","full61","paneth cell of epithelium of small intestine",0.143871557377049,200
+"tabula","AUCell","full61","pericyte",0.169208825136612,200
+"tabula","AUCell","full61","plasma cell",0.106417431693989,200
+"tabula","AUCell","full61","progenitor cell of mammary luminal epithelium",0.109150027322404,200
+"tabula","AUCell","full61","pulmonary alveolar type 1 cell",0.126987950819672,200
+"tabula","AUCell","full61","pulmonary alveolar type 2 cell",0.147412486338798,200
+"tabula","AUCell","full61","regular atrial cardiac myocyte",0.137057076502732,200
+"tabula","AUCell","full61","regulatory T cell",0.136303387978142,200
+"tabula","AUCell","full61","respiratory tract goblet cell",0.126325054644809,200
+"tabula","AUCell","full61","retinal blood vessel endothelial cell",0.146202950819672,200
+"tabula","AUCell","full61","salivary gland cell",0.121653032786885,200
+"tabula","AUCell","full61","skeletal muscle satellite stem cell",0.111609371584699,200
+"tabula","AUCell","full61","small intestine goblet cell",0.143132841530055,200
+"tabula","AUCell","full61","smooth muscle cell",0.160439672131148,200
+"tabula","AUCell","full61","spermatid",0.100000683060109,200
+"tabula","AUCell","full61","spermatocyte",0.0993228142076503,200
+"tabula","AUCell","full61","stratified squamous epithelial cell",0.112060546448087,200
+"tabula","AUCell","full61","stromal cell",0.11718393442623,200
+"tabula","AUCell","full61","stromal cell of ovary",0.126826202185792,200
+"tabula","AUCell","full61","T cell",0.147247049180328,200
+"tabula","AUCell","full61","theca cell",0.14824393442623,200
+"tabula","AUCell","full61","thymic fibroblast type 1",0.134841885245902,200
+"tabula","AUCell","full61","thymic fibroblast type 2",0.140403715846995,200
+"tabula","AUCell","full61","tissue-resident macrophage",0.165384890710383,200
+"tabula","AUCell","full61","vascular associated smooth muscle cell",0.150032868852459,200
+"tabula","AUCell","full61","vein endothelial cell",0.142401448087432,200
+"tabula","AUCell","full61","ventricular cardiac muscle cell",0.128215054644809,200
+"tabula","JASMINE","minimal8","acinar cell",0.0518276177550644,200
+"tabula","JASMINE","minimal8","acinar cell of salivary gland",0.0409680324694807,200
+"tabula","JASMINE","minimal8","activated CD4-positive, alpha-beta T cell",0.0596442053250005,200
+"tabula","JASMINE","minimal8","activated CD8-positive, alpha-beta T cell",0.0867889512620207,200
+"tabula","JASMINE","minimal8","adventitial cell",0.0606053448305609,200
+"tabula","JASMINE","minimal8","alveolar adventitial fibroblast",0.130242440982113,200
+"tabula","JASMINE","minimal8","B cell",0.0225040523730829,200
+"tabula","JASMINE","minimal8","basal cell",0.150574993643792,200
+"tabula","JASMINE","minimal8","basal cell of prostate epithelium",0.117155813672094,200
+"tabula","JASMINE","minimal8","basophil",0.090475572290304,200
+"tabula","JASMINE","minimal8","BEST4+ enterocyte",0.292650617635012,200
+"tabula","JASMINE","minimal8","bladder urothelial cell",0.136555068528135,200
+"tabula","JASMINE","minimal8","blood vessel smooth muscle cell",0.177503019883915,200
+"tabula","JASMINE","minimal8","capillary endothelial cell",0.100685168500748,200
+"tabula","JASMINE","minimal8","cardiac endothelial cell",0.13176466725361,200
+"tabula","JASMINE","minimal8","CD4-positive, alpha-beta T cell",0.0333346201793649,200
+"tabula","JASMINE","minimal8","CD4-positive, alpha-beta thymocyte",0.0454782025557938,200
+"tabula","JASMINE","minimal8","CD8-positive, alpha-beta T cell",0.0671162534222703,200
+"tabula","JASMINE","minimal8","CD8-positive, alpha-beta thymocyte",0.0298115738872804,200
+"tabula","JASMINE","minimal8","classical monocyte",0.0285767481811084,200
+"tabula","JASMINE","minimal8","club cell",0.0629302645906901,200
+"tabula","JASMINE","minimal8","conjunctival epithelial cell",0.184194914134089,200
+"tabula","JASMINE","minimal8","corneal epithelial cell",0.255372553034457,200
+"tabula","JASMINE","minimal8","duct epithelial cell",0.0593604223652422,200
+"tabula","JASMINE","minimal8","endothelial cell",0.0912526942220275,200
+"tabula","JASMINE","minimal8","endothelial cell of artery",0.0916456120673881,200
+"tabula","JASMINE","minimal8","endothelial cell of lymphatic vessel",0.0750811375064779,200
+"tabula","JASMINE","minimal8","endothelial cell of vascular tree",0.0374024627691514,200
+"tabula","JASMINE","minimal8","enterocyte of epithelium of large intestine",0.107858779695123,200
+"tabula","JASMINE","minimal8","enterocyte of epithelium proper of duodenum",0.246368369700093,200
+"tabula","JASMINE","minimal8","enterocyte of epithelium proper of ileum",0.215220972973166,200
+"tabula","JASMINE","minimal8","enterocyte of epithelium proper of small intestine",0.162919355004403,200
+"tabula","JASMINE","minimal8","enteroglial cell",0.0285187988936019,200
+"tabula","JASMINE","minimal8","epithelial cell",0.0513420151508176,200
+"tabula","JASMINE","minimal8","epithelial cell of uterus",0.177577163450349,200
+"tabula","JASMINE","minimal8","erythrocyte",0.0188684933062795,200
+"tabula","JASMINE","minimal8","erythroid progenitor cell",0.109220015451137,200
+"tabula","JASMINE","minimal8","eye photoreceptor cell",0.0557209724424929,200
+"tabula","JASMINE","minimal8","fibroblast",0.108143073030287,200
+"tabula","JASMINE","minimal8","fibroblast of breast",0.0869566139902614,200
+"tabula","JASMINE","minimal8","fibroblast of cardiac tissue",0.15824735495669,200
+"tabula","JASMINE","minimal8","gamma-delta T cell",0.0828726226480814,200
+"tabula","JASMINE","minimal8","granulocyte",0.076667802908196,200
+"tabula","JASMINE","minimal8","hematopoietic precursor cell",0.0741460767961871,200
+"tabula","JASMINE","minimal8","hematopoietic stem cell",0.214371300530989,200
+"tabula","JASMINE","minimal8","hepatocyte",0.211259395634777,200
+"tabula","JASMINE","minimal8","innate lymphoid cell",0.076421973877144,200
+"tabula","JASMINE","minimal8","intermediate monocyte",0.0166287815207626,200
+"tabula","JASMINE","minimal8","intestinal crypt stem cell of colon",0.0937616189336499,200
+"tabula","JASMINE","minimal8","intestinal crypt stem cell of small intestine",0.217810103306257,200
+"tabula","JASMINE","minimal8","intrahepatic cholangiocyte",0.150092680033461,200
+"tabula","JASMINE","minimal8","keratocyte",0.0643475727531309,200
+"tabula","JASMINE","minimal8","kidney epithelial cell",0.087571181064644,200
+"tabula","JASMINE","minimal8","large intestine goblet cell",0.0809931848819697,200
+"tabula","JASMINE","minimal8","luminal cell of prostate epithelium",0.092274370733475,200
+"tabula","JASMINE","minimal8","luminal epithelial cell of mammary gland",0.0587067503171192,200
+"tabula","JASMINE","minimal8","lung multiciliated epithelial cell",0.122785122353191,200
+"tabula","JASMINE","minimal8","macrophage",0.0276596408044665,200
+"tabula","JASMINE","minimal8","mast cell",0.0981228009428768,200
+"tabula","JASMINE","minimal8","mature NK T cell",0.0384279632656278,200
+"tabula","JASMINE","minimal8","mesenchymal stem cell",0.109780457159339,200
+"tabula","JASMINE","minimal8","mesenchymal stem cell of adipose tissue",0.0887517805885633,200
+"tabula","JASMINE","minimal8","monocyte",0.0320752346483971,200
+"tabula","JASMINE","minimal8","mononuclear phagocyte",0.0267208403536804,200
+"tabula","JASMINE","minimal8","Mueller cell",0.164086632578715,200
+"tabula","JASMINE","minimal8","multiciliated columnar cell of tracheobronchial tree",0.0979984582267118,200
+"tabula","JASMINE","minimal8","mural cell",0.278677205771201,200
+"tabula","JASMINE","minimal8","myeloid dendritic cell",0.0414797278279071,200
+"tabula","JASMINE","minimal8","myeloid leukocyte",0.0402300381253026,200
+"tabula","JASMINE","minimal8","myofibroblast cell",0.222922870516447,200
+"tabula","JASMINE","minimal8","myometrial cell",0.152006471067483,200
+"tabula","JASMINE","minimal8","naive thymus-derived CD4-positive, alpha-beta T cell",0.0478283796987964,200
+"tabula","JASMINE","minimal8","naive thymus-derived CD8-positive, alpha-beta T cell",0.0692016440096509,200
+"tabula","JASMINE","minimal8","natural killer cell",0.0401823560217373,200
+"tabula","JASMINE","minimal8","neutrophil",0.0226077467235231,200
+"tabula","JASMINE","minimal8","non-classical monocyte",0.0240428366220305,200
+"tabula","JASMINE","minimal8","pancreatic acinar cell",0.085269124435021,200
+"tabula","JASMINE","minimal8","pancreatic ductal cell",0.211239871108402,200
+"tabula","JASMINE","minimal8","paneth cell of epithelium of small intestine",0.184939628818644,200
+"tabula","JASMINE","minimal8","pericyte",0.224821251765585,200
+"tabula","JASMINE","minimal8","plasma cell",0.0177670387430903,200
+"tabula","JASMINE","minimal8","progenitor cell of mammary luminal epithelium",0.0477958434052538,200
+"tabula","JASMINE","minimal8","pulmonary alveolar type 1 cell",0.0371628568930376,200
+"tabula","JASMINE","minimal8","pulmonary alveolar type 2 cell",0.0721250698233915,200
+"tabula","JASMINE","minimal8","regular atrial cardiac myocyte",0.145208618609867,200
+"tabula","JASMINE","minimal8","regulatory T cell",0.0186077873417095,200
+"tabula","JASMINE","minimal8","respiratory tract goblet cell",0.101786479669286,200
+"tabula","JASMINE","minimal8","retinal blood vessel endothelial cell",0.0628951943661394,200
+"tabula","JASMINE","minimal8","salivary gland cell",0.0735248902594913,200
+"tabula","JASMINE","minimal8","skeletal muscle satellite stem cell",0.088648635167245,200
+"tabula","JASMINE","minimal8","small intestine goblet cell",0.164768067115905,200
+"tabula","JASMINE","minimal8","smooth muscle cell",0.239647295375769,200
+"tabula","JASMINE","minimal8","spermatid",0.116969519960918,200
+"tabula","JASMINE","minimal8","spermatocyte",0.261454677654951,200
+"tabula","JASMINE","minimal8","stratified squamous epithelial cell",0.183125075651507,200
+"tabula","JASMINE","minimal8","stromal cell",0.111207952556352,200
+"tabula","JASMINE","minimal8","stromal cell of ovary",0.0925588673358987,200
+"tabula","JASMINE","minimal8","T cell",0.0855596931892565,200
+"tabula","JASMINE","minimal8","theca cell",0.141692647694618,200
+"tabula","JASMINE","minimal8","thymic fibroblast type 1",0.0775003136371814,200
+"tabula","JASMINE","minimal8","thymic fibroblast type 2",0.0379546918158868,200
+"tabula","JASMINE","minimal8","tissue-resident macrophage",0.0764595463670974,200
+"tabula","JASMINE","minimal8","vascular associated smooth muscle cell",0.142473852546994,200
+"tabula","JASMINE","minimal8","vein endothelial cell",0.0966059768886563,200
+"tabula","JASMINE","minimal8","ventricular cardiac muscle cell",0.119254842627615,200
+"tabula","JASMINE","full61","acinar cell",0.388439721235221,200
+"tabula","JASMINE","full61","acinar cell of salivary gland",0.428638740244552,200
+"tabula","JASMINE","full61","activated CD4-positive, alpha-beta T cell",0.460994270309797,200
+"tabula","JASMINE","full61","activated CD8-positive, alpha-beta T cell",0.480064215816817,200
+"tabula","JASMINE","full61","adventitial cell",0.413171811041341,200
+"tabula","JASMINE","full61","alveolar adventitial fibroblast",0.455145703594798,200
+"tabula","JASMINE","full61","B cell",0.43508356904739,200
+"tabula","JASMINE","full61","basal cell",0.403900728935812,200
+"tabula","JASMINE","full61","basal cell of prostate epithelium",0.437039043551617,200
+"tabula","JASMINE","full61","basophil",0.470902499529222,200
+"tabula","JASMINE","full61","BEST4+ enterocyte",0.466330551754074,200
+"tabula","JASMINE","full61","bladder urothelial cell",0.444556872334122,200
+"tabula","JASMINE","full61","blood vessel smooth muscle cell",0.477744835610473,200
+"tabula","JASMINE","full61","capillary endothelial cell",0.461282237408699,200
+"tabula","JASMINE","full61","cardiac endothelial cell",0.47683855328065,200
+"tabula","JASMINE","full61","CD4-positive, alpha-beta T cell",0.45525912686603,200
+"tabula","JASMINE","full61","CD4-positive, alpha-beta thymocyte",0.44812401814968,200
+"tabula","JASMINE","full61","CD8-positive, alpha-beta T cell",0.475310320356029,200
+"tabula","JASMINE","full61","CD8-positive, alpha-beta thymocyte",0.445767515220665,200
+"tabula","JASMINE","full61","classical monocyte",0.520981180235367,200
+"tabula","JASMINE","full61","club cell",0.425670712756494,200
+"tabula","JASMINE","full61","conjunctival epithelial cell",0.423900415817578,200
+"tabula","JASMINE","full61","corneal epithelial cell",0.404410057009363,200
+"tabula","JASMINE","full61","duct epithelial cell",0.449974649421303,200
+"tabula","JASMINE","full61","endothelial cell",0.460533821325819,200
+"tabula","JASMINE","full61","endothelial cell of artery",0.467047666876092,200
+"tabula","JASMINE","full61","endothelial cell of lymphatic vessel",0.445035530420461,200
+"tabula","JASMINE","full61","endothelial cell of vascular tree",0.424163868356227,200
+"tabula","JASMINE","full61","enterocyte of epithelium of large intestine",0.409674862756266,200
+"tabula","JASMINE","full61","enterocyte of epithelium proper of duodenum",0.448573169871331,200
+"tabula","JASMINE","full61","enterocyte of epithelium proper of ileum",0.455187834282823,200
+"tabula","JASMINE","full61","enterocyte of epithelium proper of small intestine",0.404403368826032,200
+"tabula","JASMINE","full61","enteroglial cell",0.454808645228251,200
+"tabula","JASMINE","full61","epithelial cell",0.401150715412951,200
+"tabula","JASMINE","full61","epithelial cell of uterus",0.417744572618348,200
+"tabula","JASMINE","full61","erythrocyte",0.304002735875973,200
+"tabula","JASMINE","full61","erythroid progenitor cell",0.418674813741995,200
+"tabula","JASMINE","full61","eye photoreceptor cell",0.382961814036638,200
+"tabula","JASMINE","full61","fibroblast",0.435124351640568,200
+"tabula","JASMINE","full61","fibroblast of breast",0.434970525544256,200
+"tabula","JASMINE","full61","fibroblast of cardiac tissue",0.46634834578379,200
+"tabula","JASMINE","full61","gamma-delta T cell",0.491490128415211,200
+"tabula","JASMINE","full61","granulocyte",0.477981941711977,200
+"tabula","JASMINE","full61","hematopoietic precursor cell",0.50515441882814,200
+"tabula","JASMINE","full61","hematopoietic stem cell",0.474345422046749,200
+"tabula","JASMINE","full61","hepatocyte",0.388460967495353,200
+"tabula","JASMINE","full61","innate lymphoid cell",0.425061452312257,200
+"tabula","JASMINE","full61","intermediate monocyte",0.518491885345592,200
+"tabula","JASMINE","full61","intestinal crypt stem cell of colon",0.430507030646874,200
+"tabula","JASMINE","full61","intestinal crypt stem cell of small intestine",0.431731023740564,200
+"tabula","JASMINE","full61","intrahepatic cholangiocyte",0.410687116688721,200
+"tabula","JASMINE","full61","keratocyte",0.442123115515458,200
+"tabula","JASMINE","full61","kidney epithelial cell",0.413758499664495,200
+"tabula","JASMINE","full61","large intestine goblet cell",0.435898784787563,200
+"tabula","JASMINE","full61","luminal cell of prostate epithelium",0.417246992001043,200
+"tabula","JASMINE","full61","luminal epithelial cell of mammary gland",0.420649869698783,200
+"tabula","JASMINE","full61","lung multiciliated epithelial cell",0.41785564040965,200
+"tabula","JASMINE","full61","macrophage",0.480849649652437,200
+"tabula","JASMINE","full61","mast cell",0.473863589339941,200
+"tabula","JASMINE","full61","mature NK T cell",0.487243377067307,200
+"tabula","JASMINE","full61","mesenchymal stem cell",0.438910376386688,200
+"tabula","JASMINE","full61","mesenchymal stem cell of adipose tissue",0.431499827962104,200
+"tabula","JASMINE","full61","monocyte",0.518502075638725,200
+"tabula","JASMINE","full61","mononuclear phagocyte",0.487895833836568,200
+"tabula","JASMINE","full61","Mueller cell",0.414803657186127,200
+"tabula","JASMINE","full61","multiciliated columnar cell of tracheobronchial tree",0.397394041579367,200
+"tabula","JASMINE","full61","mural cell",0.510779921536253,200
+"tabula","JASMINE","full61","myeloid dendritic cell",0.469080493855299,200
+"tabula","JASMINE","full61","myeloid leukocyte",0.472972416417971,200
+"tabula","JASMINE","full61","myofibroblast cell",0.48301862748221,200
+"tabula","JASMINE","full61","myometrial cell",0.485621560308547,200
+"tabula","JASMINE","full61","naive thymus-derived CD4-positive, alpha-beta T cell",0.457379383450899,200
+"tabula","JASMINE","full61","naive thymus-derived CD8-positive, alpha-beta T cell",0.476606492438651,200
+"tabula","JASMINE","full61","natural killer cell",0.496346955839934,200
+"tabula","JASMINE","full61","neutrophil",0.537940249406438,200
+"tabula","JASMINE","full61","non-classical monocyte",0.508047256692156,200
+"tabula","JASMINE","full61","pancreatic acinar cell",0.425023817763517,200
+"tabula","JASMINE","full61","pancreatic ductal cell",0.47289879484587,200
+"tabula","JASMINE","full61","paneth cell of epithelium of small intestine",0.453763756955271,200
+"tabula","JASMINE","full61","pericyte",0.494055304293546,200
+"tabula","JASMINE","full61","plasma cell",0.389382565376071,200
+"tabula","JASMINE","full61","progenitor cell of mammary luminal epithelium",0.383143460534435,200
+"tabula","JASMINE","full61","pulmonary alveolar type 1 cell",0.422306949082095,200
+"tabula","JASMINE","full61","pulmonary alveolar type 2 cell",0.450258184160743,200
+"tabula","JASMINE","full61","regular atrial cardiac myocyte",0.456430180416092,200
+"tabula","JASMINE","full61","regulatory T cell",0.435197570485374,200
+"tabula","JASMINE","full61","respiratory tract goblet cell",0.42093436998553,200
+"tabula","JASMINE","full61","retinal blood vessel endothelial cell",0.451978841049403,200
+"tabula","JASMINE","full61","salivary gland cell",0.415653932367459,200
+"tabula","JASMINE","full61","skeletal muscle satellite stem cell",0.401205736679943,200
+"tabula","JASMINE","full61","small intestine goblet cell",0.439699597100416,200
+"tabula","JASMINE","full61","smooth muscle cell",0.478797707898271,200
+"tabula","JASMINE","full61","spermatid",0.389851167116989,200
+"tabula","JASMINE","full61","spermatocyte",0.379215739003014,200
+"tabula","JASMINE","full61","stratified squamous epithelial cell",0.401414240241393,200
+"tabula","JASMINE","full61","stromal cell",0.420258357314485,200
+"tabula","JASMINE","full61","stromal cell of ovary",0.418155937017768,200
+"tabula","JASMINE","full61","T cell",0.466892959516042,200
+"tabula","JASMINE","full61","theca cell",0.450875039125336,200
+"tabula","JASMINE","full61","thymic fibroblast type 1",0.42635599585352,200
+"tabula","JASMINE","full61","thymic fibroblast type 2",0.43478803040164,200
+"tabula","JASMINE","full61","tissue-resident macrophage",0.473719346777477,200
+"tabula","JASMINE","full61","vascular associated smooth muscle cell",0.466047310972706,200
+"tabula","JASMINE","full61","vein endothelial cell",0.444445022599331,200
+"tabula","JASMINE","full61","ventricular cardiac muscle cell",0.443658086349685,200
+"tabula","ssGSEA","minimal8","acinar cell",21111.5057347831,200
+"tabula","ssGSEA","minimal8","acinar cell of salivary gland",20134.9237903404,200
+"tabula","ssGSEA","minimal8","activated CD4-positive, alpha-beta T cell",20543.4689349765,200
+"tabula","ssGSEA","minimal8","activated CD8-positive, alpha-beta T cell",20622.0940563491,200
+"tabula","ssGSEA","minimal8","adventitial cell",19754.8300639421,200
+"tabula","ssGSEA","minimal8","alveolar adventitial fibroblast",20496.6198707451,200
+"tabula","ssGSEA","minimal8","B cell",20361.4534376767,200
+"tabula","ssGSEA","minimal8","basal cell",19997.1529669102,200
+"tabula","ssGSEA","minimal8","basal cell of prostate epithelium",19924.4226878199,200
+"tabula","ssGSEA","minimal8","basophil",20740.3497997147,200
+"tabula","ssGSEA","minimal8","BEST4+ enterocyte",21750.9724992286,200
+"tabula","ssGSEA","minimal8","bladder urothelial cell",19663.0414488713,200
+"tabula","ssGSEA","minimal8","blood vessel smooth muscle cell",21219.9678757603,200
+"tabula","ssGSEA","minimal8","capillary endothelial cell",20610.7976952992,200
+"tabula","ssGSEA","minimal8","cardiac endothelial cell",20682.1587626181,200
+"tabula","ssGSEA","minimal8","CD4-positive, alpha-beta T cell",20521.1312894666,200
+"tabula","ssGSEA","minimal8","CD4-positive, alpha-beta thymocyte",20480.5161349333,200
+"tabula","ssGSEA","minimal8","CD8-positive, alpha-beta T cell",20472.5374032104,200
+"tabula","ssGSEA","minimal8","CD8-positive, alpha-beta thymocyte",20409.7668220646,200
+"tabula","ssGSEA","minimal8","classical monocyte",19942.6742189454,200
+"tabula","ssGSEA","minimal8","club cell",19903.2301191533,200
+"tabula","ssGSEA","minimal8","conjunctival epithelial cell",20398.4351594112,200
+"tabula","ssGSEA","minimal8","corneal epithelial cell",20254.1563952886,200
+"tabula","ssGSEA","minimal8","duct epithelial cell",19202.0753361689,200
+"tabula","ssGSEA","minimal8","endothelial cell",20179.2682338395,200
+"tabula","ssGSEA","minimal8","endothelial cell of artery",20269.4392459959,200
+"tabula","ssGSEA","minimal8","endothelial cell of lymphatic vessel",20348.7540971392,200
+"tabula","ssGSEA","minimal8","endothelial cell of vascular tree",20300.9198143483,200
+"tabula","ssGSEA","minimal8","enterocyte of epithelium of large intestine",20687.6106742687,200
+"tabula","ssGSEA","minimal8","enterocyte of epithelium proper of duodenum",20908.5893470229,200
+"tabula","ssGSEA","minimal8","enterocyte of epithelium proper of ileum",20531.9009498338,200
+"tabula","ssGSEA","minimal8","enterocyte of epithelium proper of small intestine",20984.2500505792,200
+"tabula","ssGSEA","minimal8","enteroglial cell",20479.2058310187,200
+"tabula","ssGSEA","minimal8","epithelial cell",20307.1180326894,200
+"tabula","ssGSEA","minimal8","epithelial cell of uterus",20188.5024885032,200
+"tabula","ssGSEA","minimal8","erythrocyte",21250.4575771536,200
+"tabula","ssGSEA","minimal8","erythroid progenitor cell",19294.7221952333,200
+"tabula","ssGSEA","minimal8","eye photoreceptor cell",20176.2054489298,200
+"tabula","ssGSEA","minimal8","fibroblast",20322.5339327652,200
+"tabula","ssGSEA","minimal8","fibroblast of breast",20445.4632526387,200
+"tabula","ssGSEA","minimal8","fibroblast of cardiac tissue",20463.5610204561,200
+"tabula","ssGSEA","minimal8","gamma-delta T cell",20512.6798745607,200
+"tabula","ssGSEA","minimal8","granulocyte",20982.5491741052,200
+"tabula","ssGSEA","minimal8","hematopoietic precursor cell",19699.1200302907,200
+"tabula","ssGSEA","minimal8","hematopoietic stem cell",20010.6194001346,200
+"tabula","ssGSEA","minimal8","hepatocyte",20853.9523464966,200
+"tabula","ssGSEA","minimal8","innate lymphoid cell",20775.5996977955,200
+"tabula","ssGSEA","minimal8","intermediate monocyte",19878.4702688463,200
+"tabula","ssGSEA","minimal8","intestinal crypt stem cell of colon",19875.2190559351,200
+"tabula","ssGSEA","minimal8","intestinal crypt stem cell of small intestine",20612.2982399198,200
+"tabula","ssGSEA","minimal8","intrahepatic cholangiocyte",20760.940699731,200
+"tabula","ssGSEA","minimal8","keratocyte",19995.3331365943,200
+"tabula","ssGSEA","minimal8","kidney epithelial cell",20583.0081735731,200
+"tabula","ssGSEA","minimal8","large intestine goblet cell",20570.2759041148,200
+"tabula","ssGSEA","minimal8","luminal cell of prostate epithelium",20311.5446774833,200
+"tabula","ssGSEA","minimal8","luminal epithelial cell of mammary gland",19865.6055127516,200
+"tabula","ssGSEA","minimal8","lung multiciliated epithelial cell",19654.5682261527,200
+"tabula","ssGSEA","minimal8","macrophage",19886.4582554648,200
+"tabula","ssGSEA","minimal8","mast cell",20821.64670121,200
+"tabula","ssGSEA","minimal8","mature NK T cell",20346.4498144341,200
+"tabula","ssGSEA","minimal8","mesenchymal stem cell",20257.9683229553,200
+"tabula","ssGSEA","minimal8","mesenchymal stem cell of adipose tissue",19943.0061554824,200
+"tabula","ssGSEA","minimal8","monocyte",20038.1867997338,200
+"tabula","ssGSEA","minimal8","mononuclear phagocyte",20052.123855792,200
+"tabula","ssGSEA","minimal8","Mueller cell",21105.8416048137,200
+"tabula","ssGSEA","minimal8","multiciliated columnar cell of tracheobronchial tree",19599.2979579827,200
+"tabula","ssGSEA","minimal8","mural cell",21810.3303748501,200
+"tabula","ssGSEA","minimal8","myeloid dendritic cell",20099.4958910801,200
+"tabula","ssGSEA","minimal8","myeloid leukocyte",20405.7554600569,200
+"tabula","ssGSEA","minimal8","myofibroblast cell",21073.324480884,200
+"tabula","ssGSEA","minimal8","myometrial cell",20574.6560975661,200
+"tabula","ssGSEA","minimal8","naive thymus-derived CD4-positive, alpha-beta T cell",20372.2237606817,200
+"tabula","ssGSEA","minimal8","naive thymus-derived CD8-positive, alpha-beta T cell",20292.2914829191,200
+"tabula","ssGSEA","minimal8","natural killer cell",20382.6918031382,200
+"tabula","ssGSEA","minimal8","neutrophil",20861.2163616319,200
+"tabula","ssGSEA","minimal8","non-classical monocyte",19884.2915482744,200
+"tabula","ssGSEA","minimal8","pancreatic acinar cell",20178.4377914604,200
+"tabula","ssGSEA","minimal8","pancreatic ductal cell",20788.5936353435,200
+"tabula","ssGSEA","minimal8","paneth cell of epithelium of small intestine",20152.4357412426,200
+"tabula","ssGSEA","minimal8","pericyte",21264.9573679703,200
+"tabula","ssGSEA","minimal8","plasma cell",19946.2189454826,200
+"tabula","ssGSEA","minimal8","progenitor cell of mammary luminal epithelium",20341.1607181008,200
+"tabula","ssGSEA","minimal8","pulmonary alveolar type 1 cell",19569.1427942007,200
+"tabula","ssGSEA","minimal8","pulmonary alveolar type 2 cell",19182.4974780261,200
+"tabula","ssGSEA","minimal8","regular atrial cardiac myocyte",20281.9782613597,200
+"tabula","ssGSEA","minimal8","regulatory T cell",20333.8849230254,200
+"tabula","ssGSEA","minimal8","respiratory tract goblet cell",19630.5228798571,200
+"tabula","ssGSEA","minimal8","retinal blood vessel endothelial cell",20332.9997100225,200
+"tabula","ssGSEA","minimal8","salivary gland cell",19478.5560687667,200
+"tabula","ssGSEA","minimal8","skeletal muscle satellite stem cell",20363.9774743807,200
+"tabula","ssGSEA","minimal8","small intestine goblet cell",20542.9514830023,200
+"tabula","ssGSEA","minimal8","smooth muscle cell",21556.3865258842,200
+"tabula","ssGSEA","minimal8","spermatid",20379.4500008627,200
+"tabula","ssGSEA","minimal8","spermatocyte",20124.7677414139,200
+"tabula","ssGSEA","minimal8","stratified squamous epithelial cell",20007.7458616107,200
+"tabula","ssGSEA","minimal8","stromal cell",20369.0286476854,200
+"tabula","ssGSEA","minimal8","stromal cell of ovary",20670.8276387998,200
+"tabula","ssGSEA","minimal8","T cell",20758.2775820455,200
+"tabula","ssGSEA","minimal8","theca cell",19724.6328347796,200
+"tabula","ssGSEA","minimal8","thymic fibroblast type 1",20034.4438947716,200
+"tabula","ssGSEA","minimal8","thymic fibroblast type 2",19836.9226391929,200
+"tabula","ssGSEA","minimal8","tissue-resident macrophage",20313.8105061022,200
+"tabula","ssGSEA","minimal8","vascular associated smooth muscle cell",21131.9543411914,200
+"tabula","ssGSEA","minimal8","vein endothelial cell",19985.3177170263,200
+"tabula","ssGSEA","minimal8","ventricular cardiac muscle cell",20430.9197263229,200
+"tabula","ssGSEA","full61","acinar cell",22915.3753619634,200
+"tabula","ssGSEA","full61","acinar cell of salivary gland",23195.176771624,200
+"tabula","ssGSEA","full61","activated CD4-positive, alpha-beta T cell",23555.2751987382,200
+"tabula","ssGSEA","full61","activated CD8-positive, alpha-beta T cell",23698.1396030422,200
+"tabula","ssGSEA","full61","adventitial cell",22849.9248933218,200
+"tabula","ssGSEA","full61","alveolar adventitial fibroblast",23394.8432966319,200
+"tabula","ssGSEA","full61","B cell",23329.6448153634,200
+"tabula","ssGSEA","full61","basal cell",22846.0950087176,200
+"tabula","ssGSEA","full61","basal cell of prostate epithelium",23179.9970961774,200
+"tabula","ssGSEA","full61","basophil",23614.5445618645,200
+"tabula","ssGSEA","full61","BEST4+ enterocyte",23733.3058577817,200
+"tabula","ssGSEA","full61","bladder urothelial cell",23255.2904180735,200
+"tabula","ssGSEA","full61","blood vessel smooth muscle cell",23715.8545340593,200
+"tabula","ssGSEA","full61","capillary endothelial cell",23455.5562865392,200
+"tabula","ssGSEA","full61","cardiac endothelial cell",23535.1447770742,200
+"tabula","ssGSEA","full61","CD4-positive, alpha-beta T cell",23476.8173355755,200
+"tabula","ssGSEA","full61","CD4-positive, alpha-beta thymocyte",23509.3658498631,200
+"tabula","ssGSEA","full61","CD8-positive, alpha-beta T cell",23667.3837126133,200
+"tabula","ssGSEA","full61","CD8-positive, alpha-beta thymocyte",23355.1231544056,200
+"tabula","ssGSEA","full61","classical monocyte",23980.431938851,200
+"tabula","ssGSEA","full61","club cell",23180.8438601104,200
+"tabula","ssGSEA","full61","conjunctival epithelial cell",23154.0773573261,200
+"tabula","ssGSEA","full61","corneal epithelial cell",22768.6320899301,200
+"tabula","ssGSEA","full61","duct epithelial cell",23229.5701846471,200
+"tabula","ssGSEA","full61","endothelial cell",23486.4838388639,200
+"tabula","ssGSEA","full61","endothelial cell of artery",23546.573144493,200
+"tabula","ssGSEA","full61","endothelial cell of lymphatic vessel",23418.399042164,200
+"tabula","ssGSEA","full61","endothelial cell of vascular tree",22740.0445526749,200
+"tabula","ssGSEA","full61","enterocyte of epithelium of large intestine",23216.4843206832,200
+"tabula","ssGSEA","full61","enterocyte of epithelium proper of duodenum",23480.3628697815,200
+"tabula","ssGSEA","full61","enterocyte of epithelium proper of ileum",23546.8672674982,200
+"tabula","ssGSEA","full61","enterocyte of epithelium proper of small intestine",23008.8766984348,200
+"tabula","ssGSEA","full61","enteroglial cell",23322.3703133175,200
+"tabula","ssGSEA","full61","epithelial cell",23081.0424940028,200
+"tabula","ssGSEA","full61","epithelial cell of uterus",22931.7149381317,200
+"tabula","ssGSEA","full61","erythrocyte",22843.9861113906,200
+"tabula","ssGSEA","full61","erythroid progenitor cell",22777.2583448997,200
+"tabula","ssGSEA","full61","eye photoreceptor cell",22832.8684497095,200
+"tabula","ssGSEA","full61","fibroblast",23292.2477332369,200
+"tabula","ssGSEA","full61","fibroblast of breast",23344.5847863152,200
+"tabula","ssGSEA","full61","fibroblast of cardiac tissue",23536.4745272536,200
+"tabula","ssGSEA","full61","gamma-delta T cell",23645.6443546132,200
+"tabula","ssGSEA","full61","granulocyte",23414.828251976,200
+"tabula","ssGSEA","full61","hematopoietic precursor cell",23810.972846126,200
+"tabula","ssGSEA","full61","hematopoietic stem cell",23464.5356634628,200
+"tabula","ssGSEA","full61","hepatocyte",22971.6106957196,200
+"tabula","ssGSEA","full61","innate lymphoid cell",23027.1441981627,200
+"tabula","ssGSEA","full61","intermediate monocyte",23978.2067025108,200
+"tabula","ssGSEA","full61","intestinal crypt stem cell of colon",23232.3394433521,200
+"tabula","ssGSEA","full61","intestinal crypt stem cell of small intestine",23206.5260332445,200
+"tabula","ssGSEA","full61","intrahepatic cholangiocyte",23110.6086125899,200
+"tabula","ssGSEA","full61","keratocyte",23300.4699688031,200
+"tabula","ssGSEA","full61","kidney epithelial cell",23120.3678965754,200
+"tabula","ssGSEA","full61","large intestine goblet cell",23345.536534321,200
+"tabula","ssGSEA","full61","luminal cell of prostate epithelium",23125.6366081192,200
+"tabula","ssGSEA","full61","luminal epithelial cell of mammary gland",23067.585483202,200
+"tabula","ssGSEA","full61","lung multiciliated epithelial cell",22652.8866627507,200
+"tabula","ssGSEA","full61","macrophage",23583.6553742241,200
+"tabula","ssGSEA","full61","mast cell",23491.0705612812,200
+"tabula","ssGSEA","full61","mature NK T cell",23684.659278428,200
+"tabula","ssGSEA","full61","mesenchymal stem cell",23377.1347654157,200
+"tabula","ssGSEA","full61","mesenchymal stem cell of adipose tissue",23256.5922911999,200
+"tabula","ssGSEA","full61","monocyte",23934.9567055038,200
+"tabula","ssGSEA","full61","mononuclear phagocyte",23695.3090698705,200
+"tabula","ssGSEA","full61","Mueller cell",23256.7759099862,200
+"tabula","ssGSEA","full61","multiciliated columnar cell of tracheobronchial tree",22513.2425324469,200
+"tabula","ssGSEA","full61","mural cell",23870.6992429165,200
+"tabula","ssGSEA","full61","myeloid dendritic cell",23448.4041809062,200
+"tabula","ssGSEA","full61","myeloid leukocyte",23590.3792890087,200
+"tabula","ssGSEA","full61","myofibroblast cell",23709.2056960407,200
+"tabula","ssGSEA","full61","myometrial cell",23840.9841973115,200
+"tabula","ssGSEA","full61","naive thymus-derived CD4-positive, alpha-beta T cell",23549.0184115863,200
+"tabula","ssGSEA","full61","naive thymus-derived CD8-positive, alpha-beta T cell",23660.7605948225,200
+"tabula","ssGSEA","full61","natural killer cell",23790.9693406898,200
+"tabula","ssGSEA","full61","neutrophil",23701.1181348937,200
+"tabula","ssGSEA","full61","non-classical monocyte",23878.6156014414,200
+"tabula","ssGSEA","full61","pancreatic acinar cell",23324.8389647471,200
+"tabula","ssGSEA","full61","pancreatic ductal cell",23578.7327054461,200
+"tabula","ssGSEA","full61","paneth cell of epithelium of small intestine",23289.8495369973,200
+"tabula","ssGSEA","full61","pericyte",23712.7377455396,200
+"tabula","ssGSEA","full61","plasma cell",22907.6002203472,200
+"tabula","ssGSEA","full61","progenitor cell of mammary luminal epithelium",23090.6474634531,200
+"tabula","ssGSEA","full61","pulmonary alveolar type 1 cell",23081.6026745357,200
+"tabula","ssGSEA","full61","pulmonary alveolar type 2 cell",23265.6186358915,200
+"tabula","ssGSEA","full61","regular atrial cardiac myocyte",23455.4140052091,200
+"tabula","ssGSEA","full61","regulatory T cell",23353.3615222703,200
+"tabula","ssGSEA","full61","respiratory tract goblet cell",22981.571316466,200
+"tabula","ssGSEA","full61","retinal blood vessel endothelial cell",23407.6924395905,200
+"tabula","ssGSEA","full61","salivary gland cell",22953.6142640429,200
+"tabula","ssGSEA","full61","skeletal muscle satellite stem cell",22908.3942455786,200
+"tabula","ssGSEA","full61","small intestine goblet cell",23366.5134171274,200
+"tabula","ssGSEA","full61","smooth muscle cell",23738.2865798775,200
+"tabula","ssGSEA","full61","spermatid",22556.3828014864,200
+"tabula","ssGSEA","full61","spermatocyte",21972.6877355706,200
+"tabula","ssGSEA","full61","stratified squamous epithelial cell",22786.1653386346,200
+"tabula","ssGSEA","full61","stromal cell",22931.6199560554,200
+"tabula","ssGSEA","full61","stromal cell of ovary",23200.3635511973,200
+"tabula","ssGSEA","full61","T cell",23497.7904071756,200
+"tabula","ssGSEA","full61","theca cell",23150.8709695694,200
+"tabula","ssGSEA","full61","thymic fibroblast type 1",23198.3049742127,200
+"tabula","ssGSEA","full61","thymic fibroblast type 2",23279.1752881317,200
+"tabula","ssGSEA","full61","tissue-resident macrophage",23715.3967261052,200
+"tabula","ssGSEA","full61","vascular associated smooth muscle cell",23649.2546332564,200
+"tabula","ssGSEA","full61","vein endothelial cell",23329.3786291706,200
+"tabula","ssGSEA","full61","ventricular cardiac muscle cell",23367.8632579242,200
+"tabula","UCell","minimal8","acinar cell",0.0102676780341023,200
+"tabula","UCell","minimal8","acinar cell of salivary gland",0.00319709127382147,200
+"tabula","UCell","minimal8","activated CD4-positive, alpha-beta T cell",0.00422245904379806,200
+"tabula","UCell","minimal8","activated CD8-positive, alpha-beta T cell",0.00901830491474423,200
+"tabula","UCell","minimal8","adventitial cell",0.00226826312270144,200
+"tabula","UCell","minimal8","alveolar adventitial fibroblast",0.0121328569040455,200
+"tabula","UCell","minimal8","B cell",0.00106381644934804,200
+"tabula","UCell","minimal8","basal cell",0.0074205951186894,200
+"tabula","UCell","minimal8","basal cell of prostate epithelium",0.00411902373788031,200
+"tabula","UCell","minimal8","basophil",0.00908287362086259,200
+"tabula","UCell","minimal8","BEST4+ enterocyte",0.0396288866599799,200
+"tabula","UCell","minimal8","bladder urothelial cell",0.00455178034102307,200
+"tabula","UCell","minimal8","blood vessel smooth muscle cell",0.0184137830157138,200
+"tabula","UCell","minimal8","capillary endothelial cell",0.00944583751253761,200
+"tabula","UCell","minimal8","cardiac endothelial cell",0.0155426696756937,200
+"tabula","UCell","minimal8","CD4-positive, alpha-beta T cell",0.00180311768639251,200
+"tabula","UCell","minimal8","CD4-positive, alpha-beta thymocyte",0.00371990972918756,200
+"tabula","UCell","minimal8","CD8-positive, alpha-beta T cell",0.00586634904714143,200
+"tabula","UCell","minimal8","CD8-positive, alpha-beta thymocyte",0.0019374791039786,200
+"tabula","UCell","minimal8","classical monocyte",0.00240095285857573,200
+"tabula","UCell","minimal8","club cell",0.00238131059846205,200
+"tabula","UCell","minimal8","conjunctival epithelial cell",0.0121928284854564,200
+"tabula","UCell","minimal8","corneal epithelial cell",0.0160506519558676,200
+"tabula","UCell","minimal8","duct epithelial cell",0.00254012036108325,200
+"tabula","UCell","minimal8","endothelial cell",0.00619149114008693,200
+"tabula","UCell","minimal8","endothelial cell of artery",0.00505265797392177,200
+"tabula","UCell","minimal8","endothelial cell of lymphatic vessel",0.00258901705115346,200
+"tabula","UCell","minimal8","endothelial cell of vascular tree",0.00467088766298897,200
+"tabula","UCell","minimal8","enterocyte of epithelium of large intestine",0.00938628385155466,200
+"tabula","UCell","minimal8","enterocyte of epithelium proper of duodenum",0.0265327231695085,200
+"tabula","UCell","minimal8","enterocyte of epithelium proper of ileum",0.0188024490137078,200
+"tabula","UCell","minimal8","enterocyte of epithelium proper of small intestine",0.0189391089936476,200
+"tabula","UCell","minimal8","enteroglial cell",0.00218300735539953,200
+"tabula","UCell","minimal8","epithelial cell",0.00290872617853561,200
+"tabula","UCell","minimal8","epithelial cell of uterus",0.012609704112337,200
+"tabula","UCell","minimal8","erythrocyte",0.00323992811768639,200
+"tabula","UCell","minimal8","erythroid progenitor cell",0.00487086258776329,200
+"tabula","UCell","minimal8","eye photoreceptor cell",0.0017558926780341,200
+"tabula","UCell","minimal8","fibroblast",0.00728372617853561,200
+"tabula","UCell","minimal8","fibroblast of breast",0.00693288197927114,200
+"tabula","UCell","minimal8","fibroblast of cardiac tissue",0.0152081243731194,200
+"tabula","UCell","minimal8","gamma-delta T cell",0.00767636242059512,200
+"tabula","UCell","minimal8","granulocyte",0.00662717318622534,200
+"tabula","UCell","minimal8","hematopoietic precursor cell",0.00313356736877299,200
+"tabula","UCell","minimal8","hematopoietic stem cell",0.0208341691741892,200
+"tabula","UCell","minimal8","hepatocyte",0.014383776328987,200
+"tabula","UCell","minimal8","innate lymphoid cell",0.0108483784687396,200
+"tabula","UCell","minimal8","intermediate monocyte",0,200
+"tabula","UCell","minimal8","intestinal crypt stem cell of colon",0.00281866432631227,200
+"tabula","UCell","minimal8","intestinal crypt stem cell of small intestine",0.0182441073219659,200
+"tabula","UCell","minimal8","intrahepatic cholangiocyte",0.00915329321297225,200
+"tabula","UCell","minimal8","keratocyte",0.00176759445001672,200
+"tabula","UCell","minimal8","kidney epithelial cell",0.00683989468405216,200
+"tabula","UCell","minimal8","large intestine goblet cell",0.00603163657639586,200
+"tabula","UCell","minimal8","luminal cell of prostate epithelium",0.00918505516549649,200
+"tabula","UCell","minimal8","luminal epithelial cell of mammary gland",0.00139501838849883,200
+"tabula","UCell","minimal8","lung multiciliated epithelial cell",0.00436580575058509,200
+"tabula","UCell","minimal8","macrophage",0.00104542795051822,200
+"tabula","UCell","minimal8","mast cell",0.0141938314944834,200
+"tabula","UCell","minimal8","mature NK T cell",0.0011250417920428,200
+"tabula","UCell","minimal8","mesenchymal stem cell",0.00667669675693748,200
+"tabula","UCell","minimal8","mesenchymal stem cell of adipose tissue",0.00425296723503845,200
+"tabula","UCell","minimal8","monocyte",0.0024180875961217,200
+"tabula","UCell","minimal8","mononuclear phagocyte",0.000248244734202608,200
+"tabula","UCell","minimal8","Mueller cell",0.0165770227348713,200
+"tabula","UCell","minimal8","multiciliated columnar cell of tracheobronchial tree",0.00133233032430625,200
+"tabula","UCell","minimal8","mural cell",0.0403424857907054,200
+"tabula","UCell","minimal8","myeloid dendritic cell",0.0023556084921431,200
+"tabula","UCell","minimal8","myeloid leukocyte",0.00130537445670344,200
+"tabula","UCell","minimal8","myofibroblast cell",0.0221769475091942,200
+"tabula","UCell","minimal8","myometrial cell",0.00991160982948847,200
+"tabula","UCell","minimal8","naive thymus-derived CD4-positive, alpha-beta T cell",0.00189735874289535,200
+"tabula","UCell","minimal8","naive thymus-derived CD8-positive, alpha-beta T cell",0.00559762621196924,200
+"tabula","UCell","minimal8","natural killer cell",0.00257982280173855,200
+"tabula","UCell","minimal8","neutrophil",0.00202001838849883,200
+"tabula","UCell","minimal8","non-classical monocyte",0.000681210297559344,200
+"tabula","UCell","minimal8","pancreatic acinar cell",0.00139627214978268,200
+"tabula","UCell","minimal8","pancreatic ductal cell",0.0108143179538616,200
+"tabula","UCell","minimal8","paneth cell of epithelium of small intestine",0.00699849548645938,200
+"tabula","UCell","minimal8","pericyte",0.0318453276496155,200
+"tabula","UCell","minimal8","plasma cell",0.00105378635907723,200
+"tabula","UCell","minimal8","progenitor cell of mammary luminal epithelium",0.00171598127716483,200
+"tabula","UCell","minimal8","pulmonary alveolar type 1 cell",0.000319500167168171,200
+"tabula","UCell","minimal8","pulmonary alveolar type 2 cell",0.00102912905382815,200
+"tabula","UCell","minimal8","regular atrial cardiac myocyte",0.00422830992978937,200
+"tabula","UCell","minimal8","regulatory T cell",0.00133295720494818,200
+"tabula","UCell","minimal8","respiratory tract goblet cell",0.00376797057840187,200
+"tabula","UCell","minimal8","retinal blood vessel endothelial cell",0.00290768137746573,200
+"tabula","UCell","minimal8","salivary gland cell",0.00151140922768305,200
+"tabula","UCell","minimal8","skeletal muscle satellite stem cell",0.0059062604480107,200
+"tabula","UCell","minimal8","small intestine goblet cell",0.0121938732865262,200
+"tabula","UCell","minimal8","smooth muscle cell",0.0311396690070211,200
+"tabula","UCell","minimal8","spermatid",0.00751086593112671,200
+"tabula","UCell","minimal8","spermatocyte",0.0204879220996322,200
+"tabula","UCell","minimal8","stratified squamous epithelial cell",0.0122833082581077,200
+"tabula","UCell","minimal8","stromal cell",0.0106661651621531,200
+"tabula","UCell","minimal8","stromal cell of ovary",0.00415224841190237,200
+"tabula","UCell","minimal8","T cell",0.0105002507522568,200
+"tabula","UCell","minimal8","theca cell",0.00386053995319291,200
+"tabula","UCell","minimal8","thymic fibroblast type 1",0.00215688732865263,200
+"tabula","UCell","minimal8","thymic fibroblast type 2",0.000431293881644935,200
+"tabula","UCell","minimal8","tissue-resident macrophage",0.00469178368438649,200
+"tabula","UCell","minimal8","vascular associated smooth muscle cell",0.0144082246740221,200
+"tabula","UCell","minimal8","vein endothelial cell",0.00412821798729522,200
+"tabula","UCell","minimal8","ventricular cardiac muscle cell",0.00537153126044801,200
+"tabula","UCell","full61","acinar cell",0.0450246627012912,200
+"tabula","UCell","full61","acinar cell of salivary gland",0.0785283286277048,200
+"tabula","UCell","full61","activated CD4-positive, alpha-beta T cell",0.0867206418998092,200
+"tabula","UCell","full61","activated CD8-positive, alpha-beta T cell",0.0957901550067516,200
+"tabula","UCell","full61","adventitial cell",0.0677351884297336,200
+"tabula","UCell","full61","alveolar adventitial fibroblast",0.0854071298641877,200
+"tabula","UCell","full61","B cell",0.0767735662712451,200
+"tabula","UCell","full61","basal cell",0.0584518017163455,200
+"tabula","UCell","full61","basal cell of prostate epithelium",0.0767088685288308,200
+"tabula","UCell","full61","basophil",0.0916343224452901,200
+"tabula","UCell","full61","BEST4+ enterocyte",0.0906034271111161,200
+"tabula","UCell","full61","bladder urothelial cell",0.072109693222779,200
+"tabula","UCell","full61","blood vessel smooth muscle cell",0.0922012855851533,200
+"tabula","UCell","full61","capillary endothelial cell",0.0906531430994655,200
+"tabula","UCell","full61","cardiac endothelial cell",0.0961404825408162,200
+"tabula","UCell","full61","CD4-positive, alpha-beta T cell",0.0866782912430671,200
+"tabula","UCell","full61","CD4-positive, alpha-beta thymocyte",0.0805522882746153,200
+"tabula","UCell","full61","CD8-positive, alpha-beta T cell",0.0972311374973496,200
+"tabula","UCell","full61","CD8-positive, alpha-beta thymocyte",0.0849951455768952,200
+"tabula","UCell","full61","classical monocyte",0.12324473546184,200
+"tabula","UCell","full61","club cell",0.0717890781059938,200
+"tabula","UCell","full61","conjunctival epithelial cell",0.0706538963720162,200
+"tabula","UCell","full61","corneal epithelial cell",0.0627650682409133,200
+"tabula","UCell","full61","duct epithelial cell",0.08441272640025,200
+"tabula","UCell","full61","endothelial cell",0.0890185695633251,200
+"tabula","UCell","full61","endothelial cell of artery",0.0961627738285217,200
+"tabula","UCell","full61","endothelial cell of lymphatic vessel",0.0814521420839425,200
+"tabula","UCell","full61","endothelial cell of vascular tree",0.0695333895032865,200
+"tabula","UCell","full61","enterocyte of epithelium of large intestine",0.0662553984532804,200
+"tabula","UCell","full61","enterocyte of epithelium proper of duodenum",0.082782895691281,200
+"tabula","UCell","full61","enterocyte of epithelium proper of ileum",0.0861550458101307,200
+"tabula","UCell","full61","enterocyte of epithelium proper of small intestine",0.0628296264884108,200
+"tabula","UCell","full61","enteroglial cell",0.0863613029941189,200
+"tabula","UCell","full61","epithelial cell",0.058622152908748,200
+"tabula","UCell","full61","epithelial cell of uterus",0.0706302938320928,200
+"tabula","UCell","full61","erythrocyte",0.0348801180684976,200
+"tabula","UCell","full61","erythroid progenitor cell",0.0666897577252285,200
+"tabula","UCell","full61","eye photoreceptor cell",0.0563183664587262,200
+"tabula","UCell","full61","fibroblast",0.0775038500597038,200
+"tabula","UCell","full61","fibroblast of breast",0.0773927842069435,200
+"tabula","UCell","full61","fibroblast of cardiac tissue",0.0949442299322613,200
+"tabula","UCell","full61","gamma-delta T cell",0.105980202881407,200
+"tabula","UCell","full61","granulocyte",0.096093249561986,200
+"tabula","UCell","full61","hematopoietic precursor cell",0.114433120557087,200
+"tabula","UCell","full61","hematopoietic stem cell",0.0918529667778906,200
+"tabula","UCell","full61","hepatocyte",0.0523790300081465,200
+"tabula","UCell","full61","innate lymphoid cell",0.0683681326652457,200
+"tabula","UCell","full61","intermediate monocyte",0.117760548605609,200
+"tabula","UCell","full61","intestinal crypt stem cell of colon",0.0711494660134585,200
+"tabula","UCell","full61","intestinal crypt stem cell of small intestine",0.0738054213304467,200
+"tabula","UCell","full61","intrahepatic cholangiocyte",0.0644950563001484,200
+"tabula","UCell","full61","keratocyte",0.0800533707551697,200
+"tabula","UCell","full61","kidney epithelial cell",0.067743641821692,200
+"tabula","UCell","full61","large intestine goblet cell",0.077669849010702,200
+"tabula","UCell","full61","luminal cell of prostate epithelium",0.0672801839100983,200
+"tabula","UCell","full61","luminal epithelial cell of mammary gland",0.0709115992813222,200
+"tabula","UCell","full61","lung multiciliated epithelial cell",0.0777540202435023,200
+"tabula","UCell","full61","macrophage",0.0963081275318327,200
+"tabula","UCell","full61","mast cell",0.0947424365856108,200
+"tabula","UCell","full61","mature NK T cell",0.103953788123961,200
+"tabula","UCell","full61","mesenchymal stem cell",0.0750515573212512,200
+"tabula","UCell","full61","mesenchymal stem cell of adipose tissue",0.069275491301097,200
+"tabula","UCell","full61","monocyte",0.118954401901595,200
+"tabula","UCell","full61","mononuclear phagocyte",0.10018834603667,200
+"tabula","UCell","full61","Mueller cell",0.070968150520595,200
+"tabula","UCell","full61","multiciliated columnar cell of tracheobronchial tree",0.0667910868327958,200
+"tabula","UCell","full61","mural cell",0.109939710296957,200
+"tabula","UCell","full61","myeloid dendritic cell",0.0938309767992054,200
+"tabula","UCell","full61","myeloid leukocyte",0.0924642335033311,200
+"tabula","UCell","full61","myofibroblast cell",0.0997229909942082,200
+"tabula","UCell","full61","myometrial cell",0.103051032820364,200
+"tabula","UCell","full61","naive thymus-derived CD4-positive, alpha-beta T cell",0.0878747112455222,200
+"tabula","UCell","full61","naive thymus-derived CD8-positive, alpha-beta T cell",0.0985427803010858,200
+"tabula","UCell","full61","natural killer cell",0.105879906036224,200
+"tabula","UCell","full61","neutrophil",0.120418177861599,200
+"tabula","UCell","full61","non-classical monocyte",0.112813947259762,200
+"tabula","UCell","full61","pancreatic acinar cell",0.0606979209677599,200
+"tabula","UCell","full61","pancreatic ductal cell",0.0828929013826736,200
+"tabula","UCell","full61","paneth cell of epithelium of small intestine",0.0825838085460166,200
+"tabula","UCell","full61","pericyte",0.102938181432669,200
+"tabula","UCell","full61","plasma cell",0.0552102746375922,200
+"tabula","UCell","full61","progenitor cell of mammary luminal epithelium",0.0527099119508085,200
+"tabula","UCell","full61","pulmonary alveolar type 1 cell",0.0714171567588077,200
+"tabula","UCell","full61","pulmonary alveolar type 2 cell",0.0835468256536732,200
+"tabula","UCell","full61","regular atrial cardiac myocyte",0.0677980727382294,200
+"tabula","UCell","full61","regulatory T cell",0.0769215703779754,200
+"tabula","UCell","full61","respiratory tract goblet cell",0.0679912174000379,200
+"tabula","UCell","full61","retinal blood vessel endothelial cell",0.0855392594493857,200
+"tabula","UCell","full61","salivary gland cell",0.0655090169514223,200
+"tabula","UCell","full61","skeletal muscle satellite stem cell",0.0588253133055831,200
+"tabula","UCell","full61","small intestine goblet cell",0.0814657288888393,200
+"tabula","UCell","full61","smooth muscle cell",0.0947643093885659,200
+"tabula","UCell","full61","spermatid",0.0589605117789508,200
+"tabula","UCell","full61","spermatocyte",0.0571166958676026,200
+"tabula","UCell","full61","stratified squamous epithelial cell",0.0588927451483668,200
+"tabula","UCell","full61","stromal cell",0.0678888281311029,200
+"tabula","UCell","full61","stromal cell of ovary",0.0664655893939225,200
+"tabula","UCell","full61","T cell",0.0914144505574217,200
+"tabula","UCell","full61","theca cell",0.0789164592842237,200
+"tabula","UCell","full61","thymic fibroblast type 1",0.0721053967793414,200
+"tabula","UCell","full61","thymic fibroblast type 2",0.0725291823365957,200
+"tabula","UCell","full61","tissue-resident macrophage",0.0903800678503275,200
+"tabula","UCell","full61","vascular associated smooth muscle cell",0.087350015065451,200
+"tabula","UCell","full61","vein endothelial cell",0.0809976397460077,200
+"tabula","UCell","full61","ventricular cardiac muscle cell",0.0658413496412191,200
+"tabula","SCSE","minimal8","acinar cell",0.012425272296792,200
+"tabula","SCSE","minimal8","acinar cell of salivary gland",0.00473036042124899,200
+"tabula","SCSE","minimal8","activated CD4-positive, alpha-beta T cell",0.00785288048644194,200
+"tabula","SCSE","minimal8","activated CD8-positive, alpha-beta T cell",0.0119219835494514,200
+"tabula","SCSE","minimal8","adventitial cell",0.00528181332347294,200
+"tabula","SCSE","minimal8","alveolar adventitial fibroblast",0.0149916334877966,200
+"tabula","SCSE","minimal8","B cell",0.00279248147658354,200
+"tabula","SCSE","minimal8","basal cell",0.0112594993819108,200
+"tabula","SCSE","minimal8","basal cell of prostate epithelium",0.00957792261120226,200
+"tabula","SCSE","minimal8","basophil",0.0130061214996478,200
+"tabula","SCSE","minimal8","BEST4+ enterocyte",0.0391322698452027,200
+"tabula","SCSE","minimal8","bladder urothelial cell",0.00970428480946346,200
+"tabula","SCSE","minimal8","blood vessel smooth muscle cell",0.0254205569780237,200
+"tabula","SCSE","minimal8","capillary endothelial cell",0.0127555850937962,200
+"tabula","SCSE","minimal8","cardiac endothelial cell",0.0163462335634546,200
+"tabula","SCSE","minimal8","CD4-positive, alpha-beta T cell",0.00441850085849361,200
+"tabula","SCSE","minimal8","CD4-positive, alpha-beta thymocyte",0.00564441766411483,200
+"tabula","SCSE","minimal8","CD8-positive, alpha-beta T cell",0.00831545196778117,200
+"tabula","SCSE","minimal8","CD8-positive, alpha-beta thymocyte",0.00365918976554974,200
+"tabula","SCSE","minimal8","classical monocyte",0.00434505585548645,200
+"tabula","SCSE","minimal8","club cell",0.00559784541835124,200
+"tabula","SCSE","minimal8","conjunctival epithelial cell",0.0178246150696937,200
+"tabula","SCSE","minimal8","corneal epithelial cell",0.0199450318618258,200
+"tabula","SCSE","minimal8","duct epithelial cell",0.00528366554277399,200
+"tabula","SCSE","minimal8","endothelial cell",0.00888460840232794,200
+"tabula","SCSE","minimal8","endothelial cell of artery",0.00938827672277701,200
+"tabula","SCSE","minimal8","endothelial cell of lymphatic vessel",0.00763533225078224,200
+"tabula","SCSE","minimal8","endothelial cell of vascular tree",0.00499694657296959,200
+"tabula","SCSE","minimal8","enterocyte of epithelium of large intestine",0.01160835536073,200
+"tabula","SCSE","minimal8","enterocyte of epithelium proper of duodenum",0.0245003202018231,200
+"tabula","SCSE","minimal8","enterocyte of epithelium proper of ileum",0.0190939321746823,200
+"tabula","SCSE","minimal8","enterocyte of epithelium proper of small intestine",0.0182823993426321,200
+"tabula","SCSE","minimal8","enteroglial cell",0.00356393976631294,200
+"tabula","SCSE","minimal8","epithelial cell",0.00633351584988587,200
+"tabula","SCSE","minimal8","epithelial cell of uterus",0.0161881262086811,200
+"tabula","SCSE","minimal8","erythrocyte",0.00429515046265181,200
+"tabula","SCSE","minimal8","erythroid progenitor cell",0.00763130961725166,200
+"tabula","SCSE","minimal8","eye photoreceptor cell",0.00580025908837593,200
+"tabula","SCSE","minimal8","fibroblast",0.0116388328353488,200
+"tabula","SCSE","minimal8","fibroblast of breast",0.00995297372501937,200
+"tabula","SCSE","minimal8","fibroblast of cardiac tissue",0.0187600225151664,200
+"tabula","SCSE","minimal8","gamma-delta T cell",0.010791934066572,200
+"tabula","SCSE","minimal8","granulocyte",0.0109918119467886,200
+"tabula","SCSE","minimal8","hematopoietic precursor cell",0.00630530727661591,200
+"tabula","SCSE","minimal8","hematopoietic stem cell",0.0174141065927985,200
+"tabula","SCSE","minimal8","hepatocyte",0.0252226843625334,200
+"tabula","SCSE","minimal8","innate lymphoid cell",0.0086311637218708,200
+"tabula","SCSE","minimal8","intermediate monocyte",0.00129406997995443,200
+"tabula","SCSE","minimal8","intestinal crypt stem cell of colon",0.00682743328479884,200
+"tabula","SCSE","minimal8","intestinal crypt stem cell of small intestine",0.0211727928604996,200
+"tabula","SCSE","minimal8","intrahepatic cholangiocyte",0.0182397763009138,200
+"tabula","SCSE","minimal8","keratocyte",0.00618663712698018,200
+"tabula","SCSE","minimal8","kidney epithelial cell",0.010651519580669,200
+"tabula","SCSE","minimal8","large intestine goblet cell",0.0100674500078496,200
+"tabula","SCSE","minimal8","luminal cell of prostate epithelium",0.00995196529490191,200
+"tabula","SCSE","minimal8","luminal epithelial cell of mammary gland",0.00467027975985109,200
+"tabula","SCSE","minimal8","lung multiciliated epithelial cell",0.0102340673757528,200
+"tabula","SCSE","minimal8","macrophage",0.00280833084533846,200
+"tabula","SCSE","minimal8","mast cell",0.0150502528941207,200
+"tabula","SCSE","minimal8","mature NK T cell",0.00392541633670339,200
+"tabula","SCSE","minimal8","mesenchymal stem cell",0.011883445991299,200
+"tabula","SCSE","minimal8","mesenchymal stem cell of adipose tissue",0.00903581530424177,200
+"tabula","SCSE","minimal8","monocyte",0.00300809863528941,200
+"tabula","SCSE","minimal8","mononuclear phagocyte",0.00245960348005014,200
+"tabula","SCSE","minimal8","Mueller cell",0.0246807225884727,200
+"tabula","SCSE","minimal8","multiciliated columnar cell of tracheobronchial tree",0.00661027096093184,200
+"tabula","SCSE","minimal8","mural cell",0.0467060896399994,200
+"tabula","SCSE","minimal8","myeloid dendritic cell",0.00398274124404412,200
+"tabula","SCSE","minimal8","myeloid leukocyte",0.00453938569894108,200
+"tabula","SCSE","minimal8","myofibroblast cell",0.028187660897003,200
+"tabula","SCSE","minimal8","myometrial cell",0.0156677957300525,200
+"tabula","SCSE","minimal8","naive thymus-derived CD4-positive, alpha-beta T cell",0.00615162416714892,200
+"tabula","SCSE","minimal8","naive thymus-derived CD8-positive, alpha-beta T cell",0.00796008899463625,200
+"tabula","SCSE","minimal8","natural killer cell",0.00526187750705661,200
+"tabula","SCSE","minimal8","neutrophil",0.00429966331716428,200
+"tabula","SCSE","minimal8","non-classical monocyte",0.00213588840652995,200
+"tabula","SCSE","minimal8","pancreatic acinar cell",0.0060794490140034,200
+"tabula","SCSE","minimal8","pancreatic ductal cell",0.0213851768331264,200
+"tabula","SCSE","minimal8","paneth cell of epithelium of small intestine",0.0134999917355434,200
+"tabula","SCSE","minimal8","pericyte",0.0332513436300858,200
+"tabula","SCSE","minimal8","plasma cell",0.00281779240090545,200
+"tabula","SCSE","minimal8","progenitor cell of mammary luminal epithelium",0.00570236691223837,200
+"tabula","SCSE","minimal8","pulmonary alveolar type 1 cell",0.00283047157579561,200
+"tabula","SCSE","minimal8","pulmonary alveolar type 2 cell",0.00418388754356844,200
+"tabula","SCSE","minimal8","regular atrial cardiac myocyte",0.0126483133227032,200
+"tabula","SCSE","minimal8","regulatory T cell",0.00232351856687031,200
+"tabula","SCSE","minimal8","respiratory tract goblet cell",0.0073470742283909,200
+"tabula","SCSE","minimal8","retinal blood vessel endothelial cell",0.00726552062436983,200
+"tabula","SCSE","minimal8","salivary gland cell",0.00488375460107953,200
+"tabula","SCSE","minimal8","skeletal muscle satellite stem cell",0.0102868320919928,200
+"tabula","SCSE","minimal8","small intestine goblet cell",0.0163621149778381,200
+"tabula","SCSE","minimal8","smooth muscle cell",0.0355808961345095,200
+"tabula","SCSE","minimal8","spermatid",0.0148774468019996,200
+"tabula","SCSE","minimal8","spermatocyte",0.0280321445711287,200
+"tabula","SCSE","minimal8","stratified squamous epithelial cell",0.0129842389612163,200
+"tabula","SCSE","minimal8","stromal cell",0.012023893285814,200
+"tabula","SCSE","minimal8","stromal cell of ovary",0.0109244931175909,200
+"tabula","SCSE","minimal8","T cell",0.0135890359657802,200
+"tabula","SCSE","minimal8","theca cell",0.0113786049271521,200
+"tabula","SCSE","minimal8","thymic fibroblast type 1",0.00677230396726506,200
+"tabula","SCSE","minimal8","thymic fibroblast type 2",0.00363010433693683,200
+"tabula","SCSE","minimal8","tissue-resident macrophage",0.00777602321227041,200
+"tabula","SCSE","minimal8","vascular associated smooth muscle cell",0.0216724156895572,200
+"tabula","SCSE","minimal8","vein endothelial cell",0.00758180331282962,200
+"tabula","SCSE","minimal8","ventricular cardiac muscle cell",0.0113334263651268,200
+"tabula","SCSE","full61","acinar cell",0.423360591082387,200
+"tabula","SCSE","full61","acinar cell of salivary gland",0.553865381835954,200
+"tabula","SCSE","full61","activated CD4-positive, alpha-beta T cell",0.635388738020702,200
+"tabula","SCSE","full61","activated CD8-positive, alpha-beta T cell",0.683249148819215,200
+"tabula","SCSE","full61","adventitial cell",0.46928133772863,200
+"tabula","SCSE","full61","alveolar adventitial fibroblast",0.598975219946767,200
+"tabula","SCSE","full61","B cell",0.550226943470552,200
+"tabula","SCSE","full61","basal cell",0.422333804935366,200
+"tabula","SCSE","full61","basal cell of prostate epithelium",0.517015092619202,200
+"tabula","SCSE","full61","basophil",0.66690380540789,200
+"tabula","SCSE","full61","BEST4+ enterocyte",0.641992861793688,200
+"tabula","SCSE","full61","bladder urothelial cell",0.491859295819373,200
+"tabula","SCSE","full61","blood vessel smooth muscle cell",0.670876811437636,200
+"tabula","SCSE","full61","capillary endothelial cell",0.626901722616048,200
+"tabula","SCSE","full61","cardiac endothelial cell",0.668095379502598,200
+"tabula","SCSE","full61","CD4-positive, alpha-beta T cell",0.615292252212787,200
+"tabula","SCSE","full61","CD4-positive, alpha-beta thymocyte",0.592789707601,200
+"tabula","SCSE","full61","CD8-positive, alpha-beta T cell",0.667976620882214,200
+"tabula","SCSE","full61","CD8-positive, alpha-beta thymocyte",0.600931062535542,200
+"tabula","SCSE","full61","classical monocyte",0.743712918300583,200
+"tabula","SCSE","full61","club cell",0.491606079874973,200
+"tabula","SCSE","full61","conjunctival epithelial cell",0.507919430689542,200
+"tabula","SCSE","full61","corneal epithelial cell",0.436454588243553,200
+"tabula","SCSE","full61","duct epithelial cell",0.541586539628799,200
+"tabula","SCSE","full61","endothelial cell",0.590838747822833,200
+"tabula","SCSE","full61","endothelial cell of artery",0.628686067292822,200
+"tabula","SCSE","full61","endothelial cell of lymphatic vessel",0.569180018823594,200
+"tabula","SCSE","full61","endothelial cell of vascular tree",0.56944981104579,200
+"tabula","SCSE","full61","enterocyte of epithelium of large intestine",0.494433180732186,200
+"tabula","SCSE","full61","enterocyte of epithelium proper of duodenum",0.562143581099684,200
+"tabula","SCSE","full61","enterocyte of epithelium proper of ileum",0.579788165647752,200
+"tabula","SCSE","full61","enterocyte of epithelium proper of small intestine",0.486399294331203,200
+"tabula","SCSE","full61","enteroglial cell",0.607980707940179,200
+"tabula","SCSE","full61","epithelial cell",0.461682893599801,200
+"tabula","SCSE","full61","epithelial cell of uterus",0.486797475776653,200
+"tabula","SCSE","full61","erythrocyte",0.361352069430705,200
+"tabula","SCSE","full61","erythroid progenitor cell",0.444066199738389,200
+"tabula","SCSE","full61","eye photoreceptor cell",0.427060121874728,200
+"tabula","SCSE","full61","fibroblast",0.526656599459225,200
+"tabula","SCSE","full61","fibroblast of breast",0.551767093407749,200
+"tabula","SCSE","full61","fibroblast of cardiac tissue",0.628291821078352,200
+"tabula","SCSE","full61","gamma-delta T cell",0.708318611551911,200
+"tabula","SCSE","full61","granulocyte",0.716399439791796,200
+"tabula","SCSE","full61","hematopoietic precursor cell",0.669599537656726,200
+"tabula","SCSE","full61","hematopoietic stem cell",0.576985201167106,200
+"tabula","SCSE","full61","hepatocyte",0.424938773772194,200
+"tabula","SCSE","full61","innate lymphoid cell",0.590038382504896,200
+"tabula","SCSE","full61","intermediate monocyte",0.726607337070294,200
+"tabula","SCSE","full61","intestinal crypt stem cell of colon",0.503176259043541,200
+"tabula","SCSE","full61","intestinal crypt stem cell of small intestine",0.491660392810434,200
+"tabula","SCSE","full61","intrahepatic cholangiocyte",0.476876607254188,200
+"tabula","SCSE","full61","keratocyte",0.529062561313556,200
+"tabula","SCSE","full61","kidney epithelial cell",0.510005263279943,200
+"tabula","SCSE","full61","large intestine goblet cell",0.566099374692492,200
+"tabula","SCSE","full61","luminal cell of prostate epithelium",0.510577980859046,200
+"tabula","SCSE","full61","luminal epithelial cell of mammary gland",0.481678266604371,200
+"tabula","SCSE","full61","lung multiciliated epithelial cell",0.511189219558579,200
+"tabula","SCSE","full61","macrophage",0.638514324039331,200
+"tabula","SCSE","full61","mast cell",0.702479433913946,200
+"tabula","SCSE","full61","mature NK T cell",0.70342942888688,200
+"tabula","SCSE","full61","mesenchymal stem cell",0.518267505119967,200
+"tabula","SCSE","full61","mesenchymal stem cell of adipose tissue",0.485889629968824,200
+"tabula","SCSE","full61","monocyte",0.737693020843244,200
+"tabula","SCSE","full61","mononuclear phagocyte",0.686260130260218,200
+"tabula","SCSE","full61","Mueller cell",0.505619117760935,200
+"tabula","SCSE","full61","multiciliated columnar cell of tracheobronchial tree",0.457316566911946,200
+"tabula","SCSE","full61","mural cell",0.765547411846601,200
+"tabula","SCSE","full61","myeloid dendritic cell",0.658912372723464,200
+"tabula","SCSE","full61","myeloid leukocyte",0.684203946995065,200
+"tabula","SCSE","full61","myofibroblast cell",0.656310162709171,200
+"tabula","SCSE","full61","myometrial cell",0.657947192442314,200
+"tabula","SCSE","full61","naive thymus-derived CD4-positive, alpha-beta T cell",0.610205785090906,200
+"tabula","SCSE","full61","naive thymus-derived CD8-positive, alpha-beta T cell",0.650234520859195,200
+"tabula","SCSE","full61","natural killer cell",0.719702217873782,200
+"tabula","SCSE","full61","neutrophil",0.911730277630091,200
+"tabula","SCSE","full61","non-classical monocyte",0.700776514364822,200
+"tabula","SCSE","full61","pancreatic acinar cell",0.425531630821046,200
+"tabula","SCSE","full61","pancreatic ductal cell",0.556712736171479,200
+"tabula","SCSE","full61","paneth cell of epithelium of small intestine",0.546817146679205,200
+"tabula","SCSE","full61","pericyte",0.709944190843855,200
+"tabula","SCSE","full61","plasma cell",0.421996672381463,200
+"tabula","SCSE","full61","progenitor cell of mammary luminal epithelium",0.431850909604785,200
+"tabula","SCSE","full61","pulmonary alveolar type 1 cell",0.480126834336617,200
+"tabula","SCSE","full61","pulmonary alveolar type 2 cell",0.513308853740453,200
+"tabula","SCSE","full61","regular atrial cardiac myocyte",0.494111647728417,200
+"tabula","SCSE","full61","regulatory T cell",0.56168804863298,200
+"tabula","SCSE","full61","respiratory tract goblet cell",0.462520484958861,200
+"tabula","SCSE","full61","retinal blood vessel endothelial cell",0.590016642300801,200
+"tabula","SCSE","full61","salivary gland cell",0.45778368709839,200
+"tabula","SCSE","full61","skeletal muscle satellite stem cell",0.450768440450061,200
+"tabula","SCSE","full61","small intestine goblet cell",0.544917476736973,200
+"tabula","SCSE","full61","smooth muscle cell",0.681124991811417,200
+"tabula","SCSE","full61","spermatid",0.416380826553389,200
+"tabula","SCSE","full61","spermatocyte",0.365228550110131,200
+"tabula","SCSE","full61","stratified squamous epithelial cell",0.425124166105991,200
+"tabula","SCSE","full61","stromal cell",0.496945085393499,200
+"tabula","SCSE","full61","stromal cell of ovary",0.492138677560346,200
+"tabula","SCSE","full61","T cell",0.675013115341714,200
+"tabula","SCSE","full61","theca cell",0.487975709873975,200
+"tabula","SCSE","full61","thymic fibroblast type 1",0.49784612888856,200
+"tabula","SCSE","full61","thymic fibroblast type 2",0.505740994873673,200
+"tabula","SCSE","full61","tissue-resident macrophage",0.634523992434031,200
+"tabula","SCSE","full61","vascular associated smooth muscle cell",0.662513680988809,200
+"tabula","SCSE","full61","vein endothelial cell",0.533409086306125,200
+"tabula","SCSE","full61","ventricular cardiac muscle cell",0.492870834556766,200
