@@ -1,0 +1,295 @@
+"atlas","method","panel","group","score","n_cells"
+"hbca","AddModuleScore","minimal8","Amygdala excitatory",0.369670566429479,200
+"hbca","AddModuleScore","minimal8","Cerebellar inhibitory",0.168182749484903,200
+"hbca","AddModuleScore","minimal8","CGE interneuron",0.300721682322972,200
+"hbca","AddModuleScore","minimal8","Deep-layer corticothalamic and 6b",0.323360339540054,200
+"hbca","AddModuleScore","minimal8","Deep-layer intratelencephalic",0.209809414901491,200
+"hbca","AddModuleScore","minimal8","Deep-layer near-projecting",0.32706143522264,200
+"hbca","AddModuleScore","minimal8","Eccentric medium spiny neuron",0.277002274051571,200
+"hbca","AddModuleScore","minimal8","Hippocampal CA1-3",0.307270830839981,200
+"hbca","AddModuleScore","minimal8","Hippocampal CA4",0.39438440439745,200
+"hbca","AddModuleScore","minimal8","Hippocampal dentate gyrus",0.284914439477626,200
+"hbca","AddModuleScore","minimal8","LAMP5-LHX6 and Chandelier",0.308617132143961,200
+"hbca","AddModuleScore","minimal8","Lower rhombic lip",0.23228103855349,200
+"hbca","AddModuleScore","minimal8","Mammillary body",0.144771867038134,200
+"hbca","AddModuleScore","minimal8","Medium spiny neuron",0.214597842817125,200
+"hbca","AddModuleScore","minimal8","MGE interneuron",0.244526961201801,200
+"hbca","AddModuleScore","minimal8","Midbrain-derived inhibitory",0.27249846106823,200
+"hbca","AddModuleScore","minimal8","Miscellaneous",0.179177465522683,200
+"hbca","AddModuleScore","minimal8","Splatter",0.174822823686835,200
+"hbca","AddModuleScore","minimal8","Thalamic excitatory",0.216089329518181,200
+"hbca","AddModuleScore","minimal8","Upper rhombic lip",0.427206159149759,200
+"hbca","AddModuleScore","minimal8","Upper-layer intratelencephalic",0.26214369946187,200
+"hbca","AddModuleScore","full61","Amygdala excitatory",0.180458403412667,200
+"hbca","AddModuleScore","full61","Cerebellar inhibitory",0.151327698345391,200
+"hbca","AddModuleScore","full61","CGE interneuron",0.160703242937988,200
+"hbca","AddModuleScore","full61","Deep-layer corticothalamic and 6b",0.195057595797355,200
+"hbca","AddModuleScore","full61","Deep-layer intratelencephalic",0.170513597570717,200
+"hbca","AddModuleScore","full61","Deep-layer near-projecting",0.153033145925823,200
+"hbca","AddModuleScore","full61","Eccentric medium spiny neuron",0.215459814278289,200
+"hbca","AddModuleScore","full61","Hippocampal CA1-3",0.221765113143904,200
+"hbca","AddModuleScore","full61","Hippocampal CA4",0.195624466821171,200
+"hbca","AddModuleScore","full61","Hippocampal dentate gyrus",0.1643549197752,200
+"hbca","AddModuleScore","full61","LAMP5-LHX6 and Chandelier",0.184461404610073,200
+"hbca","AddModuleScore","full61","Lower rhombic lip",0.178750491362192,200
+"hbca","AddModuleScore","full61","Mammillary body",0.0735439463675687,200
+"hbca","AddModuleScore","full61","Medium spiny neuron",0.137333896546683,200
+"hbca","AddModuleScore","full61","MGE interneuron",0.166677592624102,200
+"hbca","AddModuleScore","full61","Midbrain-derived inhibitory",0.221210425613263,200
+"hbca","AddModuleScore","full61","Miscellaneous",0.167426325278186,200
+"hbca","AddModuleScore","full61","Splatter",0.146894839551977,200
+"hbca","AddModuleScore","full61","Thalamic excitatory",0.158209403447783,200
+"hbca","AddModuleScore","full61","Upper rhombic lip",0.146516955283323,200
+"hbca","AddModuleScore","full61","Upper-layer intratelencephalic",0.204698155966897,200
+"hbca","scPS","minimal8","Amygdala excitatory",0.230917710503459,200
+"hbca","scPS","minimal8","Cerebellar inhibitory",0.161169434275721,200
+"hbca","scPS","minimal8","CGE interneuron",0.211864873687582,200
+"hbca","scPS","minimal8","Deep-layer corticothalamic and 6b",0.220923981237531,200
+"hbca","scPS","minimal8","Deep-layer intratelencephalic",0.19919651400266,200
+"hbca","scPS","minimal8","Deep-layer near-projecting",0.224592356136186,200
+"hbca","scPS","minimal8","Eccentric medium spiny neuron",0.198915924563076,200
+"hbca","scPS","minimal8","Hippocampal CA1-3",0.225100393816782,200
+"hbca","scPS","minimal8","Hippocampal CA4",0.235978422640694,200
+"hbca","scPS","minimal8","Hippocampal dentate gyrus",0.214122679651864,200
+"hbca","scPS","minimal8","LAMP5-LHX6 and Chandelier",0.20991072443483,200
+"hbca","scPS","minimal8","Lower rhombic lip",0.201577660438037,200
+"hbca","scPS","minimal8","Mammillary body",0.188131778087437,200
+"hbca","scPS","minimal8","Medium spiny neuron",0.174767001450619,200
+"hbca","scPS","minimal8","MGE interneuron",0.198816445601012,200
+"hbca","scPS","minimal8","Midbrain-derived inhibitory",0.212993178958006,200
+"hbca","scPS","minimal8","Miscellaneous",0.174861627878662,200
+"hbca","scPS","minimal8","Splatter",0.187522432270981,200
+"hbca","scPS","minimal8","Thalamic excitatory",0.192701059230739,200
+"hbca","scPS","minimal8","Upper rhombic lip",0.211574336979895,200
+"hbca","scPS","minimal8","Upper-layer intratelencephalic",0.208284176094124,200
+"hbca","scPS","full61","Amygdala excitatory",0.14129242199915,200
+"hbca","scPS","full61","Cerebellar inhibitory",0.125984922264867,200
+"hbca","scPS","full61","CGE interneuron",0.129912151133239,200
+"hbca","scPS","full61","Deep-layer corticothalamic and 6b",0.142114801678749,200
+"hbca","scPS","full61","Deep-layer intratelencephalic",0.13606333110546,200
+"hbca","scPS","full61","Deep-layer near-projecting",0.1332240923101,200
+"hbca","scPS","full61","Eccentric medium spiny neuron",0.139316781774265,200
+"hbca","scPS","full61","Hippocampal CA1-3",0.144448489547911,200
+"hbca","scPS","full61","Hippocampal CA4",0.141680954900475,200
+"hbca","scPS","full61","Hippocampal dentate gyrus",0.133783521073281,200
+"hbca","scPS","full61","LAMP5-LHX6 and Chandelier",0.135299745455296,200
+"hbca","scPS","full61","Lower rhombic lip",0.140984802772089,200
+"hbca","scPS","full61","Mammillary body",0.12107844399866,200
+"hbca","scPS","full61","Medium spiny neuron",0.122485099044638,200
+"hbca","scPS","full61","MGE interneuron",0.134599404574007,200
+"hbca","scPS","full61","Midbrain-derived inhibitory",0.14484879558822,200
+"hbca","scPS","full61","Miscellaneous",0.125041818185155,200
+"hbca","scPS","full61","Splatter",0.130920228314895,200
+"hbca","scPS","full61","Thalamic excitatory",0.134349673786409,200
+"hbca","scPS","full61","Upper rhombic lip",0.113275917924608,200
+"hbca","scPS","full61","Upper-layer intratelencephalic",0.141991751493456,200
+"hbca","AUCell","minimal8","Amygdala excitatory",0.498237102321582,200
+"hbca","AUCell","minimal8","Cerebellar inhibitory",0.319717755803955,200
+"hbca","AUCell","minimal8","CGE interneuron",0.427405631986242,200
+"hbca","AUCell","minimal8","Deep-layer corticothalamic and 6b",0.485557179707653,200
+"hbca","AUCell","minimal8","Deep-layer intratelencephalic",0.420030954428203,200
+"hbca","AUCell","minimal8","Deep-layer near-projecting",0.481683791917455,200
+"hbca","AUCell","minimal8","Eccentric medium spiny neuron",0.4480432072227,200
+"hbca","AUCell","minimal8","Hippocampal CA1-3",0.494052235597592,200
+"hbca","AUCell","minimal8","Hippocampal CA4",0.523654987102322,200
+"hbca","AUCell","minimal8","Hippocampal dentate gyrus",0.433952063628547,200
+"hbca","AUCell","minimal8","LAMP5-LHX6 and Chandelier",0.436604901117799,200
+"hbca","AUCell","minimal8","Lower rhombic lip",0.435021496130696,200
+"hbca","AUCell","minimal8","Mammillary body",0.398326956147893,200
+"hbca","AUCell","minimal8","Medium spiny neuron",0.415753009458298,200
+"hbca","AUCell","minimal8","MGE interneuron",0.41363736027515,200
+"hbca","AUCell","minimal8","Midbrain-derived inhibitory",0.431685726569218,200
+"hbca","AUCell","minimal8","Miscellaneous",0.374158211521926,200
+"hbca","AUCell","minimal8","Splatter",0.385526870163371,200
+"hbca","AUCell","minimal8","Thalamic excitatory",0.408599957007739,200
+"hbca","AUCell","minimal8","Upper rhombic lip",0.377977858985383,200
+"hbca","AUCell","minimal8","Upper-layer intratelencephalic",0.443841143594153,200
+"hbca","AUCell","full61","Amygdala excitatory",0.283020809031472,200
+"hbca","AUCell","full61","Cerebellar inhibitory",0.24492221507787,200
+"hbca","AUCell","full61","CGE interneuron",0.251025429467227,200
+"hbca","AUCell","full61","Deep-layer corticothalamic and 6b",0.288189949983214,200
+"hbca","AUCell","full61","Deep-layer intratelencephalic",0.278222896193831,200
+"hbca","AUCell","full61","Deep-layer near-projecting",0.258972920377146,200
+"hbca","AUCell","full61","Eccentric medium spiny neuron",0.287025423777036,200
+"hbca","AUCell","full61","Hippocampal CA1-3",0.295933646673229,200
+"hbca","AUCell","full61","Hippocampal CA4",0.274986571147313,200
+"hbca","AUCell","full61","Hippocampal dentate gyrus",0.263386062444165,200
+"hbca","AUCell","full61","LAMP5-LHX6 and Chandelier",0.271464143256269,200
+"hbca","AUCell","full61","Lower rhombic lip",0.279236859924548,200
+"hbca","AUCell","full61","Mammillary body",0.234519377948231,200
+"hbca","AUCell","full61","Medium spiny neuron",0.253683517221366,200
+"hbca","AUCell","full61","MGE interneuron",0.25906976744186,200
+"hbca","AUCell","full61","Midbrain-derived inhibitory",0.284669798168896,200
+"hbca","AUCell","full61","Miscellaneous",0.250517636749535,200
+"hbca","AUCell","full61","Splatter",0.25315134203174,200
+"hbca","AUCell","full61","Thalamic excitatory",0.269229149714637,200
+"hbca","AUCell","full61","Upper rhombic lip",0.205164873307879,200
+"hbca","AUCell","full61","Upper-layer intratelencephalic",0.288739366454043,200
+"hbca","JASMINE","minimal8","Amygdala excitatory",0.529579042446152,200
+"hbca","JASMINE","minimal8","Cerebellar inhibitory",0.408460449778635,200
+"hbca","JASMINE","minimal8","CGE interneuron",0.488190121768146,200
+"hbca","JASMINE","minimal8","Deep-layer corticothalamic and 6b",0.523248630745637,200
+"hbca","JASMINE","minimal8","Deep-layer intratelencephalic",0.488949815761407,200
+"hbca","JASMINE","minimal8","Deep-layer near-projecting",0.519935281218236,200
+"hbca","JASMINE","minimal8","Eccentric medium spiny neuron",0.49495429786734,200
+"hbca","JASMINE","minimal8","Hippocampal CA1-3",0.514572391503207,200
+"hbca","JASMINE","minimal8","Hippocampal CA4",0.527123809355712,200
+"hbca","JASMINE","minimal8","Hippocampal dentate gyrus",0.469777952201646,200
+"hbca","JASMINE","minimal8","LAMP5-LHX6 and Chandelier",0.482986559082527,200
+"hbca","JASMINE","minimal8","Lower rhombic lip",0.483541151902083,200
+"hbca","JASMINE","minimal8","Mammillary body",0.462499097793547,200
+"hbca","JASMINE","minimal8","Medium spiny neuron",0.466244605097633,200
+"hbca","JASMINE","minimal8","MGE interneuron",0.469527953728062,200
+"hbca","JASMINE","minimal8","Midbrain-derived inhibitory",0.472242894480616,200
+"hbca","JASMINE","minimal8","Miscellaneous",0.425818772579246,200
+"hbca","JASMINE","minimal8","Splatter",0.454803087219276,200
+"hbca","JASMINE","minimal8","Thalamic excitatory",0.476468305769739,200
+"hbca","JASMINE","minimal8","Upper rhombic lip",0.445075304564784,200
+"hbca","JASMINE","minimal8","Upper-layer intratelencephalic",0.486670256329058,200
+"hbca","JASMINE","full61","Amygdala excitatory",0.520865265187874,200
+"hbca","JASMINE","full61","Cerebellar inhibitory",0.41644856044323,200
+"hbca","JASMINE","full61","CGE interneuron",0.439087657932471,200
+"hbca","JASMINE","full61","Deep-layer corticothalamic and 6b",0.504672975918195,200
+"hbca","JASMINE","full61","Deep-layer intratelencephalic",0.489663518451968,200
+"hbca","JASMINE","full61","Deep-layer near-projecting",0.456274420994935,200
+"hbca","JASMINE","full61","Eccentric medium spiny neuron",0.495617322539757,200
+"hbca","JASMINE","full61","Hippocampal CA1-3",0.529547409382549,200
+"hbca","JASMINE","full61","Hippocampal CA4",0.494075268546168,200
+"hbca","JASMINE","full61","Hippocampal dentate gyrus",0.452797826130054,200
+"hbca","JASMINE","full61","LAMP5-LHX6 and Chandelier",0.473876308441738,200
+"hbca","JASMINE","full61","Lower rhombic lip",0.496164631989941,200
+"hbca","JASMINE","full61","Mammillary body",0.439106125498839,200
+"hbca","JASMINE","full61","Medium spiny neuron",0.445773732986559,200
+"hbca","JASMINE","full61","MGE interneuron",0.448525884911285,200
+"hbca","JASMINE","full61","Midbrain-derived inhibitory",0.483736817921877,200
+"hbca","JASMINE","full61","Miscellaneous",0.458318944049544,200
+"hbca","JASMINE","full61","Splatter",0.451684758145086,200
+"hbca","JASMINE","full61","Thalamic excitatory",0.487776670771836,200
+"hbca","JASMINE","full61","Upper rhombic lip",0.37239780472815,200
+"hbca","JASMINE","full61","Upper-layer intratelencephalic",0.507550045843651,200
+"hbca","ssGSEA","minimal8","Amygdala excitatory",26183.3541061718,200
+"hbca","ssGSEA","minimal8","Cerebellar inhibitory",23803.6004258155,200
+"hbca","ssGSEA","minimal8","CGE interneuron",25134.6067746148,200
+"hbca","ssGSEA","minimal8","Deep-layer corticothalamic and 6b",26261.6285559132,200
+"hbca","ssGSEA","minimal8","Deep-layer intratelencephalic",25518.9345109811,200
+"hbca","ssGSEA","minimal8","Deep-layer near-projecting",25726.0505065479,200
+"hbca","ssGSEA","minimal8","Eccentric medium spiny neuron",25514.4532444449,200
+"hbca","ssGSEA","minimal8","Hippocampal CA1-3",25976.2599788747,200
+"hbca","ssGSEA","minimal8","Hippocampal CA4",26369.7222534617,200
+"hbca","ssGSEA","minimal8","Hippocampal dentate gyrus",25010.1750370753,200
+"hbca","ssGSEA","minimal8","LAMP5-LHX6 and Chandelier",25198.4672386087,200
+"hbca","ssGSEA","minimal8","Lower rhombic lip",25397.708156073,200
+"hbca","ssGSEA","minimal8","Mammillary body",24582.0927879825,200
+"hbca","ssGSEA","minimal8","Medium spiny neuron",24174.0101578016,200
+"hbca","ssGSEA","minimal8","MGE interneuron",24955.47082772,200
+"hbca","ssGSEA","minimal8","Midbrain-derived inhibitory",24889.9351980886,200
+"hbca","ssGSEA","minimal8","Miscellaneous",24633.0185098815,200
+"hbca","ssGSEA","minimal8","Splatter",24654.3028041003,200
+"hbca","ssGSEA","minimal8","Thalamic excitatory",25303.5301597936,200
+"hbca","ssGSEA","minimal8","Upper rhombic lip",23876.7719564905,200
+"hbca","ssGSEA","minimal8","Upper-layer intratelencephalic",25487.7942992577,200
+"hbca","ssGSEA","full61","Amygdala excitatory",24271.9665183531,200
+"hbca","ssGSEA","full61","Cerebellar inhibitory",23640.3945308277,200
+"hbca","ssGSEA","full61","CGE interneuron",23719.4089352931,200
+"hbca","ssGSEA","full61","Deep-layer corticothalamic and 6b",24157.580568365,200
+"hbca","ssGSEA","full61","Deep-layer intratelencephalic",24026.5002963781,200
+"hbca","ssGSEA","full61","Deep-layer near-projecting",23850.7153266629,200
+"hbca","ssGSEA","full61","Eccentric medium spiny neuron",24133.536558389,200
+"hbca","ssGSEA","full61","Hippocampal CA1-3",24191.5442384731,200
+"hbca","ssGSEA","full61","Hippocampal CA4",23934.2193113659,200
+"hbca","ssGSEA","full61","Hippocampal dentate gyrus",23803.6969059028,200
+"hbca","ssGSEA","full61","LAMP5-LHX6 and Chandelier",24044.0457308602,200
+"hbca","ssGSEA","full61","Lower rhombic lip",24063.9599795939,200
+"hbca","ssGSEA","full61","Mammillary body",23565.6666815337,200
+"hbca","ssGSEA","full61","Medium spiny neuron",23526.75893676,200
+"hbca","ssGSEA","full61","MGE interneuron",23896.7904693702,200
+"hbca","ssGSEA","full61","Midbrain-derived inhibitory",23914.4552737379,200
+"hbca","ssGSEA","full61","Miscellaneous",23761.7105642594,200
+"hbca","ssGSEA","full61","Splatter",23765.7553739287,200
+"hbca","ssGSEA","full61","Thalamic excitatory",23950.1488379971,200
+"hbca","ssGSEA","full61","Upper rhombic lip",22973.7480144365,200
+"hbca","ssGSEA","full61","Upper-layer intratelencephalic",24179.1499748263,200
+"hbca","UCell","minimal8","Amygdala excitatory",0.371395436308927,200
+"hbca","UCell","minimal8","Cerebellar inhibitory",0.226068204613842,200
+"hbca","UCell","minimal8","CGE interneuron",0.301047308592444,200
+"hbca","UCell","minimal8","Deep-layer corticothalamic and 6b",0.335431084921431,200
+"hbca","UCell","minimal8","Deep-layer intratelencephalic",0.289993104312939,200
+"hbca","UCell","minimal8","Deep-layer near-projecting",0.34865220661986,200
+"hbca","UCell","minimal8","Eccentric medium spiny neuron",0.313209002006018,200
+"hbca","UCell","minimal8","Hippocampal CA1-3",0.359606527917085,200
+"hbca","UCell","minimal8","Hippocampal CA4",0.406566156803745,200
+"hbca","UCell","minimal8","Hippocampal dentate gyrus",0.327651705115346,200
+"hbca","UCell","minimal8","LAMP5-LHX6 and Chandelier",0.320215020060181,200
+"hbca","UCell","minimal8","Lower rhombic lip",0.308009236041458,200
+"hbca","UCell","minimal8","Mammillary body",0.27777436476095,200
+"hbca","UCell","minimal8","Medium spiny neuron",0.32766612337011,200
+"hbca","UCell","minimal8","MGE interneuron",0.296204237713139,200
+"hbca","UCell","minimal8","Midbrain-derived inhibitory",0.315104480106988,200
+"hbca","UCell","minimal8","Miscellaneous",0.258949348044132,200
+"hbca","UCell","minimal8","Splatter",0.263755015045135,200
+"hbca","UCell","minimal8","Thalamic excitatory",0.296022233366767,200
+"hbca","UCell","minimal8","Upper rhombic lip",0.28463202106319,200
+"hbca","UCell","minimal8","Upper-layer intratelencephalic",0.315536400869274,200
+"hbca","UCell","full61","Amygdala excitatory",0.187773828521689,200
+"hbca","UCell","full61","Cerebellar inhibitory",0.158549838743876,200
+"hbca","UCell","full61","CGE interneuron",0.166864405361069,200
+"hbca","UCell","full61","Deep-layer corticothalamic and 6b",0.196735484158957,200
+"hbca","UCell","full61","Deep-layer intratelencephalic",0.187617315225033,200
+"hbca","UCell","full61","Deep-layer near-projecting",0.167319800466471,200
+"hbca","UCell","full61","Eccentric medium spiny neuron",0.194371965985559,200
+"hbca","UCell","full61","Hippocampal CA1-3",0.207605234965238,200
+"hbca","UCell","full61","Hippocampal CA4",0.195010350522827,200
+"hbca","UCell","full61","Hippocampal dentate gyrus",0.181202920465578,200
+"hbca","UCell","full61","LAMP5-LHX6 and Chandelier",0.179896020489013,200
+"hbca","UCell","full61","Lower rhombic lip",0.187778878237677,200
+"hbca","UCell","full61","Mammillary body",0.139348754031403,200
+"hbca","UCell","full61","Medium spiny neuron",0.171539800689663,200
+"hbca","UCell","full61","MGE interneuron",0.17326200493254,200
+"hbca","UCell","full61","Midbrain-derived inhibitory",0.199874063989108,200
+"hbca","UCell","full61","Miscellaneous",0.168496719079557,200
+"hbca","UCell","full61","Splatter",0.164854395205839,200
+"hbca","UCell","full61","Thalamic excitatory",0.174131923132721,200
+"hbca","UCell","full61","Upper rhombic lip",0.137046892611233,200
+"hbca","UCell","full61","Upper-layer intratelencephalic",0.196924695064112,200
+"hbca","SCSE","minimal8","Amygdala excitatory",0.199453637810657,200
+"hbca","SCSE","minimal8","Cerebellar inhibitory",0.153862169510307,200
+"hbca","SCSE","minimal8","CGE interneuron",0.182322607771335,200
+"hbca","SCSE","minimal8","Deep-layer corticothalamic and 6b",0.18848425103181,200
+"hbca","SCSE","minimal8","Deep-layer intratelencephalic",0.162923340670873,200
+"hbca","SCSE","minimal8","Deep-layer near-projecting",0.183542549463296,200
+"hbca","SCSE","minimal8","Eccentric medium spiny neuron",0.182341746481508,200
+"hbca","SCSE","minimal8","Hippocampal CA1-3",0.185464670898416,200
+"hbca","SCSE","minimal8","Hippocampal CA4",0.203936861006565,200
+"hbca","SCSE","minimal8","Hippocampal dentate gyrus",0.18711399313445,200
+"hbca","SCSE","minimal8","LAMP5-LHX6 and Chandelier",0.187834650807281,200
+"hbca","SCSE","minimal8","Lower rhombic lip",0.164449061209744,200
+"hbca","SCSE","minimal8","Mammillary body",0.151965946368182,200
+"hbca","SCSE","minimal8","Medium spiny neuron",0.164440154996105,200
+"hbca","SCSE","minimal8","MGE interneuron",0.177028873757528,200
+"hbca","SCSE","minimal8","Midbrain-derived inhibitory",0.185983743541999,200
+"hbca","SCSE","minimal8","Miscellaneous",0.153559207423178,200
+"hbca","SCSE","minimal8","Splatter",0.156883007642621,200
+"hbca","SCSE","minimal8","Thalamic excitatory",0.163143682687642,200
+"hbca","SCSE","minimal8","Upper rhombic lip",0.236104174631993,200
+"hbca","SCSE","minimal8","Upper-layer intratelencephalic",0.172074752685681,200
+"hbca","SCSE","full61","Amygdala excitatory",0.924990224534875,200
+"hbca","SCSE","full61","Cerebellar inhibitory",0.888555291049702,200
+"hbca","SCSE","full61","CGE interneuron",0.892213429497004,200
+"hbca","SCSE","full61","Deep-layer corticothalamic and 6b",0.935951831364845,200
+"hbca","SCSE","full61","Deep-layer intratelencephalic",0.892040124339119,200
+"hbca","SCSE","full61","Deep-layer near-projecting",0.858079821006308,200
+"hbca","SCSE","full61","Eccentric medium spiny neuron",0.989739247391836,200
+"hbca","SCSE","full61","Hippocampal CA1-3",0.977432302746523,200
+"hbca","SCSE","full61","Hippocampal CA4",0.936957227993972,200
+"hbca","SCSE","full61","Hippocampal dentate gyrus",0.921744646953095,200
+"hbca","SCSE","full61","LAMP5-LHX6 and Chandelier",0.933005761109887,200
+"hbca","SCSE","full61","Lower rhombic lip",0.893720555954277,200
+"hbca","SCSE","full61","Mammillary body",0.754087593731526,200
+"hbca","SCSE","full61","Medium spiny neuron",0.848488675190377,200
+"hbca","SCSE","full61","MGE interneuron",0.919540504959697,200
+"hbca","SCSE","full61","Midbrain-derived inhibitory",0.995512393713495,200
+"hbca","SCSE","full61","Miscellaneous",0.903269677898994,200
+"hbca","SCSE","full61","Splatter",0.853861648784084,200
+"hbca","SCSE","full61","Thalamic excitatory",0.866241744183913,200
+"hbca","SCSE","full61","Upper rhombic lip",0.943488302679558,200
+"hbca","SCSE","full61","Upper-layer intratelencephalic",0.946089075140734,200

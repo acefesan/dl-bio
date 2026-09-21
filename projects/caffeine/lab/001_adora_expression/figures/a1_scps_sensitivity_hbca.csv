@@ -1,0 +1,127 @@
+"approx","seed","group","score"
+TRUE,42,"Amygdala excitatory",0.230917710503459
+TRUE,42,"Cerebellar inhibitory",0.161169434275721
+TRUE,42,"CGE interneuron",0.211864873687582
+TRUE,42,"Deep-layer corticothalamic and 6b",0.220923981237531
+TRUE,42,"Deep-layer intratelencephalic",0.19919651400266
+TRUE,42,"Deep-layer near-projecting",0.224592356136186
+TRUE,42,"Eccentric medium spiny neuron",0.198915924563076
+TRUE,42,"Hippocampal CA1-3",0.225100393816782
+TRUE,42,"Hippocampal CA4",0.235978422640694
+TRUE,42,"Hippocampal dentate gyrus",0.214122679651864
+TRUE,42,"LAMP5-LHX6 and Chandelier",0.20991072443483
+TRUE,42,"Lower rhombic lip",0.201577660438037
+TRUE,42,"Mammillary body",0.188131778087437
+TRUE,42,"Medium spiny neuron",0.174767001450619
+TRUE,42,"MGE interneuron",0.198816445601012
+TRUE,42,"Midbrain-derived inhibitory",0.212993178958006
+TRUE,42,"Miscellaneous",0.174861627878662
+TRUE,42,"Splatter",0.187522432270981
+TRUE,42,"Thalamic excitatory",0.192701059230739
+TRUE,42,"Upper rhombic lip",0.211574336979895
+TRUE,42,"Upper-layer intratelencephalic",0.208284176094124
+TRUE,1,"Amygdala excitatory",0.206974119932687
+TRUE,1,"Cerebellar inhibitory",0.144973426777645
+TRUE,1,"CGE interneuron",0.192156262885838
+TRUE,1,"Deep-layer corticothalamic and 6b",0.198771523997927
+TRUE,1,"Deep-layer intratelencephalic",0.179645403322957
+TRUE,1,"Deep-layer near-projecting",0.202499021034014
+TRUE,1,"Eccentric medium spiny neuron",0.177725897151104
+TRUE,1,"Hippocampal CA1-3",0.204258208550164
+TRUE,1,"Hippocampal CA4",0.211988958463601
+TRUE,1,"Hippocampal dentate gyrus",0.194019455452909
+TRUE,1,"LAMP5-LHX6 and Chandelier",0.189229388067465
+TRUE,1,"Lower rhombic lip",0.182641325782453
+TRUE,1,"Mammillary body",0.170649089411959
+TRUE,1,"Medium spiny neuron",0.153702850525189
+TRUE,1,"MGE interneuron",0.179424684797655
+TRUE,1,"Midbrain-derived inhibitory",0.193201276036674
+TRUE,1,"Miscellaneous",0.157869640762175
+TRUE,1,"Splatter",0.169449349019442
+TRUE,1,"Thalamic excitatory",0.173445100636681
+TRUE,1,"Upper rhombic lip",0.192101619617274
+TRUE,1,"Upper-layer intratelencephalic",0.187974030917112
+TRUE,7,"Amygdala excitatory",0.245587932516235
+TRUE,7,"Cerebellar inhibitory",0.163506209708202
+TRUE,7,"CGE interneuron",0.212919855714175
+TRUE,7,"Deep-layer corticothalamic and 6b",0.229510293227202
+TRUE,7,"Deep-layer intratelencephalic",0.20540472767451
+TRUE,7,"Deep-layer near-projecting",0.223271952210936
+TRUE,7,"Eccentric medium spiny neuron",0.217272137678114
+TRUE,7,"Hippocampal CA1-3",0.221175913357595
+TRUE,7,"Hippocampal CA4",0.241127718269168
+TRUE,7,"Hippocampal dentate gyrus",0.203424210642342
+TRUE,7,"LAMP5-LHX6 and Chandelier",0.214551333569558
+TRUE,7,"Lower rhombic lip",0.195826069770177
+TRUE,7,"Mammillary body",0.188986120761067
+TRUE,7,"Medium spiny neuron",0.214338987902622
+TRUE,7,"MGE interneuron",0.199707656809443
+TRUE,7,"Midbrain-derived inhibitory",0.205567913960068
+TRUE,7,"Miscellaneous",0.177818379118437
+TRUE,7,"Splatter",0.1919143097603
+TRUE,7,"Thalamic excitatory",0.193497939325849
+TRUE,7,"Upper rhombic lip",0.193907057849555
+TRUE,7,"Upper-layer intratelencephalic",0.210308967363981
+FALSE,42,"Amygdala excitatory",0.25623942612011
+FALSE,42,"Cerebellar inhibitory",0.160845732753198
+FALSE,42,"CGE interneuron",0.225678285326029
+FALSE,42,"Deep-layer corticothalamic and 6b",0.244795173863301
+FALSE,42,"Deep-layer intratelencephalic",0.215837980936752
+FALSE,42,"Deep-layer near-projecting",0.247913958530122
+FALSE,42,"Eccentric medium spiny neuron",0.214970556362789
+FALSE,42,"Hippocampal CA1-3",0.244160161633854
+FALSE,42,"Hippocampal CA4",0.265385748067063
+FALSE,42,"Hippocampal dentate gyrus",0.230913704323284
+FALSE,42,"LAMP5-LHX6 and Chandelier",0.222705530145827
+FALSE,42,"Lower rhombic lip",0.217159908426626
+FALSE,42,"Mammillary body",0.197621335482844
+FALSE,42,"Medium spiny neuron",0.191032058784878
+FALSE,42,"MGE interneuron",0.207848664446298
+FALSE,42,"Midbrain-derived inhibitory",0.225880346176193
+FALSE,42,"Miscellaneous",0.189054254169102
+FALSE,42,"Splatter",0.198662538436296
+FALSE,42,"Thalamic excitatory",0.20511012543057
+FALSE,42,"Upper rhombic lip",0.214820065781765
+FALSE,42,"Upper-layer intratelencephalic",0.224786952889641
+FALSE,1,"Amygdala excitatory",0.25623942612011
+FALSE,1,"Cerebellar inhibitory",0.160845732753198
+FALSE,1,"CGE interneuron",0.225678285326029
+FALSE,1,"Deep-layer corticothalamic and 6b",0.244795173863301
+FALSE,1,"Deep-layer intratelencephalic",0.215837980936752
+FALSE,1,"Deep-layer near-projecting",0.247913958530122
+FALSE,1,"Eccentric medium spiny neuron",0.214970556362789
+FALSE,1,"Hippocampal CA1-3",0.244160161633854
+FALSE,1,"Hippocampal CA4",0.265385748067063
+FALSE,1,"Hippocampal dentate gyrus",0.230913704323284
+FALSE,1,"LAMP5-LHX6 and Chandelier",0.222705530145827
+FALSE,1,"Lower rhombic lip",0.217159908426626
+FALSE,1,"Mammillary body",0.197621335482844
+FALSE,1,"Medium spiny neuron",0.191032058784878
+FALSE,1,"MGE interneuron",0.207848664446298
+FALSE,1,"Midbrain-derived inhibitory",0.225880346176193
+FALSE,1,"Miscellaneous",0.189054254169102
+FALSE,1,"Splatter",0.198662538436296
+FALSE,1,"Thalamic excitatory",0.20511012543057
+FALSE,1,"Upper rhombic lip",0.214820065781765
+FALSE,1,"Upper-layer intratelencephalic",0.224786952889641
+FALSE,7,"Amygdala excitatory",0.25623942612011
+FALSE,7,"Cerebellar inhibitory",0.160845732753198
+FALSE,7,"CGE interneuron",0.225678285326029
+FALSE,7,"Deep-layer corticothalamic and 6b",0.244795173863301
+FALSE,7,"Deep-layer intratelencephalic",0.215837980936752
+FALSE,7,"Deep-layer near-projecting",0.247913958530122
+FALSE,7,"Eccentric medium spiny neuron",0.214970556362789
+FALSE,7,"Hippocampal CA1-3",0.244160161633854
+FALSE,7,"Hippocampal CA4",0.265385748067063
+FALSE,7,"Hippocampal dentate gyrus",0.230913704323284
+FALSE,7,"LAMP5-LHX6 and Chandelier",0.222705530145827
+FALSE,7,"Lower rhombic lip",0.217159908426626
+FALSE,7,"Mammillary body",0.197621335482844
+FALSE,7,"Medium spiny neuron",0.191032058784878
+FALSE,7,"MGE interneuron",0.207848664446298
+FALSE,7,"Midbrain-derived inhibitory",0.225880346176193
+FALSE,7,"Miscellaneous",0.189054254169102
+FALSE,7,"Splatter",0.198662538436296
+FALSE,7,"Thalamic excitatory",0.20511012543057
+FALSE,7,"Upper rhombic lip",0.214820065781765
+FALSE,7,"Upper-layer intratelencephalic",0.224786952889641
