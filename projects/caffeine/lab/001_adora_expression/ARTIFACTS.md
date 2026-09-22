@@ -411,7 +411,72 @@ irGSEA path alone.
 
 ---
 
-## 9. What's Missing (And Where Each Belongs)
+## 9. Whole-Census A1 Panel Tables (Built By `census_a1_panel.py`)
+
+The 8-gene A1 panel measured across the entire local CELLxGENE Census
+2025-11-08 SOMA (`/mnt/bulk/dl_bio/cellxgene_census/`). Unlike every other
+table in this guide these are **not scored and not subsampled** — they are
+exact per-gene statistics over every cell, restricted to
+`is_primary_data == True` so the Census's cross-dataset duplicates are not
+double-counted (158,982,719 human obs → 96,591,226 unique).
+
+Columns throughout: `collection, organism, group, gene, n_cells,
+n_expressing, total, pct_expressing, mean_all, mean_expressing`.
+
+### `figures/a1_census_human_by_cell_type.csv` + `..._by_tissue.csv`
+
+> 96,591,226 primary human cells, 870 cell types / 70 tissues, 8 genes.
+
+**How to read it.** `pct_expressing` is the robust column; `mean_all` is
+diluted by non-expressing cells and `mean_expressing` is volatile in small
+groups. Filter on `n_cells` before ranking — plenty of the 870 types have
+only a handful of cells.
+
+**What it's good for.** The definitive ADORA1 distribution. Deep-layer
+cortical projection neurons lead (near-projecting 66.9%, L5 ET 63.5%,
+L5/6 NP 62.2%); brain leads tissues at 18.7% over 29M cells. Also shows the
+downstream panel genes sitting at 85-99% wherever ADORA1 is expressed, which
+is the evidence that the receptor is the informative variable and the rest of
+the panel is background.
+
+**Caveats.** The Cell Ontology axis has **no CA4 term**, so all CA subfields
+collapse into "hippocampal pyramidal neuron" — this table cannot confirm or
+refute the HBCA CA4 result. HBCA is itself a CELLxGENE dataset and is inside
+this 96.6M, so these are not independent observations. Not stratified by
+disease; the Census is not all healthy tissue.
+
+### `figures/a1_census_{macaque,marmoset,chimp}_by_cell_type.csv`
+
+> Same shape for the three non-human primates: 2.93M / 1.71M / 158K primary cells.
+
+**What it's good for.** Cross-species conservation. The top ADORA1 cell type
+is a deep-layer (L5/L6) cortical projection neuron in all four primates at
+similar prevalence — human 66.9%, chimp 66.6%, macaque 75.8%, marmoset 68.4%
+— spanning ~40M years of divergence.
+
+**Caveats.** All three non-human censuses are cortex-focused, so "the top type
+is cortical" is partly a sampling constraint; the prevalence similarity is the
+more defensible claim. **Chimp `KCNJ6` is unusable** — near-absent
+census-wide (0.78% of cells, max 5.2%) against 11-51% in the other three,
+which is a genome-annotation gap on a single-dataset reference build, not
+biology.
+
+### `figures/a1_census_spatial_{human,mouse}_by_tissue.csv`
+
+Visium V1 + Slide-seqV2 **spot** data, not dissociated cells — rows carry
+`array_row`/`array_col` coordinates and `suspension_type = "na"`, and a spot
+spans several cells (29% of human spots are `cell_type = unknown`). Neither
+collection contains brain tissue, so these are peripheral to the A1 story.
+The one use is kidney, which is both hypothesis-relevant and the bulk of both
+collections.
+
+**Gotcha for reruns.** Mouse orthologs are `Adora1`/`Kcnj3`, not uppercase. An
+exact-case panel match silently returns 0/8 genes and looks like missing data.
+`census_a1_panel.py` matches case-insensitively.
+
+---
+
+## 10. What's Missing (And Where Each Belongs)
 
 | Open item | Where it would land |
 |---|---|

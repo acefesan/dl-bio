@@ -1,0 +1,188 @@
+collection,organism,gene,n_expressing,total,group,n_cells,pct_expressing,mean_all,mean_expressing
+census_data,pan_troglodytes,ADCY5,258,539.0,L5 extratelencephalic projecting glutamatergic cortical neuron,364,70.87912087912088,1.4807692307692308,2.0891472868217056
+census_data,pan_troglodytes,ADCY5,1149,2238.0,L6 corticothalamic-projecting glutamatergic cortical neuron,2098,54.76644423260248,1.0667302192564347,1.947780678851175
+census_data,pan_troglodytes,ADCY5,2127,3733.0,lamp5 GABAergic cortical interneuron,3830,55.53524804177545,0.9746736292428199,1.7550540667606958
+census_data,pan_troglodytes,ADCY5,2006,3540.0,L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex,3694,54.30427720628045,0.9583107742284787,1.7647058823529411
+census_data,pan_troglodytes,ADCY5,1176,2032.0,L6b glutamatergic cortical neuron,2161,54.41925034706154,0.940305414160111,1.727891156462585
+census_data,pan_troglodytes,ADCY5,19201,33714.0,L2/3 intratelencephalic projecting glutamatergic neuron,36357,52.81238826085761,0.9273042330225266,1.7558460496849122
+census_data,pan_troglodytes,ADCY5,3627,6181.0,pvalb GABAergic cortical interneuron,6715,54.013402829486225,0.9204765450483992,1.7041632202922525
+census_data,pan_troglodytes,ADCY5,2406,3856.0,VIP GABAergic cortical interneuron,5046,47.681331747919145,0.7641696393182719,1.602660016625104
+census_data,pan_troglodytes,ADCY5,687,1375.0,smooth muscle cell,1832,37.5,0.7505458515283843,2.0014556040756912
+census_data,pan_troglodytes,ADCY5,1015,1492.0,inhibitory interneuron,2396,42.362270450751254,0.6227045075125208,1.469950738916256
+census_data,pan_troglodytes,ADCY5,288,396.0,chandelier pvalb GABAergic cortical interneuron,779,36.97047496790757,0.5083440308087291,1.375
+census_data,pan_troglodytes,ADCY5,2743,3881.0,sst GABAergic cortical interneuron,7966,34.43384383630429,0.4871955812201858,1.4148742253007656
+census_data,pan_troglodytes,ADCY5,237,370.0,vascular leptomeningeal cell,1211,19.570602807597027,0.305532617671346,1.5611814345991561
+census_data,pan_troglodytes,ADCY5,307,432.0,L5/6 near-projecting glutamatergic neuron of the primary motor cortex,1554,19.755469755469754,0.277992277992278,1.4071661237785016
+census_data,pan_troglodytes,ADCY5,9580,11388.0,oligodendrocyte,46061,20.798506328564294,0.24723735915416511,1.1887265135699374
+census_data,pan_troglodytes,ADCY5,786,895.0,oligodendrocyte precursor cell,5369,14.639597690445148,0.16669770907059042,1.138676844783715
+census_data,pan_troglodytes,ADCY5,329,363.0,pericyte,4192,7.848282442748092,0.08659351145038167,1.1033434650455927
+census_data,pan_troglodytes,ADCY5,11,11.0,erythroid lineage cell,134,8.208955223880597,0.08208955223880597,1.0
+census_data,pan_troglodytes,ADCY5,544,576.0,astrocyte,14677,3.706479525788649,0.03924507733187981,1.0588235294117647
+census_data,pan_troglodytes,ADCY5,6,6.0,macrophage,167,3.592814371257485,0.03592814371257485,1.0
+census_data,pan_troglodytes,ADCY5,170,188.0,endothelial cell,5272,3.2245827010622157,0.03566009104704097,1.1058823529411765
+census_data,pan_troglodytes,ADCY5,8,8.0,myeloid cell,242,3.3057851239669422,0.03305785123966942,1.0
+census_data,pan_troglodytes,ADCY5,5,5.0,T cell,233,2.1459227467811157,0.02145922746781116,1.0
+census_data,pan_troglodytes,ADCY5,89,89.0,microglial cell,5748,1.5483646485734168,0.015483646485734168,1.0
+census_data,pan_troglodytes,ADORA1,249,544.0,L5 extratelencephalic projecting glutamatergic cortical neuron,364,68.4065934065934,1.4945054945054945,2.1847389558232932
+census_data,pan_troglodytes,ADORA1,1035,2278.0,L5/6 near-projecting glutamatergic neuron of the primary motor cortex,1554,66.6023166023166,1.465894465894466,2.200966183574879
+census_data,pan_troglodytes,ADORA1,1169,2054.0,L6 corticothalamic-projecting glutamatergic cortical neuron,2098,55.719733079122975,0.9790276453765491,1.7570573139435415
+census_data,pan_troglodytes,ADORA1,17173,29066.0,L2/3 intratelencephalic projecting glutamatergic neuron,36357,47.23437027257474,0.7994609016145446,1.6925406160833867
+census_data,pan_troglodytes,ADORA1,1790,2801.0,L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex,3694,48.456957227937195,0.7582566323768273,1.564804469273743
+census_data,pan_troglodytes,ADORA1,963,1497.0,L6b glutamatergic cortical neuron,2161,44.56270245256825,0.6927348449791763,1.5545171339563864
+census_data,pan_troglodytes,ADORA1,1082,1283.0,oligodendrocyte precursor cell,5369,20.1527286273049,0.23896442540510338,1.1857670979667283
+census_data,pan_troglodytes,ADORA1,8608,9985.0,oligodendrocyte,46061,18.688261218818525,0.216777751242917,1.159967472118959
+census_data,pan_troglodytes,ADORA1,642,715.0,VIP GABAergic cortical interneuron,5046,12.72294887039239,0.14169639318271898,1.1137071651090342
+census_data,pan_troglodytes,ADORA1,486,527.0,lamp5 GABAergic cortical interneuron,3830,12.689295039164492,0.13759791122715403,1.0843621399176955
+census_data,pan_troglodytes,ADORA1,1696,1896.0,astrocyte,14677,11.555494992164611,0.12918171288410438,1.1179245283018868
+census_data,pan_troglodytes,ADORA1,276,306.0,inhibitory interneuron,2396,11.519198664440735,0.12771285475792987,1.108695652173913
+census_data,pan_troglodytes,ADORA1,745,840.0,pvalb GABAergic cortical interneuron,6715,11.094564408041698,0.12509307520476545,1.1275167785234899
+census_data,pan_troglodytes,ADORA1,73,83.0,chandelier pvalb GABAergic cortical interneuron,779,9.370988446726573,0.10654685494223363,1.1369863013698631
+census_data,pan_troglodytes,ADORA1,589,633.0,sst GABAergic cortical interneuron,7966,7.39392417775546,0.0794627165453176,1.0747028862478778
+census_data,pan_troglodytes,ADORA1,113,121.0,smooth muscle cell,1832,6.168122270742358,0.06604803493449782,1.0707964601769913
+census_data,pan_troglodytes,ADORA1,12,14.0,myeloid cell,242,4.958677685950414,0.05785123966942149,1.1666666666666667
+census_data,pan_troglodytes,ADORA1,7,7.0,erythroid lineage cell,134,5.223880597014926,0.05223880597014925,1.0
+census_data,pan_troglodytes,ADORA1,199,206.0,pericyte,4192,4.747137404580153,0.0491412213740458,1.035175879396985
+census_data,pan_troglodytes,ADORA1,239,251.0,endothelial cell,5272,4.533383915022762,0.04761001517450683,1.0502092050209204
+census_data,pan_troglodytes,ADORA1,7,8.0,T cell,233,3.004291845493562,0.034334763948497854,1.1428571428571428
+census_data,pan_troglodytes,ADORA1,39,40.0,vascular leptomeningeal cell,1211,3.2204789430222958,0.03303055326176713,1.0256410256410255
+census_data,pan_troglodytes,ADORA1,180,189.0,microglial cell,5748,3.1315240083507305,0.03288100208768267,1.05
+census_data,pan_troglodytes,ADORA1,2,2.0,macrophage,167,1.1976047904191616,0.011976047904191617,1.0
+census_data,pan_troglodytes,CACNA1A,354,3821.0,L5 extratelencephalic projecting glutamatergic cortical neuron,364,97.25274725274726,10.497252747252746,10.793785310734464
+census_data,pan_troglodytes,CACNA1A,35446,316608.0,L2/3 intratelencephalic projecting glutamatergic neuron,36357,97.49429270841928,8.708309266441125,8.932122101224397
+census_data,pan_troglodytes,CACNA1A,2100,18510.0,L6b glutamatergic cortical neuron,2161,97.1772327626099,8.565478944932902,8.814285714285715
+census_data,pan_troglodytes,CACNA1A,6515,52118.0,pvalb GABAergic cortical interneuron,6715,97.02159344750558,7.7614296351451975,7.9996930161166535
+census_data,pan_troglodytes,CACNA1A,2031,16085.0,L6 corticothalamic-projecting glutamatergic cortical neuron,2098,96.80648236415634,7.6668255481410865,7.919743968488429
+census_data,pan_troglodytes,CACNA1A,1499,11714.0,L5/6 near-projecting glutamatergic neuron of the primary motor cortex,1554,96.46074646074646,7.537966537966538,7.81454302868579
+census_data,pan_troglodytes,CACNA1A,752,5118.0,chandelier pvalb GABAergic cortical interneuron,779,96.53401797175866,6.569961489088575,6.805851063829787
+census_data,pan_troglodytes,CACNA1A,3653,22423.0,lamp5 GABAergic cortical interneuron,3830,95.37859007832898,5.854569190600523,6.138242540377772
+census_data,pan_troglodytes,CACNA1A,7305,35332.0,sst GABAergic cortical interneuron,7966,91.7022344966106,4.435350238513683,4.83668720054757
+census_data,pan_troglodytes,CACNA1A,2561,12527.0,L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex,3694,69.32864103952355,3.3911748781808337,4.891448652869973
+census_data,pan_troglodytes,CACNA1A,4109,12453.0,VIP GABAergic cortical interneuron,5046,81.43083630598494,2.4678953626634956,3.0306643952299828
+census_data,pan_troglodytes,CACNA1A,1752,5743.0,inhibitory interneuron,2396,73.12186978297161,2.3969115191986643,3.27796803652968
+census_data,pan_troglodytes,CACNA1A,3665,7789.0,oligodendrocyte precursor cell,5369,68.26224622834792,1.4507357049729932,2.1252387448840384
+census_data,pan_troglodytes,CACNA1A,3641,5052.0,astrocyte,14677,24.80752197315528,0.34421203243169585,1.3875308981049161
+census_data,pan_troglodytes,CACNA1A,1229,1570.0,microglial cell,5748,21.38135003479471,0.2731384829505915,1.2774613506916193
+census_data,pan_troglodytes,CACNA1A,255,313.0,smooth muscle cell,1832,13.919213973799126,0.17085152838427947,1.227450980392157
+census_data,pan_troglodytes,CACNA1A,138,161.0,vascular leptomeningeal cell,1211,11.395540875309662,0.1329479768786127,1.1666666666666667
+census_data,pan_troglodytes,CACNA1A,428,466.0,pericyte,4192,10.209923664122137,0.11116412213740458,1.088785046728972
+census_data,pan_troglodytes,CACNA1A,473,521.0,endothelial cell,5272,8.971927162367223,0.09882397572078908,1.1014799154334038
+census_data,pan_troglodytes,CACNA1A,3731,3977.0,oligodendrocyte,46061,8.100128091009747,0.08634202470636765,1.065934065934066
+census_data,pan_troglodytes,CACNA1A,19,20.0,myeloid cell,242,7.851239669421488,0.08264462809917356,1.0526315789473684
+census_data,pan_troglodytes,CACNA1A,19,19.0,T cell,233,8.15450643776824,0.0815450643776824,1.0
+census_data,pan_troglodytes,CACNA1A,9,10.0,erythroid lineage cell,134,6.7164179104477615,0.07462686567164178,1.1111111111111112
+census_data,pan_troglodytes,CACNA1A,5,5.0,macrophage,167,2.9940119760479043,0.029940119760479042,1.0
+census_data,pan_troglodytes,CACNA1B,353,3269.0,L5 extratelencephalic projecting glutamatergic cortical neuron,364,96.97802197802197,8.98076923076923,9.260623229461757
+census_data,pan_troglodytes,CACNA1B,3589,28362.0,L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex,3694,97.15755278830537,7.677855982674608,7.902479799387016
+census_data,pan_troglodytes,CACNA1B,2059,15571.0,L6b glutamatergic cortical neuron,2161,95.2799629801018,7.205460434983804,7.562408936376882
+census_data,pan_troglodytes,CACNA1B,34598,244846.0,L2/3 intratelencephalic projecting glutamatergic neuron,36357,95.16186704073493,6.734494045163243,7.0768830568240935
+census_data,pan_troglodytes,CACNA1B,1990,12583.0,L6 corticothalamic-projecting glutamatergic cortical neuron,2098,94.85224022878933,5.997616777883699,6.323115577889447
+census_data,pan_troglodytes,CACNA1B,3652,22084.0,lamp5 GABAergic cortical interneuron,3830,95.35248041775456,5.766057441253264,6.047097480832421
+census_data,pan_troglodytes,CACNA1B,2258,12974.0,inhibitory interneuron,2396,94.24040066777964,5.414858096828047,5.745792736935341
+census_data,pan_troglodytes,CACNA1B,1391,6430.0,L5/6 near-projecting glutamatergic neuron of the primary motor cortex,1554,89.51093951093951,4.1377091377091375,4.622573687994249
+census_data,pan_troglodytes,CACNA1B,5833,22311.0,pvalb GABAergic cortical interneuron,6715,86.86522710349963,3.322561429635145,3.824961426367221
+census_data,pan_troglodytes,CACNA1B,4410,16252.0,VIP GABAergic cortical interneuron,5046,87.39595719381688,3.220768925881887,3.6852607709750567
+census_data,pan_troglodytes,CACNA1B,6500,19238.0,sst GABAergic cortical interneuron,7966,81.5967863419533,2.4150138086869193,2.9596923076923076
+census_data,pan_troglodytes,CACNA1B,643,1874.0,chandelier pvalb GABAergic cortical interneuron,779,82.54172015404365,2.405648267008986,2.9144634525660966
+census_data,pan_troglodytes,CACNA1B,2221,2626.0,astrocyte,14677,15.132520269809907,0.17891939769707707,1.1823502926609635
+census_data,pan_troglodytes,CACNA1B,136,161.0,smooth muscle cell,1832,7.423580786026201,0.08788209606986899,1.1838235294117647
+census_data,pan_troglodytes,CACNA1B,9,11.0,erythroid lineage cell,134,6.7164179104477615,0.08208955223880597,1.2222222222222223
+census_data,pan_troglodytes,CACNA1B,353,395.0,oligodendrocyte precursor cell,5369,6.5747811510523375,0.07357049729931085,1.1189801699716715
+census_data,pan_troglodytes,CACNA1B,70,79.0,vascular leptomeningeal cell,1211,5.780346820809249,0.06523534269199009,1.1285714285714286
+census_data,pan_troglodytes,CACNA1B,13,15.0,T cell,233,5.579399141630901,0.06437768240343347,1.1538461538461537
+census_data,pan_troglodytes,CACNA1B,273,294.0,endothelial cell,5272,5.178300455235205,0.05576631259484067,1.0769230769230769
+census_data,pan_troglodytes,CACNA1B,214,220.0,pericyte,4192,5.104961832061068,0.05248091603053435,1.02803738317757
+census_data,pan_troglodytes,CACNA1B,2202,2300.0,oligodendrocyte,46061,4.780617007880854,0.0499337834610625,1.044504995458674
+census_data,pan_troglodytes,CACNA1B,7,7.0,macrophage,167,4.191616766467066,0.041916167664670656,1.0
+census_data,pan_troglodytes,CACNA1B,10,10.0,myeloid cell,242,4.132231404958677,0.04132231404958678,1.0
+census_data,pan_troglodytes,CACNA1B,229,237.0,microglial cell,5748,3.9839944328462074,0.04123173277661795,1.034934497816594
+census_data,pan_troglodytes,GNAI1,316,1041.0,L5 extratelencephalic projecting glutamatergic cortical neuron,364,86.81318681318682,2.85989010989011,3.2943037974683542
+census_data,pan_troglodytes,GNAI1,1744,5401.0,L6 corticothalamic-projecting glutamatergic cortical neuron,2098,83.12678741658722,2.5743565300285987,3.0969036697247705
+census_data,pan_troglodytes,GNAI1,2812,7549.0,L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex,3694,76.12344342176502,2.0435841905793177,2.684566145092461
+census_data,pan_troglodytes,GNAI1,27406,65946.0,L2/3 intratelencephalic projecting glutamatergic neuron,36357,75.38025689688368,1.8138460268999093,2.4062614026125666
+census_data,pan_troglodytes,GNAI1,1649,3932.0,inhibitory interneuron,2396,68.82303839732889,1.641068447412354,2.3844754396604
+census_data,pan_troglodytes,GNAI1,2746,6122.0,lamp5 GABAergic cortical interneuron,3830,71.69712793733682,1.5984334203655353,2.229424617625637
+census_data,pan_troglodytes,GNAI1,1081,2248.0,L5/6 near-projecting glutamatergic neuron of the primary motor cortex,1554,69.56241956241956,1.4465894465894467,2.0795559666975025
+census_data,pan_troglodytes,GNAI1,1323,2408.0,L6b glutamatergic cortical neuron,2161,61.22165664044424,1.114298935677927,1.82010582010582
+census_data,pan_troglodytes,GNAI1,2845,5375.0,VIP GABAergic cortical interneuron,5046,56.38129211256441,1.065200158541419,1.8892794376098418
+census_data,pan_troglodytes,GNAI1,3888,7073.0,pvalb GABAergic cortical interneuron,6715,57.90022338049144,1.05331347728965,1.819187242798354
+census_data,pan_troglodytes,GNAI1,3778,6595.0,sst GABAergic cortical interneuron,7966,47.42656289229224,0.8278935475772031,1.7456326098464796
+census_data,pan_troglodytes,GNAI1,22940,36040.0,oligodendrocyte,46061,49.803521417251034,0.7824406764942142,1.5710549258936355
+census_data,pan_troglodytes,GNAI1,335,440.0,chandelier pvalb GABAergic cortical interneuron,779,43.003851091142494,0.5648267008985879,1.3134328358208955
+census_data,pan_troglodytes,GNAI1,610,944.0,smooth muscle cell,1832,33.29694323144105,0.5152838427947598,1.5475409836065575
+census_data,pan_troglodytes,GNAI1,1315,1773.0,pericyte,4192,31.369274809160306,0.4229484732824427,1.3482889733840304
+census_data,pan_troglodytes,GNAI1,1587,2080.0,oligodendrocyte precursor cell,5369,29.558577016204136,0.387409200968523,1.3106490233144297
+census_data,pan_troglodytes,GNAI1,25,30.0,erythroid lineage cell,134,18.65671641791045,0.22388059701492538,1.2
+census_data,pan_troglodytes,GNAI1,692,824.0,endothelial cell,5272,13.125948406676782,0.15629742033383914,1.1907514450867052
+census_data,pan_troglodytes,GNAI1,155,172.0,vascular leptomeningeal cell,1211,12.799339388934765,0.14203137902559868,1.1096774193548387
+census_data,pan_troglodytes,GNAI1,1605,1768.0,astrocyte,14677,10.93547727737276,0.1204605845881311,1.101557632398754
+census_data,pan_troglodytes,GNAI1,22,25.0,myeloid cell,242,9.090909090909092,0.10330578512396695,1.1363636363636365
+census_data,pan_troglodytes,GNAI1,14,17.0,macrophage,167,8.383233532934131,0.10179640718562874,1.2142857142857142
+census_data,pan_troglodytes,GNAI1,18,22.0,T cell,233,7.725321888412017,0.0944206008583691,1.2222222222222223
+census_data,pan_troglodytes,GNAI1,471,503.0,microglial cell,5748,8.194154488517745,0.08750869867780098,1.0679405520169851
+census_data,pan_troglodytes,GNAO1,3593,43454.0,L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex,3694,97.26583649160801,11.763400108283703,12.094071806290009
+census_data,pan_troglodytes,GNAO1,361,3254.0,L5 extratelencephalic projecting glutamatergic cortical neuron,364,99.17582417582418,8.93956043956044,9.013850415512465
+census_data,pan_troglodytes,GNAO1,34871,249926.0,L2/3 intratelencephalic projecting glutamatergic neuron,36357,95.91275407761917,6.874219545066975,7.167158957299762
+census_data,pan_troglodytes,GNAO1,1992,13286.0,L6 corticothalamic-projecting glutamatergic cortical neuron,2098,94.94756911344138,6.332697807435653,6.669678714859438
+census_data,pan_troglodytes,GNAO1,1483,8937.0,L5/6 near-projecting glutamatergic neuron of the primary motor cortex,1554,95.43114543114542,5.750965250965251,6.026298044504383
+census_data,pan_troglodytes,GNAO1,2023,10507.0,L6b glutamatergic cortical neuron,2161,93.6140675613142,4.862100879222582,5.193771626297578
+census_data,pan_troglodytes,GNAO1,2046,8102.0,inhibitory interneuron,2396,85.3923205342237,3.3814691151919867,3.959921798631476
+census_data,pan_troglodytes,GNAO1,5868,21110.0,pvalb GABAergic cortical interneuron,6715,87.38644825018615,3.1437081161578555,3.5974778459441037
+census_data,pan_troglodytes,GNAO1,687,2373.0,chandelier pvalb GABAergic cortical interneuron,779,88.18998716302953,3.0462130937098846,3.4541484716157207
+census_data,pan_troglodytes,GNAO1,6624,21235.0,sst GABAergic cortical interneuron,7966,83.15340195832287,2.6657042430328897,3.2057669082125604
+census_data,pan_troglodytes,GNAO1,3287,10153.0,lamp5 GABAergic cortical interneuron,3830,85.822454308094,2.6509138381201045,3.088834803772437
+census_data,pan_troglodytes,GNAO1,4239,12590.0,VIP GABAergic cortical interneuron,5046,84.00713436385256,2.495045580657947,2.9700401037980657
+census_data,pan_troglodytes,GNAO1,9963,20675.0,astrocyte,14677,67.88171969748586,1.4086666212441235,2.0751781591889995
+census_data,pan_troglodytes,GNAO1,30637,61234.0,oligodendrocyte,46061,66.51397060419878,1.3294109984585658,1.9986943891373177
+census_data,pan_troglodytes,GNAO1,2655,4124.0,oligodendrocyte precursor cell,5369,49.45054945054945,0.7681132426895139,1.5532956685499058
+census_data,pan_troglodytes,GNAO1,614,854.0,smooth muscle cell,1832,33.51528384279476,0.4661572052401747,1.3908794788273615
+census_data,pan_troglodytes,GNAO1,49,62.0,erythroid lineage cell,134,36.56716417910448,0.4626865671641791,1.2653061224489797
+census_data,pan_troglodytes,GNAO1,69,95.0,T cell,233,29.613733905579398,0.40772532188841204,1.3768115942028984
+census_data,pan_troglodytes,GNAO1,1283,1614.0,pericyte,4192,30.605916030534353,0.38501908396946566,1.2579890880748246
+census_data,pan_troglodytes,GNAO1,313,394.0,vascular leptomeningeal cell,1211,25.846407927332784,0.32535094962840627,1.2587859424920127
+census_data,pan_troglodytes,GNAO1,1359,1685.0,endothelial cell,5272,25.777693474962064,0.31961305007587254,1.2398822663723326
+census_data,pan_troglodytes,GNAO1,38,48.0,macrophage,167,22.75449101796407,0.2874251497005988,1.263157894736842
+census_data,pan_troglodytes,GNAO1,55,65.0,myeloid cell,242,22.727272727272727,0.26859504132231404,1.1818181818181819
+census_data,pan_troglodytes,GNAO1,1256,1426.0,microglial cell,5748,21.85107863604732,0.24808629088378567,1.1353503184713376
+census_data,pan_troglodytes,KCNJ3,354,2453.0,L5 extratelencephalic projecting glutamatergic cortical neuron,364,97.25274725274726,6.739010989010989,6.929378531073446
+census_data,pan_troglodytes,KCNJ3,2212,12072.0,inhibitory interneuron,2396,92.32053422370618,5.038397328881469,5.45750452079566
+census_data,pan_troglodytes,KCNJ3,33416,160750.0,L2/3 intratelencephalic projecting glutamatergic neuron,36357,91.91077371620321,4.4214319113238165,4.810569786928418
+census_data,pan_troglodytes,KCNJ3,1954,8652.0,L6 corticothalamic-projecting glutamatergic cortical neuron,2098,93.13632030505244,4.123927550047664,4.427840327533265
+census_data,pan_troglodytes,KCNJ3,1402,6237.0,L5/6 near-projecting glutamatergic neuron of the primary motor cortex,1554,90.21879021879022,4.013513513513513,4.448644793152639
+census_data,pan_troglodytes,KCNJ3,6046,25859.0,pvalb GABAergic cortical interneuron,6715,90.03723008190617,3.8509307520476543,4.2770426728415485
+census_data,pan_troglodytes,KCNJ3,3463,13527.0,lamp5 GABAergic cortical interneuron,3830,90.4177545691906,3.5318537859007835,3.906150736355761
+census_data,pan_troglodytes,KCNJ3,1870,7254.0,L6b glutamatergic cortical neuron,2161,86.53401203146692,3.356779268857011,3.8791443850267378
+census_data,pan_troglodytes,KCNJ3,3130,11074.0,L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex,3694,84.73199783432594,2.997834325933947,3.5380191693290737
+census_data,pan_troglodytes,KCNJ3,684,2328.0,chandelier pvalb GABAergic cortical interneuron,779,87.8048780487805,2.988446726572529,3.4035087719298245
+census_data,pan_troglodytes,KCNJ3,4354,14888.0,VIP GABAergic cortical interneuron,5046,86.286167261197,2.950455806579469,3.4193844740468533
+census_data,pan_troglodytes,KCNJ3,5802,16172.0,sst GABAergic cortical interneuron,7966,72.834546824002,2.0301280441877982,2.787314719062392
+census_data,pan_troglodytes,KCNJ3,829,1105.0,oligodendrocyte precursor cell,5369,15.440491711678153,0.20581113801452786,1.3329312424607962
+census_data,pan_troglodytes,KCNJ3,13,14.0,erythroid lineage cell,134,9.701492537313433,0.1044776119402985,1.0769230769230769
+census_data,pan_troglodytes,KCNJ3,1026,1229.0,astrocyte,14677,6.990529399741091,0.08373645840430606,1.1978557504873295
+census_data,pan_troglodytes,KCNJ3,95,110.0,smooth muscle cell,1832,5.185589519650655,0.060043668122270744,1.1578947368421053
+census_data,pan_troglodytes,KCNJ3,13,14.0,myeloid cell,242,5.371900826446281,0.05785123966942149,1.0769230769230769
+census_data,pan_troglodytes,KCNJ3,190,193.0,pericyte,4192,4.532442748091603,0.04604007633587786,1.0157894736842106
+census_data,pan_troglodytes,KCNJ3,51,53.0,vascular leptomeningeal cell,1211,4.211395540875309,0.04376548307184145,1.0392156862745099
+census_data,pan_troglodytes,KCNJ3,1776,1817.0,oligodendrocyte,46061,3.855756496819435,0.039447688934239375,1.0230855855855856
+census_data,pan_troglodytes,KCNJ3,189,204.0,endothelial cell,5272,3.584977238239757,0.038694992412746584,1.0793650793650793
+census_data,pan_troglodytes,KCNJ3,208,217.0,microglial cell,5748,3.6186499652052886,0.037752261656228255,1.0432692307692308
+census_data,pan_troglodytes,KCNJ3,5,5.0,T cell,233,2.1459227467811157,0.02145922746781116,1.0
+census_data,pan_troglodytes,KCNJ3,3,3.0,macrophage,167,1.7964071856287425,0.017964071856287425,1.0
+census_data,pan_troglodytes,KCNJ6,19,19.0,L5 extratelencephalic projecting glutamatergic cortical neuron,364,5.21978021978022,0.0521978021978022,1.0
+census_data,pan_troglodytes,KCNJ6,798,810.0,L2/3 intratelencephalic projecting glutamatergic neuron,36357,2.194900569353907,0.02227906592953214,1.0150375939849625
+census_data,pan_troglodytes,KCNJ6,46,46.0,L6b glutamatergic cortical neuron,2161,2.1286441462285977,0.02128644146228598,1.0
+census_data,pan_troglodytes,KCNJ6,13,13.0,chandelier pvalb GABAergic cortical interneuron,779,1.668806161745828,0.01668806161745828,1.0
+census_data,pan_troglodytes,KCNJ6,101,104.0,pvalb GABAergic cortical interneuron,6715,1.5040953090096798,0.01548771407297096,1.0297029702970297
+census_data,pan_troglodytes,KCNJ6,21,21.0,L5/6 near-projecting glutamatergic neuron of the primary motor cortex,1554,1.3513513513513513,0.013513513513513514,1.0
+census_data,pan_troglodytes,KCNJ6,27,28.0,L6 corticothalamic-projecting glutamatergic cortical neuron,2098,1.286939942802669,0.01334604385128694,1.037037037037037
+census_data,pan_troglodytes,KCNJ6,46,46.0,lamp5 GABAergic cortical interneuron,3830,1.2010443864229765,0.012010443864229765,1.0
+census_data,pan_troglodytes,KCNJ6,23,24.0,inhibitory interneuron,2396,0.9599332220367279,0.01001669449081803,1.0434782608695652
+census_data,pan_troglodytes,KCNJ6,33,33.0,L6 intratelencephalic projecting glutamatergic neuron of the primary motor cortex,3694,0.8933405522468868,0.008933405522468869,1.0
+census_data,pan_troglodytes,KCNJ6,42,42.0,VIP GABAergic cortical interneuron,5046,0.8323424494649228,0.008323424494649227,1.0
+census_data,pan_troglodytes,KCNJ6,49,50.0,sst GABAergic cortical interneuron,7966,0.6151142355008787,0.006276675872457946,1.0204081632653061
+census_data,pan_troglodytes,KCNJ6,1,1.0,smooth muscle cell,1832,0.05458515283842795,0.0005458515283842794,1.0
+census_data,pan_troglodytes,KCNJ6,2,2.0,endothelial cell,5272,0.03793626707132018,0.00037936267071320183,1.0
+census_data,pan_troglodytes,KCNJ6,2,2.0,oligodendrocyte precursor cell,5369,0.03725088470851183,0.00037250884708511827,1.0
+census_data,pan_troglodytes,KCNJ6,4,4.0,astrocyte,14677,0.027253525924916536,0.00027253525924916534,1.0
+census_data,pan_troglodytes,KCNJ6,1,1.0,pericyte,4192,0.02385496183206107,0.00023854961832061068,1.0
+census_data,pan_troglodytes,KCNJ6,1,1.0,microglial cell,5748,0.017397355601948505,0.00017397355601948505,1.0
+census_data,pan_troglodytes,KCNJ6,7,7.0,oligodendrocyte,46061,0.015197238444671197,0.00015197238444671196,1.0
