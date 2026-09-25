@@ -10,3 +10,7 @@ Deep-dives the A1 receptor specifically: where it's expressed, then a
 full step-by-step walk through its signaling pathway, cell type by cell
 type, checked against what our data in
 [`projects/caffeine`](../../projects/caffeine/) actually shows.
+
+**Data:** single-cell queries can now run against a local Census mirror —
+see [`census-mirror/`](./census-mirror/README.md) for status, benchmark, and
+how to reproduce.
