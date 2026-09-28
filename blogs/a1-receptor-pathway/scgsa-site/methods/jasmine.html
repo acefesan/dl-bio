@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" data-root="../" data-page="jasmine">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JASMINE</title>
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script defer src="../static/common.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content">
+
+<div class="kicker">Rank + detection</div>
+<h1>JASMINE</h1>
+<p class="lede">Split the evidence in two. Among the genes the cell does express, how high do the set's genes rank? And is the set over-represented among expressed genes at all? Average the two, after rescaling each to 0–1 across cells.</p>
+
+<h2>The question it asks</h2>
+<p>JASMINE — Jointly Assessing Signature Mean and INferring Enrichment (Noureen et al. 2022) — was built after its authors showed that bulk methods like ssGSEA break on sparse single-cell data. Its answer to the zero problem is to <strong>stop ranking zeros</strong>. Zeros are taken out of the ranking and used as a separate kind of evidence: detection.</p>
+<ul>
+<li><strong>Signature mean:</strong> rank only the expressed genes. How high do the expressed set genes sit?</li>
+<li><strong>Enrichment:</strong> is a set gene more likely to be detected than a non-set gene in this cell? An odds ratio from a 2×2 table.</li>
+</ul>
+
+<h2>The computation</h2>
+<p>For cell \(c\), let \(E_c\) be its expressed (nonzero) genes. Rank them ascending, so the highest gets rank \(|E_c|\).</p>
+$$\text{RM}_c = \frac{\operatorname{mean}_{g \in S \cap E_c}\operatorname{rank}(g)}{|E_c|} \qquad (0 \text{ if no set gene is expressed})$$
+<p>Then the 2×2 detection table:</p>
+<div class="table-wrap"><table style="max-width:26rem">
+<tr><th></th><th>expressed</th><th>not expressed</th></tr>
+<tr><td>in set</td><td class="num">\(a\)</td><td class="num">\(b\)</td></tr>
+<tr><td>not in set</td><td class="num">\(c\)</td><td class="num">\(d\)</td></tr>
+</table></div>
+$$\text{OR}_c = \frac{a \cdot d}{b \cdot c} \qquad (b \text{ or } c \text{ set to 1 if zero})$$
+<p>Rescale each across <em>all cells being scored</em>, then average:</p>
+$$\text{JASMINE}_c = \tfrac{1}{2}\Big[\operatorname{minmax}(\text{RM})_c + \operatorname{minmax}(\text{OR})_c\Big], \qquad \operatorname{minmax}(v)_c = \frac{v_c - \min v}{\max v - \min v}$$
+
+<h2>On our toy cell</h2>
+<p>The expressed genes are A, B, D, F, H, J. Ranked ascending among themselves: H 1, J 2, D 3, B 4, F 5, A 6. The expressed set genes are B (4) and D (3); G is not expressed and is simply absent.</p>
+$$\text{RM} = \frac{(4 + 3)/2}{6} = 0.58$$
+<p>Detection table: in the set, 2 expressed (B, D) and 1 not (G); outside it, 4 expressed (A, F, H, J) and 3 not (C, E, I).</p>
+$$\text{OR} = \frac{2 \times 3}{1 \times 4} = 1.5$$
+<p>Neither number is the score yet: both are rescaled against every other cell before averaging. A single cell has no JASMINE score on its own.</p>
+
+<div class="callout code">
+<div class="tag">What the benchmarked code does</div>
+<p>The paper uses <code>JASMINE.method = "oddsratio"</code> through irGSEA, whose implementation matches the authors' original <code>JASMINE_V1_11October2021.r</code> (the playground's version agrees with it exactly, r = 1.000000). The heart of it:</p>
+<pre><code>subdata = x[x != 0]                           # drop dropouts
+DataRanksUpdated = rank(subdata)
+FinalRawRank = mean(ranks of set genes) / length(subdata)
+...
+SigGenesNE[SigGenesNE == 0] = 1
+NSigGenesExp[NSigGenesExp == 0] = 1
+OR = (SigGenesExp * NSigGenesNE) / (SigGenesNE * NSigGenesExp)
+JAS_Scores = (NormalizationJAS(RM) + NormalizationJAS(OR)) / 2</code></pre>
+</div>
+
+<div class="callout warn">
+<div class="tag">A consequence of min–max scaling</div>
+<p>Every cell's score depends on the most extreme cells in the matrix. Add or remove one outlier cell and every other cell's score changes. Comparisons within one scoring run are fine; comparing JASMINE scores across separately scored datasets is not.</p>
+</div>
+
+<h2>Zero policy, and what leaks in</h2>
+<p><strong>Zeros:</strong> removed from the ranking, then counted as evidence in the odds ratio. The most deliberate zero policy of the seven.</p>
+<p><strong>From outside the set:</strong> twice over. The rank term depends on how many genes the cell expresses and where they sit; the odds ratio depends directly on how many non-set genes are detected (\(c\)); and min–max scaling depends on every other cell.</p>
+
+<h2>Through the four scenarios</h2>
+<div class="table-wrap"><table>
+<tr><th></th><th>Paper result</th><th>Our reading</th></tr>
+<tr><td><span class="s-tag s1">S1</span></td><td>Sensitivity 100%. False positives <strong>74% (SSD) and 99.7% (RWSD)</strong> — the highest in the benchmark.</td><td>The rising signal genes are expressed genes, so they reshuffle the ranking among expressed genes that the rank term uses. The paper's explanation: reliance on rank "without accounting for the magnitude of changes".</td></tr>
+<tr><td><span class="s-tag s2">S2</span></td><td>Sensitivity 100%; false positives 6–25%.</td><td>Handles sparsity best: separating detection from rank means a set of rarely detected genes still produces a signal through the odds ratio.</td></tr>
+<tr><td><span class="s-tag s3">S3</span></td><td>Detected sets without condition-specific genes.</td><td>Extra detected genes raise \(c\), lowering the odds ratio, and enlarge \(|E_c|\), shifting the rank term. Hit twice.</td></tr>
+<tr><td><span class="s-tag s4">S4</span></td><td>Fewer false positives; a few in RWSD.</td><td>Sparse extra genes raise \(c\) only slightly.</td></tr>
+</table></div>
+<ul>
+<li><strong>Dropout:</strong> "this dual consideration of both gene set rank and the comprehensive gene expression profile led to a higher recovery rate when the data had a higher dropout rate, like SSD."</li>
+<li><strong>Cells:</strong> minimally affected by cell count.</li>
+<li><strong>Small sets:</strong> recommended with AUCell for sparse sets of 10–50 genes.</li>
+</ul>
+
+<h2>On our A1 data</h2>
+<p>On the 8-gene panel, JASMINE put Amygdala excitatory first with Hippocampal CA4 a whisker behind (0.530 vs. 0.527); by median, CA4 was first. On the 61-gene panel CA4 was 7th. On Tabula Sapiens it was the only method not to rank mural cells first on the 8-gene panel, choosing BEST4⁺ enterocytes. Since its odds ratio counts every non-set gene a cell detects, and HBCA superclusters differ 4.2× in genes detected, its cross-cell-type comparisons carry the scenario 3 confound in two places at once.</p>
+
+<div class="pager">
+  <a href="ssgsea.html"><span class="lbl">Previous</span>ssGSEA</a>
+  <a href="scps.html" style="text-align:right"><span class="lbl">Next</span>scPS</a>
+</div>
+
+</article></main></div>
+</body>
+</html>

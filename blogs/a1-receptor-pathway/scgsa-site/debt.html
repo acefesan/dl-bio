@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="debt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cognitive debt</title>
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script defer src="static/common.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content">
+
+<div class="kicker">Start</div>
+<h1>Cognitive debt</h1>
+<p class="lede">The three questions from section 0 of the post outline — the ones that have to be answerable in my own words before the post gets written. Each has guiding questions first. The explanation is folded away on purpose: try before opening it.</p>
+
+<h2>1. How do you properly interpret a zero count for a gene?</h2>
+<div class="callout try">
+<div class="tag">Try first</div>
+<ul>
+<li>If a gene is genuinely expressed, what is the probability that a droplet captures none of its molecules? What does that depend on?</li>
+<li>Given a single zero in a single cell, is there any calculation that tells you which kind of zero it is?</li>
+<li>If not from one cell, what could you compare across many cells to learn something?</li>
+<li>For ADORA1 specifically: does a zero in a neuron mean the neuron lacks the receptor?</li>
+</ul>
+</div>
+<details>
+<summary>Open the explanation</summary>
+<p><strong>A count is a sample, not a measurement.</strong> Suppose gene \(g\) makes up a fraction \(p_g\) of a cell's mRNA and the droplet captures \(N\) molecules. The count is roughly Poisson with mean \(N p_g\) — or negative binomial, once cell-to-cell variation is included — so</p>
+$$P(\text{count} = 0) \approx e^{-N p_g}.$$
+<p>A gene at 1 part in 10,000, in a cell captured at 3,000 molecules, reads zero three times out of four <em>while being expressed</em>. A zero means "no molecules were captured". Whether that is surprising depends entirely on how many you expected.</p>
+<p><strong>One cell can't tell you which kind of zero you have.</strong> A biological zero and a sampling zero produce the same data. There is no per-cell test.</p>
+<p><strong>Many cells can.</strong> Across a group of similar cells, compare the observed fraction of zeros with the fraction predicted by the gene's mean under a sampling model. If they agree, the zeros are explained by sampling alone. Only an excess of zeros suggests some cells genuinely don't express the gene. Svensson (Nature Biotechnology, 2020) found droplet data largely consistent with plain negative-binomial sampling — "not zero-inflated". The paper's own references 35 and 36 (Qiu 2020, "Embracing the dropouts"; Jiang et al. 2022, "Statistics or biology: the zero-inflation controversy") cover both sides of that argument.</p>
+<p><strong>So the working interpretation:</strong> a zero is "low, with uncertainty that grows as depth and expression fall". It is evidence of absence only for a gene you'd expect to see often at that depth.</p>
+<p><strong>For ADORA1:</strong> it is a sparse gene — about 67% of cells in the best cell types express it, and 19% of brain cells overall. A zero in any single neuron is weak evidence it lacks the receptor. Statements should be about <em>groups</em> ("a larger fraction of cell type X detects it"), not about cells.</p>
+<p><strong>Why it matters for the methods:</strong> each one quietly bakes in an answer. AddModuleScore, SCSE and scPS treat a zero as a real small value. AUCell shuffles zeros into random ranks. UCell and ssGSEA pile them into one averaged tie. JASMINE removes them from the ranking and counts them as evidence. See the <a href="compare.html">zero-policy column</a>.</p>
+</details>
+
+<h2>2. How does that relate to the paper's treatment of this kind of work?</h2>
+<div class="callout try">
+<div class="tag">Try first</div>
+<ul>
+<li>Imputation replaces some zeros with estimated values. Where does the estimate come from?</li>
+<li>What must be true for imputation to help? What would make it manufacture signal?</li>
+<li>Why would the paper report every result both with and without imputation instead of just picking one?</li>
+<li>Our A1 analysis ran with no imputation. What does that make our numbers?</li>
+</ul>
+</div>
+<details>
+<summary>Open the explanation</summary>
+<p><strong>What scImpute does</strong> (Li &amp; Li 2018, the method the paper uses). For each gene, it models the observed values as a mixture: a <em>dropout</em> component and a component of actually expressed values. For each zero or near-zero entry it estimates the probability of dropout. Entries above a threshold — 0.5 in the paper — are replaced using the same gene's values in <em>similar cells</em>. Entries judged to be true zeros are kept.</p>
+<p><strong>What the paper found.</strong> Every method improved with imputation. UCell and ssGSEA improved most, because filling zeros breaks the giant ties they rank. But the paper also recorded that "zero imputation methods can affect the data distribution and structure": SCSE degraded sharply as noise rose on imputed data, and AddModuleScore behaved oddly at 0% noise.</p>
+<p><strong>Why a benchmark variable and not a preprocessing step.</strong> Because the method and the imputation interact. Each method has its own zero policy; imputation changes which zeros exist. "Method X is good" is incomplete — it's "method X is good on data whose zeros look like this". Reporting both conditions is the honest way to say that.</p>
+<p><strong>The danger in our setting.</strong> Imputation borrows from similar cells. If "similar" is effectively "same cell type", imputation fills a cell type's zeros with that cell type's own average and makes cell types look more internally consistent and more distinct. For a question that compares cell types, that risks circularity.</p>
+<p><strong>What that makes our numbers:</strong> results on zeros as observed. They are the paper's "without imputation" condition, where rank-based methods are handicapped by ties and scPS is weaker on sparse, small sets. That is a legitimate condition to report, as long as the post says so.</p>
+</details>
+
+<h2>3. Why are bigger gene sets shadier, according to the paper?</h2>
+<div class="callout try">
+<div class="tag">Try first</div>
+<ul>
+<li>A score averages over the set's genes. What happens to its random, cell-to-cell noise as you add genes?</li>
+<li>Suppose every gene carries the same tiny systematic shift between groups — from a context change, not biology. What happens to <em>that</em> as you add genes?</li>
+<li>The Wilcoxon test responds to the ratio of those two. So what happens to the test as the set grows?</li>
+<li>Is "bigger is shadier" also "bigger is more powerful"? When is each one true?</li>
+</ul>
+</div>
+<details>
+<summary>Open the explanation</summary>
+<p><strong>What the paper observed.</strong> In scenarios 3 and 4, "large gene sets, even without the condition-specific expression, led to a higher false-positive discovery rate" (Figure 5). The playground's toy shows it clearly: in scenario 3, sets with no condition-specific genes are falsely flagged 50–100% of the time at size 10, and about 100% of the time from size 50 up.</p>
+<p><strong>The mechanism: bias doesn't average out, noise does.</strong> Model one gene's contribution in cell \(c\) as</p>
+$$x_{gc} = \mu_g + \delta\cdot\mathbb{1}[c \in \text{treatment}] + \varepsilon_{gc}, \qquad \operatorname{Var}(\varepsilon) = \sigma^2,$$
+<p>where \(\delta\) is a small shift every gene picks up because the <em>context</em> changed: extra genes pushing ranks down, a larger denominator, shifted control bins. Averaging \(k\) such genes:</p>
+$$\bar{x}_c = \bar\mu + \delta\cdot\mathbb{1}[\cdot] + \bar\varepsilon_c, \qquad \operatorname{Var}(\bar\varepsilon) = \sigma^2 / k.$$
+<p>The shift \(\delta\) is untouched by averaging; the noise shrinks. The group difference the test sees, measured in units of within-group spread, grows like</p>
+$$\frac{\delta}{\sigma/\sqrt{k}} = \frac{\delta\sqrt{k}}{\sigma}.$$
+<p>With 200 cells per group the Wilcoxon test is sensitive, so as \(k\) grows, a shift that was invisible for one gene becomes "significant" for a hundred. Real gene-to-gene noise is correlated, so the gain is slower than \(\sqrt{k}\), but the direction holds.</p>
+<p><strong>Power doesn't know what caused the shift.</strong> Exactly the same arithmetic makes large sets better at finding <em>real</em> signal — which is why every method except ssGSEA does well above 100 genes in scenarios 1 and 2. Bigger sets amplify whatever systematic difference exists. In S1/S2 that difference is the planted signal; in S3/S4 it is purely an artifact of context.</p>
+<p><strong>Why scPS escapes.</strong> Its \(\delta\) is zero: none of its inputs come from outside the set, so a context change produces no shift to amplify.</p>
+<p><strong>For our panels:</strong> the 61-gene panel is far more exposed than the 8-gene one to any genes-detected-per-cell confound between cell types. That is one candidate explanation for why the two panels ranked cell types so differently. See <a href="ours.html">Our A1 data</a>.</p>
+</details>
+
+<div class="pager">
+  <a href="paper.html"><span class="lbl">Previous</span>Read the paper</a>
+  <a href="basics.html" style="text-align:right"><span class="lbl">Next</span>Scoring from zero</a>
+</div>
+
+</article></main></div>
+</body>
+</html>

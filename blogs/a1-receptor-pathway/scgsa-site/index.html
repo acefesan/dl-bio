@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="index">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>scGSA from first principles</title>
+<meta name="description" content="A first-principles walkthrough of the seven single-cell gene set scoring methods compared in Wang &amp; Thakar 2024.">
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script defer src="static/common.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content">
+
+<div class="kicker">A reading companion</div>
+<h1>Scoring gene sets in single cells, from first principles</h1>
+<p class="lede">Wang &amp; Thakar (2024) compare seven ways to turn a list of genes into one number per cell, and show that most of them can be fooled. This site takes each method apart: what it computes, why, and where it breaks in the paper's four simulated scenarios.</p>
+
+<div class="callout paper">
+<div class="tag">The paper</div>
+<p><strong>Comparative analysis of single-cell pathway scoring methods and a novel approach.</strong> Ruoqiao H. Wang and Juilee Thakar. <em>NAR Genomics and Bioinformatics</em> 6(3), lqae124, 2024. <a href="paper.html">Read it here</a> (open access, CC BY-NC 4.0).</p>
+</div>
+
+<h2>The one idea to hold onto</h2>
+<p>Every method answers the same question — <em>"is this gene set more active in this cell?"</em> — but none of them can look only at the gene set. To say "more active" you need a reference: other genes in the same cell, other cells, or a background of control genes. <strong>Whatever a method compares against is also what can fool it.</strong></p>
+<p>The paper's four scenarios are four different ways of disturbing that reference. The most important one, scenario 3, changes nothing about the genes you are scoring. It only makes one group of cells express about 2% more genes overall, and six of the seven methods then report a difference that isn't there.</p>
+
+<h2>Suggested path</h2>
+<div class="cards">
+  <a class="card" href="basics.html"><div class="fam">Start here</div><div class="t">Scoring from zero</div><div class="d">Counts, normalisation, zeros, ranks, the Wilcoxon test and what "recovery rate" means.</div></a>
+  <a class="card" href="scenarios.html"><div class="fam">The experiment</div><div class="t">The four scenarios</div><div class="d">Dense signal, sparse signal, and two traps with no signal at all. Plus the size, noise and cell-count knobs.</div></a>
+  <a class="card" href="compare.html"><div class="fam">Overview</div><div class="t">Side by side</div><div class="d">All seven methods on one page: what each compares against, how it treats zeros, where it fails.</div></a>
+  <a class="card" href="playground.html"><div class="fam">Hands on</div><div class="t">Playground</div><div class="d">Simulate each scenario in your browser and watch the methods get fooled, or not.</div></a>
+</div>
+
+<h2>The seven methods</h2>
+<p>Grouped by what they compare the gene set against — the most useful way to predict how each one fails.</p>
+<div class="cards">
+  <a class="card" href="methods/addmodulescore.html"><div class="fam">Magnitude · vs control genes</div><div class="t">AddModuleScore</div><div class="d">Mean of the set minus the mean of expression-matched random genes.</div></a>
+  <a class="card" href="methods/scse.html"><div class="fam">Magnitude · vs cell total</div><div class="t">SCSE</div><div class="d">The set's share of everything the cell expresses.</div></a>
+  <a class="card" href="methods/aucell.html"><div class="fam">Rank · top of the list</div><div class="t">AUCell</div><div class="d">How many set genes appear among the cell's top 5% of genes.</div></a>
+  <a class="card" href="methods/ucell.html"><div class="fam">Rank · Mann–Whitney</div><div class="t">UCell</div><div class="d">A Mann–Whitney U statistic on the set's ranks, capped at rank 1500.</div></a>
+  <a class="card" href="methods/ssgsea.html"><div class="fam">Rank · random walk</div><div class="t">ssGSEA</div><div class="d">A running-sum walk down the whole ranked gene list, one cell at a time.</div></a>
+  <a class="card" href="methods/jasmine.html"><div class="fam">Rank + detection</div><div class="t">JASMINE</div><div class="d">Rank among expressed genes, blended with an odds ratio of detection.</div></a>
+  <a class="card" href="methods/scps.html"><div class="fam">Covariance · within the set</div><div class="t">scPS</div><div class="d">The paper's own method: PCA on the set's genes, weighted by variance, times mean expression.</div></a>
+</div>
+
+<h2>What I checked, so you can trust this site</h2>
+<ul>
+<li>Every formula here was read from the <strong>installed package source</strong> (Seurat 5.5.1, AUCell 1.28.0, UCell 2.10.1, GSVA 2.0.0, irGSEA, and the authors' own <code>scPS_2024.R</code>, <code>scPS_2025.R</code> and comparison scripts), not from the paper's prose. Where the two disagree, the page says so.</li>
+<li>The playground's JavaScript versions were checked against the real R packages on identical matrices: UCell, ssGSEA, JASMINE and SCSE agree exactly (r = 1.000000); AddModuleScore and AUCell agree at r ≈ 0.91–0.996, the gap coming only from their random-number draws (control genes and tie-breaks); scPS agrees at r ≥ 0.993 once eigenvector signs are aligned (details on the <a href="methods/scps.html">scPS page</a>).</li>
+<li>The toy simulator reproduces the paper's headline results — the scenario 3 false positives, scPS's low false-positive rate — but not all its magnitudes, and it does not reproduce ssGSEA's near-total failure. The <a href="playground.html">playground</a> lists what matches and what doesn't.</li>
+</ul>
+
+<div class="callout warn">
+<div class="tag">Found while building this</div>
+<p>The published scPS code differs from the paper's Equation 1 in three ways, and its 2024 version reduces to plain mean expression whenever one principal component explains more than half the variance. And for your own A1 work: the HBCA cell types that ranked highest detect up to 4.2× more genes per cell than the lowest — exactly the confound scenario 3 is built to expose. See <a href="methods/scps.html">scPS</a> and <a href="ours.html">Our A1 data</a>.</p>
+</div>
+
+</article></main></div>
+</body>
+</html>

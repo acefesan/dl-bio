@@ -95,14 +95,24 @@ The Census work needs `tiledbsoma`, which has no Python 3.14 wheels — use 3.12
 - [ ] Re-run once dissociated mouse lands in the local Census — mouse is
       absent from the current sync, and it is the species nearly all the A1
       electrophysiology was measured in.
-- [ ] Re-run scPS with `approx = FALSE` and treat those as canonical; the
-      default truncated SVD is seed-unstable on an 8-gene panel.
+- [ ] Re-run scPS sign-stably: exact SVD, but with variance explained
+      normalised over the first 10 PCs (what the authors' default
+      `approx = TRUE` computes) and a fixed PC sign convention. **Not**
+      simply `approx = FALSE` — that also redefines the 50%-variance cutoff.
+- [ ] Control for genes detected per cell (the paper's scenario 3 confound):
+      HBCA superclusters differ 4.2x, and CA1-3/CA4 detect the most. Score
+      expression-matched random 8-gene sets in the same cells; if CA4 tops
+      those too, the A1 lead is the confound. See the site's "Our A1 data".
 - [ ] Check the Census mural/pericyte/smooth-muscle result against vascular A1
       literature before treating it as a finding.
 - [ ] Decide the CA4-vs-cortex framing for section 1, given the two analyses
       answer at different granularities.
 
-## Housekeeping
+## Reading companion site
 
-All of the above is on branch **`worktree-cognitive-debt-outline`**, pushed but
-**not merged to `main`** — a fresh checkout of `main` shows none of it.
+[`scgsa-site/`](./scgsa-site/) is a static site for reading the paper
+(`lqae124.pdf`) and working through all seven scoring methods from first
+principles, with an in-browser simulator of the four scenarios. Served on the
+tailnet at <https://acefsan-ubuntu.taila37484.ts.net:3044>. Pedagogical and
+disposable; see its README for how it is served and how its JavaScript was
+validated against the R packages.

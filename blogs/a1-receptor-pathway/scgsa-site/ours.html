@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="ours">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our A1 data</title>
+<link rel="stylesheet" href="static/style.css">
+<script defer src="static/common.js"></script>
+<style>
+  .bar { height: 10px; background: var(--s1); border-radius: 3px; display: inline-block; vertical-align: middle; }
+  tr.hot td { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="layout"><main><article class="content">
+
+<div class="kicker">Hands on</div>
+<h1>Our A1 data, through the paper's lens</h1>
+<p class="lede">The paper's warnings aren't abstract for this project. The comparison at the heart of post 2 — which cell types carry the A1 pathway — is structurally a scenario 3 experiment.</p>
+
+<h2>Where our panels sit on the paper's map</h2>
+<div class="table-wrap"><table>
+<tr><th></th><th>minimal8</th><th>full61</th></tr>
+<tr><td>Size vs. the paper's range (10–500)</td><td>below the smallest size tested</td><td>mid-range</td></tr>
+<tr><td>Paper's advice for this size, sparse data</td><td>AUCell or JASMINE (for 10–50)</td><td>everything but ssGSEA is fine above 50–100</td></tr>
+<tr><td>Can scPS run unmodified?</td><td>no — needs <code>npcs = 7</code></td><td>yes</td></tr>
+<tr><td>Exposure to size-amplified artifacts</td><td>lower</td><td>higher</td></tr>
+</table></div>
+
+<h2>The confound is already in the data</h2>
+<p>Scenario 3's trap is two groups that detect different numbers of genes per cell. In the paper, the difference was about 2%. Between HBCA superclusters, from the same 200-cells-per-group sample the method comparison used:</p>
+<div class="table-wrap"><table id="depth">
+<tr><th>Supercluster</th><th class="num">Median genes detected per cell</th><th></th></tr>
+</table></div>
+<p><strong>A 4.2-fold range</strong>, against the 2% that was enough to fool six of seven methods. The two superclusters that detect the most genes are Hippocampal CA1-3 and CA4 — the same two that topped almost every ranking. The one that detects the fewest, Upper rhombic lip, is the one that topped SCSE and AddModuleScore on the 8-gene panel.</p>
+
+<div class="callout warn">
+<div class="tag">What this does and doesn't mean</div>
+<p>It does not show the CA4 result is an artifact. Deep, well-captured cells may well express more A1 machinery. It shows the ranking <em>cannot distinguish</em> the two explanations, for every method except scPS. The paper gives no way to correct for this after the fact; it has to be controlled in the design.</p>
+</div>
+
+<h2>Rereading our results with this in mind</h2>
+<ul>
+<li><strong>CA4 first under AUCell, UCell and ssGSEA (8 genes).</strong> These rank-based methods respond to where genes sit among everything the cell detects. CA4 detects 7,604 genes per cell; Cerebellar inhibitory detects 4,057. Their rankings are not measured on the same scale.</li>
+<li><strong>Upper rhombic lip first under SCSE and AddModuleScore.</strong> SCSE divides by a sum of log values that mostly counts <em>how many</em> genes are detected. At 1,987 genes, Upper rhombic lip's denominator is the smallest in HBCA, which inflates any share. This explains the open TODO in the method-comparison scratchpad.</li>
+<li><strong>CA4 first under scPS (8 genes).</strong> The one confound-immune method agrees — the strongest evidence for CA4 we have. But that run needed <code>npcs = 7</code>, and one of three seeds put Amygdala excitatory first, through the <a href="methods/scps.html">sign problem</a>.</li>
+<li><strong>The panels disagree, and the bigger one moved more.</strong> By the <a href="debt.html">bias-versus-noise argument</a>, a 61-gene panel amplifies any detection-depth shift more than an 8-gene one. That doesn't prove the 61-gene ranking is the artifact, but it predicts that direction.</li>
+<li><strong>The whole-Census numbers are safer, not immune.</strong> They are exact per-gene detection rates, with no scoring method involved. But a cell type captured more deeply detects more of <em>every</em> gene, ADORA1 included, so "% expressing" carries a milder version of the same confound.</li>
+</ul>
+
+<div class="callout warn">
+<div class="tag">Correcting an earlier note</div>
+<p>The method-comparison scratchpad and the post README recommend re-running scPS with <code>approx = FALSE</code> for stability. That also changes the denominator of "variance explained", from the top 10 PCs to all of them, so it is a different method. The faithful stable version is exact SVD with variance explained normalised over the first 10 PCs and a fixed sign convention.</p>
+</div>
+
+<h2>Three checks that would settle it</h2>
+<p>Not run yet — each is cheap on the existing 200-cells-per-group sample.</p>
+<ol>
+<li><strong>Random-set null.</strong> Score a few hundred random 8-gene sets, matched to the A1 panel's expression levels, in the same cells with every method. If CA4 also ranks near the top for random sets, its A1 lead is the confound. If it ranks top only for A1 genes, the lead is specific. This is the direct analogue of the paper's noise-100% test.</li>
+<li><strong>Sign-stable scPS.</strong> Exact SVD, top-10 variance normalisation, a fixed sign convention, and several seeds. It is the only method the confound can't reach, so it should carry the most weight.</li>
+<li><strong>Depth-matched comparison.</strong> Downsample cells so every supercluster has a similar number of detected genes per cell, then re-score. If the ranking survives equal depth, detection depth isn't driving it.</li>
+</ol>
+
+<div class="pager">
+  <a href="playground.html"><span class="lbl">Previous</span>Playground</a>
+  <a href="index.html" style="text-align:right"><span class="lbl">Back to</span>Overview</a>
+</div>
+
+</article></main></div>
+<script>
+(function () {
+  const d = [
+    ["Hippocampal CA1-3", 8260], ["Hippocampal CA4", 7604], ["Amygdala excitatory", 6981],
+    ["Mammillary body", 6834], ["Deep-layer corticothalamic and 6b", 6767], ["Lower rhombic lip", 6664],
+    ["Deep-layer intratelencephalic", 6630], ["Thalamic excitatory", 6565], ["Deep-layer near-projecting", 6223],
+    ["Upper-layer intratelencephalic", 6098], ["Medium spiny neuron", 5985], ["Miscellaneous", 5852],
+    ["Splatter", 5480], ["Eccentric medium spiny neuron", 5338], ["Hippocampal dentate gyrus", 5263],
+    ["MGE interneuron", 4974], ["LAMP5-LHX6 and Chandelier", 4941], ["CGE interneuron", 4683],
+    ["Midbrain-derived inhibitory", 4522], ["Cerebellar inhibitory", 4057], ["Upper rhombic lip", 1987],
+  ];
+  const max = d[0][1];
+  const hot = new Set(["Hippocampal CA1-3", "Hippocampal CA4", "Upper rhombic lip"]);
+  const t = document.getElementById("depth");
+  t.innerHTML += d.map(([g, n]) =>
+    `<tr class="${hot.has(g) ? "hot" : ""}"><td>${g}</td><td class="num">${n.toLocaleString()}</td>` +
+    `<td style="width:40%"><span class="bar" style="width:${(100 * n / max).toFixed(0)}%"></span></td></tr>`).join("");
+})();
+</script>
+</body>
+</html>

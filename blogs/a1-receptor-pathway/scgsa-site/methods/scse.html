@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" data-root="../" data-page="scse">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCSE</title>
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script defer src="../static/common.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content">
+
+<div class="kicker">Magnitude · vs cell total</div>
+<h1>SCSE</h1>
+<p class="lede">What share of everything this cell expresses belongs to the gene set? The simplest method of the seven, and the one whose failure mode is easiest to see.</p>
+
+<h2>The question it asks</h2>
+<p>Single-Cell Signature Explorer (Pont et al. 2019) sidesteps the question of what counts as "high" by making the score a <em>proportion</em>. If a cell devotes a larger slice of its transcriptome to a pathway, the pathway is more active. No bins, no ranks, no control genes.</p>
+
+<h2>The computation</h2>
+$$\text{SCSE}_c = 100 \times \frac{\sum_{g \in S} x_{gc}}{\sum_{g=1}^{G} x_{gc}}$$
+<p>Sum the set's expression in the cell, divide by the sum over every gene in the cell, express as a percentage.</p>
+
+<h2>On our toy cell</h2>
+<p>Set sum: \(7.42 + 6.91 + 0 = 14.33\). Cell total over all ten genes: \(8.29 + 7.42 + 6.91 + 7.76 + 5.81 + 6.50 = 42.69\).</p>
+$$\text{SCSE} = 100 \times \frac{14.33}{42.69} = 33.6$$
+<p>Now imagine the same cell also expressed three extra genes at around 7 each. Its total rises to about 63.7 and the score falls to 22.5, although B, D and G are unchanged. That one line is scenario 3.</p>
+
+<div class="callout code">
+<div class="tag">What the benchmarked code does</div>
+<p>irGSEA's implementation, as the paper calls it:</p>
+<pre><code>umi.sum     &lt;- colSums2(my.matrix.subset)
+umi.geneset &lt;- colSums2(my.matrix.subset, rows = which(rownames(...) %in% geneset))
+scse.result &lt;- umi.geneset / umi.sum * 100</code></pre>
+<p>The variable is called <code>umi.sum</code>, but the paper runs irGSEA with <code>slot = "data"</code>, so it sums <strong>log-normalised values</strong>, not UMI counts. A sum of logs is a very different "total" from a sum of molecules — the denominator is dominated by how <em>many</em> genes are detected rather than by how many molecules were captured.</p>
+</div>
+
+<h2>Zero policy, and what leaks in</h2>
+<p><strong>Zeros:</strong> contribute nothing to either sum.</p>
+<p><strong>From outside the set:</strong> the whole denominator. Every gene in the cell that is not in your set still sets the scale. More genes detected, or any gene rising, and your set's share shrinks.</p>
+
+<h2>Through the four scenarios</h2>
+<div class="table-wrap"><table>
+<tr><th></th><th>Paper result</th><th>Our reading</th></tr>
+<tr><td><span class="s-tag s1">S1</span></td><td>Sensitivity 100%; false positives <strong>26–40%</strong> (Table 1).</td><td>The signal genes are the densest, highest genes, so they are a large share of every cell's total. Raising them 20% inflates the denominator, and every other gene set's share drops in treatment.</td></tr>
+<tr><td><span class="s-tag s2">S2</span></td><td>Sensitivity 92–99%; false positives <strong>2.6–2.7%</strong>. More affected than most by low cell counts.</td><td>Random signal genes are mostly sparse and contribute little to the total, so the denominator barely moves. The contrast with S1 is the cleanest evidence for the mechanism.</td></tr>
+<tr><td><span class="s-tag s3">S3</span></td><td>Detected sets without condition-specific genes.</td><td>Extra genes, extra denominator. The textbook case.</td></tr>
+<tr><td><span class="s-tag s4">S4</span></td><td>Fewer false positives, still present in RWSD.</td><td>Sparse extra genes add little to the total.</td></tr>
+</table></div>
+<ul>
+<li><strong>Gene set size:</strong> weakest of the good performers at size 10 — 64.9 ± 8.2% recovery in scenario 1 SSD.</li>
+<li><strong>Noise and imputation:</strong> "the performance of SCSE is significantly affected as the noise level increases in zero-imputed data." Imputation fills zeros everywhere, which grows the denominator.</li>
+</ul>
+
+<h2>On our A1 data</h2>
+<p>On the 8-gene panel, SCSE ranked Hippocampal CA4 <strong>2nd</strong> — behind Upper rhombic lip, the HBCA supercluster that detects the <em>fewest</em> genes per cell (median 1,987, against 7,604 for CA4). With a sum of log values as the denominator, a cell that detects a quarter as many genes has a far smaller total, and any set genes it does detect become a larger share. This is scenario 3 running in reverse, and it is the most direct sign that cross-cell-type comparisons in your data carry the confound. <a href="../ours.html">Details.</a></p>
+
+<div class="pager">
+  <a href="addmodulescore.html"><span class="lbl">Previous</span>AddModuleScore</a>
+  <a href="aucell.html" style="text-align:right"><span class="lbl">Next</span>AUCell</a>
+</div>
+
+</article></main></div>
+</body>
+</html>

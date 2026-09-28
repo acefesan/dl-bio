@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Read the paper</title>
+<link rel="stylesheet" href="static/style.css">
+<script defer src="static/common.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+  .jumps { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.8rem 0 1.2rem; }
+  .jumps button {
+    font: 13px/1 system-ui, sans-serif; padding: 0.45rem 0.65rem; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer;
+  }
+  .jumps button:hover { border-color: var(--accent); }
+  .page-wrap { margin: 0 auto 1.1rem; max-width: 60rem; position: relative; }
+  .page-wrap canvas { width: 100%; height: auto; display: block; border-radius: 4px; box-shadow: 0 1px 6px rgba(0,0,0,0.18); background: #fff; }
+  .page-wrap .pn { font: 12px system-ui, sans-serif; color: var(--muted); margin: 0.3rem 0 0; text-align: center; }
+  #status { font: 13px system-ui, sans-serif; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="layout"><main><article class="content wide">
+
+<div class="kicker">Start</div>
+<h1>Read the paper</h1>
+<div class="callout paper" style="max-width:46rem">
+<p><strong>Comparative analysis of single-cell pathway scoring methods and a novel approach.</strong> Ruoqiao H. Wang and Juilee Thakar. <em>NAR Genomics and Bioinformatics</em> 6(3), lqae124 (2024). <a href="https://doi.org/10.1093/nargab/lqae124">doi:10.1093/nargab/lqae124</a>. Code: <a href="https://github.com/Thakar-Lab/scPS">github.com/Thakar-Lab/scPS</a>.</p>
+<p>Open access under CC BY-NC 4.0; reproduced here unmodified for reading. <a href="lqae124.pdf">Open the PDF directly</a> · <a href="lqae124.pdf" download>download</a></p>
+</div>
+
+<div class="jumps" id="jumps">
+  <button data-p="1">Abstract · p1</button>
+  <button data-p="2">Methods · p2</button>
+  <button data-p="3">Fig 1 scenarios · p3</button>
+  <button data-p="4">Fig 2 cell count · p4</button>
+  <button data-p="5">Fig 3 set size · p5</button>
+  <button data-p="6">Table 1 · Fig 4 noise · p6</button>
+  <button data-p="8">Fig 5 condition-specific · p8</button>
+  <button data-p="9">Fig 6 PBMC · p9</button>
+  <button data-p="7">Discussion · p7</button>
+</div>
+<p id="status">Loading…</p>
+<div id="pages"></div>
+
+</article></main></div>
+<script>
+(function () {
+  const status = document.getElementById("status");
+  const holder = document.getElementById("pages");
+  if (!window.pdfjsLib) {
+    status.innerHTML = 'The PDF viewer could not load (it needs internet access for its library). <a href="lqae124.pdf">Open the PDF directly</a>.';
+    return;
+  }
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  pdfjsLib.getDocument("lqae124.pdf").promise.then(pdf => {
+    status.textContent = `${pdf.numPages} pages`;
+    const wraps = [];
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const w = document.createElement("div");
+      w.className = "page-wrap";
+      w.id = "p" + i;
+      w.dataset.page = i;
+      w.style.aspectRatio = "612 / 792";
+      w.innerHTML = `<canvas></canvas><p class="pn">page ${i}</p>`;
+      holder.appendChild(w);
+      wraps.push(w);
+    }
+    const done = new Set();
+    function render(w) {
+      const i = Number(w.dataset.page);
+      if (done.has(i)) return;
+      done.add(i);
+      pdf.getPage(i).then(page => {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+        const cssW = w.clientWidth || 800;
+        const base = page.getViewport({ scale: 1 });
+        const vp = page.getViewport({ scale: (cssW / base.width) * dpr });
+        const c = w.querySelector("canvas");
+        c.width = vp.width; c.height = vp.height;
+        w.style.aspectRatio = "";
+        page.render({ canvasContext: c.getContext("2d"), viewport: vp });
+      });
+    }
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) render(e.target); }), { rootMargin: "800px 0px" });
+    wraps.forEach(w => io.observe(w));
+    document.getElementById("jumps").addEventListener("click", e => {
+      const p = e.target.dataset && e.target.dataset.p;
+      if (!p) return;
+      const w = document.getElementById("p" + p);
+      render(w);
+      w.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }).catch(err => {
+    status.innerHTML = `Could not render the PDF (${err.message}). <a href="lqae124.pdf">Open it directly</a>.`;
+  });
+})();
+</script>
+</body>
+</html>

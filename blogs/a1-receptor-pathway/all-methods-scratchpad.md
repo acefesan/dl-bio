@@ -134,9 +134,17 @@ both atlases. Consequences, over three seeds (`scps_sensitivity_hbca.csv`):
 With the default solver the winning cell type changes with the random seed.
 With exact SVD the ranking is identical across seeds. The authors' own code
 has `# approx = FALSE` sitting commented out on that line — they evidently hit
-this too. **Any scPS number on a small panel should use `approx=FALSE`.**
+this too. ~~Any scPS number on a small panel should use `approx=FALSE`.~~
 The main run used the default, and happened to agree with the stable answer
 at seed 42, but that is luck rather than evidence.
+
+**Correction (2026-09-27):** `approx = FALSE` is not just a more stable solver.
+Seurat then stores *all* PC standard deviations instead of the top 10, so
+"variance explained" and the 50%-cutoff PC count change (5 → 9 PCs on a
+30-gene test set). The faithful stable version is exact SVD with variance
+normalised over the first 10 PCs, plus a fixed sign convention — the seed
+instability above comes mostly from PC signs, which shift scPS through its
+subtract-the-minimum step. Details: `scgsa-site/methods/scps.html`.
 
 Related: the authors' own example filters gene sets to **50–60 genes**
 (`predBind_maxMin <- list(max = 60, min = 50)`). scPS is not designed for
@@ -278,8 +286,9 @@ the two implementations; `scgsa_scps_sensitivity.R` is the stability check.
       this in prose.** Nothing here resolves them; the zero-count question in
       particular is now more load-bearing, not less, because no imputation was
       run.
-- [ ] Re-run scPS everywhere with `approx=FALSE` and treat those as the
-      canonical scPS numbers.
+- [ ] Re-run scPS sign-stably (exact SVD, top-10 variance normalisation,
+      fixed PC signs) and treat those as the canonical scPS numbers — see the
+      correction above; plain `approx=FALSE` changes the method.
 - [ ] Check whether Upper rhombic lip's SCSE/AddModuleScore lead is a
       total-count artifact.
 - [ ] Decide the panel story for the post. The honest version is now: the

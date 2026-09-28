@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en" data-root="../" data-page="scps">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>scPS</title>
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script defer src="../static/common.js"></script>
+<script src="../static/scgsa.js"></script>
+<style>
+  .btn { font: 600 13px/1 system-ui, sans-serif; padding: 0.5rem 0.8rem; border-radius: 7px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; }
+  .btn:hover { border-color: var(--accent); }
+  #mini td, #mini th { font-size: 13px; }
+  .hl { color: var(--s1); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="layout"><main><article class="content">
+
+<div class="kicker">Covariance · within the set</div>
+<h1>scPS</h1>
+<p class="lede">The paper's own method. Run PCA on the gene set's genes alone, keep the components that explain half their variance, combine each cell's position on them, and multiply by the set's mean expression. It is the only method that never looks outside the set — which is both why it survived scenario 3 and why it is fragile.</p>
+
+<h2>The question it asks</h2>
+<p>A pathway isn't just "genes that are high". Its genes should go up and down <em>together</em> across cells. If a set is coherently active, the cells will spread out along a common axis of co-variation, and PCA finds that axis. scPS scores a cell by how far along the set's main axes of co-variation it sits, then scales by how much the set is expressed at all.</p>
+<p>scPS adapts the authors' earlier single-person transcription-factor score (spTFscore, Cornwell et al. 2021).</p>
+
+<h2>The computation, as the paper writes it</h2>
+<p>The paper's Equation 1:</p>
+$$\text{scPS}_c = \mu_c \times \sum_{i=1}^{m} (s_{ic} - s_{\min}) \times v_i$$
+<ul>
+<li>\(\mu_c\): the mean expression of the set's genes in cell \(c\).</li>
+<li>\(s_{ic}\): cell \(c\)'s score on principal component \(i\), from PCA on the set's genes only.</li>
+<li>\(s_{\min}\): "the minimum of the \(s_i\) among all the cells", which shifts scores to be non-negative.</li>
+<li>\(v_i\): "the percentage of variance explained by the PC".</li>
+<li>\(m\): the number of PCs needed to reach 50% cumulative variance.</li>
+</ul>
+
+<h2>The computation, as the code does it</h2>
+<ol>
+<li><code>ScaleData</code>: centre and scale each set gene across all cells (z-scores, clipped at 10).</li>
+<li><code>RunPCA(features = set, npcs = 10, weight.by.var = FALSE)</code>. Cell embeddings are the unit-length left singular vectors.</li>
+<li>\(v_i = \sigma_i^2 / \sum_j \sigma_j^2\) over the PCs Seurat stored; \(m\) = the first PC where the cumulative sum exceeds 0.5.</li>
+<li>Shift the whole embedding matrix by its single smallest value.</li>
+<li>Per cell: the square root of the \(v\)-weighted sum of shifted scores over the first \(m\) PCs, times the mean of the set's log-normalised expression.</li>
+</ol>
+$$\text{scPS}_c = \mu_c \times \sqrt{\sum_{i=1}^{m} \big(s_{ic} - \min_{j,c'} s_{jc'}\big)\, v_i}$$
+
+<div class="callout warn">
+<div class="tag">Three differences between the paper and its code</div>
+<ol>
+<li><strong>A square root.</strong> Equation 1 has none; <code>scPS_2024.R</code> and <code>scPS_2025.R</code> both take <code>sqrt(rowSums(...))</code>. Rankings are unchanged by a monotone transform of the PC part, but the product with \(\mu_c\) is not.</li>
+<li><strong>One minimum, not one per component.</strong> The paper subtracts the minimum of each \(s_i\); the code subtracts the minimum of the <em>entire</em> embedding matrix (<code>embeddings - min(embeddings)</code>).</li>
+<li><strong>What "variance explained" is divided by.</strong> With Seurat's default <code>approx = TRUE</code>, only the 10 computed standard deviations are stored, so \(v_i\) is a share of the top-10 variance. With <code>approx = FALSE</code>, Seurat stores all of them and \(v_i\) becomes a share of total variance. On a 30-gene test set this moved \(m\) from 5 PCs to 9. The authors left <code># approx = FALSE</code> commented out on that line, so the published behaviour is the top-10 version.</li>
+</ol>
+</div>
+
+<div class="callout warn">
+<div class="tag">A bug in the 2024 code, fixed in 2025</div>
+<p>When a single PC already explains more than half the variance (\(m = 1\)), <code>scPS_2024.R</code> runs</p>
+<pre><code>sqrt(sum(currWeightedPC[ , 1:(maxCombPC[currGS])]))</code></pre>
+<p>— summing over <em>all cells</em> and assigning that one number to every cell. The PC component becomes a constant, and scPS collapses to plain mean expression times a constant. <code>scPS_2025.R</code> changes the line to <code>sqrt(currWeightedPC[ , 1:(maxCombPC[currGS])])</code>, per cell. Verified by running both code paths on a toy matrix. The paper was published with the 2024 version.</p>
+</div>
+
+<h2>A worked example, computed live</h2>
+<p>Six cells and our three set genes (log-normalised values). Cells 1–3 are control, 4–6 treatment. PCA can't be done on one cell, so this example has several.</p>
+<div class="table-wrap"><table id="mini"></table></div>
+<p><button class="btn" id="flip" type="button">Flip the sign of PC1</button> <button class="btn" id="bug" type="button">Use the 2024 code path</button> <span id="flipnote" style="font:13px system-ui;color:var(--muted)"></span></p>
+<p>A principal component's sign is mathematically arbitrary: \(v\) and \(-v\) describe the same axis. But the shift-by-minimum step makes scPS depend on it. Press the first button and watch the ranking reorder completely.</p>
+<p>Here PC1 alone explains more than half the variance, so \(m = 1\) — exactly the case the 2024 code mishandles. Press the second button: the PC column becomes identical for every cell, and scPS turns into mean expression times a constant.</p>
+
+<div class="callout code">
+<div class="tag">This is not a toy concern</div>
+<p>Scoring the same simulated matrix with the real R pipeline and with this site's JavaScript — identical data, identical steps — the two scPS vectors correlated at <strong>r = −0.39</strong>. After aligning each PC's sign, <strong>r = 0.994</strong>. On HBCA, re-running scPS with a different random seed changed which cell type ranked first, because irlba's random start changes the signs it returns.</p>
+</div>
+
+<h2>Other practical limits</h2>
+<ul>
+<li><strong><code>npcs = 10</code> is hard-coded.</strong> A gene set needs at least 11 genes, or <code>RunPCA</code> cannot return 10 components. Our 8-gene A1 panel had to be run with <code>npcs = 7</code>.</li>
+<li><strong>The authors' own example</strong> filters KEGG to pathways of 50–60 genes (<code>predBind_maxMin &lt;- list(max = 60, min = 50)</code>).</li>
+<li><strong>Few cells:</strong> "with sparse data below 50 cells, where PCA cannot provide accurate covariance estimates, scPS is not the best method."</li>
+</ul>
+
+<h2>Zero policy, and what leaks in</h2>
+<p><strong>Zeros:</strong> ordinary values after scaling. A gene that is zero in most cells becomes a near-constant column with a few outliers, contributing little shared variance.</p>
+<p><strong>From outside the set:</strong> nothing. The scaling, the PCA and the mean all use only the set's genes. <em>This is the whole reason it survives scenario 3.</em> Extra genes elsewhere in the cell cannot touch any of its inputs.</p>
+
+<h2>Through the four scenarios</h2>
+<div class="table-wrap"><table>
+<tr><th></th><th>Paper result</th><th>Our reading</th></tr>
+<tr><td><span class="s-tag s1">S1</span></td><td>Sensitivity 99.5–100%; false positives <strong>4.1–4.9%</strong>. Best at 80% noise: "an advantage in distinguishing subtle changes".</td><td>Unchanged genes' values are untouched, so null sets have nothing to detect.</td></tr>
+<tr><td><span class="s-tag s2">S2</span></td><td>Sensitivity 93–99%, but strongly cell-count dependent; exceeded 90% only above 200 cells per group.</td><td>A mostly-zero matrix gives PCA little covariance to find. No outside reference to fall back on.</td></tr>
+<tr><td><span class="s-tag s3">S3</span></td><td><strong>The only method that did not detect sets without condition-specific genes</strong>, and it did detect sets as their condition-specific share rose.</td><td>Its inputs are the set's own genes, and those did not change.</td></tr>
+<tr><td><span class="s-tag s4">S4</span></td><td>Again the only method with no false positives.</td><td></td></tr>
+</table></div>
+<ul>
+<li><strong>Small sets:</strong> not optimal for sparse sets of 10–50 genes; zero imputation helps.</li>
+<li><strong>Real data:</strong> on the PBMC data it recovered MAPK and JAK–STAT signalling (found by the original study, missed by the other six methods), plus mTOR, NF-κB, chemokine and adrenergic signalling.</li>
+</ul>
+
+<h2>On our A1 data</h2>
+<p>scPS ranked Hippocampal CA4 1st on the 8-gene panel (5th on the 61-gene panel), but that needed <code>npcs = 7</code>, and one of three random seeds put Amygdala excitatory first instead. An earlier note in this project recommended re-running with <code>approx = FALSE</code> for stability. As shown above, that also changes what "50% of the variance" means, so it is a different method, not a more stable run of the same one. The faithful stable version is exact SVD with \(v_i\) normalised over the first 10 PCs. Because it is the one method immune to the genes-detected-per-cell confound, a sign-stable scPS is the most useful check on the CA4 result. <a href="../ours.html">Details.</a></p>
+
+<div class="pager">
+  <a href="jasmine.html"><span class="lbl">Previous</span>JASMINE</a>
+  <a href="../playground.html" style="text-align:right"><span class="lbl">Next</span>Playground</a>
+</div>
+
+</article></main></div>
+<script>
+(function () {
+  const genes = ["B", "D", "G"];
+  const X = [ // cells x genes, log-normalised
+    [7.4, 6.9, 0.0], [6.8, 0.0, 0.0], [0.0, 6.2, 5.1],
+    [7.9, 7.3, 0.0], [7.6, 7.0, 5.8], [7.1, 6.6, 6.0],
+  ];
+  const N = X.length, k = genes.length;
+  let flip = false, bug = false;
+
+  function run() {
+    const Z = X.map(r => r.slice());
+    for (let j = 0; j < k; j++) {
+      const col = X.map(r => r[j]);
+      const m = col.reduce((a, b) => a + b, 0) / N;
+      const sd = Math.sqrt(col.reduce((a, b) => a + (b - m) ** 2, 0) / (N - 1));
+      for (let c = 0; c < N; c++) Z[c][j] = Math.min(10, sd > 0 ? (X[c][j] - m) / sd : 0);
+    }
+    const C = new Float64Array(k * k);
+    for (let c = 0; c < N; c++) for (let i = 0; i < k; i++) for (let j = 0; j < k; j++) C[i * k + j] += Z[c][i] * Z[c][j];
+    const { values, vectors } = SCGSA.jacobiEigen(C, k);
+    const order = [0, 1, 2].sort((a, b) => values[b] - values[a]);
+    const npcs = Math.min(10, k - 1);
+    const emb = [], sdev = [];
+    for (let t = 0; t < npcs; t++) {
+      const e = order[t], d = Math.sqrt(Math.max(values[e], 0));
+      let big = 0; for (let i = 0; i < k; i++) if (Math.abs(vectors[i * k + e]) > Math.abs(big)) big = vectors[i * k + e];
+      let sign = big < 0 ? -1 : 1;
+      if (t === 0 && flip) sign = -sign;
+      emb.push(Z.map(r => { let s = 0; for (let i = 0; i < k; i++) s += r[i] * vectors[i * k + e]; return sign * s / d; }));
+      sdev.push(d / Math.sqrt(N - 1));
+    }
+    const tot = sdev.reduce((a, b) => a + b * b, 0);
+    const v = sdev.map(s => s * s / tot);
+    let cum = 0, m = npcs;
+    for (let t = 0; t < npcs; t++) { cum += v[t]; if (cum > 0.5) { m = t + 1; break; } }
+    let gmin = Infinity; emb.forEach(u => u.forEach(x => { if (x < gmin) gmin = x; }));
+    let bugAgg = null;
+    if (bug && m === 1) {
+      let s = 0; for (let c = 0; c < N; c++) s += (emb[0][c] - gmin) * v[0];
+      bugAgg = Math.sqrt(s);
+    }
+    const rows = [];
+    for (let c = 0; c < N; c++) {
+      let s = 0; for (let t = 0; t < m; t++) s += (emb[t][c] - gmin) * v[t];
+      const agg = bugAgg !== null ? bugAgg : Math.sqrt(s);
+      const mu = X[c].reduce((a, b) => a + b, 0) / k;
+      rows.push({ c, pc: emb.map(u => u[c]), agg, mu, score: agg * mu });
+    }
+    const f = x => x.toFixed(2);
+    const ranked = rows.slice().sort((a, b) => b.score - a.score).map(r => r.c);
+    let h = `<tr><th>cell</th>${genes.map(g => `<th class="num">${g}</th>`).join("")}${emb.map((_, t) => `<th class="num">PC${t + 1}</th>`).join("")}<th class="num">√(Σ shifted·v)</th><th class="num">mean μ</th><th class="num">scPS</th><th class="num">rank</th></tr>`;
+    rows.forEach(r => {
+      h += `<tr><td>${r.c + 1} ${r.c < 3 ? "ctl" : "trt"}</td>${X[r.c].map(x => `<td class="num">${f(x)}</td>`).join("")}${r.pc.map(x => `<td class="num">${f(x)}</td>`).join("")}<td class="num">${f(r.agg)}</td><td class="num">${f(r.mu)}</td><td class="num hl">${f(r.score)}</td><td class="num">${ranked.indexOf(r.c) + 1}</td></tr>`;
+    });
+    h += `<tr><td colspan="${4 + emb.length + 3}" style="color:var(--muted)">variance explained v = ${v.map(x => (100 * x).toFixed(0) + "%").join(", ")} → m = ${m} PC${m > 1 ? "s" : ""}; global minimum of the embedding = ${f(gmin)}</td></tr>`;
+    document.getElementById("mini").innerHTML = h;
+    document.getElementById("flipnote").textContent =
+      (flip ? "PC1 sign flipped" : "PC1 sign: largest loading positive") +
+      (bug ? " · 2024 code path" : " · 2025 code path");
+  }
+  document.getElementById("flip").addEventListener("click", () => { flip = !flip; run(); });
+  document.getElementById("bug").addEventListener("click", () => { bug = !bug; run(); });
+  run();
+})();
+</script>
+</body>
+</html>

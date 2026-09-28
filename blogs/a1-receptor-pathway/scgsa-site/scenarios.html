@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="scenarios">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The four scenarios</title>
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script defer src="static/common.js"></script>
+<style>
+  .schem { width: 100%; max-width: 30rem; height: auto; display: block; }
+  .schem .ctl { fill: var(--muted); }
+  .schem .sig { fill: var(--s1); }
+  .schem .cs { fill: var(--s3); }
+  .schem .lbl { fill: var(--muted); font-size: 11px; }
+  .schem .hdr { fill: var(--ink); font-size: 12px; font-weight: 600; }
+  .schem .divider { stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 3 3; }
+  .legend { font: 13px/1.5 system-ui, sans-serif; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.4rem; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 0.35rem; vertical-align: -1px; }
+</style>
+</head>
+<body>
+<div class="layout"><main><article class="content">
+
+<div class="kicker">Foundations</div>
+<h1>The four scenarios</h1>
+<p class="lede">Two scenarios ask "can you find a real signal?" Two ask "can you avoid finding a fake one?" The second pair is where the paper earns its keep.</p>
+
+<h2>The shared setup</h2>
+<p>Take a real single-cell dataset and split its cells at random into two equal groups, <em>control</em> and <em>treatment</em>. Before anything is added, the two groups are biologically identical. Then disturb the treatment group in a controlled way, generate thousands of gene sets whose composition you know, score them with each method, and test every set for a control-vs-treatment difference.</p>
+<p>Because the disturbance is known, every "identified" gene set is either a correct call or a false positive. Nothing is left to judgment.</p>
+
+<div class="legend">
+  <span><i style="background:var(--muted)"></i>expressed, unchanged</span>
+  <span><i style="background:var(--s1)"></i>expressed, +20% in treatment (signal)</span>
+  <span><i style="background:var(--s3)"></i>expressed only in treatment (condition-specific)</span>
+</div>
+
+<h2><span class="s-tag s1">S1</span> Signal on densely expressed genes</h2>
+<figure><svg class="schem" id="sch1" viewBox="0 0 440 250" role="img" aria-label="Scenario 1 schematic"></svg>
+<figcaption>Rows are genes, dots are cells with a nonzero count. The top rows are dense genes (detected in nearly every cell) and carry the +20% signal in treatment.</figcaption></figure>
+<p><strong>Design.</strong> Genes detected in at least 90% of cells (SSD) or 75% (RWSD) — at least 500 of them — get a 20% increase in expression in treatment cells. Everything else is left alone.</p>
+<p><strong>What a good method should do.</strong> Detect gene sets built from signal genes, and ignore gene sets built from the other genes.</p>
+<p><strong>The trap.</strong> Signal genes are also the most highly expressed genes in every cell. Anything that scores a gene <em>relative to other genes in the same cell</em> — rank-based methods, and SCSE's share-of-total — is affected when those top genes rise. Genes that did not change get pushed down the ranking or become a smaller share of the total, so gene sets made entirely of unchanged genes can still shift.</p>
+<p><strong>What happened</strong> (gene set size 100, 200 cells; Table 1). Sensitivity was high for everything except ssGSEA (6–17%) and UCell on SSD (30%). But at 100% noise — gene sets containing <em>no</em> signal gene — JASMINE flagged 74–100% of them, AUCell 45–100%, SCSE 26–40%. AddModuleScore and scPS stayed at 3.5–5%, UCell at 1–12%, ssGSEA under 1%.</p>
+
+<h2><span class="s-tag s2">S2</span> Signal on randomly chosen genes</h2>
+<figure><svg class="schem" id="sch2" viewBox="0 0 440 250" role="img" aria-label="Scenario 2 schematic"></svg>
+<figcaption>Same +20% signal, but on 550 random genes. Most genes are sparse, so most signal genes are rarely detected at all.</figcaption></figure>
+<p><strong>Design.</strong> 550 randomly chosen genes get the +20%. Because most genes are sparse, the median signal gene is detected in just <strong>1.75% of cells</strong>, against 41.25% in scenario 1.</p>
+<p><strong>What it tests.</strong> Whether a method can find a real change that is mostly hidden behind zeros. A 20% increase in a gene you almost never observe is nearly invisible cell by cell.</p>
+<p><strong>What happened.</strong> Everything got harder. Recovery fell faster as noise rose, but most methods still found above 80% of sets at 20% noise. scPS and SCSE suffered most with few cells: PCA needs enough cells to estimate covariance from a mostly-zero matrix, and scPS only exceeded 90% recovery with more than 200 cells per group. False positives were lower than in S1, with JASMINE (6–25%) and AUCell (3–17%) again the highest.</p>
+
+<h2><span class="s-tag s3">S3</span> No signal — extra dense genes in treatment</h2>
+<figure><svg class="schem" id="sch3" viewBox="0 0 440 280" role="img" aria-label="Scenario 3 schematic"></svg>
+<figcaption>No gene changes. Treatment cells additionally express about 250 genes (~2%) that are zero in every control cell, and those genes are dense.</figcaption></figure>
+<p><strong>Design.</strong> Nothing gets a signal. Instead, about 250 extra genes (~2%) are added to the treatment group only — they are zero in every control cell. In S3 these condition-specific genes are densely expressed. Gene sets are built either without any condition-specific genes, or with a small share of them (~2% of the set).</p>
+<p><strong>What a good method should do.</strong> A gene set with <em>no</em> condition-specific genes contains only genes that are identical in both groups. The correct answer is "no difference", every time.</p>
+<p><strong>The trap.</strong> Treatment cells now express more genes. For a rank-based method, those extra genes slot in above the scored genes and push their ranks down. For SCSE, they raise the cell's total and shrink the scored genes' share. For AddModuleScore, they change the per-gene averages the control genes are matched on. The scored genes did not move — their <em>context</em> did.</p>
+<p><strong>What happened.</strong> This is the paper's central result. <strong>Every method except scPS detected gene sets that contained no condition-specific genes</strong>: they reported a difference whenever the two groups differed in how many genes they detect. Larger gene sets made it worse. scPS was the only method that stayed quiet, and it did detect sets as their share of condition-specific genes rose — the correct behaviour.</p>
+<div class="callout paper">
+<div class="tag">Why this scenario exists</div>
+<p>It models something common in real data: groups that genuinely differ in transcriptional breadth. The paper points to cancer cells. The same applies to comparing <em>cell types</em> — neurons detect far more genes per cell than glia. See <a href="ours.html">Our A1 data</a>.</p>
+</div>
+
+<h2><span class="s-tag s4">S4</span> No signal — extra sparse genes in treatment</h2>
+<figure><svg class="schem" id="sch4" viewBox="0 0 440 280" role="img" aria-label="Scenario 4 schematic"></svg>
+<figcaption>As scenario 3, but the treatment-only genes are sparse, so each treatment cell gains only a handful of detected genes.</figcaption></figure>
+<p><strong>Design.</strong> Identical to S3, except the condition-specific genes are randomly chosen and therefore mostly sparse. Each treatment cell only picks up a few of them.</p>
+<p><strong>What happened.</strong> The false positives shrank, because the difference in genes detected per cell is small, but did not vanish: in RWSD all methods except scPS still flagged a few gene sets with no condition-specific genes. Correctly detecting sets that <em>do</em> contain condition-specific genes needed a larger share of them than in S3.</p>
+
+<h2>What S3 and S4 are really measuring</h2>
+<p>Put the four side by side and a single variable separates them: <strong>how much of each score comes from outside the gene set</strong>.</p>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Reference the score leans on</th><th>Moved by extra genes elsewhere?</th></tr>
+<tr><td>AUCell, UCell, ssGSEA</td><td>the ranks of every gene in the cell</td><td><span class="pill bad">yes</span></td></tr>
+<tr><td>JASMINE</td><td>ranks among expressed genes, and the count of expressed genes</td><td><span class="pill bad">yes, twice</span></td></tr>
+<tr><td>SCSE</td><td>the cell's total expression</td><td><span class="pill bad">yes</span></td></tr>
+<tr><td>AddModuleScore</td><td>control genes drawn from expression bins</td><td><span class="pill mid">through the bins</span></td></tr>
+<tr><td>scPS</td><td>only the set's own genes, across cells</td><td><span class="pill good">no</span></td></tr>
+</table></div>
+<p>scPS is the only method whose inputs are the gene set's own values and nothing else — the PCA uses only the set's genes, and so does the mean. That, not cleverness, is why it survived scenario 3. It also explains its weakness in S2: with no outside reference, it has nothing to lean on when the set itself is almost all zeros.</p>
+<p class="mono" style="font-size:12.5px;color:var(--muted)">"Leans on" above is our reading of each method's formula (see the method pages). The paper reports the outcomes; it does not spell out these mechanisms.</p>
+
+<h2>The knobs turned within each scenario</h2>
+<div class="table-wrap"><table>
+<tr><th>Knob</th><th>Values</th><th>Held fixed at</th><th>What it probes</th></tr>
+<tr><td>Cells per group</td><td class="num">20, 50, 200, 500</td><td>set size 100, noise 0%</td><td>statistical power</td></tr>
+<tr><td>Gene set size</td><td class="num">10 to 500</td><td>200 cells, noise 0%</td><td>averaging over genes; small-set fragility</td></tr>
+<tr><td>Noise</td><td class="num">0, 20, 50, 80, 100%</td><td>200 cells, size 100</td><td>curated sets containing irrelevant genes</td></tr>
+<tr><td>Zero imputation</td><td>scImpute, dropout threshold 0.5</td><td>RWSD, S1 and S2</td><td>what happens when zeros are filled in</td></tr>
+</table></div>
+<p>Noise means the share of a gene set drawn from non-signal genes: at 20% noise, 20 of 100 genes are irrelevant, as with a pathway database entry curated in another tissue. For each size and noise level, 100 gene sets were generated — 5,000 per dataset, across 10 replicates.</p>
+
+<div class="callout try">
+<div class="tag">Try it</div>
+<p>In the <a href="playground.html">playground</a>, pick scenario 3, set "condition-specific share" to 0%, and estimate recovery. Every method except scPS lights up. Then raise the gene set size from 10 to 100 and watch the false-positive rate climb.</p>
+</div>
+
+<div class="pager">
+  <a href="basics.html"><span class="lbl">Previous</span>Scoring from zero</a>
+  <a href="compare.html" style="text-align:right"><span class="lbl">Next</span>Side by side</a>
+</div>
+
+</article></main></div>
+<script>
+(function () {
+  const NS = "http://www.w3.org/2000/svg";
+  function rand(seed) { let a = seed; return () => { a = (a * 1664525 + 1013904223) >>> 0; return a / 4294967296; }; }
+  function draw(id, opts) {
+    const svg = document.getElementById(id);
+    const r = rand(opts.seed);
+    const nc = 10, cellW = 17, x0 = 96, y0 = 34, rowH = 16;
+    const rows = opts.rows;
+    const mk = (tag, attrs, text) => {
+      const e = document.createElementNS(NS, tag);
+      for (const k in attrs) e.setAttribute(k, attrs[k]);
+      if (text) e.textContent = text;
+      svg.appendChild(e);
+      return e;
+    };
+    mk("text", { x: x0 + (nc * cellW) / 2 - 22, y: 18, class: "hdr" }, "control");
+    mk("text", { x: x0 + nc * cellW + 12 + (nc * cellW) / 2 - 26, y: 18, class: "hdr" }, "treatment");
+    const splitX = x0 + nc * cellW + 6;
+    mk("line", { x1: splitX, y1: 24, x2: splitX, y2: y0 + rows.length * rowH, class: "divider" });
+    rows.forEach((row, i) => {
+      const y = y0 + i * rowH + rowH / 2;
+      mk("text", { x: 4, y: y + 4, class: "lbl" }, row.label);
+      for (let side = 0; side < 2; side++) {
+        for (let c = 0; c < nc; c++) {
+          const cx = x0 + side * (nc * cellW + 12) + c * cellW + cellW / 2;
+          let p = row.p;
+          if (row.kind === "cs" && side === 0) p = 0;
+          if (r() >= p) continue;
+          let cls = "ctl", rad = 4.2;
+          if (row.kind === "sig" && side === 1) { cls = "sig"; rad = 5.2; }
+          if (row.kind === "cs") cls = "cs";
+          mk("circle", { cx, cy: y, r: rad, class: cls });
+        }
+      }
+    });
+  }
+  const denseSig = { label: "dense · signal", p: 0.95, kind: "sig" };
+  const dense = { label: "dense", p: 0.9, kind: "ctl" };
+  const mid = { label: "moderate", p: 0.45, kind: "ctl" };
+  const sparse = { label: "sparse", p: 0.12, kind: "ctl" };
+  const sparseSig = { label: "sparse · signal", p: 0.12, kind: "sig" };
+  draw("sch1", { seed: 3, rows: [denseSig, denseSig, denseSig, dense, mid, mid, sparse, sparse, sparse, sparse, sparse, sparse, sparse] });
+  draw("sch2", { seed: 5, rows: [dense, dense, dense, mid, sparseSig, mid, sparse, sparseSig, sparse, sparse, sparseSig, sparse, sparse] });
+  draw("sch3", { seed: 7, rows: [dense, dense, dense, mid, mid, sparse, sparse, sparse, sparse, sparse, sparse,
+    { label: "treatment-only", p: 0.9, kind: "cs" }, { label: "treatment-only", p: 0.9, kind: "cs" }, { label: "treatment-only", p: 0.85, kind: "cs" }] });
+  draw("sch4", { seed: 9, rows: [dense, dense, dense, mid, mid, sparse, sparse, sparse, sparse, sparse, sparse,
+    { label: "treatment-only", p: 0.15, kind: "cs" }, { label: "treatment-only", p: 0.1, kind: "cs" }, { label: "treatment-only", p: 0.15, kind: "cs" }] });
+})();
+</script>
+</body>
+</html>

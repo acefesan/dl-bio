@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="compare">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Side by side</title>
+<link rel="stylesheet" href="static/style.css">
+<script defer src="static/common.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content wide">
+
+<div class="kicker">Foundations</div>
+<h1>Side by side</h1>
+<p class="lede">The seven methods on one page: what each compares the gene set against, what it does with zeros, and how it fared.</p>
+
+<h2>How each method is built</h2>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>Family</th><th>Compares the set against</th><th>Zero policy</th><th>Ties</th><th>Paper's parameters</th><th>Scale</th></tr>
+<tr><td><a href="methods/addmodulescore.html">AddModuleScore</a></td><td>magnitude</td><td>expression-matched random control genes</td><td>just a value</td><td>—</td><td>24 bins, 100 controls per gene, seed 1</td><td>difference of means</td></tr>
+<tr><td><a href="methods/scse.html">SCSE</a></td><td>magnitude</td><td>the cell's total expression</td><td>adds nothing</td><td>—</td><td>on log-normalised data</td><td>percent of total</td></tr>
+<tr><td><a href="methods/aucell.html">AUCell</a></td><td>rank</td><td>every gene's rank, top 5% only</td><td>tied, shuffled randomly</td><td>random</td><td>MaxRank = 5% of genes</td><td>0–1</td></tr>
+<tr><td><a href="methods/ucell.html">UCell</a></td><td>rank</td><td>every gene's rank, top 1,500 only</td><td>tied, averaged, capped</td><td>average</td><td>maxRank = 1500</td><td>0–1</td></tr>
+<tr><td><a href="methods/ssgsea.html">ssGSEA</a></td><td>rank</td><td>the full ranking</td><td>one big tie, walked in row order</td><td>average → integer</td><td>α = 0.25, unnormalised</td><td>unbounded</td></tr>
+<tr><td><a href="methods/jasmine.html">JASMINE</a></td><td>rank + detection</td><td>ranks among expressed genes; detection of non-set genes; all other cells</td><td>removed from ranks, used as evidence</td><td>average</td><td>odds-ratio variant</td><td>0–1, relative</td></tr>
+<tr><td><a href="methods/scps.html">scPS</a></td><td>covariance</td><td>nothing outside the set</td><td>just a value</td><td>—</td><td>npcs 10, 50% variance, approx = TRUE</td><td>non-negative</td></tr>
+</table></div>
+
+<h2>Table 1 of the paper</h2>
+<p>Gene set size 100, 200 cells per group. Sensitivity is recovery at 0% noise (higher is better). The false-positive rate is recovery at 100% noise (lower is better). Mean ± SD over 10 replicates.</p>
+<div class="table-wrap"><table>
+<tr><th rowspan="2">Method</th><th colspan="2" style="text-align:center">S1 sensitivity</th><th colspan="2" style="text-align:center">S1 false positives</th><th colspan="2" style="text-align:center">S2 sensitivity</th><th colspan="2" style="text-align:center">S2 false positives</th></tr>
+<tr><th class="num">SSD</th><th class="num">RWSD</th><th class="num">SSD</th><th class="num">RWSD</th><th class="num">SSD</th><th class="num">RWSD</th><th class="num">SSD</th><th class="num">RWSD</th></tr>
+<tr><td>JASMINE</td><td class="num">100.0</td><td class="num">100.0</td><td class="num"><span class="pill bad">74.4</span></td><td class="num"><span class="pill bad">99.7</span></td><td class="num">100.0</td><td class="num">100.0</td><td class="num">6.0</td><td class="num"><span class="pill bad">25.0</span></td></tr>
+<tr><td>AddModuleScore</td><td class="num">99.3</td><td class="num">100.0</td><td class="num">3.5</td><td class="num">4.9</td><td class="num">90.7</td><td class="num">98.2</td><td class="num">2.7</td><td class="num">2.9</td></tr>
+<tr><td>AUCell</td><td class="num">100.0</td><td class="num">100.0</td><td class="num"><span class="pill bad">44.6</span></td><td class="num"><span class="pill bad">100.0</span></td><td class="num">99.9</td><td class="num">98.7</td><td class="num">2.5</td><td class="num"><span class="pill mid">17.0</span></td></tr>
+<tr><td>scPS</td><td class="num">100.0</td><td class="num">99.5</td><td class="num">4.9</td><td class="num">4.1</td><td class="num">93.2</td><td class="num">99.3</td><td class="num">2.5</td><td class="num">3.5</td></tr>
+<tr><td>SCSE</td><td class="num">100.0</td><td class="num">100.0</td><td class="num"><span class="pill mid">25.6</span></td><td class="num"><span class="pill bad">40.0</span></td><td class="num">92.3</td><td class="num">98.6</td><td class="num">2.6</td><td class="num">2.7</td></tr>
+<tr><td>UCell</td><td class="num"><span class="pill bad">29.6</span></td><td class="num">100.0</td><td class="num">0.8</td><td class="num">11.8</td><td class="num"><span class="pill bad">30.3</span></td><td class="num">95.9</td><td class="num">1.3</td><td class="num">1.8</td></tr>
+<tr><td>ssGSEA</td><td class="num"><span class="pill bad">6.1</span></td><td class="num"><span class="pill bad">17.3</span></td><td class="num">0.2</td><td class="num">0.7</td><td class="num"><span class="pill bad">0.0</span></td><td class="num"><span class="pill bad">1.5</span></td><td class="num">0.0</td><td class="num">0.0</td></tr>
+</table></div>
+<p style="font:13px system-ui;color:var(--muted)">UCell's SSD sensitivities carry standard deviations of 47.7 and 36.3 points; ssGSEA's S1 values carry 19.3 and 24.3. Everything else is within about ±14.</p>
+
+<h2>The whole map</h2>
+<div class="table-wrap"><table>
+<tr><th>Method</th><th>S1 finds signal</th><th>S1 ignores null</th><th>S2 finds signal</th><th>S3 ignores null</th><th>Few cells</th><th>Small sets</th><th>Helped by imputation</th></tr>
+<tr><td>AddModuleScore</td><td><span class="pill good">yes</span></td><td><span class="pill good">yes</span></td><td><span class="pill good">yes</span></td><td><span class="pill bad">no</span></td><td><span class="pill mid">improves with cells</span></td><td><span class="pill mid">good above 50</span></td><td><span class="pill mid">odd at 0% noise</span></td></tr>
+<tr><td>SCSE</td><td><span class="pill good">yes</span></td><td><span class="pill bad">no</span></td><td><span class="pill good">yes</span></td><td><span class="pill bad">no</span></td><td><span class="pill mid">weaker in S2</span></td><td><span class="pill mid">65% at size 10</span></td><td><span class="pill bad">worse with noise</span></td></tr>
+<tr><td>AUCell</td><td><span class="pill good">yes</span></td><td><span class="pill bad">no</span></td><td><span class="pill good">yes</span></td><td><span class="pill bad">no</span></td><td><span class="pill good">robust</span></td><td><span class="pill good">recommended</span></td><td><span class="pill good">yes</span></td></tr>
+<tr><td>UCell</td><td><span class="pill mid">RWSD only</span></td><td><span class="pill good">mostly</span></td><td><span class="pill mid">RWSD only</span></td><td><span class="pill bad">no</span></td><td><span class="pill mid">high variance</span></td><td><span class="pill bad">poor in SSD</span></td><td><span class="pill good">strongly</span></td></tr>
+<tr><td>ssGSEA</td><td><span class="pill bad">rarely</span></td><td><span class="pill good">yes</span></td><td><span class="pill bad">no</span></td><td><span class="pill bad">no</span></td><td><span class="pill bad">doesn't improve</span></td><td><span class="pill bad">poor</span></td><td><span class="pill good">strongly</span></td></tr>
+<tr><td>JASMINE</td><td><span class="pill good">yes</span></td><td><span class="pill bad">worst</span></td><td><span class="pill good">yes</span></td><td><span class="pill bad">no</span></td><td><span class="pill good">robust</span></td><td><span class="pill good">recommended</span></td><td><span class="pill good">yes</span></td></tr>
+<tr><td>scPS</td><td><span class="pill good">yes</span></td><td><span class="pill good">yes</span></td><td><span class="pill mid">needs &gt;200 cells</span></td><td><span class="pill good">yes — only one</span></td><td><span class="pill bad">not below 50</span></td><td><span class="pill bad">not optimal</span></td><td><span class="pill good">yes, small sets</span></td></tr>
+</table></div>
+
+<h2>The paper's practical advice</h2>
+<ul>
+<li>Every method except ssGSEA does well once the gene set has more than 100 genes.</li>
+<li>For sparse gene sets of 10–50 genes, use AUCell or JASMINE.</li>
+<li>Below 50 cells, don't use scPS.</li>
+<li>If the groups you compare differ in how many genes they detect, every method except scPS will report differences that aren't there.</li>
+<li>Rank-based methods are more prone to false positives, because they react to rank changes rather than to the size of the change.</li>
+<li>Zero imputation improved every method, but it also changes the data's distribution, and it hurt SCSE at high noise.</li>
+</ul>
+
+<h2>Does the playground's toy reproduce this?</h2>
+<p>Scored in the browser on simulated data (gene set size 100, 200 cells per group, 20 gene sets per cell, two expression regimes).</p>
+<div class="table-wrap"><table>
+<tr><th>Finding</th><th>Toy</th></tr>
+<tr><td>S3: every method except scPS flags gene sets with no condition-specific genes</td><td><span class="pill good">reproduced</span> — 60–100% vs. scPS 0–5%, in both regimes</td></tr>
+<tr><td>S3: larger gene sets give more false positives</td><td><span class="pill good">reproduced</span> — 50–100% at size 10, ~100% from size 50</td></tr>
+<tr><td>S4: false positives far lower than S3</td><td><span class="pill good">reproduced</span></td></tr>
+<tr><td>S1 null: AddModuleScore, scPS and ssGSEA stay low; AUCell, JASMINE and SCSE flag many</td><td><span class="pill good">reproduced</span> in the dense regime (5, 5, 5 vs. 100, 95, 100%)</td></tr>
+<tr><td>S1 null: UCell stays low</td><td><span class="pill bad">not reproduced</span> — toy UCell flags ~100%</td></tr>
+<tr><td>S2 null: low false positives overall</td><td><span class="pill good">reproduced</span> in the sparse regime; <span class="pill bad">too high</span> in the dense one</td></tr>
+<tr><td>ssGSEA almost never detects real signal</td><td><span class="pill bad">not reproduced</span> — the toy has 3–6k genes, not ~20k</td></tr>
+</table></div>
+<p>The formulas are verified against the R packages; what differs is the toy's data, whose exact regime the paper doesn't fully specify. Use the toy for mechanisms, not magnitudes.</p>
+
+<div class="pager">
+  <a href="scenarios.html"><span class="lbl">Previous</span>The four scenarios</a>
+  <a href="methods/addmodulescore.html" style="text-align:right"><span class="lbl">Next</span>AddModuleScore</a>
+</div>
+
+</article></main></div>
+</body>
+</html>

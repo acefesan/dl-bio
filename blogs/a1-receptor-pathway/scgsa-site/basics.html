@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="basics">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scoring from zero</title>
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script defer src="static/common.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content">
+
+<div class="kicker">Foundations</div>
+<h1>Scoring from zero</h1>
+<p class="lede">Everything the seven methods share: what the data looks like, why zeros are the whole problem, and how the paper decides whether a method "found" something.</p>
+
+<h2>1. The raw material: a sparse count matrix</h2>
+<p>Single-cell RNA-seq gives a matrix of counts: rows are genes, columns are cells, and each entry is how many mRNA molecules of that gene were captured from that cell. A typical droplet experiment captures a few thousand molecules per cell out of perhaps 20,000 genes, so <strong>most entries are zero</strong>. In the paper's sparse scenario, the median signal gene is detected in only 1.75% of cells.</p>
+
+<p>Throughout this site we use one toy cell with ten genes, and the gene set <strong>S = {B, D, G}</strong>:</p>
+<div class="table-wrap"><table>
+<tr><th>gene</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th></tr>
+<tr><td>count</td><td class="num">12</td><td class="num"><strong>5</strong></td><td class="num">0</td><td class="num"><strong>3</strong></td><td class="num">0</td><td class="num">7</td><td class="num"><strong>0</strong></td><td class="num">1</td><td class="num">0</td><td class="num">2</td></tr>
+</table></div>
+<p>The cell captured 30 molecules in total. Gene G is in our set but reads zero.</p>
+
+<h2>2. Normalisation: making cells comparable</h2>
+<p>Two cells with identical biology can differ tenfold in total counts just because one droplet captured more. Every method in the paper runs on Seurat's <em>LogNormalize</em> output (the <code>data</code> layer), which divides by the cell's total, scales to 10,000 and takes a log:</p>
+$$x_{gc} = \log\!\left(1 + \frac{\text{count}_{gc}}{\sum_{g'} \text{count}_{g'c}} \times 10^4\right)$$
+<p>For our cell, gene A becomes \(\log(1 + 12/30 \times 10^4) = 8.29\), gene B becomes 7.42, and every zero stays exactly 0.</p>
+
+<div class="callout ours">
+<div class="tag">Keep this in mind</div>
+<p>The denominator is the <em>cell's total</em>. If some genes rise, every other gene's normalised value falls, even though nothing happened to it. That coupling is why the paper's real-world simulation adds its signal <em>after</em> normalisation, and why the <a href="playground.html">playground</a> has a switch to add it before, so you can watch the leak.</p>
+</div>
+
+<h2>3. Zeros: the whole problem in one word</h2>
+<p>A zero can mean two different things:</p>
+<ul>
+<li><strong>Biological zero</strong> — the gene really isn't expressed in this cell.</li>
+<li><strong>Sampling zero</strong> (often called <em>dropout</em>) — the gene is expressed, but none of its molecules happened to be captured.</li>
+</ul>
+<p>From a single cell you cannot tell which. If a gene truly makes up a fraction \(p\) of a cell's mRNA and you capture \(N\) molecules, the chance of seeing zero is roughly \(e^{-Np}\). For a gene at 1 molecule in 10,000 in a cell captured at 3,000 molecules, that is \(e^{-0.3} \approx 0.74\): a three-in-four chance of reading zero <em>even though the gene is on</em>.</p>
+<p>So every method has to decide what a zero means. That decision is its <strong>zero policy</strong>, and it turns out to predict a lot of the method's behaviour. The <a href="compare.html">side-by-side page</a> tabulates all seven.</p>
+
+<h2>4. Ranks, and the tie problem</h2>
+<p>Four of the seven methods (AUCell, UCell, ssGSEA, JASMINE) throw away the expression values and keep only the <em>order</em> of genes within each cell. Ranking our toy cell from highest to lowest:</p>
+<div class="table-wrap"><table>
+<tr><th>gene</th><th>A</th><th>F</th><th>B</th><th>D</th><th>J</th><th>H</th><th>C</th><th>E</th><th>G</th><th>I</th></tr>
+<tr><td>rank</td><td class="num">1</td><td class="num">2</td><td class="num"><strong>3</strong></td><td class="num"><strong>4</strong></td><td class="num">5</td><td class="num">6</td><td class="num" colspan="4" style="text-align:center">7, 8, 9, 10 — all tied at 0</td></tr>
+</table></div>
+<p>The four zeros are tied, and the method has to decide where G goes. Real cells have <em>thousands</em> of tied zeros, so this is not a detail:</p>
+<ul>
+<li><strong>Average ties</strong> (UCell, ssGSEA): every zero gets the same average rank, here 8.5.</li>
+<li><strong>Random ties</strong> (AUCell): each zero gets a random rank among 7–10, re-drawn per cell. This adds noise.</li>
+<li><strong>Drop the zeros</strong> (JASMINE): rank only the six expressed genes, and treat "how many set genes are expressed" as separate evidence.</li>
+</ul>
+
+<div class="callout ours">
+<div class="tag">Why ranks are fragile</div>
+<p>A rank describes a gene <em>relative to every other gene in the cell</em>. If a cell expresses 250 extra genes, some of them land above your set's genes and push their ranks down, although your genes' expression did not change. That is exactly scenario 3.</p>
+</div>
+
+<h2>5. From one score per cell to "detected"</h2>
+<p>A method gives each cell a number for the gene set. The paper then asks whether the numbers differ between the two groups of cells (control vs. treatment) with a <strong>Wilcoxon rank-sum test</strong>. The test pools both groups' scores, ranks them, and asks whether one group's ranks are systematically higher:</p>
+$$W = \sum_{c \in \text{treatment}} \operatorname{rank}(s_c) - \frac{n_1(n_1+1)}{2}$$
+<p>Under no difference, \(W\) centres on \(n_1 n_2 / 2\). The test is two-sided: it fires whether treatment scores go up <em>or down</em>. That matters later, because some artifacts push scores down.</p>
+<p>With many gene sets tested at once, p-values are adjusted with the <strong>Benjamini–Hochberg</strong> false discovery rate. A set counts as "identified" when its adjusted p-value is below 0.05.</p>
+
+<div class="callout warn">
+<div class="tag">Power cuts both ways</div>
+<p>With 200 cells per group, the Wilcoxon test detects tiny systematic shifts. It cannot tell whether a shift is biology or artifact. Anything that nudges all treatment-cell scores in one direction, however slightly, will be "detected". This is the key to the <a href="debt.html">"bigger gene sets are shadier"</a> question.</p>
+</div>
+
+<h2>6. How the paper grades a method</h2>
+<p>The <strong>recovery rate</strong> is the fraction of simulated gene sets a method identifies:</p>
+$$\text{recovery} = \frac{\#\{\text{gene sets with BH-adjusted } p < 0.05\}}{\#\{\text{gene sets simulated}\}}$$
+<p>The same number means opposite things depending on what the gene sets contain:</p>
+<ul>
+<li>When every gene in the set was given signal (<em>noise 0%</em>), recovery is <strong>sensitivity</strong>: higher is better.</li>
+<li>When no gene in the set was given signal (<em>noise 100%</em>), recovery is the <strong>false-positive rate</strong>: anything above about 5% is the method seeing something that isn't there.</li>
+</ul>
+<p>Table 1 of the paper reports both, at gene set size 100 and 200 cells per group. The <a href="compare.html">side-by-side page</a> reproduces it.</p>
+
+<h2>7. Two kinds of simulated data</h2>
+<ul>
+<li><strong>SSD</strong> (Splatter-simulated data): synthetic counts from the Splatter package, with parameters fitted to a real 10x dataset (GSE164381, from a study of B-cell repertoires in COVID-19, Hoehn et al. 2021). Sparser, with a lower signal-to-noise ratio.</li>
+<li><strong>RWSD</strong> (real-world simulated data): the real, log-normalised GSE164381 matrix, cells randomly split into "control" and "treatment", with signal added to chosen genes in the treatment half.</li>
+</ul>
+<p>RWSD usually gave better results. Each setting was replicated 10 times.</p>
+
+<div class="pager">
+  <a href="index.html"><span class="lbl">Previous</span>Overview</a>
+  <a href="scenarios.html" style="text-align:right"><span class="lbl">Next</span>The four scenarios</a>
+</div>
+
+</article></main></div>
+</body>
+</html>

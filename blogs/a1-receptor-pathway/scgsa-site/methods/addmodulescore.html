@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" data-root="../" data-page="addmodulescore">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AddModuleScore</title>
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script defer src="../static/common.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content">
+
+<div class="kicker">Magnitude · vs control genes</div>
+<h1>AddModuleScore</h1>
+<p class="lede">Average the gene set's expression, then subtract the average of random genes that are expressed at similar levels. Whatever is left is the set's activity beyond what its expression level alone would predict.</p>
+
+<h2>The question it asks</h2>
+<p>A raw average of a gene set is dominated by how highly its genes are expressed in general: a set of housekeeping genes always "wins". To get at <em>activity</em>, you need a baseline that controls for expression level.</p>
+<p>AddModuleScore (from Tirosh et al. 2016, now Seurat's default) builds that baseline <strong>per gene</strong>: for every gene in the set, draw random genes with a similar average expression, and subtract their mean. A set that is high only because its genes are highly expressed scores near zero. A set that is high <em>for its expression level</em> scores positive.</p>
+
+<h2>The computation</h2>
+<ol>
+<li>For every gene in the dataset, compute its average expression \(\bar{x}_g\) over <em>all</em> cells.</li>
+<li>Sort genes by \(\bar{x}_g\) and cut them into 24 bins with equal numbers of genes.</li>
+<li>For each set gene \(g \in S\), sample 100 genes from its bin, without replacement. Pool and de-duplicate them into a control set \(C\).</li>
+<li>For each cell \(c\):</li>
+</ol>
+$$\text{score}_c = \frac{1}{|S|}\sum_{g \in S} x_{gc} \;-\; \frac{1}{|C|}\sum_{g \in C} x_{gc}$$
+
+<h2>On our toy cell</h2>
+<p>With only ten genes the binning is illustrative, but the arithmetic is the same. Say B and D sit in a high-expression bin whose controls turn out to be A and F, while G sits in a low bin whose controls are C, E and I:</p>
+$$\underbrace{\tfrac{7.42 + 6.91 + 0}{3}}_{\text{set mean } = \,4.78} \;-\; \underbrace{\tfrac{8.29 + 7.76 + 0 + 0 + 0}{5}}_{\text{control mean } = \,3.21} \;=\; 1.57$$
+<p>The zero on G counts as a zero, just like the zeros among the controls. Nothing special happens to it.</p>
+
+<div class="callout code">
+<div class="tag">What the benchmarked code does</div>
+<p>The paper's script calls <code>AddModuleScore(object, geneSets)</code> with every default: <code>nbin = 24</code>, <code>ctrl = 100</code>, <code>seed = 1</code>, on the <code>data</code> (log-normalised) layer. From Seurat 5.5.1's source:</p>
+<pre><code>data.avg &lt;- Matrix::rowMeans(assay.data[pool, ])
+data.cut &lt;- cut_number(data.avg + rnorm(length(data.avg))/1e30,
+                       n = nbin, labels = FALSE, right = FALSE)
+ctrl.use[[i]] &lt;- c(ctrl.use[[i]], names(sample(
+    data.cut[which(data.cut == data.cut[features.use[j]])],
+    size = ctrl, replace = FALSE)))</code></pre>
+<p>Two details the paper doesn't mention. The control pool is <strong>not</strong> purged of the set's own genes, so a set gene can be its own control. And the seed is reset on every call, so the same gene set always gets the same controls.</p>
+</div>
+
+<h2>Zero policy, and what leaks in</h2>
+<p><strong>Zeros:</strong> ordinary values. They lower the average like any small number.</p>
+<p><strong>From outside the set:</strong> the control genes, and the bins that choose them. The bins are cut on averages taken over <em>both</em> groups, so anything that reshapes the overall expression distribution — a group of extra genes appearing in half the cells — moves bin boundaries and changes which controls get drawn. And if signal genes crowd one bin, a gene set's controls can themselves be signal genes, cancelling part of a real signal or inventing a fake one.</p>
+
+<div class="callout ours">
+<div class="tag">Seen in the playground</div>
+<p>In a toy scenario 1 where only <em>half</em> of the dense genes carry the signal, AddModuleScore falsely flagged most gene sets made of unchanged genes (85%). When <em>all</em> dense genes carry the signal, as in the paper, that drops to about 5%, matching the paper. The difference is whether an unchanged dense gene's controls come from a bin full of signal genes.</p>
+</div>
+
+<h2>Through the four scenarios</h2>
+<div class="table-wrap"><table>
+<tr><th></th><th>Paper result</th><th>Our reading</th></tr>
+<tr><td><span class="s-tag s1">S1</span></td><td>Sensitivity 99–100%; false positives <strong>3.5–4.9%</strong> (Table 1). Among the most trustworthy.</td><td>With every dense gene signalled, the unchanged genes' bins are free of signal genes, so their controls don't move.</td></tr>
+<tr><td><span class="s-tag s2">S2</span></td><td>Sensitivity 91–98%; false positives 2.7–2.9%.</td><td>Averaging tolerates sparse data well, since zeros just lower the mean.</td></tr>
+<tr><td><span class="s-tag s3">S3</span></td><td>Detected gene sets <strong>without</strong> condition-specific genes, like every method except scPS.</td><td>Treatment-only genes enter the bins and change which controls are drawn; the set and its controls are no longer balanced across groups.</td></tr>
+<tr><td><span class="s-tag s4">S4</span></td><td>Weaker false positives than S3, still present in RWSD.</td><td>Sparse extra genes barely move the bins.</td></tr>
+</table></div>
+<ul>
+<li><strong>Gene set size:</strong> "count-based methods such as AddModuleScore performed well with a gene set size &gt;50". Small sets mean few genes to average, so a single noisy gene dominates.</li>
+<li><strong>Cells:</strong> improves steadily with more cells.</li>
+<li><strong>Zero imputation:</strong> an oddity — with imputed data it did <em>worse</em> at 0% noise than at 20% or 50%. The paper flags it without explaining it.</li>
+</ul>
+
+<h2>On our A1 data</h2>
+<p>AddModuleScore was the only method behind the first version of the A1 analysis, and in a simplified form: scored once per cell type from averaged expression, which the paper never benchmarked. Scored properly, per cell:</p>
+<ul>
+<li>On the 8-gene panel, Hippocampal CA4 ranked <strong>2nd</strong> of 21 HBCA superclusters, behind Upper rhombic lip. On the 61-gene panel it ranked 5th.</li>
+<li>Its ranking moved the most between the two panels of any method (Spearman ρ = 0.39).</li>
+<li>Upper rhombic lip detects the fewest genes per cell in HBCA (median 1,987, vs. 7,604 for CA4). In those cells the controls, mostly moderately expressed genes, are often zero while the dense panel genes still register — a plausible reason it tops this method. <a href="../ours.html">More on this.</a></li>
+</ul>
+
+<div class="pager">
+  <a href="../compare.html"><span class="lbl">Previous</span>Side by side</a>
+  <a href="scse.html" style="text-align:right"><span class="lbl">Next</span>SCSE</a>
+</div>
+
+</article></main></div>
+</body>
+</html>

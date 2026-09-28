@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" data-root="../" data-page="ssgsea">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ssGSEA</title>
+<link rel="stylesheet" href="../static/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script defer src="../static/common.js"></script>
+<style>
+  #walk { width: 100%; max-width: 30rem; height: auto; }
+  #walk .axis { stroke: var(--muted); stroke-width: 1; }
+  #walk .zero { stroke: var(--line); stroke-width: 1; }
+  #walk .in { fill: none; stroke: var(--s1); stroke-width: 2; }
+  #walk .out { fill: none; stroke: var(--muted); stroke-width: 1.6; stroke-dasharray: 4 3; }
+  #walk .diff { fill: color-mix(in srgb, var(--s2) 22%, transparent); stroke: var(--s2); stroke-width: 1.2; }
+  #walk text { fill: var(--muted); font-size: 11px; }
+</style>
+</head>
+<body>
+<div class="layout"><main><article class="content">
+
+<div class="kicker">Rank · random walk</div>
+<h1>ssGSEA</h1>
+<p class="lede">Walk down the cell's entire gene ranking. Step up at every set gene, step down at every other gene, and add up the walk. The only method here designed for bulk samples, and the one that did worst.</p>
+
+<h2>The question it asks</h2>
+<p>Gene Set Enrichment Analysis asks whether a set's genes are concentrated at one end of a ranked list. Single-sample GSEA (Barbie et al. 2009) asks it of one sample at a time: rank that sample's genes and measure how far the set's genes are skewed toward the top. In bulk RNA-seq every gene has a meaningful value. In a single cell, most of the ranking is a giant tie of zeros.</p>
+
+<h2>The computation</h2>
+<p>Rank the cell's \(n\) genes, and walk from the top. Keep two running fractions:</p>
+<ul>
+<li>\(P_{\text{in}}(i)\): the share of the set's total weight seen so far, where each set gene weighs its rank value to the power \(\alpha = 0.25\).</li>
+<li>\(P_{\text{out}}(i)\): the share of non-set genes seen so far, each weighing the same.</li>
+</ul>
+<p>If the set is concentrated near the top, \(P_{\text{in}}\) races ahead of \(P_{\text{out}}\). ssGSEA sums the gap over the <em>whole</em> walk — unlike classic GSEA, which takes its maximum:</p>
+$$\text{ES}_c = \sum_{i=1}^{n} \big[P_{\text{in}}(i) - P_{\text{out}}(i)\big]$$
+<p>GSVA computes this in closed form. A set gene at walk position \(p_g\) is counted in \(P_{\text{in}}\) at every later step, \(n - p_g + 1\) times in all, which gives:</p>
+$$\text{ES}_c = \frac{\sum_{g \in S} w_g\,(n - p_g + 1)}{\sum_{g \in S} w_g} \;-\; \frac{\frac{n(n+1)}{2} - \sum_{g \in S}(n - p_g + 1)}{n - k}$$
+
+<h2>On our toy cell</h2>
+<figure><svg id="walk" viewBox="0 0 320 180" role="img" aria-label="Random walk"></svg>
+<figcaption>Solid blue: \(P_{\text{in}}\). Dashed grey: \(P_{\text{out}}\). The shaded gap, summed over all ten steps, is the score. The walk runs through the four tied zeros in index order.</figcaption></figure>
+<p>B and D are near the top, so \(P_{\text{in}}\) jumps early; G is buried among the zeros and only arrives near the end. Much of the score here is determined by the order in which the tied zeros are walked — an order that carries no biological information.</p>
+
+<div class="callout code">
+<div class="tag">What the benchmarked code does</div>
+<p>irGSEA calls GSVA with <code>normalize = FALSE</code>, so scores are <strong>unnormalised</strong> — on HBCA they came out at roughly 2.4–2.6 × 10⁴. From GSVA 2.0.0's <code>ssgsea</code> and <code>.fastRndWalk</code>:</p>
+<pre><code>R  &lt;- t(colRanks(X, ties.method = "average"))
+mode(R) &lt;- "integer"                  # truncates x.5 ranks
+Ra &lt;- abs(R)^alpha                    # alpha = 0.25
+geneRanking &lt;- order(R[, j], decreasing = TRUE)
+stepCDFinGeneSet  &lt;- sum(Ra[...] * (n - gSetIdx + 1)) / sum(Ra[...])
+stepCDFoutGeneSet &lt;- (n * (n + 1)/2 - sum(n - gSetIdx + 1)) / (n - k)</code></pre>
+<p>Tied zeros all get the same average rank, cast to an integer, and are then walked in their original row order.</p>
+</div>
+
+<h2>Zero policy, and what leaks in</h2>
+<p><strong>Zeros:</strong> one enormous tie, walked in an order set by nothing but where each gene sits in the matrix. With thousands of zeros per cell, a large share of every set's walk positions is effectively arbitrary.</p>
+<p><strong>From outside the set:</strong> the complete ranking of every gene — the most exposed of all seven.</p>
+
+<h2>Through the four scenarios</h2>
+<div class="table-wrap"><table>
+<tr><th></th><th>Paper result</th><th>Our reading</th></tr>
+<tr><td><span class="s-tag s1">S1</span></td><td>Sensitivity <strong>6–17%</strong>; false positives under 1%.</td><td>It almost never fires. Sums over tens of thousands of steps, most through zeros, drown a 20% change in a few genes.</td></tr>
+<tr><td><span class="s-tag s2">S2</span></td><td>Sensitivity <strong>0–1.5%</strong>; false positives 0%.</td><td>Sparse signal plus a zero-dominated walk: nothing left to see.</td></tr>
+<tr><td><span class="s-tag s3">S3</span></td><td>Detected sets without condition-specific genes, and <em>improved</em> as the imbalance grew, "due to its intrinsic ranking procedures".</td><td>The one change it does see is the one it shouldn't: extra genes shift where everything else sits in the ranking.</td></tr>
+<tr><td><span class="s-tag s4">S4</span></td><td>Same pattern, weaker.</td><td></td></tr>
+</table></div>
+<ul>
+<li><strong>Cells:</strong> the only method that did <em>not</em> improve with more cells.</li>
+<li><strong>Imputation:</strong> one of the two biggest beneficiaries — filling zeros breaks the giant tie.</li>
+<li><strong>Real data:</strong> on the PBMC data it found the fewest pathways, and 3 of 329 pathways only it found — one of them taste transduction, 86 genes of which only 15 were expressed. The paper's reading: ssGSEA picks up small pathways with low expression.</li>
+</ul>
+<div class="callout warn">
+<div class="tag">Where the toy disagrees</div>
+<p>The <a href="../playground.html">playground</a>'s ssGSEA detects real signal easily; it does not reproduce the paper's near-total failure. The toy has far fewer genes (3,000–6,000 vs. about 20,000), so each walk has far fewer zero steps diluting the set genes. The formula is verified identical to GSVA's; the scale is what differs.</p>
+</div>
+
+<h2>On our A1 data</h2>
+<p>ssGSEA ranked Hippocampal CA4 1st on the 8-gene panel and 10th on the 61-gene panel. On Tabula Sapiens it was the method least in agreement with the others (Spearman ρ 0.31–0.67). Given the paper, it is the weakest of the seven for anything in this project.</p>
+
+<div class="pager">
+  <a href="ucell.html"><span class="lbl">Previous</span>UCell</a>
+  <a href="jasmine.html" style="text-align:right"><span class="lbl">Next</span>JASMINE</a>
+</div>
+
+</article></main></div>
+<script>
+(function () {
+  const svg = document.getElementById("walk");
+  const NS = "http://www.w3.org/2000/svg";
+  const add = (tag, a, t) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); if (t) e.textContent = t; svg.appendChild(e); return e; };
+  // toy cell walked highest-first: A F B D J H C E G I (zeros C,E,G,I in index order)
+  const genes = ["A", "F", "B", "D", "J", "H", "C", "E", "G", "I"];
+  const inSet = new Set(["B", "D", "G"]);
+  // integer ascending ranks after truncation, for weights: zeros tie at 2.5 -> 2
+  const R = { A: 10, F: 9, B: 8, D: 7, J: 6, H: 5, C: 2, E: 2, G: 2, I: 2 };
+  const w = g => Math.pow(R[g], 0.25);
+  const wTot = [...inSet].reduce((s, g) => s + w(g), 0);
+  const nOut = genes.length - inSet.size;
+  let pin = 0, pout = 0;
+  const pts = [[0, 0, 0]];
+  genes.forEach(g => { if (inSet.has(g)) pin += w(g) / wTot; else pout += 1 / nOut; pts.push([pts.length, pin, pout]); });
+  const X = i => 30 + i * 27, Y = v => 150 - v * 120;
+  add("line", { x1: X(0), y1: Y(0), x2: X(10), y2: Y(0), class: "axis" });
+  add("line", { x1: X(0), y1: Y(0), x2: X(0), y2: Y(1.05), class: "axis" });
+  add("text", { x: 6, y: Y(1) + 4 }, "1");
+  add("text", { x: 6, y: Y(0) + 4 }, "0");
+  genes.forEach((g, i) => add("text", { x: X(i + 1) - 4, y: 166 }, g));
+  let area = `M${X(0)},${Y(0)}`;
+  pts.forEach(p => { area += ` L${X(p[0])},${Y(p[1])}`; });
+  for (let i = pts.length - 1; i >= 0; i--) area += ` L${X(pts[i][0])},${Y(pts[i][2])}`;
+  add("path", { d: area + " Z", class: "diff" });
+  add("path", { d: "M" + pts.map(p => `${X(p[0])},${Y(p[1])}`).join(" L"), class: "in" });
+  add("path", { d: "M" + pts.map(p => `${X(p[0])},${Y(p[2])}`).join(" L"), class: "out" });
+  add("text", { x: X(0) + 4, y: 176 }, "walk position (highest expression first)");
+})();
+</script>
+</body>
+</html>

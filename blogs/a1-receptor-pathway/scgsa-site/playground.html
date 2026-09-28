@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="playground">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playground</title>
+<link rel="stylesheet" href="static/style.css">
+<script defer src="static/common.js"></script>
+<script defer src="static/scgsa.js"></script>
+<script defer src="static/playground.js"></script>
+<style>
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; margin: 1rem 0; font: 14px/1.45 system-ui, -apple-system, sans-serif; }
+  .panel h3 { margin: 0 0 0.7rem; font-size: 15px; }
+  .controls { display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: 0.8rem 1rem; }
+  .controls label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 0.25rem; font-weight: 600; }
+  select, input[type=number] { width: 100%; font: 14px system-ui, sans-serif; padding: 0.4rem 0.5rem; border-radius: 7px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+  .row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.9rem; align-items: center; }
+  .btn { font: 600 13.5px/1 system-ui, sans-serif; padding: 0.6rem 0.9rem; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--bg); cursor: pointer; }
+  .btn.ghost { background: transparent; color: var(--accent); }
+  .btn:disabled { opacity: 0.5; cursor: wait; }
+  .status { color: var(--muted); font-size: 13px; }
+  .summary { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 0.6rem; margin-top: 0.8rem; }
+  .summary div { background: var(--bg); border-radius: 8px; padding: 0.55rem 0.7rem; }
+  .summary b { display: block; font-size: 17px; }
+  .summary span { font-size: 12px; color: var(--muted); }
+  .mrow { display: grid; grid-template-columns: 8.5rem 1fr 7.5rem; gap: 0.6rem; align-items: center; padding: 0.35rem 0; border-bottom: 1px solid var(--line); }
+  .mrow:last-child { border-bottom: none; }
+  .mrow .name { font-weight: 600; font-size: 13.5px; }
+  .mrow .name small { display: block; font-weight: 400; color: var(--muted); font-size: 11.5px; }
+  .mrow svg { width: 100%; height: 46px; display: block; }
+  .mrow .p { text-align: right; font-variant-numeric: tabular-nums; font-size: 13px; }
+  .dot-c { fill: var(--muted); opacity: 0.55; }
+  .dot-t { fill: var(--s1); opacity: 0.6; }
+  .med { stroke: var(--ink); stroke-width: 2; }
+  .legend2 { font-size: 12.5px; color: var(--muted); display: flex; gap: 1rem; margin-bottom: 0.3rem; }
+  .legend2 i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 0.3rem; }
+  #sweep svg { width: 100%; max-width: 40rem; height: auto; }
+  #sweep .ax { stroke: var(--muted); stroke-width: 1; }
+  #sweep text { fill: var(--muted); font-size: 11px; }
+  @media (max-width: 560px) { .mrow { grid-template-columns: 6.5rem 1fr 5.5rem; } }
+</style>
+</head>
+<body>
+<div class="layout"><main><article class="content wide">
+
+<div class="kicker">Hands on</div>
+<h1>Playground</h1>
+<p class="lede">Simulate the paper's scenarios in your browser and run all seven methods on them. Each method uses the same formula as its R package, checked against the real packages on identical data.</p>
+
+<div class="callout warn" style="max-width:46rem">
+<div class="tag">Mechanisms, not magnitudes</div>
+<p>The simulator is much smaller than the paper's data (3,000–6,000 genes, not ~20,000) and its exact regime is a guess. It reproduces the scenario 3 false positives, their growth with gene set size, and scPS's immunity. It does <em>not</em> reproduce ssGSEA's near-total failure, or UCell's low scenario-1 false-positive rate. See <a href="compare.html">what matches</a>.</p>
+</div>
+
+<div class="panel">
+<h3>1 · Simulate a dataset</h3>
+<div class="controls">
+  <div><label for="scenario">Scenario</label>
+    <select id="scenario">
+      <option value="1">S1 · +20% on dense genes</option>
+      <option value="2">S2 · +20% on random genes</option>
+      <option value="3">S3 · no signal, extra dense genes</option>
+      <option value="4">S4 · no signal, extra sparse genes</option>
+    </select></div>
+  <div><label for="regime">Expression regime</label>
+    <select id="regime">
+      <option value="dense">dense · 3,000 genes</option>
+      <option value="sparse">sparse · 6,000 genes (more realistic)</option>
+    </select></div>
+  <div><label for="cells">Cells per group</label>
+    <select id="cells">
+      <option>20</option><option>50</option><option selected>200</option><option>500</option>
+    </select></div>
+  <div><label for="inject">Where the change is applied</label>
+    <select id="inject">
+      <option value="log">after normalisation (as the paper)</option>
+      <option value="counts">before normalisation (leaks)</option>
+    </select></div>
+  <div><label for="seed">Seed</label><input id="seed" type="number" value="7" min="1"></div>
+</div>
+<div class="row"><button class="btn" id="simulate">Simulate</button><span class="status" id="simstatus"></span></div>
+<div class="summary" id="summary"></div>
+</div>
+
+<div class="panel">
+<h3>2 · Build a gene set and score it</h3>
+<div class="controls">
+  <div><label for="size">Gene set size</label>
+    <select id="size"><option>10</option><option>25</option><option>50</option><option selected>100</option><option>200</option></select></div>
+  <div id="noiseBox"><label for="noise">Noise: share of non-signal genes</label>
+    <select id="noise"><option value="0">0% (all signal)</option><option value="0.2">20%</option><option value="0.5">50%</option><option value="0.8">80%</option><option value="1">100% (no signal — null)</option></select></div>
+  <div id="csBox" hidden><label for="cs">Condition-specific share of the set</label>
+    <select id="cs"><option value="0">0% (null)</option><option value="0.02">2%</option><option value="0.05">5%</option><option value="0.1">10%</option><option value="0.2">20%</option></select></div>
+</div>
+<div class="row">
+  <button class="btn" id="one" disabled>Score one gene set</button>
+  <button class="btn ghost" id="rec" disabled>Recovery over 30 sets</button>
+  <button class="btn ghost" id="sw" disabled>Sweep gene set size</button>
+  <span class="status" id="setstatus"></span>
+</div>
+</div>
+
+<div class="panel" id="onePanel" hidden>
+<h3>One gene set: scores per cell</h3>
+<div class="legend2"><span><i style="background:var(--muted)"></i>control</span><span><i style="background:var(--s1)"></i>treatment</span><span>black tick = median · right: two-sided Wilcoxon p</span></div>
+<div id="strips"></div>
+<p class="status" id="onenote"></p>
+</div>
+
+<div class="panel" id="recPanel" hidden>
+<h3 id="recTitle">Recovery rate</h3>
+<div class="table-wrap"><table id="recTable"></table></div>
+<p class="status" id="recnote"></p>
+</div>
+
+<div class="panel" id="sweep" hidden>
+<h3 id="swTitle">Recovery vs. gene set size</h3>
+<div id="swChart"></div>
+<p class="status" id="swnote"></p>
+</div>
+
+<h2>Things to try</h2>
+<ul>
+<li><a href="#s3-null">Scenario 3, null sets</a>: condition-specific share 0%, recovery over 30 sets. Everything except scPS fires.</li>
+<li>Then <strong>Sweep gene set size</strong> on the same setting: the "bigger is shadier" curve.</li>
+<li><a href="#s1-null">Scenario 1, noise 100%</a>: AUCell, JASMINE and SCSE flag gene sets containing no signal gene.</li>
+<li>Scenario 1 again, with <strong>before normalisation</strong>: raising the densest genes shrinks every other gene through the library size, and more methods start seeing ghosts.</li>
+<li><a href="#s2-signal">Scenario 2, sparse regime, 20 cells per group</a>: scPS loses power before the rank-based methods do (about 40% against 100% for AUCell, UCell and JASMINE), as the paper found below 50 cells.</li>
+<li><a href="#s2-small">Scenario 2, gene set size 25, 20 cells</a>: AUCell and JASMINE — the pair the paper recommends for small sparse sets — keep their power while AddModuleScore, SCSE and scPS drop to about a third.</li>
+</ul>
+
+</article></main></div>
+</body>
+</html>
