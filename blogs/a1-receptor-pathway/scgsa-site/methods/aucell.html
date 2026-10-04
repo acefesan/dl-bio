@@ -30,10 +30,11 @@
 <p>AUCell (Aibar et al. 2017, part of SCENIC) was designed to decide whether a regulon is "on" in a cell. The intuition: if a program is active, its genes should be among the cell's most highly expressed genes. So instead of averaging values, it looks at <em>where</em> the set's genes land in the cell's own ranking, and only near the top.</p>
 
 <h2>The computation</h2>
-<p>For each cell, rank all \(G\) genes by expression, highest first. Walking down the ranking, let \(y(r)\) be the number of set genes seen by rank \(r\). This <em>recovery curve</em> climbs by one at each set gene. The score is the area under it, up to a cutoff rank \(R_{\max}\), divided by the largest area possible for a set of that size:</p>
+<p>For each cell, rank all \(G\) genes by expression, highest first (\(G\) is the total number of genes, \(S\) the gene set, \(k = |S|\)). Walking down the ranking, let \(y_c(r)\) be the number of set genes seen by rank \(r\) in cell \(c\). This <em>recovery curve</em> climbs by one at each set gene. The score is the area under it, up to a cutoff rank \(R_{\max}\), divided by the largest area possible for a set of that size:</p>
 $$\text{AUC}_c = \frac{\int_0^{R_{\max}} y_c(r)\,dr}{\int_0^{R_{\max}} y_{\text{best}}(r)\,dr}$$
-<p>where \(y_{\text{best}}\) is the curve you'd get if every set gene occupied the top ranks. In the code the integral is a sum over the set genes' sorted ranks \(x_1 < x_2 < \dots\) that fall below the cutoff:</p>
-$$\text{area} = \sum_i (x_{i+1} - x_i)\cdot i, \qquad x_{\text{last}+1} = R_{\max}$$
+<p>where \(r\) is a rank position (1 = the most highly expressed gene) and \(y_{\text{best}}\) is the curve you'd get if every set gene occupied the top \(k\) ranks. In the code the integral is a sum over the set genes' sorted ranks \(\rho_1 < \rho_2 < \dots < \rho_m\) that fall inside the cutoff (\(m\) is how many do; \(m \le k\)). The curve sits at height \(i\) between \(\rho_i\) and \(\rho_{i+1}\), so:</p>
+$$\text{area} = \sum_{i=1}^{m} (\rho_{i+1} - \rho_i)\cdot i, \qquad \rho_{m+1} = R_{\max}$$
+<p>The same formula with \(\rho_i = i\) (set genes at ranks \(1, \dots, k\)) gives the denominator.</p>
 
 <h2>On our toy cell</h2>
 <p>Ten genes is too few for a 5% cutoff, so use \(R_{\max} = 5\) for illustration. The set's ranks are B = 3, D = 4, and G is one of the tied zeros, landing somewhere in 7–10 — outside the window.</p>

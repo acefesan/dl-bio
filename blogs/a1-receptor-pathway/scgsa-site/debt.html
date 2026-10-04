@@ -29,7 +29,7 @@
 </div>
 <details>
 <summary>Open the explanation</summary>
-<p><strong>A count is a sample, not a measurement.</strong> Suppose gene \(g\) makes up a fraction \(p_g\) of a cell's mRNA and the droplet captures \(N\) molecules. The count is roughly Poisson with mean \(N p_g\) — or negative binomial, once cell-to-cell variation is included — so</p>
+<p><strong>A count is a sample, not a measurement.</strong> Suppose gene \(g\) makes up a fraction \(p_g\) of a cell's mRNA (its share of all molecules) and the droplet captures \(N\) molecules in total. The count is roughly Poisson with mean \(N p_g\) — or negative binomial, once cell-to-cell variation is included — so</p>
 $$P(\text{count} = 0) \approx e^{-N p_g}.$$
 <p>A gene at 1 part in 10,000, in a cell captured at 3,000 molecules, reads zero three times out of four <em>while being expressed</em>. A zero means "no molecules were captured". Whether that is surprising depends entirely on how many you expected.</p>
 <p><strong>One cell can't tell you which kind of zero you have.</strong> A biological zero and a sampling zero produce the same data. There is no per-cell test.</p>
@@ -71,11 +71,19 @@ $$P(\text{count} = 0) \approx e^{-N p_g}.$$
 <details>
 <summary>Open the explanation</summary>
 <p><strong>What the paper observed.</strong> In scenarios 3 and 4, "large gene sets, even without the condition-specific expression, led to a higher false-positive discovery rate" (Figure 5). The playground's toy shows it clearly: in scenario 3, sets with no condition-specific genes are falsely flagged 50–100% of the time at size 10, and about 100% of the time from size 50 up.</p>
-<p><strong>The mechanism: bias doesn't average out, noise does.</strong> Model one gene's contribution in cell \(c\) as</p>
+<p><strong>The mechanism: bias doesn't average out, noise does.</strong> Model one gene's contribution \(x_{gc}\) to the score in cell \(c\) as a baseline plus a shift plus noise:</p>
 $$x_{gc} = \mu_g + \delta\cdot\mathbb{1}[c \in \text{treatment}] + \varepsilon_{gc}, \qquad \operatorname{Var}(\varepsilon) = \sigma^2,$$
-<p>where \(\delta\) is a small shift every gene picks up because the <em>context</em> changed: extra genes pushing ranks down, a larger denominator, shifted control bins. Averaging \(k\) such genes:</p>
-$$\bar{x}_c = \bar\mu + \delta\cdot\mathbb{1}[\cdot] + \bar\varepsilon_c, \qquad \operatorname{Var}(\bar\varepsilon) = \sigma^2 / k.$$
-<p>The shift \(\delta\) is untouched by averaging; the noise shrinks. The group difference the test sees, measured in units of within-group spread, grows like</p>
+<p>where:</p>
+<ul>
+<li>\(\mu_g\) is gene \(g\)'s typical contribution, the same in every cell.</li>
+<li>\(\mathbb{1}[c \in \text{treatment}]\) is an <em>indicator</em>: 1 if cell \(c\) is in the treatment group, 0 if it is a control.</li>
+<li>\(\delta\) is a small shift every gene picks up in treatment cells because the <em>context</em> changed: extra genes pushing ranks down, a larger denominator, shifted control bins. It is not biology.</li>
+<li>\(\varepsilon_{gc}\) is random cell-to-cell noise with variance \(\sigma^2\).</li>
+</ul>
+<p>A set score averages \(k\) such genes, where \(k\) is the number of genes in the set. Writing a bar for an average over the set's genes:</p>
+$$\bar{x}_c = \bar\mu + \delta\cdot\mathbb{1}[c \in \text{treatment}] + \bar\varepsilon_c, \qquad \operatorname{Var}(\bar\varepsilon_c) = \sigma^2 / k$$
+<p>(assuming, for this argument, that the noise is independent across genes).</p>
+<p>The shift \(\delta\) is untouched by averaging; the noise standard deviation shrinks from \(\sigma\) to \(\sigma/\sqrt{k}\). The group difference the test sees, measured in units of within-group spread (the standard deviation of the noise), grows like</p>
 $$\frac{\delta}{\sigma/\sqrt{k}} = \frac{\delta\sqrt{k}}{\sigma}.$$
 <p>With 200 cells per group the Wilcoxon test is sensitive, so as \(k\) grows, a shift that was invisible for one gene becomes "significant" for a hundred. Real gene-to-gene noise is correlated, so the gain is slower than \(\sqrt{k}\), but the direction holds.</p>
 <p><strong>Power doesn't know what caused the shift.</strong> Exactly the same arithmetic makes large sets better at finding <em>real</em> signal — which is why every method except ssGSEA does well above 100 genes in scenarios 1 and 2. Bigger sets amplify whatever systematic difference exists. In S1/S2 that difference is the planted signal; in S3/S4 it is purely an artifact of context.</p>

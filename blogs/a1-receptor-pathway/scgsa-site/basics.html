@@ -27,10 +27,20 @@
 </table></div>
 <p>The cell captured 30 molecules in total. Gene G is in our set but reads zero.</p>
 
+<div class="callout ours">
+<div class="tag">Notation used on every page</div>
+<ul>
+<li>\(g\) is a gene and \(c\) is a cell. \(G\) is the total number of genes (10 in the toy cell, roughly 20,000 in real data).</li>
+<li>\(S\) is the gene set being scored, and \(k = |S|\) is the number of genes in it (here \(S = \{B, D, G\}\), \(k = 3\)).</li>
+<li>\(\text{count}_{gc}\) is the raw count of gene \(g\) in cell \(c\). \(x_{gc}\) is the same entry after the normalisation below. All logs are natural logs.</li>
+<li>A <em>score</em> \(s_c\) is the single number a method assigns to cell \(c\) for the set \(S\).</li>
+</ul>
+</div>
+
 <h2>2. Normalisation: making cells comparable</h2>
 <p>Two cells with identical biology can differ tenfold in total counts just because one droplet captured more. Every method in the paper runs on Seurat's <em>LogNormalize</em> output (the <code>data</code> layer), which divides by the cell's total, scales to 10,000 and takes a log:</p>
 $$x_{gc} = \log\!\left(1 + \frac{\text{count}_{gc}}{\sum_{g'} \text{count}_{g'c}} \times 10^4\right)$$
-<p>For our cell, gene A becomes \(\log(1 + 12/30 \times 10^4) = 8.29\), gene B becomes 7.42, and every zero stays exactly 0.</p>
+<p>Here \(\text{count}_{gc}\) is the raw count of gene \(g\) in cell \(c\), and \(g'\) is a dummy index that runs over <em>all</em> \(G\) genes, so the denominator is the cell's total count. For our cell, gene A becomes \(\log(1 + 12/30 \times 10^4) = 8.29\), gene B becomes 7.42, and every zero stays exactly 0.</p>
 
 <div class="callout ours">
 <div class="tag">Keep this in mind</div>
@@ -43,7 +53,7 @@ $$x_{gc} = \log\!\left(1 + \frac{\text{count}_{gc}}{\sum_{g'} \text{count}_{g'c}
 <li><strong>Biological zero</strong> — the gene really isn't expressed in this cell.</li>
 <li><strong>Sampling zero</strong> (often called <em>dropout</em>) — the gene is expressed, but none of its molecules happened to be captured.</li>
 </ul>
-<p>From a single cell you cannot tell which. If a gene truly makes up a fraction \(p\) of a cell's mRNA and you capture \(N\) molecules, the chance of seeing zero is roughly \(e^{-Np}\). For a gene at 1 molecule in 10,000 in a cell captured at 3,000 molecules, that is \(e^{-0.3} \approx 0.74\): a three-in-four chance of reading zero <em>even though the gene is on</em>.</p>
+<p>From a single cell you cannot tell which. If a gene truly makes up a fraction \(p\) of a cell's mRNA (its share of all molecules in the cell) and you capture \(N\) molecules in total, the expected number of captured molecules of that gene is \(Np\), and the chance of seeing zero is roughly \(e^{-Np}\) (the Poisson probability of a count of 0). For a gene at 1 molecule in 10,000 in a cell captured at 3,000 molecules, that is \(e^{-0.3} \approx 0.74\): a three-in-four chance of reading zero <em>even though the gene is on</em>.</p>
 <p>So every method has to decide what a zero means. That decision is its <strong>zero policy</strong>, and it turns out to predict a lot of the method's behaviour. The <a href="compare.html">side-by-side page</a> tabulates all seven.</p>
 
 <h2>4. Ranks, and the tie problem</h2>
@@ -67,7 +77,7 @@ $$x_{gc} = \log\!\left(1 + \frac{\text{count}_{gc}}{\sum_{g'} \text{count}_{g'c}
 <h2>5. From one score per cell to "detected"</h2>
 <p>A method gives each cell a number for the gene set. The paper then asks whether the numbers differ between the two groups of cells (control vs. treatment) with a <strong>Wilcoxon rank-sum test</strong>. The test pools both groups' scores, ranks them, and asks whether one group's ranks are systematically higher:</p>
 $$W = \sum_{c \in \text{treatment}} \operatorname{rank}(s_c) - \frac{n_1(n_1+1)}{2}$$
-<p>Under no difference, \(W\) centres on \(n_1 n_2 / 2\). The test is two-sided: it fires whether treatment scores go up <em>or down</em>. That matters later, because some artifacts push scores down.</p>
+<p>Here \(s_c\) is cell \(c\)'s score, \(\operatorname{rank}(s_c)\) is its position when all cells from both groups are sorted by score (smallest = 1), \(n_1\) is the number of treatment cells and \(n_2\) the number of control cells. Under no difference, \(W\) centres on \(n_1 n_2 / 2\). The test is two-sided: it fires whether treatment scores go up <em>or down</em>. That matters later, because some artifacts push scores down.</p>
 <p>With many gene sets tested at once, p-values are adjusted with the <strong>Benjamini–Hochberg</strong> false discovery rate. A set counts as "identified" when its adjusted p-value is below 0.05.</p>
 
 <div class="callout warn">
@@ -76,7 +86,7 @@ $$W = \sum_{c \in \text{treatment}} \operatorname{rank}(s_c) - \frac{n_1(n_1+1)}
 </div>
 
 <h2>6. How the paper grades a method</h2>
-<p>The <strong>recovery rate</strong> is the fraction of simulated gene sets a method identifies:</p>
+<p>The <strong>recovery rate</strong> is the fraction of simulated gene sets a method identifies. Here \(p\) is the Wilcoxon p-value of a gene set, adjusted by Benjamini–Hochberg across all sets tested, and \(\#\{\cdot\}\) means "the number of":</p>
 $$\text{recovery} = \frac{\#\{\text{gene sets with BH-adjusted } p < 0.05\}}{\#\{\text{gene sets simulated}\}}$$
 <p>The same number means opposite things depending on what the gene sets contain:</p>
 <ul>

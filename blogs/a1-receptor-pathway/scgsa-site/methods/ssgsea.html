@@ -30,15 +30,16 @@
 <p>Gene Set Enrichment Analysis asks whether a set's genes are concentrated at one end of a ranked list. Single-sample GSEA (Barbie et al. 2009) asks it of one sample at a time: rank that sample's genes and measure how far the set's genes are skewed toward the top. In bulk RNA-seq every gene has a meaningful value. In a single cell, most of the ranking is a giant tie of zeros.</p>
 
 <h2>The computation</h2>
-<p>Rank the cell's \(n\) genes, and walk from the top. Keep two running fractions:</p>
+<p>Rank the cell's \(n\) genes (\(n = G\), the total number of genes), and walk from the top; \(i = 1, \dots, n\) is the step number, and \(S\) is the gene set with \(k = |S|\) genes. Keep two running fractions:</p>
 <ul>
-<li>\(P_{\text{in}}(i)\): the share of the set's total weight seen so far, where each set gene weighs its rank value to the power \(\alpha = 0.25\).</li>
-<li>\(P_{\text{out}}(i)\): the share of non-set genes seen so far, each weighing the same.</li>
+<li>\(P_{\text{in}}(i)\): the share of the set's total weight seen after \(i\) steps. A set gene \(g\) has weight \(w_g = r_g^{\alpha}\), where \(r_g\) is its rank value in this cell (largest for the most highly expressed gene) and \(\alpha = 0.25\). So \(P_{\text{in}}(i) = \sum_{g \in S,\, p_g \le i} w_g \big/ \sum_{g \in S} w_g\).</li>
+<li>\(P_{\text{out}}(i)\): the share of non-set genes seen after \(i\) steps, each non-set gene weighing the same, so \(P_{\text{out}}(i) = \#\{g \notin S: p_g \le i\} \big/ (n - k)\).</li>
 </ul>
 <p>If the set is concentrated near the top, \(P_{\text{in}}\) races ahead of \(P_{\text{out}}\). ssGSEA sums the gap over the <em>whole</em> walk — unlike classic GSEA, which takes its maximum:</p>
 $$\text{ES}_c = \sum_{i=1}^{n} \big[P_{\text{in}}(i) - P_{\text{out}}(i)\big]$$
-<p>GSVA computes this in closed form. A set gene at walk position \(p_g\) is counted in \(P_{\text{in}}\) at every later step, \(n - p_g + 1\) times in all, which gives:</p>
+<p>GSVA computes this in closed form. Here \(p_g\) is the walk position of gene \(g\) (1 = the top-ranked gene). A set gene at walk position \(p_g\) is counted in \(P_{\text{in}}\) at every later step, \(n - p_g + 1\) times in all, which gives:</p>
 $$\text{ES}_c = \frac{\sum_{g \in S} w_g\,(n - p_g + 1)}{\sum_{g \in S} w_g} \;-\; \frac{\frac{n(n+1)}{2} - \sum_{g \in S}(n - p_g + 1)}{n - k}$$
+<p>The first fraction is \(\sum_i P_{\text{in}}(i)\). In the second, \(n(n+1)/2 = \sum_{p=1}^{n}(n-p+1)\) is the total over all \(n\) genes, so subtracting the set's share leaves the non-set genes' total, and dividing by \(n-k\) gives \(\sum_i P_{\text{out}}(i)\).</p>
 
 <h2>On our toy cell</h2>
 <figure><svg id="walk" viewBox="0 0 320 180" role="img" aria-label="Random walk"></svg>

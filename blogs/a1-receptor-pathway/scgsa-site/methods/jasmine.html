@@ -25,23 +25,23 @@
 </ul>
 
 <h2>The computation</h2>
-<p>For cell \(c\), let \(E_c\) be its expressed (nonzero) genes. Rank them ascending, so the highest gets rank \(|E_c|\).</p>
+<p>For cell \(c\), let \(E_c\) be the set of its expressed (nonzero) genes, \(|E_c|\) how many there are, and \(S\) the gene set. Rank the genes in \(E_c\) ascending among themselves, so the highest gets rank \(|E_c|\); \(\operatorname{rank}(g)\) is gene \(g\)'s rank in that list. \(S \cap E_c\) is the set genes that are expressed.</p>
 $$\text{RM}_c = \frac{\operatorname{mean}_{g \in S \cap E_c}\operatorname{rank}(g)}{|E_c|} \qquad (0 \text{ if no set gene is expressed})$$
-<p>Then the 2×2 detection table:</p>
+<p>Then the 2×2 detection table for that cell, whose entries are counts of genes (\(n_{11}\) = set genes that are expressed, and so on):</p>
 <div class="table-wrap"><table style="max-width:26rem">
 <tr><th></th><th>expressed</th><th>not expressed</th></tr>
-<tr><td>in set</td><td class="num">\(a\)</td><td class="num">\(b\)</td></tr>
-<tr><td>not in set</td><td class="num">\(c\)</td><td class="num">\(d\)</td></tr>
+<tr><td>in set</td><td class="num">\(n_{11}\)</td><td class="num">\(n_{12}\)</td></tr>
+<tr><td>not in set</td><td class="num">\(n_{21}\)</td><td class="num">\(n_{22}\)</td></tr>
 </table></div>
-$$\text{OR}_c = \frac{a \cdot d}{b \cdot c} \qquad (b \text{ or } c \text{ set to 1 if zero})$$
-<p>Rescale each across <em>all cells being scored</em>, then average:</p>
+$$\text{OR}_c = \frac{n_{11} \cdot n_{22}}{n_{12} \cdot n_{21}} \qquad (n_{12} \text{ or } n_{21} \text{ set to 1 if zero})$$
+<p>Rescale each across <em>all cells being scored</em>, then average. Here \(\text{RM}\) and \(\text{OR}\) stand for the vectors of those values over all cells, and \(\min v\), \(\max v\) are taken over all cells:</p>
 $$\text{JASMINE}_c = \tfrac{1}{2}\Big[\operatorname{minmax}(\text{RM})_c + \operatorname{minmax}(\text{OR})_c\Big], \qquad \operatorname{minmax}(v)_c = \frac{v_c - \min v}{\max v - \min v}$$
 
 <h2>On our toy cell</h2>
 <p>The expressed genes are A, B, D, F, H, J. Ranked ascending among themselves: H 1, J 2, D 3, B 4, F 5, A 6. The expressed set genes are B (4) and D (3); G is not expressed and is simply absent.</p>
 $$\text{RM} = \frac{(4 + 3)/2}{6} = 0.58$$
 <p>Detection table: in the set, 2 expressed (B, D) and 1 not (G); outside it, 4 expressed (A, F, H, J) and 3 not (C, E, I).</p>
-$$\text{OR} = \frac{2 \times 3}{1 \times 4} = 1.5$$
+$$\text{OR} = \frac{n_{11} n_{22}}{n_{12} n_{21}} = \frac{2 \times 3}{1 \times 4} = 1.5$$
 <p>Neither number is the score yet: both are rescaled against every other cell before averaging. A single cell has no JASMINE score on its own.</p>
 
 <div class="callout code">
@@ -64,15 +64,15 @@ JAS_Scores = (NormalizationJAS(RM) + NormalizationJAS(OR)) / 2</code></pre>
 
 <h2>Zero policy, and what leaks in</h2>
 <p><strong>Zeros:</strong> removed from the ranking, then counted as evidence in the odds ratio. The most deliberate zero policy of the seven.</p>
-<p><strong>From outside the set:</strong> twice over. The rank term depends on how many genes the cell expresses and where they sit; the odds ratio depends directly on how many non-set genes are detected (\(c\)); and min–max scaling depends on every other cell.</p>
+<p><strong>From outside the set:</strong> twice over. The rank term depends on how many genes the cell expresses and where they sit; the odds ratio depends directly on how many non-set genes are detected (\(n_{21}\)); and min–max scaling depends on every other cell.</p>
 
 <h2>Through the four scenarios</h2>
 <div class="table-wrap"><table>
 <tr><th></th><th>Paper result</th><th>Our reading</th></tr>
 <tr><td><span class="s-tag s1">S1</span></td><td>Sensitivity 100%. False positives <strong>74% (SSD) and 99.7% (RWSD)</strong> — the highest in the benchmark.</td><td>The rising signal genes are expressed genes, so they reshuffle the ranking among expressed genes that the rank term uses. The paper's explanation: reliance on rank "without accounting for the magnitude of changes".</td></tr>
 <tr><td><span class="s-tag s2">S2</span></td><td>Sensitivity 100%; false positives 6–25%.</td><td>Handles sparsity best: separating detection from rank means a set of rarely detected genes still produces a signal through the odds ratio.</td></tr>
-<tr><td><span class="s-tag s3">S3</span></td><td>Detected sets without condition-specific genes.</td><td>Extra detected genes raise \(c\), lowering the odds ratio, and enlarge \(|E_c|\), shifting the rank term. Hit twice.</td></tr>
-<tr><td><span class="s-tag s4">S4</span></td><td>Fewer false positives; a few in RWSD.</td><td>Sparse extra genes raise \(c\) only slightly.</td></tr>
+<tr><td><span class="s-tag s3">S3</span></td><td>Detected sets without condition-specific genes.</td><td>Extra detected genes raise \(n_{21}\), lowering the odds ratio, and enlarge \(|E_c|\), shifting the rank term. Hit twice.</td></tr>
+<tr><td><span class="s-tag s4">S4</span></td><td>Fewer false positives; a few in RWSD.</td><td>Sparse extra genes raise \(n_{21}\) only slightly.</td></tr>
 </table></div>
 <ul>
 <li><strong>Dropout:</strong> "this dual consideration of both gene set rank and the comprehensive gene expression profile led to a higher recovery rate when the data had a higher dropout rate, like SSD."</li>

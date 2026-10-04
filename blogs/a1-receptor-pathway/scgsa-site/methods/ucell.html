@@ -22,7 +22,7 @@
 <p>Unlike AUCell, UCell uses every set gene's rank, not just whether it crossed a line — until the cap. Genes below rank 1,500 are all treated as rank 1,500.</p>
 
 <h2>The computation</h2>
-<p>Rank the cell's genes highest-first, averaging ties. Cap each set gene's rank at \(R_{\max}\). For a set of \(k\) genes with capped ranks \(r_1, \dots, r_k\):</p>
+<p>Rank the cell's genes highest-first, averaging ties. Cap each set gene's rank at \(R_{\max}\) (any rank beyond it counts as \(R_{\max}\); the paper's pipeline uses 1,500). For a set \(S\) of \(k\) genes, let \(r_1, \dots, r_k\) be the capped ranks of its genes, where rank 1 is the most highly expressed gene, and \(i\) indexes the set's genes:</p>
 $$\text{UCell} = 1 - \frac{\sum_i r_i - \frac{k(k+1)}{2}}{k \cdot R_{\max} - \frac{k(k+1)}{2}}$$
 <p>Where each piece comes from:</p>
 <ul>

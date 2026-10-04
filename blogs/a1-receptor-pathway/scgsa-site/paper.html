@@ -16,6 +16,8 @@
   .jumps button:hover { border-color: var(--accent); }
   .page-wrap { margin: 0 auto 1.1rem; max-width: 60rem; position: relative; }
   .page-wrap canvas { width: 100%; height: auto; display: block; border-radius: 4px; box-shadow: 0 1px 6px rgba(0,0,0,0.18); background: #fff; }
+  :root[data-theme="dark"] .page-wrap canvas { filter: brightness(0.85); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .page-wrap canvas { filter: brightness(0.85); } }
   .page-wrap .pn { font: 12px system-ui, sans-serif; color: var(--muted); margin: 0.3rem 0 0; text-align: center; }
   #status { font: 13px system-ui, sans-serif; color: var(--muted); }
 </style>

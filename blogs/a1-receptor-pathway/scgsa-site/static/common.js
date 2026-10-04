@@ -54,18 +54,32 @@
     if (act) act.scrollIntoView({ inline: "center", block: "nearest" });
   }
 
-  const KEY = "scgsa-theme";
+  // Theme: "auto" (default) follows the system via prefers-color-scheme in CSS;
+  // "light"/"dark" are explicit overrides set from the button. Old key
+  // "scgsa-theme" is ignored so a stale override can't pin the site.
+  const KEY = "scgsa-theme-pref";
+  const MODES = ["auto", "light", "dark"];
+  const btn = side.querySelector(".theme-toggle");
+  let mode = "auto";
   try {
     const saved = localStorage.getItem(KEY);
-    if (saved) document.documentElement.dataset.theme = saved;
+    if (MODES.includes(saved)) mode = saved;
+    localStorage.removeItem("scgsa-theme");
   } catch (e) { /* storage unavailable */ }
 
-  side.querySelector(".theme-toggle").addEventListener("click", () => {
-    const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const cur = document.documentElement.dataset.theme || (dark ? "dark" : "light");
-    const next = cur === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    try { localStorage.setItem(KEY, next); } catch (e) { /* ignore */ }
+  function applyTheme() {
+    if (mode === "auto") delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = mode;
+    const sys = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    btn.textContent = mode === "auto" ? `Theme: auto (${sys})` : `Theme: ${mode}`;
+  }
+  applyTheme();
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme);
+
+  btn.addEventListener("click", () => {
+    mode = MODES[(MODES.indexOf(mode) + 1) % MODES.length];
+    try { localStorage.setItem(KEY, mode); } catch (e) { /* ignore */ }
+    applyTheme();
   });
 
   function renderMath() {

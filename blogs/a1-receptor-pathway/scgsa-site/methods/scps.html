@@ -29,25 +29,26 @@
 <p>scPS adapts the authors' earlier single-person transcription-factor score (spTFscore, Cornwell et al. 2021).</p>
 
 <h2>The computation, as the paper writes it</h2>
-<p>The paper's Equation 1:</p>
+<p>The paper's Equation 1, where \(c\) is a cell, \(i\) indexes principal components (PCs) and \(m\) is how many PCs are used:</p>
 $$\text{scPS}_c = \mu_c \times \sum_{i=1}^{m} (s_{ic} - s_{\min}) \times v_i$$
 <ul>
 <li>\(\mu_c\): the mean expression of the set's genes in cell \(c\).</li>
-<li>\(s_{ic}\): cell \(c\)'s score on principal component \(i\), from PCA on the set's genes only.</li>
-<li>\(s_{\min}\): "the minimum of the \(s_i\) among all the cells", which shifts scores to be non-negative.</li>
-<li>\(v_i\): "the percentage of variance explained by the PC".</li>
-<li>\(m\): the number of PCs needed to reach 50% cumulative variance.</li>
+<li>\(s_{ic}\): cell \(c\)'s score (coordinate) on principal component \(i\), from PCA on the set's genes only.</li>
+<li>\(s_{\min}\): "the minimum of the \(s_i\) among all the cells", i.e. the smallest value of \(s_{ic}\) over all cells, which shifts scores to be non-negative.</li>
+<li>\(v_i\): "the percentage of variance explained by the PC", i.e. the fraction of the set's total variance that PC \(i\) accounts for (written as a fraction, not a percentage, below).</li>
+<li>\(m\): the number of PCs needed to reach 50% cumulative variance, \(v_1 + \dots + v_m > 0.5\).</li>
 </ul>
 
 <h2>The computation, as the code does it</h2>
 <ol>
 <li><code>ScaleData</code>: centre and scale each set gene across all cells (z-scores, clipped at 10).</li>
 <li><code>RunPCA(features = set, npcs = 10, weight.by.var = FALSE)</code>. Cell embeddings are the unit-length left singular vectors.</li>
-<li>\(v_i = \sigma_i^2 / \sum_j \sigma_j^2\) over the PCs Seurat stored; \(m\) = the first PC where the cumulative sum exceeds 0.5.</li>
+<li>\(v_i = \sigma_i^2 / \sum_j \sigma_j^2\), where \(\sigma_i\) is the standard deviation of PC \(i\) (so \(\sigma_i^2\) is its variance) and \(j\) runs over the PCs Seurat stored; \(m\) = the first PC where the cumulative sum of \(v\) exceeds 0.5.</li>
 <li>Shift the whole embedding matrix by its single smallest value.</li>
 <li>Per cell: the square root of the \(v\)-weighted sum of shifted scores over the first \(m\) PCs, times the mean of the set's log-normalised expression.</li>
 </ol>
 $$\text{scPS}_c = \mu_c \times \sqrt{\sum_{i=1}^{m} \big(s_{ic} - \min_{j,c'} s_{jc'}\big)\, v_i}$$
+<p>Same symbols as Equation 1; the only new one is \(\min_{j,c'} s_{jc'}\), the smallest embedding value over <em>every</em> PC \(j\) and <em>every</em> cell \(c'\) (a single number for the whole matrix).</p>
 
 <div class="callout warn">
 <div class="tag">Three differences between the paper and its code</div>

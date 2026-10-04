@@ -23,9 +23,9 @@
 
 <h2>The computation</h2>
 <ol>
-<li>For every gene in the dataset, compute its average expression \(\bar{x}_g\) over <em>all</em> cells.</li>
+<li>For every gene \(g\) in the dataset, compute its average expression \(\bar{x}_g\) over <em>all</em> cells, where \(x_{gc}\) is the log-normalised expression of gene \(g\) in cell \(c\).</li>
 <li>Sort genes by \(\bar{x}_g\) and cut them into 24 bins with equal numbers of genes.</li>
-<li>For each set gene \(g \in S\), sample 100 genes from its bin, without replacement. Pool and de-duplicate them into a control set \(C\).</li>
+<li>For each set gene \(g \in S\) (\(S\) is the gene set), sample 100 genes from its bin, without replacement. Pool and de-duplicate them into a control set \(C\). \(|S|\) and \(|C|\) below are the sizes of the two sets.</li>
 <li>For each cell \(c\):</li>
 </ol>
 $$\text{score}_c = \frac{1}{|S|}\sum_{g \in S} x_{gc} \;-\; \frac{1}{|C|}\sum_{g \in C} x_{gc}$$
