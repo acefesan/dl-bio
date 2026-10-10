@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="census">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What is in the Census</title>
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="static/viz.css">
+<script defer src="static/common.js"></script>
+<script defer src="static/viz.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content wide">
+
+<div class="kicker">Census (SOMA) · 1 of 4</div>
+<h1>What is in the Census, and what does a zero mean there?</h1>
+<p class="lede">Before scoring anything on the whole CELLxGENE Census, we need to know what we are holding: which assays, which tissues, which genes, and what each kind of zero stands for. Every number on this page is computed from the local copy (build 2025-11-08) and each figure says how.</p>
+
+<div class="callout ours" style="max-width:48rem">
+<div class="tag">Scope decision</div>
+<p>Everything on these four pages is restricted to <strong>10x assays</strong> (any assay name starting with "10x": 3′ v1/v2/v3, 5′ v1/v2, multiome, Flex) and to <strong>primary</strong> cells (<code>is_primary_data = True</code>), so a cell re-published by several datasets is counted once. The normalisation is the same everywhere: the Census <code>normalized</code> layer, which is the raw count divided by the cell's total count. Multiply by 10,000 to get counts per 10,000 (CP10K).</p>
+</div>
+
+<div class="viz-controls" id="orgc" style="position:sticky;top:0;z-index:3;background:var(--bg);padding:0.4rem 0"></div>
+
+<h2>1. The funnel: from every row to the cells we use</h2>
+<div class="viz">
+  <div class="viz-title">How many cells survive each filter</div>
+  <div class="viz-sub">Bars are cell counts. "Normal" means <code>disease = normal</code>.</div>
+  <div id="f1"></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p><code>census_obs_groups.py</code> streams the whole Census <code>obs</code> table (every cell record, 159.0M human and 43.7M mouse rows) in Arrow batches and counts cells per unique combination of dataset, assay, tissue, cell type, disease, nucleus/cell and primary flag, so the later figures never touch the 100M-row table again. The bars here sum those counts after each filter:
+(1) all rows; (2) rows with <code>is_primary_data</code> true; (3) of those, assays starting "10x"; (4) of those, <code>disease == "normal"</code>.
+The Census stores a cell once per dataset that contains it, which is why "all rows" is larger than the unique-cell count of 125.5M that the Census summary reports (that figure covers both organisms).</p></details>
+
+<h2>2. The assays: 10x is nearly everything, and there are two others worth knowing</h2>
+<p>You remembered two other methods. From the data:</p>
+<ul>
+<li><strong>Smart-seq</strong> (Smart-seq, -seq2, -seq3, -seq v4 all together) is tiny: 0.16M of the 96.6M human primary cells, or about <strong>0.17%</strong>. In mouse it is 0.19M of 18.4M (about 1%). Its draw is that it reads <em>full-length</em> transcripts, so it can see isoforms and variants, but it is slow and expensive per cell.</li>
+<li>The other one I think you mean is <strong>sci-RNA-seq3</strong> (combinatorial indexing, run on nuclei). It is 4.2M human primary cells (4.4%), but <strong>11.4M of the 18.4M mouse primary cells (62%)</strong>, because several whole-organism mouse atlases used it. So in mouse, "all of SOMA" is mostly <em>not</em> 10x. If that is not the method you had in mind, the full list is in the figure.</li>
+</ul>
+<div class="viz">
+  <div class="viz-title">Cells per assay</div>
+  <div class="viz-sub">Primary cells only. Colour = assay family.</div>
+  <div id="f2lg"></div><div id="f2"></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p>Same group-count table as above, filtered to <code>is_primary_data</code> and summed by the Census <code>assay</code> label. Families are my grouping of those labels: names starting "10x" form the 10x family, names starting "Smart-seq" form the Smart-seq family, "sci-RNA-seq3" is its own family, and everything else (Drop-seq, inDrop, Seq-Well, microwell-seq, BD Rhapsody, and so on) is "other". Only assays with at least 10,000 primary cells are drawn, the rest are summed into the last row.</p></details>
+
+<h2>3. Cells versus nuclei, a confound that matters for ADORA</h2>
+<p>A large share of the 10x data is not cells but <strong>nuclei</strong> (single-nucleus RNA-seq), which brain tissue needs because neurons are hard to dissociate whole. Nuclei capture nuclear RNA: more unspliced transcripts and fewer cytoplasmic or mitochondrial ones. A receptor gene can look different in a nucleus than in a whole cell for reasons unrelated to biology, so the later pages let you split every result by this flag.</p>
+<div class="viz">
+  <div class="viz-title">10x primary cells by tissue, split by whole cell versus nucleus</div>
+  <div class="viz-sub">Sorted by total. <code>tissue_general</code> is the Census's coarse grouping of the finer UBERON tissue terms.</div>
+  <div id="f3lg"></div><div id="f3"></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p>10x primary cells, grouped by <code>tissue_general</code> and <code>suspension_type</code> (the Census field that says whether the library came from whole cells or nuclei). Bars are stacked: the first segment is whole cells, the second is nuclei. "Brain" is dominated by nuclei, which is why it is the largest nucleus-heavy block.</p></details>
+
+<h2>4. What 10x actually reads, and what reference it is counted against</h2>
+<p>Your reading is close, with one refinement. 10x does sequence a piece of each transcript, but only a short one. In the standard 3′ kits, one read carries the cell barcode and a molecule tag (UMI) and the other carries roughly 90 bases of cDNA from near the <strong>3′ end</strong> of the transcript (the 5′ kits do the same from the 5′ end). That is enough to say <em>which gene this molecule came from</em> and to count it once per UMI. It is generally <strong>not</strong> enough to tell isoforms apart, and a sequence variant is visible only if it happens to sit inside that short window. The <strong>Flex</strong> chemistry is stricter still: it detects gene-specific probes, so you only learn about the targets the probe set covers, and no sequence at all. So the data supports "how much of gene X" and does not support polymorphism or isoform questions. Smart-seq, being full-length, is the Census's only real route to those, and it is under 0.2% of cells.</p>
+<p><strong>What is "the gene" in the Census?</strong> The Census does not store the submitters' own gene lists. Each dataset is curated to <strong>Ensembl gene IDs</strong> against a pinned annotation: for the schema version used by this build (7.0.0), human is GENCODE v48 (GRCh38) and mouse is GENCODE vM37 (GRCm39), according to the schema document. Submitters aligned their reads with whatever reference they had (a common default for 10x is an older GENCODE release), and the curation step maps those to the pinned IDs. The human gene table has <strong>61,497</strong> features of which only <strong>20,080 are protein-coding</strong>; the rest are lncRNAs, pseudogenes, small RNAs and similar. Gene symbols such as ADORA1 are labels attached to those IDs, so "ADORA1" always means the same Ensembl gene (<code>ENSG00000163485</code>) across datasets, which is the standardisation you asked about. I have not audited how many genes were lost or remapped in that curation step.</p>
+
+<h2>5. Four kinds of zero</h2>
+<p>You suggested a zero can also mean "the gene was not even measured". That is real in the Census, and it is common enough to matter. The four meanings:</p>
+<div class="table-wrap"><table>
+<tr><th>Zero means…</th><th>What happened</th><th>Can we tell it apart?</th></tr>
+<tr><td><strong>Biological zero</strong></td><td>The gene is not expressed in this cell.</td><td>Not from one cell. Only by comparing many similar cells.</td></tr>
+<tr><td><strong>Sampling zero</strong></td><td>The gene is expressed, but no molecule was captured.</td><td>Same as above; the chance is about e<sup>−N·p</sup> (see <a href="basics.html">Scoring from zero</a>).</td></tr>
+<tr><td><strong>Not listed</strong></td><td>The gene is not a column in this dataset at all, so it was never counted. The Census records this per dataset in its <em>presence matrix</em>.</td><td><strong>Yes, exactly.</strong> This page measures it.</td></tr>
+<tr><td><strong>Not capturable</strong></td><td>The chemistry cannot see it: Flex's probe set leaves it out, or the dataset was a targeted panel.</td><td>Mostly: these datasets have very short gene lists.</td></tr>
+</table></div>
+<p>For 10x 3′ and 5′ the assay can in principle capture any polyadenylated transcript, so <em>not listed</em> usually reflects what the submitter <strong>kept</strong> (many filter out genes seen in only a few cells) rather than what the assay could see. Either way the zero is not evidence of absence: the cell never got a chance to report the gene. Figure 5a shows how short the gene lists are.</p>
+
+<div class="viz">
+  <div class="viz-title">5a. How many genes each 10x dataset lists</div>
+  <div class="viz-sub">Share of 10x primary cells (not datasets) whose dataset lists this many genes. Full table is 60,606 genes in human.</div>
+  <div id="f5"></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p>Every cell in the Census carries <code>n_measured_vars</code>, the number of genes in its dataset's feature list. Taking the maximum of it per dataset (it is constant within a dataset) gives one value per dataset. Datasets are then binned by gene-list size and each bin shows the share of <strong>cells</strong> from datasets in that bin, so a 500,000-cell atlas counts for more than a 5,000-cell one. The shortest lists are almost all datasets whose authors filtered genes hard, or Flex probe sets (about 14,000 targets).</p></details>
+
+<div class="viz">
+  <div class="viz-title">5b. Genes ranked by how many cells could have counted them</div>
+  <div class="viz-sub">For each gene, the fraction of 10x primary cells whose dataset lists it. Bars are numbers of genes.</div>
+  <div class="viz-controls" id="f6c"></div>
+  <div id="f6"></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p>The Census <code>feature_dataset_presence_matrix</code> is a (datasets × genes) table of ones for every gene a dataset lists. <code>census_overview_data.py</code> reads it whole and, for each gene, sums the 10x primary cell counts of the datasets that list it, divided by the total number of 10x primary cells. Genes are then binned by that fraction. The 11,059 human genes in the last bin are the ones almost every dataset lists; the 25,349 in "&lt;25%" are mostly lncRNAs and pseudogenes that most datasets dropped.</p></details>
+
+<h3>The four receptors specifically</h3>
+<div class="viz">
+  <div class="viz-title">Share of 10x primary cells that could have counted each adenosine receptor</div>
+  <div class="viz-sub">The remainder are "not listed" zeros. GAPDH is the control, since nobody drops it.</div>
+  <div id="f7"></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p>The four genes' values from the same per-gene calculation as 5b. In human, ADORA2B is listed by every 10x dataset but <strong>ADORA2A by about 89% of cells and ADORA3 by about 83%</strong>. Those missing cells cannot say anything about the gene. The later pages therefore use <em>cells that could have counted the gene</em> as the denominator whenever they report "% of cells expressing".</p></details>
+
+<h2>6. Where the cells are</h2>
+<p>The same tissue picture as figure 3 sets the sampling bias for everything after it: <strong>brain and blood together are more than half (about 57%) of the human 10x cells</strong>. A statement such as "ADORA1 is expressed in X% of all cells" mostly describes brain and blood. That is why the next pages go tissue by tissue and cell type by cell type instead of reporting one pooled number.</p>
+
+<div class="pager">
+  <a href="ours.html"><span class="lbl">Previous</span>Our A1 data</a>
+  <a href="census-tree.html" style="text-align:right"><span class="lbl">Next</span>The cell type tree</a>
+</div>
+
+</article></main></div>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const D = await V.load("data/census_overview.json");
+  let org = "homo_sapiens";
+  const FAM = { "10x": "var(--s1)", "sci-RNA-seq3": "var(--s3)", "Smart-seq family": "var(--s2)", "other": "var(--muted)" };
+  const famName = a => a.startsWith("10x") ? "10x" : a.startsWith("Smart-seq") ? "Smart-seq family" : a.startsWith("sci-RNA") ? "sci-RNA-seq3" : "other";
+
+  function f1() { const o = D[org];
+    const rows = [["All rows in the Census", o.total_cells], ["Primary cells only", o.primary_cells], ["…and 10x assays", o.tenx_primary], ["…and disease = normal", o.tenx_normal]];
+    V.hbars(document.getElementById("f1"), rows.map(([l, v]) => ({ label: l, segs: [{ v, color: "var(--s1)" }], text: V.fmtN(v), tip: l + ": " + v.toLocaleString() + " cells" })));
+  }
+  f1();
+
+  function f2() { const o = D[org]; let rows = o.assays.filter(a => a.primary >= 10000).sort((a, b) => b.primary - a.primary);
+    const rest = o.assays.filter(a => a.primary < 10000).reduce((s, a) => s + a.primary, 0);
+    const tot = o.primary_cells;
+    const rr = rows.map(a => ({ label: a.assay, segs: [{ v: a.primary, color: FAM[a.family] }], text: V.fmtN(a.primary) + " · " + V.fmtP(a.primary / tot), tip: a.assay + "\n" + a.primary.toLocaleString() + " primary cells (" + V.fmtP(a.primary / tot, 2) + " of primary)" }));
+    if (rest) rr.push({ label: "(assays under 10k cells)", segs: [{ v: rest, color: "var(--muted)" }], text: V.fmtN(rest), tip: rest.toLocaleString() + " cells" });
+    document.getElementById("f2lg").replaceChildren(V.legend(Object.entries(FAM).map(([k, c]) => [c, k])));
+    V.hbars(document.getElementById("f2"), rr);
+  }
+  f2();
+
+  function f3() { const o = D[org];
+    const rows = o.tenx_tissue.filter(t => t.total >= 20000).map(t => ({ label: t.tissue, segs: [{ v: t.cell || 0, color: "var(--s1)", tip: t.tissue + " · whole cells: " + (t.cell || 0).toLocaleString() }, { v: t.nucleus || 0, color: "var(--s3)", tip: t.tissue + " · nuclei: " + (t.nucleus || 0).toLocaleString() }], text: V.fmtN(t.total) + " · " + V.fmtP((t.nucleus || 0) / t.total, 0) + " nuclei" }));
+    document.getElementById("f3lg").replaceChildren(V.legend([["var(--s1)", "whole cells"], ["var(--s3)", "nuclei"]]));
+    V.hbars(document.getElementById("f3"), rows);
+  }
+  f3();
+
+  function f5() { const o = D[org], arr = o.dataset_gene_counts, w = 5000, lo = 10000, hi = Math.max(...arr.map(r => r.n_measured));
+    const nb = Math.ceil((hi - lo) / w) + 1, bins = Array.from({ length: nb }, () => ({ cells: 0, ds: 0 })), tot = arr.reduce((s, r) => s + r.n_cells, 0);
+    arr.forEach(r => { const b = Math.max(0, Math.floor((r.n_measured - lo) / w)); bins[b].cells += r.n_cells; bins[b].ds++; });
+    V.hist(document.getElementById("f5"), bins.map((b, i) => ({ label: ((lo + i * w) / 1000) + "k", v: b.cells / tot, tip: (lo + i * w).toLocaleString() + "–" + (lo + (i + 1) * w - 1).toLocaleString() + " genes listed\n" + b.ds + " datasets · " + b.cells.toLocaleString() + " cells (" + V.fmtP(b.cells / tot, 1) + ")" })));
+  }
+  f5();
+
+  function f6() { const o = D[org], gb = o.gene_breadth; let kind = "all";
+    const draw = () => { const arr = gb[kind], tot = arr.reduce((a, b) => a + b, 0);
+      V.hbars(document.getElementById("f6"), gb.labels.map((l, i) => ({ label: "listed by " + l + " of cells", segs: [{ v: arr[i], color: "var(--s1)" }], text: arr[i].toLocaleString() + " genes", tip: arr[i].toLocaleString() + " of " + tot.toLocaleString() + " genes (" + V.fmtP(arr[i] / tot, 1) + ")" }))); };
+    const c = document.getElementById("f6c"); c.replaceChildren(V.seg("Genes", [["all", "all features"], ["protein_coding", "protein-coding only"]], kind, v => { kind = v; draw(); })); draw();
+  }
+  f6();
+
+  function f7() { const o = D[org];
+    const rows = Object.entries(o.genes_frac_measured).map(([g, f]) => ({ label: g, segs: [{ v: f, color: g.toUpperCase() === "GAPDH" ? "var(--muted)" : "var(--s1)" }], text: V.fmtP(f, 1), tip: g + ": " + V.fmtP(f, 2) + " of 10x primary cells are from datasets that list it" }));
+    V.hbars(document.getElementById("f7"), rows, { max: 1 });
+  }
+  f7();
+  document.getElementById("orgc").append(V.seg("Organism", [["homo_sapiens", "Human"], ["mus_musculus", "Mouse"]], org, v => { org = v; f1(); f2(); f3(); f5(); f6(); f7(); }));
+});
+</script>
+</body>
+</html>

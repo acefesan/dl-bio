@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="adora-census">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ADORA across the Census</title>
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="static/viz.css">
+<script defer src="static/common.js"></script>
+<script defer src="static/viz.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content wide">
+
+<div class="kicker">Census (SOMA) · 3 of 4</div>
+<h1>The four adenosine receptors across the whole Census</h1>
+<p class="lede">From the coarsest view (all cells) to the finest (tissue by cell type): how many cells express ADORA1, ADORA2A, ADORA2B and ADORA3, and by how much. Every percentage uses only cells from datasets that listed the gene, so a gene a dataset never counted is not scored as "off".</p>
+
+<div class="callout ours" style="max-width:48rem">
+<div class="tag">Two numbers, used everywhere below</div>
+<ul style="margin:0.3rem 0 0 1.1rem">
+<li><strong>% expressing</strong> = cells with a count above zero ÷ cells that could have counted the gene. A sparse gene can look "off" in most cells that really express it (see <a href="basics.html">the zeros section</a>), so read this as <em>detection</em>, not as "fraction of cells that have the receptor".</li>
+<li><strong>Mean CP10K</strong> = the average, over the same measurable cells, of the gene's share of the cell's total counts × 10,000. It is the normalised expression level, and unlike the percentage it also counts how <em>much</em> was seen.</li>
+</ul>
+</div>
+
+<div class="viz-controls" id="gc" style="position:sticky;top:0;z-index:3;background:var(--bg);padding:0.4rem 0"></div>
+
+<h2>Level 1. All 10x primary cells</h2>
+<div class="tiles" id="tiles"></div>
+<details class="how"><summary>How these tiles were made</summary>
+<p><code>census_gene_groups.py</code> reads the Census <code>normalized</code> layer for the four receptor genes, for every 10x primary cell, in Arrow batches. Each cell belongs to a group (tissue, cell type, whole cell or nucleus, normal or disease). For each group and gene it adds up (a) the number of cells with a nonzero entry, (b) the sum of the normalised values, and (c) the number of cells whose dataset listed the gene at all (from the Census presence matrix). The tiles sum those over all groups matching the buttons above. "Measurable" is (c). Cells expressing is (a). Mean CP10K is 10,000 × (b) ÷ (c).</p></details>
+
+<h2>Level 2. By tissue</h2>
+<p>Colour is % expressing (within each column, the scale runs from 0 to that gene's highest tissue so each receptor is readable). The number in the cell is the same percentage. Hover for cell counts and mean CP10K. Rows are sorted by the gene chosen above.</p>
+<div class="viz">
+  <div class="viz-title">% of measurable cells expressing each receptor, by tissue</div>
+  <div class="viz-sub">Tissues with at least 20,000 measurable cells for at least one receptor. Hatched = no cell could have counted that gene.</div>
+  <div id="tissue"></div>
+  <div class="ramp"><span>0</span><span class="bar"></span><span>column maximum</span></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p>The same group table, now summed within each Census <code>tissue_general</code> value instead of over everything. Tissue is the Census's coarse grouping of finer tissue terms (for example many brain regions all roll up to "brain"), so this is a first look and the next level splits it further. Each cell of the heatmap is (cells expressing) ÷ (measurable cells) for that tissue and gene. The column scale is normalised per gene because the four receptors differ by an order of magnitude in how often they are detected; colours therefore compare tissues <em>within</em> a gene, not genes with each other. Use the numbers to compare genes.</p></details>
+
+<h2>Level 3. By cell type</h2>
+<p>Which cell types lead each gene? The list can be limited to one tissue, which is the tissue-by-cell-type breakdown.</p>
+<div class="viz">
+  <div class="viz-title" id="ctitle"></div>
+  <div class="viz-sub" id="csub"></div>
+  <div class="viz-controls" id="cc"></div>
+  <div id="ct"></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p>Groups are the finest level the scan keeps: one row per (tissue, Census cell type, whole cell or nucleus, normal or disease). Rows are filtered by the buttons, then summed within each cell type (or within each cell type inside the chosen tissue). Only cell types with at least the stated number of measurable cells are ranked, because a percentage from 20 cells is noise. The bar is % expressing; the number beside it adds cells and mean CP10K. A cell type that appears in several tissues (T cells, endothelial cells) is pooled across all of them unless you pick a tissue.</p></details>
+
+<div class="viz">
+  <div class="viz-title">All four receptors for the cell types that lead any of them</div>
+  <div class="viz-sub">The union of each receptor's top 12 cell types. Colour is % expressing, scaled per column.</div>
+  <div id="cm"></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p>Take each receptor's twelve highest cell types (by % expressing among cell types with enough measurable cells), pool them, and show all four receptors for every cell type in the pool. This shows at a glance whether the receptors share cell types or occupy different ones.</p></details>
+
+<h2>What the default view shows</h2>
+<p>With the default buttons (human, normal tissue, cells and nuclei together). Switching the buttons changes the numbers; these are the first thing I would check against the literature rather than conclusions.</p>
+<ul>
+<li><strong>ADORA1 is the most detected receptor, but it is a nervous-system gene.</strong> 6.3% of normal 10x cells overall, versus 1.9% for ADORA2A, 2.5% for ADORA2B and 0.5% for ADORA3. Brain is 19% and spinal cord 14%; almost every other tissue is under 5%. The leading cell types are deep-layer cortical projection neurons (56-68% of cells; for example near-projecting, L5 extratelencephalic and corticothalamic-projecting glutamatergic neurons), then striatal medium spiny neurons (53-54%). This agrees with the whole-Census result from the earlier A1 work.</li>
+<li><strong>ADORA2A tracks striatum and immune cells.</strong> Indirect-pathway medium spiny neurons are at 30%, the striatal cell type where A2A is textbook (see the <a href="pathways.html">pathways page</a>). The next leaders are immune cells: monocyte-derived dendritic cells (41%), Langerhans cells (32%), plus lamina propria, lymph node and endocrine gland as tissues. I have not checked the immune results against the literature.</li>
+<li><strong>ADORA2B is the epithelial one.</strong> The strongest tissues are tongue (21%), bladder (16%) and gallbladder (13%), and the leading cell types are bladder urothelial and colon epithelial cells (about 31%). Cortical astrocytes (29%) and leptomeningeal cells are also high, so it is not exclusively epithelial.</li>
+<li><strong>ADORA3 is rare and macrophage-like.</strong> Kupffer cells (20%), microglia (12%) and other macrophages (7-11%), and vasculature as a tissue (7.9%). Its overall detection is under 0.5%.</li>
+<li><strong>Everything is sparse.</strong> Mean expression is at most 0.09 CP10K for any receptor across all cells. The percentages are detection of a low-abundance transcript, so they set a floor on how many cells have the receptor, not an estimate of it.</li>
+<li><strong>One unresolved oddity.</strong> A cell type literally called "cell" (the root of the ontology, meaning the curators could not name it) shows 57% for ADORA2A and 34% for ADORA2B. It covers 11,150 brain cells (plus a few hundred elsewhere), so I treat it as an annotation quirk until I look at which dataset it comes from.</li>
+</ul>
+<p><strong>Mouse (press "Mouse" above).</strong> Mouse 10x data is only 44 datasets and 6.4M primary cells, more than half of them brain, so pooled numbers are brain-weighted. ADORA1 reads 24% of normal cells overall (brain 37%), led by deep-layer cortical neurons at 86-91% (L6b, L5/6 near-projecting, corticothalamic). ADORA2A is led by medium spiny neurons (40%), then endothelial and natural killer cells (24-26%). ADORA2B is highest in oligodendrocyte precursor cells and pancreatic beta cells (about 24-25%). ADORA3 is led by microglia (29%). Mouse detection is higher than human for the same cell types, which I have not explained (chemistry mix and cell-versus-nucleus ratio are candidates). Mouse gene symbols are matched case-insensitively and shown in upper case.</p>
+<p>The percentages above exclude cells from datasets that did not list the receptor (ADORA2A 6% of cells, ADORA3 11%, in this normal-only view). The <a href="census.html">zero page</a> explains why that matters.</p>
+
+<div class="pager">
+  <a href="census-tree.html"><span class="lbl">Previous</span>The cell type tree</a>
+  <a href="pathways.html" style="text-align:right"><span class="lbl">Next</span>Gene sets and pathways</a>
+</div>
+
+</article></main></div>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const st = { org: "homo_sapiens", normal: 1, susp: "all", gene: 0, tissue: "(all tissues)", minMeas: 5000 };
+  let D = null;
+  const NG = 4;
+  const GEN = () => D.genes;
+
+  async function load() {
+    document.getElementById("tiles").innerHTML = '<div class="loading">Loading…</div>';
+    try { D = await V.load("data/adora_" + st.org + ".json"); } catch (e) { document.getElementById("tiles").innerHTML = '<div class="loading">No data for this organism yet.</div>'; D = null; return false; }
+    return true;
+  }
+  const filt = () => D.rows.filter(r => (st.normal ? r[4] === 1 : true) && (st.susp === "all" || r[3] === st.susp));
+  // aggregate rows by key -> {n, m:[..], e:[..], s:[..]}
+  function agg(rows, keyFn) { const M = new Map();
+    rows.forEach(r => { const k = keyFn(r); let o = M.get(k); if (!o) { o = { k, n: 0, m: Array(NG).fill(0), e: Array(NG).fill(0), s: Array(NG).fill(0) }; M.set(k, o); }
+      o.n += r[5]; for (let i = 0; i < NG; i++) { o.m[i] += r[6 + 3 * i]; o.e[i] += r[7 + 3 * i]; o.s[i] += r[8 + 3 * i]; } });
+    return [...M.values()]; }
+  const pct = (o, i) => o.m[i] > 0 ? o.e[i] / o.m[i] : null;
+  const cp = (o, i) => o.m[i] > 0 ? 1e4 * o.s[i] / o.m[i] : null;
+  const tipFor = (o, i) => GEN()[i] + " · " + o.k + "\n" + o.e[i].toLocaleString() + " of " + o.m[i].toLocaleString() + " measurable cells express it (" + V.fmtP(pct(o, i), 2) + ")\nmean " + (cp(o, i) || 0).toFixed(2) + " CP10K · " + o.n.toLocaleString() + " cells in group";
+
+  function tiles() { const all = agg(filt(), () => "all cells")[0]; if (!all) return;
+    document.getElementById("tiles").replaceChildren(...GEN().map((g, i) => V.h("div", { class: "tile" }, [
+      V.h("div", { class: "k", html: g }), V.h("div", { class: "n", html: V.fmtP(pct(all, i), 2) }),
+      V.h("div", { class: "s", html: "of measurable cells express it" }),
+      V.h("div", { class: "s", html: V.fmtN(all.e[i]) + " cells · mean " + (cp(all, i) || 0).toFixed(2) + " CP10K" }),
+      V.h("div", { class: "s", html: "measurable in " + V.fmtP(all.m[i] / all.n, 1) + " of " + V.fmtN(all.n) + " cells" })]))); }
+
+  function tissue() { const A = agg(filt(), r => r[0]).filter(o => o.m.some(x => x >= 20000));
+    A.sort((a, b) => (pct(b, st.gene) ?? -1) - (pct(a, st.gene) ?? -1));
+    const mx = GEN().map((_, i) => Math.max(1e-9, ...A.map(o => pct(o, i) ?? 0)));
+    V.heat(document.getElementById("tissue"), A.map(o => o.k + " (" + V.fmtN(o.n) + ")"), GEN(),
+      A.map(o => GEN().map((g, i) => { const p = o.m[i] >= 200 ? pct(o, i) : null; return p == null ? { t: null, tip: g + " · " + o.k + "\nfewer than 200 measurable cells", text: "" } : { t: p / mx[i], text: V.fmtP(p), tip: tipFor(o, i) }; })), { rowW: 230, colW: 90 }); }
+
+  function ctList() { const tis = st.tissue === "(all tissues)" ? null : st.tissue;
+    const rows = filt().filter(r => !tis || r[0] === tis);
+    const A = agg(rows, r => r[2]).filter(o => o.m[st.gene] >= st.minMeas).sort((a, b) => pct(b, st.gene) - pct(a, st.gene)).slice(0, 25);
+    const g = GEN()[st.gene];
+    document.getElementById("ctitle").textContent = "Top cell types for " + g + (tis ? " in " + tis : " across all tissues");
+    document.getElementById("csub").textContent = "Ranked by % expressing, among cell types with at least " + st.minMeas.toLocaleString() + " measurable cells. " + A.length + " shown.";
+    V.hbars(document.getElementById("ct"), A.map(o => ({ label: o.k, segs: [{ v: pct(o, st.gene), color: "var(--s1)" }], text: V.fmtP(pct(o, st.gene)) + " · " + (cp(o, st.gene)).toFixed(1) + " CP10K", tip: tipFor(o, st.gene) })), { max: A.length ? pct(A[0], st.gene) * 1.02 : 1, labelW: "26rem" }); }
+
+  function matrix() { const A = agg(filt(), r => r[2]).filter(o => o.m.some(x => x >= st.minMeas));
+    const keep = new Set(); GEN().forEach((_, i) => A.filter(o => o.m[i] >= st.minMeas).sort((a, b) => pct(b, i) - pct(a, i)).slice(0, 12).forEach(o => keep.add(o.k)));
+    const B = A.filter(o => keep.has(o.k)).sort((a, b) => Math.max(...GEN().map((_, i) => pct(b, i) ?? 0)) - Math.max(...GEN().map((_, i) => pct(a, i) ?? 0)));
+    const mx = GEN().map((_, i) => Math.max(1e-9, ...B.map(o => pct(o, i) ?? 0)));
+    V.heat(document.getElementById("cm"), B.map(o => o.k), GEN(), B.map(o => GEN().map((g, i) => { const p = o.m[i] >= 200 ? pct(o, i) : null; return p == null ? { t: null, text: "", tip: g + " · " + o.k + "\nfewer than 200 measurable cells" } : { t: p / mx[i], text: V.fmtP(p), tip: tipFor(o, i) }; })), { rowW: 260, colW: 90 }); }
+
+  function tissueOptions() { const T = [...new Set(filt().map(r => r[0]))].sort(); return [["(all tissues)", "all tissues"]].concat(T.map(t => [t, t])); }
+
+  function redraw() { if (!D) return; tiles(); tissue(); ctList(); matrix(); }
+  function controls() {
+    const c = document.getElementById("gc");
+    c.replaceChildren(
+      V.seg("Organism", [["homo_sapiens", "Human"], ["mus_musculus", "Mouse"]], st.org, async v => { st.org = v; st.tissue = "(all tissues)"; if (await load()) { controls(); redraw(); } }),
+      V.seg("Rank by", GEN().map((g, i) => [i, g]), st.gene, v => { st.gene = +v; redraw(); }),
+      V.seg("Cells", [[1, "normal only"], [0, "all, incl. disease"]], st.normal, v => { st.normal = +v; redraw(); }),
+      V.seg("Sample", [["all", "cells + nuclei"], ["c", "whole cells"], ["n", "nuclei"]], st.susp, v => { st.susp = v; redraw(); }));
+    const cc = document.getElementById("cc"); const sel = V.h("select", { style: "font:inherit;font-size:12.5px;padding:0.28rem 0.5rem;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--ink)" });
+    tissueOptions().forEach(([v, l]) => { const o = V.h("option", { value: v }); o.textContent = l; if (v === st.tissue) o.selected = true; sel.append(o); });
+    sel.onchange = () => { st.tissue = sel.value; ctList(); };
+    cc.replaceChildren(V.h("span", { class: "lab", html: "Tissue" }), sel);
+  }
+  if (await load()) { controls(); redraw(); }
+  else { GEN(); }
+});
+</script>
+</body>
+</html>

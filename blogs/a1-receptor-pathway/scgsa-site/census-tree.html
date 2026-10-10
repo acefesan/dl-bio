@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="census-tree">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cell type tree</title>
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="static/viz.css">
+<script defer src="static/common.js"></script>
+<script defer src="static/viz.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content wide">
+
+<div class="kicker">Census (SOMA) · 2 of 4</div>
+<h1>A tree of every cell type in the Census</h1>
+<p class="lede">Yes, you can build one. The Census labels each cell with a term from the Cell Ontology (CL), and CL already says which types are kinds of which. This page draws that hierarchy for the 10x primary cells, sizes each branch by how many cells it holds, and can colour every branch by how much of an adenosine receptor its cells express.</p>
+
+<div class="callout ours" style="max-width:48rem">
+<div class="tag">How to read it</div>
+<p>Each row is a cell type. <strong>Click the arrow</strong> to open its sub-types. The blue bar is the number of 10x primary cells in that type <em>including all its sub-types</em> (log scale). The coloured chip is the percentage of those cells that express the gene you pick, counting only cells from datasets that listed the gene (see <a href="census.html">the zero page</a>). Hover a row for the exact numbers.</p>
+</div>
+
+<div class="viz-controls" id="tc"></div>
+<div class="viz">
+  <div class="viz-sub" id="tsum"></div>
+  <div class="tree" id="tree"><div class="loading">Loading the tree…</div></div>
+</div>
+
+<details class="how" open><summary>How this tree was made</summary>
+<p><strong>1. Cell types.</strong> From the 10x primary cells, take the Census field <code>cell_type_ontology_term_id</code> (e.g. <code>CL:0000540</code>, "neuron"). Human has 835 distinct terms among these cells; mouse has 387. Cells with no CL term (the value "unknown") are left out of the tree.</p>
+<p><strong>2. Ancestors.</strong> For each term, the <code>cellxgene-ontology-guide</code> package (the same CL release the Census is curated against) lists every ancestor, i.e. every broader type it is a kind of. Adding all ancestors gives the full set of branches, including intermediate ones no cell is labelled with directly ("neural cell", "native cell", …).</p>
+<p><strong>3. Counts.</strong> The counts follow the "Cells" and "Sample" buttons. A branch's count is the number of cells whose label is that branch <em>or any descendant of it</em>, so counts are exact and always shrink going down. The group tables behind this come from <code>census_gene_groups.py</code>.</p>
+<p><strong>4. The one approximation.</strong> CL is not strictly a tree: a type can have two parents (a "cardiac muscle cell" is both a muscle cell and a heart cell, say). To draw a tree, each branch is placed under <strong>the parent that holds the most cells</strong>, and its other parents are listed in the hover text as "also under". So a branch's counts are exact, but its drawn children do not always add up to it, because a child may be drawn under its other parent.</p>
+<p><strong>5. The chip.</strong> For the chosen gene: cells in this branch whose count is above zero, divided by cells in this branch that come from datasets which listed the gene at all. The colour scale runs from 0 to the 98th percentile of that value among branches with at least 1,000 such cells, so each gene uses its own range. Branches with fewer than 100 measurable cells show no chip because the percentage is too noisy to mean anything.</p>
+<p><strong>6. What this tree is not.</strong> These are the <em>Census's</em> cell types: the nearest CL term the curators assigned to each dataset's own labels. They are coarser than a dataset's native clusters (for example the 21 HBCA superclusters we scored earlier map onto a smaller set of CL neuron terms), and the authors' original labels live in the dataset files, not in the Census table.</p>
+</details>
+
+<div class="pager">
+  <a href="census.html"><span class="lbl">Previous</span>What is in the Census</a>
+  <a href="adora-census.html" style="text-align:right"><span class="lbl">Next</span>ADORA across the Census</a>
+</div>
+
+</article></main></div>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const st = { org: "homo_sapiens", gene: 0, normal: "N", susp: "B", q: "", open: new Set(), depthInit: 2 };
+  let T = null;
+  const el = document.getElementById("tree");
+  const geneName = () => T.genes[st.gene] || null;
+
+  async function loadOrg() {
+    el.innerHTML = '<div class="loading">Loading the tree…</div>';
+    try { T = await V.load("data/tree_" + st.org + ".json"); } catch (e) { el.innerHTML = '<div class="loading">No tree data for this organism yet.</div>'; return; }
+    T.kids = {}; Object.entries(T.nodes).forEach(([id, n]) => { n.id = id; if (n.p) (T.kids[n.p] = T.kids[n.p] || []).push(id); });
+    Object.values(T.kids).forEach(a => a.sort((x, y) => T.nodes[y].t - T.nodes[x].t));
+    T.maxT = T.nodes[T.root].t;
+    st.open = new Set([T.root]); expandTo(T.root, 0, st.depthInit);
+    calibrate(); draw();
+  }
+  function expandTo(id, d, max) { if (d >= max) return; st.open.add(id); (T.kids[id] || []).forEach(k => expandTo(k, d + 1, max)); }
+  function cells(n) { const c = n.s && n.s[st.normal + st.susp]; if (!c) return n.s ? 0 : n.t; const k = Object.keys(c)[0]; return k ? c[k][0] : 0; }
+  function stat(n) { const g = geneName(); if (!g || !n.s) return null; const r = (n.s[st.normal + st.susp] || {})[g]; return r || null; }
+  function calibrate() { const g = geneName(); st.max = 0.01; if (!g) return; const ps = [];
+    Object.values(T.nodes).forEach(n => { const r = stat(n); if (r && r[1] >= 1000) ps.push(r[2] / r[1]); });
+    ps.sort((a, b) => a - b); if (ps.length) st.max = Math.max(0.005, ps[Math.floor(0.98 * (ps.length - 1))]); }
+  function visibleSet() { if (!st.q) return null; const q = st.q.toLowerCase(), keep = new Set();
+    Object.values(T.nodes).forEach(n => { if (n.n.toLowerCase().includes(q) || n.id.toLowerCase() === q) { let c = n.id; while (c) { keep.add(c); c = T.nodes[c].p; } } });
+    return keep; }
+  function draw() {
+    const g = geneName(), keep = visibleSet(), rows = [];
+    const walk = (id, d) => { if (keep && !keep.has(id)) return; const n = T.nodes[id]; if (!cells(n)) return; rows.push([id, d]);
+      if (st.open.has(id) || (keep && keep.size)) (T.kids[id] || []).forEach(k => walk(k, d + 1)); };
+    walk(T.root, 0);
+    const frag = document.createDocumentFragment();
+    const hdr = V.h("div", { class: "nd hdr" }, [V.h("div", { html: "cell type (click arrow to open)" }), V.h("div", { html: "cells in 10x primary data (log)" }), V.h("div", { class: "num", html: g ? g + " %" : "" }), V.h("div", { class: "num", html: "cells" })]);
+    frag.append(hdr);
+    rows.forEach(([id, d]) => { const n = T.nodes[id], kids = (T.kids[id] || []).filter(k => cells(T.nodes[k])), r = stat(n), nc = cells(n);
+      const pct = r && r[1] >= 100 ? r[2] / r[1] : null, t = pct == null ? null : Math.min(1, pct / st.max);
+      const car = V.h("span", { class: "car", html: kids.length ? (st.open.has(id) || keep ? "▾" : "▸") : "·" });
+      if (kids.length) car.onclick = () => { st.open.has(id) ? st.open.delete(id) : st.open.add(id); draw(); };
+      const tip = n.n + "  (" + id + ")\nin this branch: " + nc.toLocaleString() + " cells" + (n.o ? " (" + n.o.toLocaleString() + " labelled exactly this)" : "") + (n.a.length ? "\nalso under: " + n.a.join(", ") : "") +
+        (g && r ? "\n" + g + ": " + r[2].toLocaleString() + " of " + r[1].toLocaleString() + " measurable cells express it (" + V.fmtP(r[2] / Math.max(1, r[1]), 2) + "), mean " + (1e4 * r[3] / Math.max(1, r[1])).toFixed(2) + " CP10K" : (g ? "\n" + g + ": no measurable cells" : ""));
+      const nm = V.h("div", { class: "nm", style: `padding-left:${d * 1.05}rem` }, [car, V.h("span", { class: "lbl", html: V.esc(n.n) })]);
+      const bar = V.h("div", {}, [V.h("div", { class: "bar", style: `width:${Math.max(1, 100 * Math.log10(nc + 1) / Math.log10(T.maxT + 1))}%` })]);
+      const chip = V.h("div", { class: "chip", style: t == null ? "" : `background:${V.seqColor(t)};color:${t > 0.62 ? "var(--bg)" : "var(--ink)"}`, html: pct == null ? "" : V.fmtP(pct) });
+      const row = V.h("div", { class: "nd", "data-tip": tip }, [nm, bar, chip, V.h("div", { class: "num", html: V.fmtN(nc) })]);
+      frag.append(row); });
+    el.replaceChildren(frag);
+    document.getElementById("tsum").textContent = Object.values(T.nodes).filter(n => cells(n)).length + " branches in the " + (st.org === "homo_sapiens" ? "human" : "mouse") + " tree; " + rows.length + " rows showing." + (g ? " Chip colour: share of measurable cells expressing " + g + " (scale tops out at " + V.fmtP(st.max) + ")." : "");
+  }
+
+  const c = document.getElementById("tc");
+  const geneOpts = () => [[-1, "none"]].concat((T ? T.genes : ["ADORA1", "ADORA2A", "ADORA2B", "ADORA3"]).map((g, i) => [i, g]));
+  function controls() {
+    const geneSel = V.seg("Colour by", geneOpts(), st.gene, v => { st.gene = +v; calibrate(); draw(); });
+    c.replaceChildren(
+      V.seg("Organism", [["homo_sapiens", "Human"], ["mus_musculus", "Mouse"]], st.org, v => { st.org = v; st.gene = 0; loadOrg().then(controls); }),
+      geneSel,
+      V.seg("Cells", [["N", "normal only"], ["A", "all, incl. disease"]], st.normal, v => { st.normal = v; calibrate(); draw(); }),
+      V.seg("Sample", [["B", "cells + nuclei"], ["C", "whole cells"], ["U", "nuclei"]], st.susp, v => { st.susp = v; calibrate(); draw(); }),
+      V.seg("Open", [["1", "top level"], ["3", "3 levels"], ["6", "6 levels"], ["99", "everything"]], null, v => { st.open = new Set([T.root]); expandTo(T.root, 0, +v); draw(); }),
+      (() => { const i = V.h("input", { type: "search", placeholder: "search a cell type…" }); i.oninput = () => { st.q = i.value.trim(); draw(); }; return i; })());
+  }
+  controls(); await loadOrg(); controls();
+});
+</script>
+</body>
+</html>

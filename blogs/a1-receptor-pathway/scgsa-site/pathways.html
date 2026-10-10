@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="pathways">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gene sets and pathways</title>
+<link rel="stylesheet" href="static/style.css">
+<link rel="stylesheet" href="static/viz.css">
+<script defer src="static/common.js"></script>
+<script defer src="static/viz.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content wide">
+
+<div class="kicker">Census (SOMA) · 4 of 4</div>
+<h1>What does a gene set actually say about a cell?</h1>
+<p class="lede">The anchoring question for everything on this site. Before ranking methods or reading an A1 score, it helps to be exact about what a list of genes is, what a score computed from it can and cannot tell you, and which genes in the adenosine pathways a cell would need to have in the first place.</p>
+
+<div class="callout warn" style="max-width:48rem">
+<div class="tag">How this page was researched</div>
+<p>You suggested handing the "why do gene sets make sense" question to a sub-agent. I did it directly instead, so the reasoning is in one place: the pharmacology comes from the sources linked in the text, the KEGG numbers were pulled live from KEGG, and the expression numbers come from the local Census. Anything I could not verify is marked.</p>
+</div>
+
+<h2>1. What a gene set is, from first principles</h2>
+<p><strong>A gene set is a list with a claim attached.</strong> The claim is "these genes take part in the same process", such as one signalling pathway. Curators wrote the list by reading the literature, once, for everyone. It does not know about your cells.</p>
+<p><strong>A score turns the list into one number per cell.</strong> The seven methods on this site differ in how, but all of them ask the same question: <em>relative to some reference, how much of this list is turned up in this cell?</em> The reference is what each method's page calls what it "compares against".</p>
+<p>So the honest reading of a gene-set score is: <em>"in this cell, the genes on this list are collectively detected more (or less) than the reference would predict."</em> That is a statement about detection of a list. It is not, on its own, a statement about the process:</p>
+<ul>
+<li><strong>The list is shared.</strong> Most signalling genes sit in many pathways (in KEGG, the G protein subunit GNAS is in 53 of 372 human pathways, the kinase PRKACA in 72 and the G protein GNAQ in 50), so a high "pathway" score can come from genes that are on for unrelated reasons.</li>
+<li><strong>Big lists drown out the gene you care about.</strong> If a 226-gene pathway contains one adenosine receptor, the other 225 genes decide the score. Section 2 counts this.</li>
+<li><strong>Sparse data is mostly zeros.</strong> In a typical cell most list genes read zero, and a zero can be a sampling zero or a "not listed" zero (see <a href="census.html">the zero page</a>). What the score does with zeros (each method's "zero policy") is a large part of what it reports.</li>
+<li><strong>Depth moves everything.</strong> Cells where more genes were detected score higher on almost any list. Section 4 measures how much.</li>
+<li><strong>mRNA is not signalling.</strong> Having the receptor's transcript says the cell can make the receptor. Adenosine signalling also needs ligand supply, the right G protein, and effectors in the same cell. A set that lists all of these can say <em>"this cell is equipped"</em>, never <em>"adenosine is acting here"</em>.</li>
+</ul>
+
+<h2>2. Top-down: how many pathways contain the receptors, and what else is in them?</h2>
+<p>The paper used the 2023 KEGG pathway collection as its real-data gene sets. Here is every KEGG human pathway that contains at least one adenosine receptor.</p>
+<div class="viz">
+  <div class="viz-title" id="k-title">KEGG pathways that contain an adenosine receptor</div>
+  <div class="viz-sub" id="k-sub"></div>
+  <div id="kegg"><div class="loading">Loading…</div></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p><code>kegg_adora_pathways.py</code> downloads, from the KEGG REST service, the list of human pathways (<code>/list/pathway/hsa</code>), which genes each contains (<code>/link/hsa/pathway</code>) and the gene symbol for each NCBI gene id (<code>/list/hsa</code>). Membership is therefore whatever KEGG lists on the date shown, which can differ slightly from the 2023 snapshot the paper used. A cell in the grid is filled when the pathway lists that receptor. The bar is the pathway's gene count. The grey line marks the median size of all human KEGG pathways for scale.</p></details>
+
+<div id="k-notes"></div>
+
+<p>Two things stand out. First, the adenosine receptors appear <em>only</em> in broad pathways, and the biggest, the two "neuroactive ligand" lists, are really catalogues of receptors and channels, so a score on them probably tracks how many such receptors a cell has. Second, KEGG's grouping mirrors the pharmacology: <strong>A1 and A3 (the Gi-coupled pair) share cGMP-PKG and sphingolipid signalling, while A2A and A2B (the Gs/Gq pair) share calcium, Rap1, vascular smooth muscle and alcoholism</strong>. A1 and A2A, which push cAMP in opposite directions, share only the two catalogue pathways and cAMP signalling, the one pathway where the two directions meet. No KEGG pathway is "the A1 pathway". The A1 panels used earlier on this site (8 and 61 genes) are our own hand-curated gene lists, not KEGG sets, so their results are not a statement about the paper's collection.</p>
+
+<h2>3. Bottom-up: the core genes of adenosine signalling</h2>
+<p>Instead of starting from big pathways, start from the biology of each receptor and list what a cell needs for it to signal. This is textbook pharmacology (see the sources below); it is the 60-gene panel the Census scan uses.</p>
+<div class="table-wrap"><table>
+<tr><th>Receptor</th><th>G protein it couples to</th><th>What it does downstream</th><th>Genes in our panel</th></tr>
+<tr><td><strong>A1</strong> (ADORA1)</td><td>Gi/o</td><td>Lowers cAMP by inhibiting adenylyl cyclase; opens GIRK potassium channels; inhibits N- and P/Q-type calcium channels; can activate PLC-β.</td><td>GNAI1-3, GNAO1, GNAZ; ADCY1-9; KCNJ3, KCNJ6 (GIRK); CACNA1A, CACNA1B</td></tr>
+<tr><td><strong>A2A</strong> (ADORA2A)</td><td>Gs, and Golf in striatum</td><td>Raises cAMP via adenylyl cyclase (AC5 in striatum), activates PKA, phosphorylates DARPP-32 and CREB. Works against dopamine D2 receptors in striatopallidal neurons.</td><td>GNAS, GNAL, GNB1, GNG7; ADCY5; PRKACA/B, PRKAR1B/2B, PPP1R1B (DARPP-32), CREB1; DRD2</td></tr>
+<tr><td><strong>A2B</strong> (ADORA2B)</td><td>Gs and Gq</td><td>Raises cAMP and activates PLC-β / calcium signalling.</td><td>GNAS, GNAQ, GNA11, GNA15; ADCY; PLCB1-4</td></tr>
+<tr><td><strong>A3</strong> (ADORA3)</td><td>Gi and Gq</td><td>Lowers cAMP; activates PLC-β.</td><td>GNAI, GNAQ; PLCB1-4</td></tr>
+<tr><td><strong>Adenosine supply</strong></td><td>-</td><td>Where the ligand comes from and goes: CD39 (ENTPD1/2) and CD73 (NT5E) turn ATP into adenosine outside the cell; adenosine deaminase (ADA) and adenosine kinase (ADK) clear it; transporters (SLC29A1/2, SLC28A3) move it across membranes.</td><td>NT5E, ENTPD1, ENTPD2, ADA, ADK, SLC29A1, SLC29A2, SLC28A3</td></tr>
+</table></div>
+<p style="font-size:14.5px">Sources: receptor-to-G-protein coupling and effectors from <a href="https://pubmed.ncbi.nlm.nih.gov/29848236">Pharmacology of Adenosine Receptors: The State of the Art</a> and <a href="https://pubmed.ncbi.nlm.nih.gov/9681130">Adenosine receptors: new opportunities for future drugs</a>; striatal A2A, Golf and DARPP-32 from <a href="https://pubmed.ncbi.nlm.nih.gov/20639202">the Golf γ7 study</a>, <a href="https://www.pnas.org/doi/10.1073/pnas.98.4.1970">the A2A/D2 knockout study (PNAS 2001)</a> and <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3842921/">the DARPP-32 phosphorylation study</a>. The mapping from receptor to specific channel and cyclase isoforms (for example AC5 in striatum, GIRK = KCNJ3/6) is standard but is not individually verified here.</p>
+
+<div class="viz">
+  <div class="viz-title">Which core genes are detected where</div>
+  <div class="viz-sub" id="p-sub"></div>
+  <div class="viz-controls" id="pc"></div>
+  <div id="panel"><div class="loading">Loading…</div></div>
+  <div class="ramp"><span>0%</span><span class="bar"></span><span id="p-ramp">100%</span></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p>For every gene in the panel, <code>census_gene_groups.py</code> reads the Census <code>normalized</code> layer over all 10x primary cells (not a sample). Counts are summed per group, then here per tissue or per cell type. Each cell of the grid is (cells with a count above zero) ÷ (cells from datasets that listed the gene). Columns are the tissues or cell types with the most cells; a cell type must have at least 200 measurable cells to be coloured. The colour scale is chosen by the button: <em>within gene</em> stretches each row from 0 to its own maximum so a rare gene's pattern is visible; <em>absolute</em> uses 0 to 100% for all rows so genes can be compared with each other. Hatched cells could not be measured.</p>
+<p>What it can't show: this is per-group detection, not per-cell co-expression. It tells you which tissues and cell types detect each gene, not whether a single cell has the receptor <em>and</em> its G protein <em>and</em> its effector at once. That needs the per-cell matrix and is the next step.</p></details>
+
+<h2>4. What a pathway score would measure here: detection tracks depth</h2>
+<p>To see what a generic pathway score reflects, take the thirteen KEGG pathways above and ask, for a sample of cells, what fraction of each pathway's genes is detected. If that fraction mostly follows how many genes were detected in the cell overall, a pathway "score" would mostly be reporting sequencing depth.</p>
+<div class="viz">
+  <div class="viz-title">Share of each pathway's genes detected per cell, by tissue</div>
+  <div class="viz-sub" id="d-sub"></div>
+  <div class="viz-controls" id="dc"></div>
+  <div id="depth"><div class="loading">Loading…</div></div>
+  <div class="ramp"><span>0</span><span class="bar"></span><span id="d-ramp">row maximum</span></div>
+  <div id="d-corr" class="viz-sub" style="margin-top:0.6rem"></div>
+</div>
+<details class="how"><summary>How this figure was made</summary>
+<p>Scanning every pathway gene in all 89M cells is too heavy, so <code>census_pathway_sample.py</code> draws a stratified random sample: up to 600 cells from each (tissue, cell type, whole cell or nucleus, normal or disease) group. For every sampled cell and every pathway it counts the pathway genes with a raw count above zero and divides by the number of that pathway's genes the cell's dataset listed (so an unlisted gene is not counted as "undetected"). Cells are weighted by group size ÷ sampled in group, so tissue averages estimate the whole 10x population. The bottom line of the figure is the mean number of genes detected per cell (the Census <code>nnz</code> field). The correlation is computed across the tissues shown.</p></details>
+
+<h3>What the figure shows</h3>
+<ul>
+<li><strong>Detection of any one pathway is low.</strong> In a typical cell only about 5-15% of a signalling pathway's listed genes are detected, and about 1-5% for the two "neuroactive ligand" catalogues. A score on these lists is built mostly from zeros.</li>
+<li><strong>Depth explains some of it, not all.</strong> Across the 26 tissues, detection correlates with genes detected per cell at about r = 0.34 to 0.50 depending on the pathway. That is a moderate link, so the tempting claim "pathway scores are only depth" is not supported at tissue level. But 26 tissue averages cannot separate depth from real biology, nuclei versus cells, or which datasets happen to be in the sample (heart stands out and is mostly nuclei). The clean test is within one cell type, across cells of different depth, and I have not run it.</li>
+<li><strong>Different lists answer different questions.</strong> Parkinson disease is detected far more than the signalling pathways. I have not checked its membership, but KEGG's Parkinson map is known to include many mitochondrial and ribosome-adjacent genes that nearly every cell expresses, so a high score there says "this cell is metabolically active", not "dopaminergic". This is the "list is shared" point from section 1 in the data.</li>
+</ul>
+
+<h2>5. Before trusting any gene-set score, ask</h2>
+<ol>
+<li><strong>What is in the list, and how big is it?</strong> If your gene of interest is one of 200, the score is not about it.</li>
+<li><strong>What is it compared against?</strong> Other genes in the cell, other cells, or random control genes. That reference is also what can fool it (see <a href="scenarios.html">the four scenarios</a>).</li>
+<li><strong>What does it do with zeros?</strong> And how many of the zeros are "not listed" rather than "not detected"?</li>
+<li><strong>Are the compared cells equally deep?</strong> If not, match depth before comparing.</li>
+<li><strong>Would random gene sets of the same size and expression do the same thing?</strong> That null check is the next item in the A1 roadmap.</li>
+</ol>
+
+<div class="pager">
+  <a href="adora-census.html"><span class="lbl">Previous</span>ADORA across the Census</a>
+  <a href="index.html" style="text-align:right"><span class="lbl">Back to</span>Overview</a>
+</div>
+
+</article></main></div>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const CATS = ["receptor", "G protein", "adenylyl cyclase", "ion channel", "PLC", "PKA / cAMP", "partner receptor", "adenosine supply"];
+  const ADORA = ["ADORA1", "ADORA2A", "ADORA2B", "ADORA3"];
+
+  // ---- section 2: KEGG membership
+  try {
+    const K = await V.load("data/kegg_adora.json");
+    const ids = Object.keys(K.pathways).sort((a, b) => K.pathways[b].adora.length - K.pathways[a].adora.length || K.pathways[b].size - K.pathways[a].size);
+    document.getElementById("k-sub").textContent = "KEGG human, " + K.n_pathways + " pathways in total, pulled " + K.fetched + ". " + ids.length + " contain at least one adenosine receptor. Median pathway has " + K.size_quantiles[50] + " genes.";
+    const wrap = document.getElementById("kegg"), mx = Math.max(...ids.map(i => K.pathways[i].size));
+    const g = V.h("div", { class: "heat", style: "grid-template-columns: 260px repeat(4, 70px) minmax(160px, 1fr)" });
+    g.append(V.h("div"));
+    ADORA.forEach(a => g.append(V.h("div", { class: "cl", html: a })));
+    g.append(V.h("div", { class: "cl", html: "genes in pathway" }));
+    ids.forEach(id => { const p = K.pathways[id];
+      g.append(V.h("div", { class: "rl", title: id, html: V.esc(p.name) }));
+      ADORA.forEach(a => g.append(p.adora.includes(a) ? V.h("div", { class: "hc", style: "background:var(--accent);color:var(--bg)", "data-tip": a + " is in " + p.name, html: "●" }) : V.h("div", { class: "hc", style: "background:color-mix(in srgb,var(--line) 40%,transparent)" })));
+      const cell = V.h("div", { class: "hc", style: "justify-content:flex-start;background:none;position:relative;font-size:11px", "data-tip": p.name + ": " + p.size + " genes" });
+      cell.append(V.h("div", { style: `height:12px;border-radius:0 3px 3px 0;background:var(--s1);width:${100 * p.size / mx}%` }), V.h("span", { style: "margin-left:6px;color:var(--muted)", html: String(p.size) }));
+      g.append(cell); });
+    wrap.replaceChildren(V.h("div", { class: "heat-wrap" }, [g]));
+    const n = {}; ADORA.forEach(a => n[a] = K.membership[a].length);
+    document.getElementById("k-notes").innerHTML = '<p><strong>Counts:</strong> ' + ADORA.map(a => a + " is in " + n[a] + " of " + K.n_pathways + " pathways").join("; ") + ". Together they are in " + ids.length + " distinct pathways. Gene counts for the largest: " + ids.slice().sort((a, b) => K.pathways[b].size - K.pathways[a].size).slice(0, 3).map(i => K.pathways[i].name + " (" + K.pathways[i].size + ")").join(", ") + ".</p>";
+  } catch (e) { document.getElementById("kegg").innerHTML = '<div class="loading">KEGG data not built yet.</div>'; }
+
+  // ---- section 3: core gene detection heatmap
+  const cat = await V.load("data/adenosine_genes.json");
+  const ps = { org: "homo_sapiens", by: "tissue", scale: "row", normal: 1, susp: "all" };
+  let PD = {}; 
+  async function getPanel(kind) { const key = ps.org + kind; if (!PD[key]) { try { PD[key] = await V.load("data/" + (kind === "tissue" ? "panel_" : "panel_celltype_") + ps.org + ".json"); } catch (e) { PD[key] = null; } } return PD[key]; }
+  async function drawPanel() {
+    const el = document.getElementById("panel"), D = await getPanel(ps.by);
+    if (!D) { el.innerHTML = '<div class="loading">The Census gene scan has not finished yet, so this figure has no data. It fills in when <code>census_gene_groups.py</code> completes.</div>'; return; }
+    const rows = D.rows.filter(r => (ps.normal ? r.normal === 1 : true) && (ps.susp === "all" || r.susp === ps.susp));
+    const M = new Map();
+    rows.forEach(r => { const k = r.k.length > 1 ? r.k[1] : r.k[0]; let o = M.get(k); if (!o) { o = { k, n: 0, g: {} }; M.set(k, o); } o.n += r.n;
+      Object.entries(r.g).forEach(([gene, v]) => { const x = o.g[gene] || (o.g[gene] = [0, 0, 0]); x[0] += v[0]; x[1] += v[1]; x[2] += v[2]; }); });
+    const cols = [...M.values()].sort((a, b) => b.n - a.n).slice(0, ps.by === "tissue" ? 24 : 32);
+    const genes = Object.keys(cat).filter(g => D.genes.includes(g)).sort((a, b) => CATS.indexOf(cat[a]) - CATS.indexOf(cat[b]));
+    const pct = (o, g) => { const v = o.g[g]; return v && v[0] >= 200 ? v[1] / v[0] : null; };
+    const cells = genes.map(g => { const mx = Math.max(1e-9, ...cols.map(o => pct(o, g) ?? 0)); return cols.map(o => { const p = pct(o, g), v = o.g[g];
+      return p == null ? { t: null, text: "", tip: g + " · " + o.k + "\nfewer than 200 measurable cells" } :
+        { t: ps.scale === "row" ? p / mx : p, text: p >= 0.995 ? "99+" : (100 * p).toFixed(p < 0.1 ? 1 : 0), tip: g + " (" + cat[g] + ") · " + o.k + "\n" + v[1].toLocaleString() + " of " + v[0].toLocaleString() + " measurable cells express it (" + V.fmtP(p, 2) + ")\nmean " + (1e4 * v[2] / v[0]).toFixed(2) + " CP10K" }; }); });
+    V.heat(el, genes.map(g => g + "  ·  " + cat[g]), cols.map(o => o.k + " (" + V.fmtN(o.n) + ")"), cells, { rowW: 190, colW: 34, rot: true });
+    document.getElementById("p-ramp").textContent = ps.scale === "row" ? "that gene's maximum" : "100%";
+    document.getElementById("p-sub").textContent = "Numbers are % of measurable cells expressing. Columns: the " + cols.length + " largest " + (ps.by === "tissue" ? "tissues" : "cell types") + " by 10x primary cells. Rows are grouped by role in the pathway.";
+  }
+  const pc = document.getElementById("pc");
+  pc.replaceChildren(
+    V.seg("Organism", [["homo_sapiens", "Human"], ["mus_musculus", "Mouse"]], ps.org, v => { ps.org = v; drawPanel(); }),
+    V.seg("Columns", [["tissue", "tissues"], ["celltype", "cell types"]], ps.by, v => { ps.by = v; drawPanel(); }),
+    V.seg("Colour scale", [["row", "within gene"], ["abs", "absolute 0–100%"]], ps.scale, v => { ps.scale = v; drawPanel(); }),
+    V.seg("Cells", [[1, "normal only"], [0, "all"]], ps.normal, v => { ps.normal = +v; drawPanel(); }),
+    V.seg("Sample", [["all", "cells + nuclei"], ["c", "whole cells"], ["n", "nuclei"]], ps.susp, v => { ps.susp = v; drawPanel(); }));
+  drawPanel();
+
+  // ---- section 4: pathway detection vs depth
+  const ds = { normal: 1, susp: "all" };
+  let PT = null; try { PT = await V.load("data/pathway_tissue.json"); } catch (e) {}
+  function drawDepth() {
+    const el = document.getElementById("depth");
+    if (!PT) { el.innerHTML = '<div class="loading">The pathway sample has not been computed yet; this figure fills in once <code>census_pathway_sample.py</code> finishes.</div>'; return; }
+    const rows = PT.rows.filter(r => (ds.normal ? r.normal === 1 : true) && (ds.susp === "all" || r.susp === ds.susp));
+    const M = new Map();
+    rows.forEach(r => { let o = M.get(r.tissue); if (!o) { o = { k: r.tissue, n: 0, dw: 0, p: {} }; M.set(r.tissue, o); } o.n += r.n; o.dw += r.depth * r.n;
+      Object.entries(r.p).forEach(([p, v]) => { const x = o.p[p] || (o.p[p] = [0, 0]); x[0] += v[0] * r.n; x[1] += r.n; }); });
+    const cols = [...M.values()].filter(o => o.n >= 50000).sort((a, b) => a.dw / a.n - b.dw / b.n).slice(0, 26);
+    const pids = Object.keys(PT.pathways);
+    const val = (o, p) => o.p[p] ? o.p[p][0] / o.p[p][1] : null;
+    const cells = pids.map(p => { const mx = Math.max(1e-9, ...cols.map(o => val(o, p) ?? 0)); return cols.map(o => { const v = val(o, p); return v == null ? { t: null, text: "", tip: "" } : { t: v / mx, text: (100 * v).toFixed(0), tip: PT.pathways[p] + " · " + o.k + "\n" + V.fmtP(v, 1) + " of its listed genes detected per cell on average\n" + o.n.toLocaleString() + " cells (weighted sample)" }; }); });
+    const depth = cols.map(o => o.dw / o.n);
+    cells.push(cols.map((o, i) => ({ t: depth[i] / Math.max(...depth), text: V.fmtN(depth[i]), tip: o.k + "\nmean genes detected per cell: " + depth[i].toFixed(0) })));
+    V.heat(el, pids.map(p => PT.pathways[p]).concat(["genes detected per cell (depth)"]), cols.map(o => o.k), cells, { rowW: 230, colW: 40, rot: true });
+    const r = (a, b) => { const n = a.length, ma = a.reduce((s, x) => s + x, 0) / n, mb = b.reduce((s, x) => s + x, 0) / n; let sab = 0, sa = 0, sb = 0; a.forEach((x, i) => { sab += (x - ma) * (b[i] - mb); sa += (x - ma) ** 2; sb += (b[i] - mb) ** 2; }); return sab / Math.sqrt(sa * sb); };
+    const cors = pids.map(p => { const idx = cols.map((o, i) => i).filter(i => val(cols[i], p) != null); return [PT.pathways[p], r(idx.map(i => val(cols[i], p)), idx.map(i => depth[i]))]; });
+    document.getElementById("d-corr").innerHTML = "<strong>Correlation with depth across these " + cols.length + " tissues</strong> (Pearson r of pathway detection vs genes detected per cell): " + cors.map(([n, c]) => V.esc(n) + " " + c.toFixed(2)).join(" · ") + ".";
+    document.getElementById("d-sub").textContent = "Tissues sorted left to right by genes detected per cell. Numbers are % of the pathway's listed genes detected, averaged over cells; colour is scaled within each row.";
+  }
+  document.getElementById("dc").replaceChildren(
+    V.seg("Cells", [[1, "normal only"], [0, "all"]], ds.normal, v => { ds.normal = +v; drawDepth(); }),
+    V.seg("Sample", [["all", "cells + nuclei"], ["c", "whole cells"], ["n", "nuclei"]], ds.susp, v => { ds.susp = v; drawDepth(); }));
+  drawDepth();
+});
+</script>
+</body>
+</html>

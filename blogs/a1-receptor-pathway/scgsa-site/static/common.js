@@ -22,6 +22,12 @@
       ["jasmine", "methods/jasmine.html", "JASMINE"],
       ["scps", "methods/scps.html", "scPS"],
     ]},
+    { title: "Census (SOMA)", items: [
+      ["census", "census.html", "What is in the Census"],
+      ["census-tree", "census-tree.html", "Cell type tree"],
+      ["adora-census", "adora-census.html", "ADORA across the Census"],
+      ["pathways", "pathways.html", "Gene sets and pathways"],
+    ]},
     { title: "Hands on", items: [
       ["playground", "playground.html", "Playground"],
       ["ours", "ours.html", "Our A1 data"],

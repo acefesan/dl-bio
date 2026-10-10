@@ -1,0 +1,11 @@
+{
+"ADORA1":"receptor","ADORA2A":"receptor","ADORA2B":"receptor","ADORA3":"receptor",
+"GNAI1":"G protein","GNAI2":"G protein","GNAI3":"G protein","GNAO1":"G protein","GNAZ":"G protein",
+"GNAS":"G protein","GNAL":"G protein","GNAQ":"G protein","GNA11":"G protein","GNA15":"G protein","GNB1":"G protein","GNB2":"G protein","GNG2":"G protein","GNG7":"G protein",
+"ADCY1":"adenylyl cyclase","ADCY2":"adenylyl cyclase","ADCY3":"adenylyl cyclase","ADCY4":"adenylyl cyclase","ADCY5":"adenylyl cyclase","ADCY6":"adenylyl cyclase","ADCY7":"adenylyl cyclase","ADCY8":"adenylyl cyclase","ADCY9":"adenylyl cyclase",
+"KCNJ3":"ion channel","KCNJ5":"ion channel","KCNJ6":"ion channel","KCNJ9":"ion channel","CACNA1A":"ion channel","CACNA1B":"ion channel","CACNA1E":"ion channel",
+"PLCB1":"PLC","PLCB2":"PLC","PLCB3":"PLC","PLCB4":"PLC",
+"PRKACA":"PKA / cAMP","PRKACB":"PKA / cAMP","PRKAR1A":"PKA / cAMP","PRKAR1B":"PKA / cAMP","PRKAR2A":"PKA / cAMP","PRKAR2B":"PKA / cAMP","CREB1":"PKA / cAMP","PDE4B":"PKA / cAMP","PDE4D":"PKA / cAMP","PDE10A":"PKA / cAMP","PPP1R1B":"PKA / cAMP",
+"DRD1":"partner receptor","DRD2":"partner receptor","GRM5":"partner receptor",
+"NT5E":"adenosine supply","ENTPD1":"adenosine supply","ENTPD2":"adenosine supply","ADA":"adenosine supply","ADK":"adenosine supply","SLC29A1":"adenosine supply","SLC29A2":"adenosine supply","SLC28A3":"adenosine supply"
+}

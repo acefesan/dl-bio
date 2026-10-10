@@ -1,0 +1,4075 @@
+{
+ "census_build": "2025-11-08",
+ "homo_sapiens": {
+  "total_cells": 158982719,
+  "primary_cells": 96591226,
+  "primary_by_family": {
+   "10x": 89165901,
+   "Smart-seq family": 163687,
+   "other": 3032573,
+   "sci-RNA-seq3": 4229065
+  },
+  "assays": [
+   {
+    "assay": "10x 3' v3",
+    "family": "10x",
+    "all": 97269301,
+    "primary": 59240701
+   },
+   {
+    "assay": "10x 3' v2",
+    "family": "10x",
+    "all": 28169666,
+    "primary": 14567898
+   },
+   {
+    "assay": "10x 5' v2",
+    "family": "10x",
+    "all": 9863654,
+    "primary": 5590454
+   },
+   {
+    "assay": "10x 5' v1",
+    "family": "10x",
+    "all": 7902378,
+    "primary": 4688066
+   },
+   {
+    "assay": "sci-RNA-seq3",
+    "family": "sci-RNA-seq3",
+    "all": 5230353,
+    "primary": 4229065
+   },
+   {
+    "assay": "10x multiome",
+    "family": "10x",
+    "all": 3033426,
+    "primary": 2441082
+   },
+   {
+    "assay": "10x 5' transcription profiling",
+    "family": "10x",
+    "all": 2244607,
+    "primary": 1802991
+   },
+   {
+    "assay": "Drop-seq",
+    "family": "other",
+    "all": 1048377,
+    "primary": 646386
+   },
+   {
+    "assay": "ScaleBio single cell RNA sequencing",
+    "family": "other",
+    "all": 700524,
+    "primary": 692774
+   },
+   {
+    "assay": "10x 3' transcription profiling",
+    "family": "10x",
+    "all": 665642,
+    "primary": 658932
+   },
+   {
+    "assay": "microwell-seq",
+    "family": "other",
+    "all": 642559,
+    "primary": 625175
+   },
+   {
+    "assay": "BD Rhapsody Whole Transcriptome Analysis",
+    "family": "other",
+    "all": 344402,
+    "primary": 267393
+   },
+   {
+    "assay": "10x 3' v1",
+    "family": "10x",
+    "all": 282946,
+    "primary": 73921
+   },
+   {
+    "assay": "Smart-seq2",
+    "family": "Smart-seq family",
+    "all": 267948,
+    "primary": 112429
+   },
+   {
+    "assay": "Seq-Well",
+    "family": "other",
+    "all": 255232,
+    "primary": 137955
+   },
+   {
+    "assay": "inDrop",
+    "family": "other",
+    "all": 136019,
+    "primary": 63871
+   },
+   {
+    "assay": "TruDrop",
+    "family": "other",
+    "all": 133507,
+    "primary": 133507
+   },
+   {
+    "assay": "GEXSCOPE technology",
+    "family": "other",
+    "all": 117962,
+    "primary": 58981
+   },
+   {
+    "assay": "10x gene expression flex",
+    "family": "10x",
+    "all": 117356,
+    "primary": 101856
+   },
+   {
+    "assay": "BD Rhapsody Targeted mRNA",
+    "family": "other",
+    "all": 96145,
+    "primary": 96145
+   },
+   {
+    "assay": "SPLiT-seq",
+    "family": "other",
+    "all": 81936,
+    "primary": 75555
+   },
+   {
+    "assay": "MARS-seq",
+    "family": "other",
+    "all": 70146,
+    "primary": 70146
+   },
+   {
+    "assay": "Smart-seq v4",
+    "family": "Smart-seq family",
+    "all": 63920,
+    "primary": 49417
+   },
+   {
+    "assay": "particle-templated instant partition sequencing",
+    "family": "other",
+    "all": 46500,
+    "primary": 23250
+   },
+   {
+    "assay": "Seq-Well S3",
+    "family": "other",
+    "all": 41560,
+    "primary": 37299
+   },
+   {
+    "assay": "mCT-seq",
+    "family": "other",
+    "all": 37121,
+    "primary": 37121
+   },
+   {
+    "assay": "HIVE CLX Single-Cell RNAseq Solution",
+    "family": "other",
+    "all": 31000,
+    "primary": 15500
+   },
+   {
+    "assay": "CEL-seq2",
+    "family": "other",
+    "all": 25416,
+    "primary": 21162
+   },
+   {
+    "assay": "Asteria scRNA-seq kit",
+    "family": "other",
+    "all": 15764,
+    "primary": 7882
+   },
+   {
+    "assay": "Parse Evercode Whole Transcriptome v2",
+    "family": "other",
+    "all": 15500,
+    "primary": 7750
+   },
+   {
+    "assay": "SORT-seq",
+    "family": "other",
+    "all": 11640,
+    "primary": 5820
+   },
+   {
+    "assay": "STRT-seq",
+    "family": "other",
+    "all": 9386,
+    "primary": 4693
+   },
+   {
+    "assay": "Smart-seq3",
+    "family": "Smart-seq family",
+    "all": 5005,
+    "primary": 1669
+   },
+   {
+    "assay": "Quartz-seq",
+    "family": "other",
+    "all": 2882,
+    "primary": 1441
+   },
+   {
+    "assay": "modified STRT-seq",
+    "family": "other",
+    "all": 1971,
+    "primary": 1971
+   },
+   {
+    "assay": "CEL-seq",
+    "family": "other",
+    "all": 796,
+    "primary": 796
+   },
+   {
+    "assay": "Smart-seq",
+    "family": "Smart-seq family",
+    "all": 172,
+    "primary": 172
+   }
+  ],
+  "tenx_primary": 89165901,
+  "tenx_normal": 55795174,
+  "tenx_suspension": {
+   "cell": 55765817,
+   "nucleus": 33400084
+  },
+  "tenx_cell_types": 835,
+  "tenx_datasets": 524,
+  "tenx_tissue": [
+   {
+    "tissue": "brain",
+    "cell": 5496310,
+    "nucleus": 19853129,
+    "total": 25349439
+   },
+   {
+    "tissue": "blood",
+    "cell": 25010923,
+    "nucleus": 0,
+    "total": 25010923
+   },
+   {
+    "tissue": "eye",
+    "cell": 1698965,
+    "nucleus": 6112474,
+    "total": 7811439
+   },
+   {
+    "tissue": "lung",
+    "cell": 4997743,
+    "nucleus": 618149,
+    "total": 5615892
+   },
+   {
+    "tissue": "breast",
+    "cell": 3130987,
+    "nucleus": 212647,
+    "total": 3343634
+   },
+   {
+    "tissue": "heart",
+    "cell": 301798,
+    "nucleus": 2687870,
+    "total": 2989668
+   },
+   {
+    "tissue": "lymph node",
+    "cell": 1126864,
+    "nucleus": 632480,
+    "total": 1759344
+   },
+   {
+    "tissue": "small intestine",
+    "cell": 1410249,
+    "nucleus": 0,
+    "total": 1410249
+   },
+   {
+    "tissue": "liver",
+    "cell": 913124,
+    "nucleus": 480333,
+    "total": 1393457
+   },
+   {
+    "tissue": "kidney",
+    "cell": 805220,
+    "nucleus": 457354,
+    "total": 1262574
+   },
+   {
+    "tissue": "skin of body",
+    "cell": 801066,
+    "nucleus": 14377,
+    "total": 815443
+   },
+   {
+    "tissue": "colon",
+    "cell": 729636,
+    "nucleus": 26527,
+    "total": 756163
+   },
+   {
+    "tissue": "bone marrow",
+    "cell": 746936,
+    "nucleus": 0,
+    "total": 746936
+   },
+   {
+    "tissue": "central nervous system",
+    "cell": 121409,
+    "nucleus": 621464,
+    "total": 742873
+   },
+   {
+    "tissue": "endocrine gland",
+    "cell": 673927,
+    "nucleus": 0,
+    "total": 673927
+   },
+   {
+    "tissue": "respiratory system",
+    "cell": 556117,
+    "nucleus": 42250,
+    "total": 598367
+   },
+   {
+    "tissue": "placenta",
+    "cell": 416240,
+    "nucleus": 145153,
+    "total": 561393
+   },
+   {
+    "tissue": "musculature",
+    "cell": 175130,
+    "nucleus": 370854,
+    "total": 545984
+   },
+   {
+    "tissue": "spleen",
+    "cell": 545844,
+    "nucleus": 0,
+    "total": 545844
+   },
+   {
+    "tissue": "pancreas",
+    "cell": 380930,
+    "nucleus": 145192,
+    "total": 526122
+   },
+   {
+    "tissue": "stomach",
+    "cell": 522734,
+    "nucleus": 0,
+    "total": 522734
+   },
+   {
+    "tissue": "large intestine",
+    "cell": 457652,
+    "nucleus": 0,
+    "total": 457652
+   },
+   {
+    "tissue": "uterus",
+    "cell": 451142,
+    "nucleus": 0,
+    "total": 451142
+   },
+   {
+    "tissue": "abdomen",
+    "cell": 243372,
+    "nucleus": 186397,
+    "total": 429769
+   },
+   {
+    "tissue": "adipose tissue",
+    "cell": 95316,
+    "nucleus": 331629,
+    "total": 426945
+   },
+   {
+    "tissue": "reproductive system",
+    "cell": 364425,
+    "nucleus": 0,
+    "total": 364425
+   },
+   {
+    "tissue": "vasculature",
+    "cell": 363476,
+    "nucleus": 0,
+    "total": 363476
+   },
+   {
+    "tissue": "ovary",
+    "cell": 316589,
+    "nucleus": 42568,
+    "total": 359157
+   },
+   {
+    "tissue": "nose",
+    "cell": 317935,
+    "nucleus": 0,
+    "total": 317935
+   },
+   {
+    "tissue": "intestine",
+    "cell": 283158,
+    "nucleus": 0,
+    "total": 283158
+   },
+   {
+    "tissue": "exocrine gland",
+    "cell": 271201,
+    "nucleus": 0,
+    "total": 271201
+   },
+   {
+    "tissue": "fallopian tube",
+    "cell": 241285,
+    "nucleus": 0,
+    "total": 241285
+   },
+   {
+    "tissue": "prostate gland",
+    "cell": 181149,
+    "nucleus": 31061,
+    "total": 212210
+   },
+   {
+    "tissue": "omentum",
+    "cell": 209491,
+    "nucleus": 0,
+    "total": 209491
+   },
+   {
+    "tissue": "esophagus",
+    "cell": 132873,
+    "nucleus": 34173,
+    "total": 167046
+   },
+   {
+    "tissue": "embryo",
+    "cell": 112008,
+    "nucleus": 43440,
+    "total": 155448
+   },
+   {
+    "tissue": "cortex",
+    "cell": 149766,
+    "nucleus": 0,
+    "total": 149766
+   },
+   {
+    "tissue": "digestive system",
+    "cell": 140632,
+    "nucleus": 0,
+    "total": 140632
+   },
+   {
+    "tissue": "mucosa",
+    "cell": 108430,
+    "nucleus": 26060,
+    "total": 134490
+   },
+   {
+    "tissue": "adrenal gland",
+    "cell": 18007,
+    "nucleus": 105875,
+    "total": 123882
+   },
+   {
+    "tissue": "axilla",
+    "cell": 26175,
+    "nucleus": 67976,
+    "total": 94151
+   },
+   {
+    "tissue": "pleural fluid",
+    "cell": 87930,
+    "nucleus": 0,
+    "total": 87930
+   },
+   {
+    "tissue": "hindlimb",
+    "cell": 86972,
+    "nucleus": 0,
+    "total": 86972
+   },
+   {
+    "tissue": "cerebrospinal fluid",
+    "cell": 72695,
+    "nucleus": 0,
+    "total": 72695
+   },
+   {
+    "tissue": "bladder organ",
+    "cell": 64214,
+    "nucleus": 0,
+    "total": 64214
+   },
+   {
+    "tissue": "skeletal system",
+    "cell": 51243,
+    "nucleus": 5631,
+    "total": 56874
+   },
+   {
+    "tissue": "yolk sac",
+    "cell": 56706,
+    "nucleus": 0,
+    "total": 56706
+   },
+   {
+    "tissue": "immune system",
+    "cell": 49874,
+    "nucleus": 0,
+    "total": 49874
+   },
+   {
+    "tissue": "spinal cord",
+    "cell": 0,
+    "nucleus": 43840,
+    "total": 43840
+   },
+   {
+    "tissue": "ureter",
+    "cell": 41338,
+    "nucleus": 0,
+    "total": 41338
+   },
+   {
+    "tissue": "forelimb",
+    "cell": 38983,
+    "nucleus": 0,
+    "total": 38983
+   },
+   {
+    "tissue": "tongue",
+    "cell": 37180,
+    "nucleus": 0,
+    "total": 37180
+   },
+   {
+    "tissue": "urinary bladder",
+    "cell": 28497,
+    "nucleus": 7603,
+    "total": 36100
+   },
+   {
+    "tissue": "lamina propria",
+    "cell": 23687,
+    "nucleus": 0,
+    "total": 23687
+   },
+   {
+    "tissue": "neck",
+    "cell": 13751,
+    "nucleus": 6450,
+    "total": 20201
+   },
+   {
+    "tissue": "chest wall",
+    "cell": 799,
+    "nucleus": 19345,
+    "total": 20144
+   },
+   {
+    "tissue": "chest",
+    "cell": 0,
+    "nucleus": 15413,
+    "total": 15413
+   },
+   {
+    "tissue": "saliva",
+    "cell": 14502,
+    "nucleus": 0,
+    "total": 14502
+   },
+   {
+    "tissue": "esophagogastric junction",
+    "cell": 12771,
+    "nucleus": 0,
+    "total": 12771
+   },
+   {
+    "tissue": "tendon of semitendinosus",
+    "cell": 0,
+    "nucleus": 10533,
+    "total": 10533
+   },
+   {
+    "tissue": "gallbladder",
+    "cell": 10031,
+    "nucleus": 0,
+    "total": 10031
+   },
+   {
+    "tissue": "paracolic gutter",
+    "cell": 8012,
+    "nucleus": 0,
+    "total": 8012
+   },
+   {
+    "tissue": "testis",
+    "cell": 7513,
+    "nucleus": 0,
+    "total": 7513
+   },
+   {
+    "tissue": "head",
+    "cell": 6801,
+    "nucleus": 0,
+    "total": 6801
+   },
+   {
+    "tissue": "scalp",
+    "cell": 3029,
+    "nucleus": 0,
+    "total": 3029
+   },
+   {
+    "tissue": "sensory system",
+    "cell": 2397,
+    "nucleus": 0,
+    "total": 2397
+   },
+   {
+    "tissue": "nervous system",
+    "cell": 0,
+    "nucleus": 1837,
+    "total": 1837
+   },
+   {
+    "tissue": "peripheral nervous system",
+    "cell": 658,
+    "nucleus": 0,
+    "total": 658
+   }
+  ],
+  "dataset_gene_counts": [
+   {
+    "n_cells": 10099,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 5399,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 51876,
+    "n_measured": 53792,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 244474,
+    "n_measured": 30172,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 12590,
+    "n_measured": 22624,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 600929,
+    "n_measured": 18006,
+    "assay": "10x 5' transcription profiling"
+   },
+   {
+    "n_cells": 61525,
+    "n_measured": 35477,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 3726,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 65396,
+    "n_measured": 32596,
+    "assay": "10x 5' v2"
+   },
+   {
+    "n_cells": 20027,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 85107,
+    "n_measured": 59029,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 10533,
+    "n_measured": 22909,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 18927,
+    "n_measured": 33295,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 27210,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 11202,
+    "n_measured": 32344,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 24190,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 193108,
+    "n_measured": 32383,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 52045,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 37717,
+    "n_measured": 35475,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 61747,
+    "n_measured": 60305,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1234234,
+    "n_measured": 32357,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 48783,
+    "n_measured": 36020,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 27491,
+    "n_measured": 33140,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 803283,
+    "n_measured": 33604,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 27675,
+    "n_measured": 26791,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 120807,
+    "n_measured": 33110,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 72695,
+    "n_measured": 25184,
+    "assay": "10x 5' v2"
+   },
+   {
+    "n_cells": 1322061,
+    "n_measured": 32357,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 832,
+    "n_measured": 32596,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 6133,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 13623,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 75695,
+    "n_measured": 26967,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 38331,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 34132,
+    "n_measured": 59413,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 71732,
+    "n_measured": 32088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 15457,
+    "n_measured": 30172,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 10396,
+    "n_measured": 35459,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1665937,
+    "n_measured": 58226,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 3029,
+    "n_measured": 26886,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 123236,
+    "n_measured": 58234,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 301,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 165109,
+    "n_measured": 49042,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 370115,
+    "n_measured": 38361,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 7156,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 7750,
+    "n_measured": 20939,
+    "assay": "10x 5' v2"
+   },
+   {
+    "n_cells": 28724,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 50830,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 79265,
+    "n_measured": 32596,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 213898,
+    "n_measured": 27950,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 594283,
+    "n_measured": 18370,
+    "assay": "10x 3' v1"
+   },
+   {
+    "n_cells": 41568,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 66985,
+    "n_measured": 35335,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 166785,
+    "n_measured": 34333,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 21534,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 103228,
+    "n_measured": 32088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 709372,
+    "n_measured": 17631,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 16668,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 806868,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 15855,
+    "n_measured": 35461,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1281499,
+    "n_measured": 35475,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 34933,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 329762,
+    "n_measured": 35469,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 191795,
+    "n_measured": 28380,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 29522,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 35954,
+    "n_measured": 18063,
+    "assay": "10x gene expression flex"
+   },
+   {
+    "n_cells": 35699,
+    "n_measured": 23775,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 689551,
+    "n_measured": 17764,
+    "assay": "10x 3' v1"
+   },
+   {
+    "n_cells": 20676,
+    "n_measured": 32088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 79631,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 65479,
+    "n_measured": 30726,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 135482,
+    "n_measured": 58234,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1263676,
+    "n_measured": 30172,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 246964,
+    "n_measured": 30000,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 12557,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 45186,
+    "n_measured": 32596,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 189902,
+    "n_measured": 32344,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 5980,
+    "n_measured": 16656,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 44619,
+    "n_measured": 33295,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 57019,
+    "n_measured": 24349,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 42528,
+    "n_measured": 31997,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 39696,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 6364,
+    "n_measured": 33295,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 41650,
+    "n_measured": 18753,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 280479,
+    "n_measured": 35477,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 339597,
+    "n_measured": 32344,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 7288,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 10778,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 48226,
+    "n_measured": 57509,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 12964,
+    "n_measured": 35459,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 49359,
+    "n_measured": 56689,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 38217,
+    "n_measured": 35469,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 39778,
+    "n_measured": 30088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 2868,
+    "n_measured": 32040,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 4651,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 28943,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 207952,
+    "n_measured": 25091,
+    "assay": "10x 5' v2"
+   },
+   {
+    "n_cells": 125117,
+    "n_measured": 30000,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 1790,
+    "n_measured": 32397,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 11244,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 40165,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 79367,
+    "n_measured": 32356,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 51645,
+    "n_measured": 35451,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 9687,
+    "n_measured": 35477,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 26474,
+    "n_measured": 30172,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 31924,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 8978,
+    "n_measured": 35469,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 394534,
+    "n_measured": 29845,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 654947,
+    "n_measured": 24453,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 16753,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 12944,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 437851,
+    "n_measured": 30471,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 24354,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4140453,
+    "n_measured": 34176,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 69645,
+    "n_measured": 25629,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 26172,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4112,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 158978,
+    "n_measured": 35469,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 42568,
+    "n_measured": 26530,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 113106,
+    "n_measured": 33067,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 172120,
+    "n_measured": 37490,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 813508,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 95064,
+    "n_measured": 20966,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 1350748,
+    "n_measured": 32357,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 71752,
+    "n_measured": 28644,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 46500,
+    "n_measured": 25799,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 30942,
+    "n_measured": 35459,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 7774,
+    "n_measured": 32397,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 32157,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 36359,
+    "n_measured": 32383,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 37911,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1248980,
+    "n_measured": 35528,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 61399,
+    "n_measured": 24220,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 30132,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 13173,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1712244,
+    "n_measured": 32357,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 34949,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 108613,
+    "n_measured": 28055,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 11243,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 113304,
+    "n_measured": 32397,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 15216,
+    "n_measured": 32596,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 20475,
+    "n_measured": 19865,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 38205,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 28279,
+    "n_measured": 19517,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 31090,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 18122,
+    "n_measured": 32357,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 2616824,
+    "n_measured": 32357,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 32745,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4714,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 27998,
+    "n_measured": 31042,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 35350,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1750565,
+    "n_measured": 32357,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 582,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 13900,
+    "n_measured": 59413,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 5834,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 71874,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1167,
+    "n_measured": 32596,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 516121,
+    "n_measured": 28560,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 15684,
+    "n_measured": 20170,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 18386,
+    "n_measured": 23775,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 22370,
+    "n_measured": 31752,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 2576,
+    "n_measured": 32088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 8219,
+    "n_measured": 32596,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 24808,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 34772,
+    "n_measured": 59474,
+    "assay": "10x 3' v1"
+   },
+   {
+    "n_cells": 7825,
+    "n_measured": 33295,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 19711,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4329,
+    "n_measured": 16849,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 209126,
+    "n_measured": 32088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 4755,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 101164,
+    "n_measured": 26766,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 11177,
+    "n_measured": 32357,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4147,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 7750,
+    "n_measured": 14109,
+    "assay": "10x gene expression flex"
+   },
+   {
+    "n_cells": 32678,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 50362,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 59505,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 133811,
+    "n_measured": 27950,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 45549,
+    "n_measured": 29382,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 1093048,
+    "n_measured": 60606,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 551770,
+    "n_measured": 15153,
+    "assay": "10x 3' transcription profiling"
+   },
+   {
+    "n_cells": 30889,
+    "n_measured": 26886,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 28186,
+    "n_measured": 26364,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 101924,
+    "n_measured": 35451,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 1020902,
+    "n_measured": 25987,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 83451,
+    "n_measured": 26791,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 147137,
+    "n_measured": 22021,
+    "assay": "10x 3' transcription profiling"
+   },
+   {
+    "n_cells": 101978,
+    "n_measured": 33295,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 41670,
+    "n_measured": 23290,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 156726,
+    "n_measured": 32397,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 27092,
+    "n_measured": 35469,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 49139,
+    "n_measured": 22481,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 20916,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 77933,
+    "n_measured": 37389,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 270855,
+    "n_measured": 19322,
+    "assay": "10x 5' transcription profiling"
+   },
+   {
+    "n_cells": 12822,
+    "n_measured": 35477,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 28155,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 64734,
+    "n_measured": 30343,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 1486324,
+    "n_measured": 34176,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 13607,
+    "n_measured": 32040,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 67815,
+    "n_measured": 26766,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 49109,
+    "n_measured": 27517,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 693682,
+    "n_measured": 34176,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 32306,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 90957,
+    "n_measured": 32399,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 563,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 173736,
+    "n_measured": 35477,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 1206761,
+    "n_measured": 32357,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 2094,
+    "n_measured": 35459,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 7813,
+    "n_measured": 36030,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 51367,
+    "n_measured": 35477,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 2598,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 35290,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 163714,
+    "n_measured": 35474,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 94256,
+    "n_measured": 21947,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 14979,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 33641,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 665955,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 717537,
+    "n_measured": 25367,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 598289,
+    "n_measured": 35180,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 24271,
+    "n_measured": 27040,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 1875,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 63608,
+    "n_measured": 31997,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 157531,
+    "n_measured": 26843,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 89849,
+    "n_measured": 32088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 30814,
+    "n_measured": 26766,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 5499,
+    "n_measured": 29371,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 38259,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1395601,
+    "n_measured": 35483,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 2988,
+    "n_measured": 32397,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 40815,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 40191,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 18400,
+    "n_measured": 28586,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 20470,
+    "n_measured": 21459,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 259116,
+    "n_measured": 25379,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 2065,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4594,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 201597,
+    "n_measured": 37560,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 325665,
+    "n_measured": 29803,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 16812,
+    "n_measured": 37389,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 118672,
+    "n_measured": 26232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 11982,
+    "n_measured": 32596,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 23349,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 37767,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 9619,
+    "n_measured": 35461,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 31040,
+    "n_measured": 20577,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1465,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 21595,
+    "n_measured": 19517,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 4846,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 332421,
+    "n_measured": 22779,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 42699,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 125530,
+    "n_measured": 57509,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 9070,
+    "n_measured": 32040,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 279586,
+    "n_measured": 25853,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 49512,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 76298,
+    "n_measured": 57509,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 26095,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 28984,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 2489,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 42834,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 43857,
+    "n_measured": 55446,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 117346,
+    "n_measured": 32383,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 134076,
+    "n_measured": 57509,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 17535,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 92617,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 275275,
+    "n_measured": 32383,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 3797,
+    "n_measured": 17312,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 37879,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 47107,
+    "n_measured": 25344,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 5608,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 714331,
+    "n_measured": 32383,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 72710,
+    "n_measured": 32397,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 332995,
+    "n_measured": 35477,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 20091,
+    "n_measured": 19263,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 96129,
+    "n_measured": 32330,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 25908,
+    "n_measured": 32040,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 16743,
+    "n_measured": 32088,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 46957,
+    "n_measured": 29702,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 41279,
+    "n_measured": 22368,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 68322,
+    "n_measured": 32397,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 7097,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 40565,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4232,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 3596,
+    "n_measured": 22340,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 65662,
+    "n_measured": 24769,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 241077,
+    "n_measured": 29352,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 10459,
+    "n_measured": 32383,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 17962,
+    "n_measured": 22808,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 8556,
+    "n_measured": 32375,
+    "assay": "10x 5' transcription profiling"
+   },
+   {
+    "n_cells": 22502,
+    "n_measured": 25699,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 14776,
+    "n_measured": 35459,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 815769,
+    "n_measured": 35477,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 50992,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 221756,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 57918,
+    "n_measured": 35942,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 17451,
+    "n_measured": 20893,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 47416,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 57182,
+    "n_measured": 59029,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 80576,
+    "n_measured": 33295,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 28718,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 24327,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 33794,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 153159,
+    "n_measured": 29187,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 38937,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 129905,
+    "n_measured": 17131,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 10268,
+    "n_measured": 32344,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 226506,
+    "n_measured": 35469,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 92676,
+    "n_measured": 26343,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 83731,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1044541,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 23197,
+    "n_measured": 32330,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 160658,
+    "n_measured": 33606,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 155232,
+    "n_measured": 30172,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 137147,
+    "n_measured": 30172,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 51176,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 57422,
+    "n_measured": 59413,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 52681,
+    "n_measured": 20052,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 7750,
+    "n_measured": 24045,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 76592,
+    "n_measured": 32330,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 72335,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1421129,
+    "n_measured": 27131,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 100307,
+    "n_measured": 27506,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 19985,
+    "n_measured": 32383,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 35171,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 40268,
+    "n_measured": 32088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 49110,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 139978,
+    "n_measured": 36524,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1824010,
+    "n_measured": 55329,
+    "assay": "10x 3' v1"
+   },
+   {
+    "n_cells": 56367,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 105918,
+    "n_measured": 35369,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 100064,
+    "n_measured": 28468,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 304989,
+    "n_measured": 35439,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 105827,
+    "n_measured": 35469,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 40677,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 77474,
+    "n_measured": 25952,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 16245,
+    "n_measured": 31983,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 11201,
+    "n_measured": 49082,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 15669,
+    "n_measured": 32344,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 311964,
+    "n_measured": 36924,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 8213,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 201072,
+    "n_measured": 26967,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 29907,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 37485,
+    "n_measured": 59413,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 28028,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 20162,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 810,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 39713,
+    "n_measured": 18063,
+    "assay": "10x gene expression flex"
+   },
+   {
+    "n_cells": 27111,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 7750,
+    "n_measured": 21397,
+    "assay": "10x 5' v2"
+   },
+   {
+    "n_cells": 34078,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 7571,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 2596111,
+    "n_measured": 32357,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 232328,
+    "n_measured": 35477,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 11617,
+    "n_measured": 30172,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 26853,
+    "n_measured": 22735,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 432555,
+    "n_measured": 29363,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 16716,
+    "n_measured": 28171,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 39147,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 12808,
+    "n_measured": 60333,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 14226,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 457965,
+    "n_measured": 26288,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 108838,
+    "n_measured": 32055,
+    "assay": "10x 3' v1"
+   },
+   {
+    "n_cells": 1701,
+    "n_measured": 19989,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 372619,
+    "n_measured": 20537,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 87947,
+    "n_measured": 23472,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 10282,
+    "n_measured": 35240,
+    "assay": "10x 5' v2"
+   },
+   {
+    "n_cells": 927205,
+    "n_measured": 31093,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1074,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 183161,
+    "n_measured": 32375,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 62849,
+    "n_measured": 25776,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 9515,
+    "n_measured": 32596,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 236169,
+    "n_measured": 44649,
+    "assay": "10x 3' v1"
+   },
+   {
+    "n_cells": 115788,
+    "n_measured": 35468,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 43485,
+    "n_measured": 32397,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 77536,
+    "n_measured": 36020,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 82844,
+    "n_measured": 35468,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 3934,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 19200,
+    "n_measured": 27359,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 33006,
+    "n_measured": 35469,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 13382,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 180956,
+    "n_measured": 27010,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 19768,
+    "n_measured": 55446,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 12461,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 22125,
+    "n_measured": 32040,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 7025,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 167283,
+    "n_measured": 15934,
+    "assay": "10x 5' v2"
+   },
+   {
+    "n_cells": 6560,
+    "n_measured": 19960,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 20509,
+    "n_measured": 32088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 135462,
+    "n_measured": 29362,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 6061,
+    "n_measured": 35475,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 35637,
+    "n_measured": 28157,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 45528,
+    "n_measured": 32902,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1301107,
+    "n_measured": 35483,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 97499,
+    "n_measured": 21858,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 37642,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 11265,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 7750,
+    "n_measured": 24314,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 14094,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 647366,
+    "n_measured": 24245,
+    "assay": "10x 3' transcription profiling"
+   },
+   {
+    "n_cells": 14352,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1265624,
+    "n_measured": 35477,
+    "assay": "10x 5' v2"
+   },
+   {
+    "n_cells": 4603,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 98848,
+    "n_measured": 30818,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 33968,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 137684,
+    "n_measured": 28101,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 5080,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 76153,
+    "n_measured": 35377,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 34723,
+    "n_measured": 55446,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 263159,
+    "n_measured": 27571,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 255901,
+    "n_measured": 32088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 2834,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 7750,
+    "n_measured": 14059,
+    "assay": "10x gene expression flex"
+   },
+   {
+    "n_cells": 128588,
+    "n_measured": 19809,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4355,
+    "n_measured": 14968,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 285291,
+    "n_measured": 60305,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 36941,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 22332,
+    "n_measured": 59029,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 108717,
+    "n_measured": 21648,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 48856,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 39053,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 36886,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 11404,
+    "n_measured": 32040,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 2096155,
+    "n_measured": 17266,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 6339,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 82991,
+    "n_measured": 24476,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 486134,
+    "n_measured": 32383,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 8077,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 211061,
+    "n_measured": 31832,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 34919,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 8093,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 19694,
+    "n_measured": 36475,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 2907910,
+    "n_measured": 35475,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 255204,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 25875,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 20571,
+    "n_measured": 32344,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 16901,
+    "n_measured": 17597,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 27197,
+    "n_measured": 32088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 1652381,
+    "n_measured": 35725,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 116313,
+    "n_measured": 33523,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 52309,
+    "n_measured": 59413,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1837,
+    "n_measured": 31562,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 495763,
+    "n_measured": 28968,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 31065,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 11574,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 3434,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 17799,
+    "n_measured": 20110,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 23732,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 73295,
+    "n_measured": 32596,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 59572,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 402110,
+    "n_measured": 37389,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 15243,
+    "n_measured": 30172,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 31696,
+    "n_measured": 32397,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 104097,
+    "n_measured": 33295,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 225177,
+    "n_measured": 30635,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 94227,
+    "n_measured": 31969,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 20215,
+    "n_measured": 35469,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 107301,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 139054,
+    "n_measured": 29440,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4683,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1241,
+    "n_measured": 32596,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 57855,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 34833,
+    "n_measured": 32118,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 13490,
+    "n_measured": 27094,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 245878,
+    "n_measured": 26936,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 263917,
+    "n_measured": 32357,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 125955,
+    "n_measured": 25769,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 35359,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 2487,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 66719,
+    "n_measured": 32419,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 100055,
+    "n_measured": 56710,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 109297,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 138156,
+    "n_measured": 26886,
+    "assay": "10x 3' v1"
+   },
+   {
+    "n_cells": 167598,
+    "n_measured": 30172,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 31307,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4636,
+    "n_measured": 32088,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4792,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 16319,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 122445,
+    "n_measured": 29824,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 836148,
+    "n_measured": 36306,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 67110,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 124917,
+    "n_measured": 21459,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 46453,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 8573,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 32638,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 161764,
+    "n_measured": 20264,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 130078,
+    "n_measured": 37389,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 5696,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 77525,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 236977,
+    "n_measured": 32383,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 5200,
+    "n_measured": 30172,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 9337,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1324,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 5594,
+    "n_measured": 25229,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 195739,
+    "n_measured": 27867,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 440854,
+    "n_measured": 31432,
+    "assay": "10x 5' v2"
+   },
+   {
+    "n_cells": 9852,
+    "n_measured": 32383,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 19722,
+    "n_measured": 20399,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 392819,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 18728,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 116576,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 24155,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 15177,
+    "n_measured": 32344,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 31230,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 68036,
+    "n_measured": 19358,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 34416,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 110752,
+    "n_measured": 20909,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 6811,
+    "n_measured": 33295,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 34323,
+    "n_measured": 32345,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 91859,
+    "n_measured": 35477,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 6877,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 11103,
+    "n_measured": 32357,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 6044,
+    "n_measured": 32088,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 16286,
+    "n_measured": 33295,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 31899,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 23120,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 637,
+    "n_measured": 18736,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 29674,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 59506,
+    "n_measured": 23562,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 10689,
+    "n_measured": 18063,
+    "assay": "10x gene expression flex"
+   },
+   {
+    "n_cells": 17660,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 610392,
+    "n_measured": 32383,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 35285,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 154136,
+    "n_measured": 26967,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 62705,
+    "n_measured": 32397,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 28051,
+    "n_measured": 58232,
+    "assay": "10x 3' v3"
+   }
+  ],
+  "smallest_gene_lists": [
+   {
+    "dataset_title": "10X_FRP-rep1",
+    "collection_name": "Comparative Analysis of Commercial Single-Cell RNA Sequencing Technologies",
+    "assay": "10x gene expression flex",
+    "n_cells": 7750,
+    "n_measured": 14059
+   },
+   {
+    "dataset_title": "10X_FRP-rep2",
+    "collection_name": "Comparative Analysis of Commercial Single-Cell RNA Sequencing Technologies",
+    "assay": "10x gene expression flex",
+    "n_cells": 7750,
+    "n_measured": 14109
+   },
+   {
+    "dataset_title": "A Single-Cell Transcriptional Roadmap of the Mouse and Human Lymph Node Lymphatic Vasculature - human",
+    "collection_name": "A single-cell transcriptional roadmap of the mouse and human lymph node lymphatic vasculature",
+    "assay": "10x 3' v2",
+    "n_cells": 4355,
+    "n_measured": 14968
+   },
+   {
+    "dataset_title": "Integrated HBCA",
+    "collection_name": "Human breast cell atlas",
+    "assay": "10x 3' transcription profiling",
+    "n_cells": 551770,
+    "n_measured": 15153
+   },
+   {
+    "dataset_title": "Single-cell sequencing links multiregional immune landscapes and tissue-resident T cells in ccRCC to tumor topology and therapy efficacy",
+    "collection_name": "Single-cell sequencing links multiregional immune landscapes and tissue-resident T cells in ccRCC to tumor topology and therapy efficacy",
+    "assay": "10x 5' v2",
+    "n_cells": 167283,
+    "n_measured": 15934
+   },
+   {
+    "dataset_title": "Ileum",
+    "collection_name": "Single-cell transcriptome analysis reveals differential nutrient absorption functions in human intestine",
+    "assay": "10x 3' v2",
+    "n_cells": 5980,
+    "n_measured": 16656
+   },
+   {
+    "dataset_title": "Colon",
+    "collection_name": "Single-cell transcriptome analysis reveals differential nutrient absorption functions in human intestine",
+    "assay": "10x 3' v2",
+    "n_cells": 4329,
+    "n_measured": 16849
+   },
+   {
+    "dataset_title": "snRNA-seq of human anterior and posterior hippocampus",
+    "collection_name": "Resolving cellular and molecular diversity along the hippocampal anterior-to-posterior axis in humans",
+    "assay": "10x 3' v2",
+    "n_cells": 129905,
+    "n_measured": 17131
+   },
+   {
+    "dataset_title": "Parkinson's disease",
+    "collection_name": "A multi-region single nucleus transcriptomic atlas of Parkinson\u2019s disease",
+    "assay": "10x 3' v3",
+    "n_cells": 2096155,
+    "n_measured": 17266
+   },
+   {
+    "dataset_title": "Rectum",
+    "collection_name": "Single-cell transcriptome analysis reveals differential nutrient absorption functions in human intestine",
+    "assay": "10x 3' v2",
+    "n_cells": 3797,
+    "n_measured": 17312
+   },
+   {
+    "dataset_title": "Activated PBMCs - Twins scRNA-seq",
+    "collection_name": "Single-cell Atlas of common variable immunodeficiency shows germinal center-associated epigenetic dysregulation in B-cell responses",
+    "assay": "10x 5' v1",
+    "n_cells": 16901,
+    "n_measured": 17597
+   },
+   {
+    "dataset_title": "Single-cell analysis of prenatal and postnatal human cortical development",
+    "collection_name": "Single-cell analysis of prenatal and postnatal human cortical development",
+    "assay": "10x 3' v2",
+    "n_cells": 709372,
+    "n_measured": 17631
+   }
+  ],
+  "gene_breadth": {
+   "labels": [
+    "never",
+    "<25%",
+    "25-50%",
+    "50-75%",
+    "75-90%",
+    "90-99%",
+    "99-100%"
+   ],
+   "all": [
+    18,
+    25349,
+    3669,
+    3872,
+    10009,
+    7521,
+    11059
+   ],
+   "protein_coding": [
+    7,
+    303,
+    201,
+    1184,
+    1865,
+    5462,
+    11058
+   ]
+  },
+  "n_genes": 61497,
+  "n_protein_coding": 20080,
+  "genes_frac_measured": {
+   "ADORA1": 0.9979,
+   "ADORA2A": 0.8926,
+   "ADORA2B": 1.0,
+   "ADORA3": 0.8316,
+   "GAPDH": 0.9946
+  }
+ },
+ "mus_musculus": {
+  "total_cells": 43653561,
+  "primary_cells": 18384205,
+  "primary_by_family": {
+   "10x": 6436588,
+   "Smart-seq family": 193727,
+   "other": 312483,
+   "sci-RNA-seq3": 11441407
+  },
+  "assays": [
+   {
+    "assay": "sci-RNA-seq3",
+    "family": "sci-RNA-seq3",
+    "all": 34324221,
+    "primary": 11441407
+   },
+   {
+    "assay": "10x 3' v3",
+    "family": "10x",
+    "all": 4152037,
+    "primary": 3247155
+   },
+   {
+    "assay": "10x 3' v2",
+    "family": "10x",
+    "all": 3828625,
+    "primary": 2813141
+   },
+   {
+    "assay": "Smart-seq2",
+    "family": "Smart-seq family",
+    "all": 333486,
+    "primary": 111766
+   },
+   {
+    "assay": "inDrop",
+    "family": "other",
+    "all": 281883,
+    "primary": 145138
+   },
+   {
+    "assay": "10x multiome",
+    "family": "10x",
+    "all": 210070,
+    "primary": 207607
+   },
+   {
+    "assay": "Drop-seq",
+    "family": "other",
+    "all": 177313,
+    "primary": 155199
+   },
+   {
+    "assay": "10x 5' v1",
+    "family": "10x",
+    "all": 161525,
+    "primary": 136376
+   },
+   {
+    "assay": "Smart-seq v4",
+    "family": "Smart-seq family",
+    "all": 120640,
+    "primary": 79533
+   },
+   {
+    "assay": "10x 3' v1",
+    "family": "10x",
+    "all": 21456,
+    "primary": 21456
+   },
+   {
+    "assay": "10x 5' v2",
+    "family": "10x",
+    "all": 20134,
+    "primary": 10831
+   },
+   {
+    "assay": "BD Rhapsody Whole Transcriptome Analysis",
+    "family": "other",
+    "all": 9571,
+    "primary": 9378
+   },
+   {
+    "assay": "10x 3' transcription profiling",
+    "family": "10x",
+    "all": 5896,
+    "primary": 22
+   },
+   {
+    "assay": "DroNc-seq",
+    "family": "other",
+    "all": 2768,
+    "primary": 2768
+   },
+   {
+    "assay": "Smart-seq3",
+    "family": "Smart-seq family",
+    "all": 2257,
+    "primary": 749
+   },
+   {
+    "assay": "Smart-seq",
+    "family": "Smart-seq family",
+    "all": 1679,
+    "primary": 1679
+   }
+  ],
+  "tenx_primary": 6436588,
+  "tenx_normal": 5840842,
+  "tenx_suspension": {
+   "cell": 4398864,
+   "nucleus": 2037724
+  },
+  "tenx_cell_types": 387,
+  "tenx_datasets": 44,
+  "tenx_tissue": [
+   {
+    "tissue": "brain",
+    "cell": 2024199,
+    "nucleus": 1412271,
+    "total": 3436470
+   },
+   {
+    "tissue": "kidney",
+    "cell": 125960,
+    "nucleus": 248941,
+    "total": 374901
+   },
+   {
+    "tissue": "pancreas",
+    "cell": 340064,
+    "nucleus": 0,
+    "total": 340064
+   },
+   {
+    "tissue": "eye",
+    "cell": 310852,
+    "nucleus": 0,
+    "total": 310852
+   },
+   {
+    "tissue": "exocrine gland",
+    "cell": 235201,
+    "nucleus": 0,
+    "total": 235201
+   },
+   {
+    "tissue": "musculature",
+    "cell": 97823,
+    "nucleus": 130261,
+    "total": 228084
+   },
+   {
+    "tissue": "lung",
+    "cell": 215488,
+    "nucleus": 0,
+    "total": 215488
+   },
+   {
+    "tissue": "adipose tissue",
+    "cell": 6777,
+    "nucleus": 197721,
+    "total": 204498
+   },
+   {
+    "tissue": "forelimb",
+    "cell": 164391,
+    "nucleus": 0,
+    "total": 164391
+   },
+   {
+    "tissue": "nervous system",
+    "cell": 68104,
+    "nucleus": 48530,
+    "total": 116634
+   },
+   {
+    "tissue": "reproductive system",
+    "cell": 93634,
+    "nucleus": 0,
+    "total": 93634
+   },
+   {
+    "tissue": "blood",
+    "cell": 90833,
+    "nucleus": 0,
+    "total": 90833
+   },
+   {
+    "tissue": "endocrine gland",
+    "cell": 81317,
+    "nucleus": 0,
+    "total": 81317
+   },
+   {
+    "tissue": "bone marrow",
+    "cell": 75708,
+    "nucleus": 0,
+    "total": 75708
+   },
+   {
+    "tissue": "central nervous system",
+    "cell": 65274,
+    "nucleus": 0,
+    "total": 65274
+   },
+   {
+    "tissue": "skin of body",
+    "cell": 60819,
+    "nucleus": 0,
+    "total": 60819
+   },
+   {
+    "tissue": "hindlimb",
+    "cell": 50676,
+    "nucleus": 0,
+    "total": 50676
+   },
+   {
+    "tissue": "heart",
+    "cell": 48061,
+    "nucleus": 0,
+    "total": 48061
+   },
+   {
+    "tissue": "prostate gland",
+    "cell": 37715,
+    "nucleus": 0,
+    "total": 37715
+   },
+   {
+    "tissue": "spleen",
+    "cell": 35718,
+    "nucleus": 0,
+    "total": 35718
+   },
+   {
+    "tissue": "urethra",
+    "cell": 24700,
+    "nucleus": 0,
+    "total": 24700
+   },
+   {
+    "tissue": "liver",
+    "cell": 23495,
+    "nucleus": 0,
+    "total": 23495
+   },
+   {
+    "tissue": "small intestine",
+    "cell": 22798,
+    "nucleus": 0,
+    "total": 22798
+   },
+   {
+    "tissue": "tongue",
+    "cell": 20680,
+    "nucleus": 0,
+    "total": 20680
+   },
+   {
+    "tissue": "ovary",
+    "cell": 17408,
+    "nucleus": 0,
+    "total": 17408
+   },
+   {
+    "tissue": "skeletal system",
+    "cell": 15127,
+    "nucleus": 0,
+    "total": 15127
+   },
+   {
+    "tissue": "mucosa",
+    "cell": 12118,
+    "nucleus": 0,
+    "total": 12118
+   },
+   {
+    "tissue": "lymph node",
+    "cell": 9996,
+    "nucleus": 0,
+    "total": 9996
+   },
+   {
+    "tissue": "urinary bladder",
+    "cell": 8945,
+    "nucleus": 0,
+    "total": 8945
+   },
+   {
+    "tissue": "respiratory system",
+    "cell": 7976,
+    "nucleus": 0,
+    "total": 7976
+   },
+   {
+    "tissue": "colon",
+    "cell": 3509,
+    "nucleus": 0,
+    "total": 3509
+   },
+   {
+    "tissue": "large intestine",
+    "cell": 1887,
+    "nucleus": 0,
+    "total": 1887
+   },
+   {
+    "tissue": "testis",
+    "cell": 1326,
+    "nucleus": 0,
+    "total": 1326
+   },
+   {
+    "tissue": "optic cup",
+    "cell": 146,
+    "nucleus": 0,
+    "total": 146
+   },
+   {
+    "tissue": "embryo",
+    "cell": 139,
+    "nucleus": 0,
+    "total": 139
+   }
+  ],
+  "dataset_gene_counts": [
+   {
+    "n_cells": 67794,
+    "n_measured": 22073,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 38807,
+    "n_measured": 51727,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 5440,
+    "n_measured": 27064,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 205722,
+    "n_measured": 21486,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 25010,
+    "n_measured": 27064,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 69709,
+    "n_measured": 25394,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 107742,
+    "n_measured": 21486,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 310998,
+    "n_measured": 31671,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 203139,
+    "n_measured": 31671,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 5625,
+    "n_measured": 14856,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 62415,
+    "n_measured": 20634,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 393728,
+    "n_measured": 22301,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 79667,
+    "n_measured": 20929,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 119546,
+    "n_measured": 16575,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 245389,
+    "n_measured": 17943,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 301796,
+    "n_measured": 30849,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 215067,
+    "n_measured": 24406,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 4923,
+    "n_measured": 17885,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 130908,
+    "n_measured": 25069,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 44062,
+    "n_measured": 26028,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 12330,
+    "n_measured": 22835,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 6051,
+    "n_measured": 18897,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 197896,
+    "n_measured": 21205,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 115282,
+    "n_measured": 20287,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 249071,
+    "n_measured": 30198,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 194315,
+    "n_measured": 22728,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 9816,
+    "n_measured": 51714,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 123154,
+    "n_measured": 52445,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 32889,
+    "n_measured": 24178,
+    "assay": "10x 5' v1"
+   },
+   {
+    "n_cells": 197721,
+    "n_measured": 24551,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 102688,
+    "n_measured": 24539,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 15601,
+    "n_measured": 20870,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 19847,
+    "n_measured": 16966,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 46549,
+    "n_measured": 29831,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 72572,
+    "n_measured": 19922,
+    "assay": "10x multiome"
+   },
+   {
+    "n_cells": 14349,
+    "n_measured": 20053,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 96529,
+    "n_measured": 15680,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 72042,
+    "n_measured": 15942,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 1169213,
+    "n_measured": 30177,
+    "assay": "10x 3' v2"
+   },
+   {
+    "n_cells": 10831,
+    "n_measured": 19178,
+    "assay": "10x 5' v2"
+   },
+   {
+    "n_cells": 323022,
+    "n_measured": 51216,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 12118,
+    "n_measured": 30198,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 94181,
+    "n_measured": 31671,
+    "assay": "10x 3' v3"
+   },
+   {
+    "n_cells": 611034,
+    "n_measured": 23693,
+    "assay": "10x 3' v3"
+   }
+  ],
+  "smallest_gene_lists": [
+   {
+    "dataset_title": "A Single-Cell Transcriptional Roadmap of the Mouse and Human Lymph Node Lymphatic Vasculature - mouse",
+    "collection_name": "A single-cell transcriptional roadmap of the mouse and human lymph node lymphatic vasculature",
+    "assay": "10x 3' v2",
+    "n_cells": 5625,
+    "n_measured": 14856
+   },
+   {
+    "dataset_title": "Mouse muscle cells and nuclei",
+    "collection_name": "Human skeletal muscle ageing atlas",
+    "assay": "10x 3' v2",
+    "n_cells": 96529,
+    "n_measured": 15680
+   },
+   {
+    "dataset_title": "Single-cell multi-omic analysis of thymocyte development reveals drivers of CD4/CD8 lineage commitment",
+    "collection_name": "Single-cell multiomic analysis of thymocyte development reveals drivers of CD4+ T cell and CD8+ T cell lineage commitment",
+    "assay": "10x 3' v3",
+    "n_cells": 72042,
+    "n_measured": 15942
+   },
+   {
+    "dataset_title": "Healthy mouse kidney atlas",
+    "collection_name": "A comprehensive mouse kidney atlas enables rare cell population characterization and robust marker discovery",
+    "assay": "10x 3' v2",
+    "n_cells": 119546,
+    "n_measured": 16575
+   },
+   {
+    "dataset_title": "Epithelial cells collected from 30 segments across the proximal (1) to distal (30) ends of the mouse small intestine.",
+    "collection_name": "Epithelial zonation along the mammalian small intestine defines five discrete metabolic domains",
+    "assay": "10x 3' v3",
+    "n_cells": 19847,
+    "n_measured": 16966
+   },
+   {
+    "dataset_title": "Mouse Germ Cells",
+    "collection_name": "Single-cell roadmap of human gonadal development",
+    "assay": "10x 3' v2",
+    "n_cells": 4923,
+    "n_measured": 17885
+   },
+   {
+    "dataset_title": "All - A single-cell transcriptomic atlas characterizes ageing tissues in the mouse - 10x",
+    "collection_name": "Tabula Muris Senis",
+    "assay": "10x 3' v2",
+    "n_cells": 245389,
+    "n_measured": 17943
+   },
+   {
+    "dataset_title": "Single-cell of aged oligodendrocytes",
+    "collection_name": "Single-cell transcriptomics characterization of oligodendrocytes and microglia in white matter aging",
+    "assay": "10x 3' v3",
+    "n_cells": 6051,
+    "n_measured": 18897
+   },
+   {
+    "dataset_title": "Global",
+    "collection_name": "Immune microniches shape intestinal Treg function",
+    "assay": "10x 5' v2",
+    "n_cells": 10831,
+    "n_measured": 19178
+   },
+   {
+    "dataset_title": "iPain Atlas DRG All Cells - RNA",
+    "collection_name": "iPain atlas",
+    "assay": "10x multiome",
+    "n_cells": 72572,
+    "n_measured": 19922
+   },
+   {
+    "dataset_title": "Aging mouse ovary",
+    "collection_name": "A single-cell atlas of the aging mouse ovary",
+    "assay": "10x 3' v3",
+    "n_cells": 14349,
+    "n_measured": 20053
+   },
+   {
+    "dataset_title": "snRNA-seq data for mouse cerebella from 9-12 developmental stages",
+    "collection_name": "Cellular development and evolution of the mammalian cerebellum",
+    "assay": "10x 3' v2",
+    "n_cells": 115282,
+    "n_measured": 20287
+   }
+  ],
+  "gene_breadth": {
+   "labels": [
+    "never",
+    "<25%",
+    "25-50%",
+    "50-75%",
+    "75-90%",
+    "90-99%",
+    "99-100%"
+   ],
+   "all": [
+    90,
+    21516,
+    3208,
+    7947,
+    4730,
+    6214,
+    9679
+   ],
+   "protein_coding": [
+    0,
+    178,
+    265,
+    3041,
+    2596,
+    5923,
+    9674
+   ]
+  },
+  "n_genes": 53384,
+  "n_protein_coding": 21677,
+  "genes_frac_measured": {
+   "Adora1": 0.9879,
+   "Adora2a": 0.9635,
+   "Adora2b": 0.9814,
+   "Adora3": 0.8497,
+   "Gapdh": 1.0
+  }
+ }
+}

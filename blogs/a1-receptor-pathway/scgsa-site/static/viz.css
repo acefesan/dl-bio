@@ -1,0 +1,73 @@
+/* Shared chart styles for the Census pages. Colours come from style.css tokens
+   so charts follow light/dark automatically. */
+.viz { margin: 1rem 0 0.4rem; font: 13.5px/1.35 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.viz-title { font-weight: 650; font-size: 14.5px; margin: 0 0 0.15rem; }
+.viz-sub { color: var(--muted); margin: 0 0 0.7rem; font-size: 13px; }
+.viz-controls { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; margin: 0.4rem 0 0.9rem; align-items: center; }
+.viz-controls .grp { display: inline-flex; gap: 0; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+.viz-controls .lab { color: var(--muted); font-size: 12px; margin-right: 0.35rem; }
+.viz-controls button { font: inherit; font-size: 12.5px; padding: 0.28rem 0.7rem; border: 0; background: var(--panel); color: var(--ink); cursor: pointer; border-right: 1px solid var(--line); }
+.viz-controls button:last-child { border-right: 0; }
+.viz-controls button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 650; }
+.viz-controls input[type=search] { font: inherit; font-size: 12.5px; padding: 0.3rem 0.6rem; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); color: var(--ink); width: 14rem; }
+
+/* horizontal bars */
+.hb { display: grid; grid-template-columns: minmax(8rem, 15rem) minmax(0, 1fr) 9.6rem; gap: 2px 0.7rem; align-items: center; }
+.hb .l { text-align: right; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hb .t { position: relative; height: 15px; }
+.hb .b { position: absolute; left: 0; top: 0; height: 100%; border-radius: 0 4px 4px 0; min-width: 1px; }
+.hb .b + .b { border-radius: 0 4px 4px 0; margin-left: 0; }
+.hb .v { color: var(--muted); font-variant-numeric: tabular-nums; }
+.hb .row { display: contents; }
+.hb .row:hover .l, .hb .row:hover .v { color: var(--accent); }
+.hb .row > * { padding: 2px 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; margin: 0 0 0.6rem; color: var(--ink); font-size: 12.5px; }
+.legend i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 0.35rem; vertical-align: -1px; }
+
+/* column histogram */
+.hist { display: flex; align-items: flex-end; gap: 3px; height: 160px; border-bottom: 1px solid var(--line); padding-top: 8px; }
+.hist .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch; height: 100%; }
+.hist .col .b { background: var(--accent); border-radius: 3px 3px 0 0; min-height: 1px; }
+.hist-x { display: flex; gap: 3px; color: var(--muted); font-size: 11px; }
+.hist-x span { flex: 1; text-align: center; overflow: hidden; white-space: nowrap; }
+
+/* heatmap */
+.heat-wrap { overflow-x: auto; padding-bottom: 0.4rem; }
+.heat { display: grid; gap: 2px; font-size: 11.5px; width: max-content; min-width: 100%; }
+.heat .hc { height: 22px; border-radius: 3px; display: flex; align-items: center; justify-content: center; color: var(--ink); font-variant-numeric: tabular-nums; font-size: 10.5px; min-width: 40px; }
+.heat .rl { text-align: right; padding-right: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; justify-content: flex-end; }
+.heat .cl { color: var(--muted); font-size: 11px; text-align: center; padding-bottom: 3px; align-self: end; line-height: 1.15; }
+.heat .cl.rot { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; height: 6.5rem; padding: 0 0 0 0; justify-self: center; }
+.heat .na { background: repeating-linear-gradient(45deg, var(--line) 0 3px, transparent 3px 6px); color: var(--muted); }
+.ramp { display: flex; align-items: center; gap: 0.5rem; margin: 0.5rem 0 0; color: var(--muted); font-size: 12px; }
+.ramp .bar { width: 9rem; height: 10px; border-radius: 3px; background: linear-gradient(90deg, color-mix(in oklab, var(--accent) 6%, var(--panel)), var(--accent)); }
+
+/* stat tiles */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: 0.7rem; margin: 0.8rem 0; }
+.tile { border: 1px solid var(--line); border-radius: 10px; padding: 0.7rem 0.85rem; background: var(--panel); }
+.tile .k { color: var(--muted); font-size: 12px; }
+.tile .n { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.tile .s { color: var(--muted); font-size: 12px; }
+
+/* tooltip */
+.vtip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--bg); padding: 0.4rem 0.6rem; border-radius: 6px; font: 12.5px/1.35 system-ui, sans-serif; max-width: 22rem; opacity: 0; transition: opacity 0.08s; white-space: pre-line; }
+.vtip.on { opacity: 0.96; }
+
+/* "how this was made" */
+details.how { margin: 0.4rem 0 1.6rem; border-left: 3px solid var(--line); padding: 0.1rem 0 0.1rem 0.9rem; font-size: 14.5px; }
+details.how summary { cursor: pointer; font: 600 13px system-ui, sans-serif; color: var(--muted); }
+details.how[open] summary { margin-bottom: 0.4rem; }
+.loading { color: var(--muted); font: 13px system-ui, sans-serif; }
+
+/* outline tree */
+.tree { font: 13.5px/1.3 system-ui, sans-serif; }
+.tree .nd { display: grid; grid-template-columns: minmax(0, 1fr) 11rem 5.2rem 5.2rem; align-items: center; gap: 0 0.6rem; padding: 1px 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 50%, transparent); }
+.tree .nd:hover { background: var(--accent-soft); }
+.tree .nm { display: flex; align-items: center; min-width: 0; }
+.tree .car { width: 1.1rem; flex: none; color: var(--muted); cursor: pointer; user-select: none; text-align: center; }
+.tree .lbl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tree .bar { height: 10px; background: var(--accent); border-radius: 0 3px 3px 0; opacity: 0.85; }
+.tree .num { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tree .chip { text-align: center; border-radius: 4px; font-variant-numeric: tabular-nums; padding: 1px 0; }
+.tree .hdr { color: var(--muted); font-size: 11.5px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--bg); z-index: 2; }
+@media (max-width: 760px) { .hb { grid-template-columns: 7rem minmax(0, 1fr) 4.8rem; } .tree .nd { grid-template-columns: minmax(0,1fr) 5rem 4.5rem; } .tree .nd > :nth-child(2) { display: none; } }
