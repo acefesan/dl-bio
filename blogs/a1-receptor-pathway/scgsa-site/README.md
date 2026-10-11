@@ -15,7 +15,7 @@ principles. Pedagogical and disposable — delete the folder when done.
 | `debt.html` | the post's three cognitive-debt questions, with folded answers |
 | `basics.html`, `scenarios.html`, `compare.html` | foundations, the four scenarios, side-by-side tables |
 | `methods/*.html` | one page per method |
-| `playground.html` | in-browser simulator of the four scenarios |
+| `playground.html` + `static/pipeline.js` | the paper's pipeline as a graph of steps (data → draw → normalise → … → test), on the real cells, SSD or the toy simulator; each node links to its code, ours and the authors' |
 | `ours.html` | what the paper implies for the A1 analysis |
 | `static/scgsa.js` | simulator + JS versions of all seven methods (runs in node too) |
 | `validate/` | checks of `scgsa.js` against the real R packages |

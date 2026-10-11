@@ -7,54 +7,81 @@
 <link rel="stylesheet" href="static/style.css?v=236e2de9">
 <script defer src="static/common.js?v=ba56bb89"></script>
 <script defer src="static/scgsa.js?v=6b5699f6"></script>
-<script defer src="static/playground.js?v=3a861507"></script>
+<script defer src="static/pipeline.js?v=a755c0e2"></script>
 <style>
-  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; margin: 1rem 0; font: 14px/1.45 system-ui, -apple-system, sans-serif; }
-  .panel h3 { margin: 0 0 0.7rem; font-size: 15px; }
-  .controls { display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: 0.8rem 1rem; }
-  .controls label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 0.25rem; font-weight: 600; }
-  select, input[type=number] { width: 100%; font: 14px system-ui, sans-serif; padding: 0.4rem 0.5rem; border-radius: 7px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
-  .row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.9rem; align-items: center; }
-  .btn { font: 600 13.5px/1 system-ui, sans-serif; padding: 0.6rem 0.9rem; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--bg); cursor: pointer; }
+  /* pipeline graph: a vertical chain of nodes, root (data) at the top */
+  #graph { margin: 1.5rem 0 2rem; font: 14px/1.45 system-ui, -apple-system, sans-serif; }
+  .pnode { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 0.8rem 1rem 0.9rem; margin: 0 0 2.1rem; }
+  .pnode + .pnode::before { content: ""; position: absolute; left: 1.55rem; top: -2.15rem; height: 2.1rem; border-left: 2px solid var(--line); }
+  .pnode + .pnode::after { content: ""; position: absolute; left: calc(1.55rem - 5px); top: -0.6rem; border: 6px solid transparent; border-top-color: var(--line); }
+  .pnode.off { opacity: 0.55; }
+  .pn-head { display: flex; align-items: center; gap: 0.6rem; }
+  .pn-head h3 { margin: 0; font-size: 15px; }
+  .pn-num { flex: none; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--accent); color: var(--bg);
+    font: 700 12px/1.5rem system-ui, sans-serif; text-align: center; }
+  #n-data .pn-num { background: var(--s3); }
+  .pn-state { margin-left: auto; color: var(--muted); font-size: 12px; }
+  .pn-blurb { margin: 0.35rem 0 0.5rem 2.1rem; color: var(--muted); font-size: 13px; }
+  .pn-ctrls { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: end; margin: 0.4rem 0 0.5rem 2.1rem; }
+  .pn-ctrls label { display: grid; gap: 0.2rem; font-size: 12px; color: var(--muted); font-weight: 600; }
+  .pn-ctrls select, .pn-ctrls input { font: 14px system-ui, sans-serif; padding: 0.35rem 0.5rem; border-radius: 7px;
+    border: 1px solid var(--line); background: var(--bg); color: var(--ink); min-width: 7rem; }
+  .pn-ctrls input[type=number] { width: 6rem; min-width: 0; }
+  .pn-out { margin-left: 2.1rem; }
+  .kvs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.3rem 0; }
+  .kv { background: var(--bg); border-radius: 8px; padding: 0.4rem 0.65rem; min-width: 7rem; }
+  .kv b { display: block; font-size: 16px; }
+  .kv span { font-size: 12px; color: var(--muted); }
+  .pn-note { color: var(--muted); font-size: 12.5px; margin: 0.35rem 0; }
+  .pn-code { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0 0 2.1rem; }
+  .pn-code button, .codechip { font: 12px system-ui, sans-serif; padding: 0.2rem 0.55rem; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--code-bg); color: var(--ink); }
+  .pn-code button:hover, .codechip:hover { border-color: var(--accent); }
+  .codechip { margin-left: 0.4rem; font-size: 11px; padding: 0.05rem 0.45rem; vertical-align: 1px; }
+  .btn { font: 600 13px/1 system-ui, sans-serif; padding: 0.5rem 0.8rem; border-radius: 8px; border: 1px solid var(--accent);
+    background: var(--accent); color: var(--bg); cursor: pointer; }
   .btn.ghost { background: transparent; color: var(--accent); }
-  .btn:disabled { opacity: 0.5; cursor: wait; }
-  .status { color: var(--muted); font-size: 13px; }
-  .summary { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 0.6rem; margin-top: 0.8rem; }
-  .summary div { background: var(--bg); border-radius: 8px; padding: 0.55rem 0.7rem; }
-  .summary b { display: block; font-size: 17px; }
-  .summary span { font-size: 12px; color: var(--muted); }
-  .mrow { display: grid; grid-template-columns: 8.5rem 1fr 7.5rem; gap: 0.6rem; align-items: center; padding: 0.35rem 0; border-bottom: 1px solid var(--line); }
-  .mrow:last-child { border-bottom: none; }
+  /* fan-out: the score node branches into one sub-node per method */
+  .pn-methods { margin: 0.4rem 0 0 1.5rem; border-left: 2px solid var(--line); padding-left: 0.9rem; }
+  .mnode { position: relative; }
+  .mnode::before { content: ""; position: absolute; left: -0.9rem; top: 50%; width: 0.7rem; border-top: 2px solid var(--line); }
+  .mrow { display: grid; grid-template-columns: 9.5rem 1fr 7.5rem; gap: 0.6rem; align-items: center; padding: 0.3rem 0; border-bottom: 1px solid var(--line); }
+  .mnode:last-child .mrow { border-bottom: none; }
   .mrow .name { font-weight: 600; font-size: 13.5px; }
-  .mrow .name small { display: block; font-weight: 400; color: var(--muted); font-size: 11.5px; }
   .mrow svg { width: 100%; height: 46px; display: block; }
   .mrow .p { text-align: right; font-variant-numeric: tabular-nums; font-size: 13px; }
   .dot-c { fill: var(--muted); opacity: 0.55; }
   .dot-t { fill: var(--s1); opacity: 0.6; }
   .med { stroke: var(--ink); stroke-width: 2; }
-  .legend2 { font-size: 12.5px; color: var(--muted); display: flex; gap: 1rem; margin-bottom: 0.3rem; }
+  .legend2 { font-size: 12.5px; color: var(--muted); display: flex; gap: 1rem; margin: 0.2rem 0 0.2rem; }
   .legend2 i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 0.3rem; }
-  #sweep svg { width: 100%; max-width: 40rem; height: auto; }
-  #sweep .ax { stroke: var(--muted); stroke-width: 1; }
-  #sweep text { fill: var(--muted); font-size: 11px; }
-  @media (max-width: 560px) { .mrow { grid-template-columns: 6.5rem 1fr 5.5rem; } }
-  /* clickable cells + the one-cell side panel */
   circle.cell { cursor: pointer; stroke: transparent; stroke-width: 7; }
-  circle.cell:hover { opacity: 1; }
   circle.cell.sel { fill: var(--mid); opacity: 1; stroke: var(--ink); stroke-width: 1.4; }
-  .cell-panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(30rem, 100vw); overflow-y: auto; z-index: 50;
+  table.rec { border-collapse: collapse; width: 100%; max-width: 32rem; font-size: 13px; }
+  table.rec td { padding: 0.2rem 0.4rem; border-bottom: 1px solid var(--line); }
+  table.rec td.bar span { display: inline-block; height: 9px; border-radius: 3px; }
+  table.rec td.bar { width: 50%; }
+  svg.sweep { width: 100%; max-width: 36rem; height: auto; }
+  svg.sweep .ax { stroke: var(--muted); }
+  svg.sweep text { fill: var(--muted); font-size: 11px; }
+  @media (max-width: 560px) {
+    .mrow { grid-template-columns: 6.5rem 1fr 5.5rem; }
+    .pn-blurb, .pn-ctrls, .pn-out, .pn-code { margin-left: 0; }
+  }
+  /* side panel: code previews and single cells */
+  .side-panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(34rem, 100vw); overflow-y: auto; z-index: 50;
     background: var(--panel); border-left: 1px solid var(--line); box-shadow: -8px 0 24px rgba(0,0,0,.18);
     padding: 1.1rem 1.2rem 2rem; font: 14px/1.45 system-ui, -apple-system, sans-serif; }
-  .cell-panel h3 { margin: 0.2rem 0 0.6rem; font-size: 16px; }
-  .cell-panel h4 { margin: 1.1rem 0 0.4rem; font-size: 14px; }
-  .cell-panel table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .cell-panel th, .cell-panel td { padding: 0.25rem 0.4rem; border-bottom: 1px solid var(--line); text-align: left; }
-  .cell-panel .num { text-align: right; font-variant-numeric: tabular-nums; }
-  .cell-panel td.hm { border-radius: 3px; }
-  .cell-panel td small { color: var(--muted); margin-right: 0.2rem; }
+  .side-panel h3 { margin: 0.2rem 0 0.6rem; font-size: 16px; }
+  .side-panel h4 { margin: 1.1rem 0 0.4rem; font-size: 14px; }
+  .side-panel table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .side-panel th, .side-panel td { padding: 0.25rem 0.4rem; border-bottom: 1px solid var(--line); text-align: left; }
+  .side-panel .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .side-panel td small { color: var(--muted); margin-right: 0.2rem; }
+  .side-panel pre.code { background: var(--code-bg); border-radius: 8px; padding: 0.6rem 0.7rem; overflow-x: auto; font-size: 12px; line-height: 1.45; }
   .cp-close { position: absolute; top: 0.6rem; right: 0.7rem; font-size: 22px; line-height: 1; background: none; border: none; color: var(--muted); cursor: pointer; }
   .cp-note { color: var(--muted); font-size: 12.5px; margin: 0.3rem 0; }
-  .cp-sum { grid-template-columns: 1fr 1fr; }
   .role { display: inline-block; font-size: 11px; font-weight: 600; padding: 0.05rem 0.4rem; border-radius: 999px; white-space: nowrap; }
   .role.signal { background: var(--try); color: var(--try-ink); }
   .role.added { background: var(--warn); color: var(--warn-ink); }
@@ -66,105 +93,28 @@
 
 <div class="kicker">Hands on</div>
 <h1>Playground</h1>
-<p class="lede">Rebuild the paper's scenarios from the same real cells it used and run all seven methods on them, in your browser. Click any cell in the results to open it.</p>
-
-<div class="callout" style="max-width:46rem">
-<div class="tag">What "paper's real cells" means</div>
-<p>All 9,528 naive B cells from the four healthy donors in <strong>GSE164381</strong>, every gene, raw counts — the input the authors' script names ("Naive Normal B cell"). Each run draws 2 × <em>n</em> of them and follows the authors' own code (<a href="https://github.com/Thakar-Lab/scPS">Thakar-Lab/scPS</a>, "RWSD and GS simulation"), step for step: keep genes detected in at least one drawn cell; pick "signal" genes; multiply their log-normalised values by 1.2 in treatment cells; for S3/S4, append 250 genes that are zero in every control cell. The browser version rebuilds the authors' R matrix exactly on the same draws (<code>validate/rwsd_check.js</code>).</p>
-<p>Two things the code says that the paper's text does not: scenario 1's "densely expressed" genes are those detected in <strong>more than 25%</strong> of cells (the text says "at least 75%"), and the "+20%" is a ×1.2 on <strong>log-normalised</strong> values. In these cells the dense genes are mostly ribosomal and mitochondrial — scenario 1 boosts housekeeping genes, not a pathway. The naive-B labels are our reconstruction (the authors' annotation isn't published); see <code>paper-data/</code>.</p>
-</div>
+<p class="lede">The paper's whole pipeline as a graph, from the source data (top) to the test. Each node does one step, holds that step's options, shows what it produced, and links to the code that does it — ours and the authors'. Change an option and everything below it reruns. Click any cell in the score node to open it.</p>
 
 <div class="callout warn" style="max-width:46rem">
-<div class="tag">On these cells vs. the paper</div>
-<p>Reproduced (gene set size 100, 200 cells per group): S1 detection by every method except ssGSEA; the S1 null pattern (JASMINE ~100%, AUCell ~97%, SCSE ~21%; AddModuleScore, scPS, UCell ≤ 2%); scPS losing power at 20 cells per group; the S3 trap — every method except scPS fires on sets with no condition-specific gene — and S4's much smaller effect. Not reproduced: ssGSEA almost never fires here, including in S3, where the paper says it did. <strong>SSD</strong> (Splatter fitted to the same cells, as the paper's second dataset) is sparser than the paper's — its median S1 signal gene is detected in ~15% of cells vs. their 32% — and its genes are synthetic (Gene1, …). The toy simulator (other "Data" options) is kept for comparison; it has 3,000–6,000 made-up genes and is for mechanisms, not magnitudes.</p>
+<div class="tag">Where this follows the authors' code, not the paper's text</div>
+<p>Dense genes are those detected in <strong>more than 25%</strong> of cells (10% for SSD), not "at least 75%"; the "+20%" is a ×1.2 on <strong>log-normalised</strong> values; S3/S4 add 250 genes copied from a second draw of cells, and their share in a gene set is left to chance. The browser rebuilds the authors' R matrices exactly on the same random draws (<code>validate/rwsd_check.js</code>). On these cells the paper's results reproduce, except that ssGSEA almost never fires — including in S3 — and our SSD is sparser than theirs. Details: <a href="scenarios.html">the four scenarios</a> and <code>paper-data/README.md</code>.</p>
 </div>
 
-<div class="panel">
-<h3>1 · Simulate a dataset</h3>
-<div class="controls">
-  <div><label for="scenario">Scenario</label>
-    <select id="scenario">
-      <option value="1">S1 · ×1.2 on dense genes</option>
-      <option value="2">S2 · ×1.2 on random genes</option>
-      <option value="3">S3 · no signal, extra dense genes</option>
-      <option value="4">S4 · no signal, extra sparse genes</option>
-    </select></div>
-  <div><label for="regime">Data</label>
-    <select id="regime">
-      <option value="paper" selected>RWSD · paper's real cells (naive B, GSE164381)</option>
-      <option value="ssd">SSD · Splatter fitted to those cells</option>
-      <option value="dense">toy simulator · dense, 3,000 genes</option>
-      <option value="sparse">toy simulator · sparse, 6,000 genes</option>
-    </select></div>
-  <div><label for="cells">Cells per group</label>
-    <select id="cells">
-      <option>20</option><option>50</option><option selected>200</option><option>500</option>
-    </select></div>
-  <div id="boostBox" hidden><label for="boostNull">S3/S4 "signal" genes</label>
-    <select id="boostNull">
-      <option value="0" selected>not boosted (authors' null runs)</option>
-      <option value="1">×1.2 (script as literally written)</option>
-    </select></div>
-  <div id="injectBox"><label for="inject">Where the change is applied</label>
-    <select id="inject">
-      <option value="log">after normalisation (as the paper)</option>
-      <option value="counts">before normalisation (leaks)</option>
-    </select></div>
-  <div><label for="seed">Seed</label><input id="seed" type="number" value="7" min="1"></div>
-</div>
-<div class="row"><button class="btn" id="simulate">Simulate</button><span class="status" id="simstatus"></span></div>
-<div class="summary" id="summary"></div>
-</div>
-
-<div class="panel">
-<h3>2 · Build a gene set and score it</h3>
-<div class="controls">
-  <div><label for="size">Gene set size</label>
-    <select id="size"><option>10</option><option>25</option><option>50</option><option selected>100</option><option>200</option></select></div>
-  <div id="noiseBox"><label for="noise">Noise: share of non-signal genes</label>
-    <select id="noise"><option value="0">0% (all signal)</option><option value="0.2">20%</option><option value="0.5">50%</option><option value="0.8">80%</option><option value="1">100% (no signal — null)</option></select></div>
-  <div id="csBox" hidden><label for="cs">Condition-specific share of the set</label>
-    <select id="cs"><option value="0">0% (null)</option><option value="0.02">2%</option><option value="0.05">5%</option><option value="0.1">10%</option><option value="0.2">20%</option></select></div>
-</div>
-<div class="row">
-  <button class="btn" id="one" disabled>Score one gene set</button>
-  <button class="btn ghost" id="rec" disabled>Recovery over 30 sets</button>
-  <button class="btn ghost" id="sw" disabled>Sweep gene set size</button>
-  <span class="status" id="setstatus"></span>
-</div>
-</div>
-
-<div class="panel" id="onePanel" hidden>
-<h3>One gene set: scores per cell</h3>
-<div class="legend2"><span><i style="background:var(--muted)"></i>control</span><span><i style="background:var(--s1)"></i>treatment</span><span>black tick = median · right: two-sided Wilcoxon p</span></div>
-<div id="strips"></div>
-<p class="status" id="onenote"></p>
-</div>
-
-<div class="panel" id="recPanel" hidden>
-<h3 id="recTitle">Recovery rate</h3>
-<div class="table-wrap"><table id="recTable"></table></div>
-<p class="status" id="recnote"></p>
-</div>
-
-<div class="panel" id="sweep" hidden>
-<h3 id="swTitle">Recovery vs. gene set size</h3>
-<div id="swChart"></div>
-<p class="status" id="swnote"></p>
-</div>
+<div id="graph" aria-live="polite"></div>
 
 <h2>Things to try</h2>
 <ul>
 <li><a href="#s3-null">Scenario 3, null sets</a> (real cells): noise 0%, so every set is drawn from dense genes that were not changed and holds no added gene. Everything except scPS fires — and the arrows point down: the 250 extra genes in treatment cells push the set's genes down each cell's ranking. Click a treatment cell to see its added genes.</li>
-<li>Then <strong>Sweep gene set size</strong> on the same setting: the "bigger is shadier" curve.</li>
+<li>Then <strong>Sweep gene set size</strong> (node 13) on the same setting: the "bigger is shadier" curve.</li>
 <li><a href="#s1-null">Scenario 1, noise 100%</a> (real cells): sets with no boosted gene. AUCell and JASMINE flag nearly all of them, SCSE about a fifth; AddModuleScore, UCell and scPS stay quiet.</li>
 <li><a href="#s4-null">Scenario 4, null sets</a> (real cells): the added genes are sparse, each treatment cell gains few detections, and the false positives almost vanish.</li>
 <li><a href="#s2-signal">Scenario 2, 20 cells per group</a> (real cells): scPS loses power (about a third of sets found) while AUCell, UCell and JASMINE still find them all, as the paper reports below 50 cells.</li>
 <li><a href="#s2-small">Scenario 2, gene set size 25, 20 cells</a> (toy, dense): AUCell and JASMINE — the pair the paper recommends for small sparse sets — keep their power while AddModuleScore, SCSE and scPS drop.</li>
-<li>Switch <strong>S3/S4 "signal" genes</strong> to ×1.2 to see the scenario as the script literally reads: the dense genes are then boosted, so scPS fires on every set (and UCell goes quiet, the boost cancelling the rank push). The paper reports scPS staying quiet in S3, so the authors' runs cannot have used the boost — the script's <code>Signal_Level = 1.2</code> must have been set to 1, as in their "without signal" result folders.</li>
+<li>In the boost node, switch <strong>S3/S4 dense genes</strong> to "boosted" to see the scenario as the script literally reads: the dense genes are then boosted, so scPS fires on every set (and UCell goes quiet, the boost cancelling the rank push). The paper reports scPS staying quiet in S3, so the authors' runs cannot have used the boost — the script's <code>Signal_Level = 1.2</code> must have been set to 1, as in their "without signal" result folders.</li>
 </ul>
 
+
 </article></main></div>
-<aside id="cellPanel" class="cell-panel" hidden aria-label="One cell"></aside>
+<aside id="sidePanel" class="side-panel" hidden aria-label="Details"></aside>
 </body>
 </html>
