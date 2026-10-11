@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="static/style.css?v=236e2de9">
 <script defer src="static/common.js?v=ba56bb89"></script>
 <script defer src="static/scgsa.js?v=6b5699f6"></script>
-<script defer src="static/pipeline.js?v=a755c0e2"></script>
+<script defer src="static/pipeline.js?v=ade237d7"></script>
 <style>
   /* pipeline graph: a vertical chain of nodes, root (data) at the top */
   #graph { margin: 1.5rem 0 2rem; font: 14px/1.45 system-ui, -apple-system, sans-serif; }
@@ -20,7 +20,6 @@
   .pn-head h3 { margin: 0; font-size: 15px; }
   .pn-num { flex: none; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--accent); color: var(--bg);
     font: 700 12px/1.5rem system-ui, sans-serif; text-align: center; }
-  #n-data .pn-num { background: var(--s3); }
   .pn-state { margin-left: auto; color: var(--muted); font-size: 12px; }
   .pn-blurb { margin: 0.35rem 0 0.5rem 2.1rem; color: var(--muted); font-size: 13px; }
   .pn-ctrls { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: end; margin: 0.4rem 0 0.5rem 2.1rem; }
@@ -42,6 +41,22 @@
   .btn { font: 600 13px/1 system-ui, sans-serif; padding: 0.5rem 0.8rem; border-radius: 8px; border: 1px solid var(--accent);
     background: var(--accent); color: var(--bg); cursor: pointer; }
   .btn.ghost { background: transparent; color: var(--accent); }
+  /* build node: the offline steps as a mini-chain */
+  ol.chain { list-style: none; margin: 0.4rem 0; padding: 0 0 0 0.9rem; border-left: 2px dashed var(--line); }
+  ol.chain li { position: relative; margin: 0 0 0.5rem; }
+  ol.chain li::before { content: ""; position: absolute; left: calc(-0.9rem - 5px); top: 0.45rem; width: 8px; height: 8px; border-radius: 50%; background: var(--s3); }
+  ol.chain b { display: block; font-size: 13.5px; }
+  ol.chain span { font-size: 12.5px; color: var(--muted); }
+  #n-build details { margin: 0.4rem 0; font-size: 13px; }
+  #n-build summary { cursor: pointer; color: var(--accent); }
+  table.clus { border-collapse: collapse; font-size: 12px; margin-top: 0.3rem; }
+  table.clus th, table.clus td { padding: 0.15rem 0.45rem; border-bottom: 1px solid var(--line); }
+  table.clus .num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.clus tr.kept td { background: color-mix(in srgb, var(--s3) 14%, transparent); font-weight: 600; }
+  table.rec th { font-size: 12px; color: var(--muted); text-align: left; padding: 0.2rem 0.4rem; }
+  table.rec th.num, table.rec td.num { text-align: right; }
+  table.rec small { color: var(--muted); }
+  #n-build .pn-num { background: var(--s3); }
   /* fan-out: the score node branches into one sub-node per method */
   .pn-methods { margin: 0.4rem 0 0 1.5rem; border-left: 2px solid var(--line); padding-left: 0.9rem; }
   .mnode { position: relative; }

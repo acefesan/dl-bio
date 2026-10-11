@@ -23,10 +23,14 @@
   const IRGSEA = "Comparison analysis/Rscript irGSEA.R";
   // ours: a string to find in static/scgsa.js; the snippet runs to the end of
   // that block (or `lines` lines). authors: [file, firstLine, lastLine].
+  const OURS_RAW = "https://raw.githubusercontent.com/acefesan/dl-bio/main/blogs/a1-receptor-pathway/";
   const CODE = {
-    data:     { ours: { find: "function decodePool", label: "decodePool()" },
-                pipe: { href: "paper-data/README.md", label: "paper-data/ (R + Python that built the file)" },
-                auth: [[RWSD, 29, 29, "load(\"Naive Normal B cell.RData\")"]] },
+    build:    { files: [["paper-data/01_naive_b.R", "healthy donors → QC → clusters → marker table"],
+                        ["paper-data/02_export_naive_b.R", "keep the naive-B clusters"],
+                        ["paper-data/03_export_browser.py", "pack raw counts for the browser"],
+                        ["paper-data/05_splatter_pool.R", "SSD: splatEstimate + splatSimulate"]],
+                auth: [[RWSD, 29, 29, "their input: load(\"Naive Normal B cell.RData\") — not published"], [SSD, 19, 21, "SSD: splatEstimate on that object's counts"]] },
+    data:     { ours: { find: "function decodePool", label: "decodePool()" } },
     toy:      { ours: { find: "function simulate(opt)", label: "simulate()" } },
     draw:     { ours: { find: "const cells = o.cells", lines: 3, label: "simulateRWSD(): draw" },
                 auth: [[RWSD, 48, 48, "sim.mc: draw 2n cells"], [RWSD, 76, 77, "split into conditions"]] },
@@ -83,6 +87,11 @@
     const c = CODE[key];
     const panel = $("sidePanel");
     let h = `<button class="cp-close" type="button" aria-label="Close">×</button><div class="kicker">Code</div><h3>${esc(TITLES[key] || key)}</h3>`;
+    for (const [path, what] of c.files || []) {
+      h += `<h4>Ours · <a href="${OURS}${path}" target="_blank" rel="noopener">${esc(path)}</a></h4><p class="cp-note">${esc(what)} — run offline, not in the browser.</p>`;
+      try { h += `<pre class="code"><code>${esc(await fetch(OURS_RAW + path).then(r => r.ok ? r.text() : Promise.reject(r.status)))}</code></pre>`; }
+      catch (e) { h += `<p class="cp-note">(Couldn't fetch it from GitHub; follow the link.)</p>`; }
+    }
     if (c.ours) {
       const s = await ourSnippet(c.ours);
       h += `<h4>Ours · <a href="${OURS}scgsa-site/static/scgsa.js#L${s.start}-L${s.end}" target="_blank" rel="noopener">static/scgsa.js L${s.start}–${s.end}</a></h4>` +
@@ -119,7 +128,7 @@
   let sim = null, prep = null, set = null, res = null, poolNow = null;
 
   const TITLES = {
-    data: "Source data", toy: "Simulate counts (toy model)", draw: "Draw cells and split into two groups",
+    build: "Build the dataset", data: "Load the dataset", toy: "Simulate counts (toy model)", draw: "Draw cells and split into two groups",
     norm: "Log-normalise each cell", filter: "Keep genes detected in the drawn cells", signal: "Choose the signal genes",
     boost: "Boost signal genes in treatment cells", added: "Add treatment-only genes (S3/S4)",
     geneset: "Build one gene set", prepare: "Rank genes within every cell", score: "Score every cell — 7 methods",
@@ -133,6 +142,7 @@
     if (!c) return "";
     let h = `<div class="pn-code">`;
     if (c.ours) h += `<button type="button" data-code="${key}">ours: <code>${esc(c.ours.label)}</code></button>`;
+    if (c.files) h += `<button type="button" data-code="${key}">ours: <code>paper-data/</code> scripts</button>`;
     if (c.auth) h += `<button type="button" data-code="${key}">authors' R: ${c.auth.map(a => `L${a[1]}`).join(", ")}</button>`;
     return h + `</div>`;
   };
@@ -140,7 +150,7 @@
   // ------------------------------------------------------------ graph layout
   function nodesFor() {
     const paper = !!SOURCES[cfg.source].paper;
-    const list = ["data"];
+    const list = ["build", "data"];
     if (paper) list.push("draw", "norm", "filter", "signal", "boost", "added");
     else list.push("toy");
     list.push("geneset", "prepare", "score", "test", "recovery", "sweep");
@@ -150,7 +160,7 @@
   function controls(key) {
     const paper = !!SOURCES[cfg.source].paper;
     switch (key) {
-      case "data": return opt("source", Object.entries(SOURCES).map(([k, s]) => [k, s.label]), { label: "Data" });
+      case "build": return opt("source", Object.entries(SOURCES).map(([k, s]) => [k, s.label]), { label: "Dataset" });
       case "draw": return opt("cells", [[20, "20"], [50, "50"], [200, "200"], [500, "500"]], { label: "Cells per group" }) +
         `<label>Seed<input type="number" data-k="seed" value="${cfg.seed}" min="1"></label>`;
       case "toy": return opt("scenario", [[1, "S1 · ×1.2 on dense genes"], [2, "S2 · ×1.2 on random genes"], [3, "S3 · extra dense genes in treatment"], [4, "S4 · extra sparse genes in treatment"]], { label: "Scenario" }) +
@@ -161,19 +171,20 @@
       case "boost": return opt("fold", [[1.2, "×1.2 (paper)"], [1.1, "×1.1"], [1.5, "×1.5"], [2, "×2"]], { label: "Multiply log values by" }) +
         (cfg.scenario >= 3 ? opt("boostNull", [[0, "not boosted (authors' null runs)"], [1, "boosted (script as literally written)"]], { label: "S3/S4 dense genes" }) : "");
       case "added": return cfg.scenario >= 3 ? opt("nAdded", [[250, "250 (paper)"], [50, "50"], [100, "100"], [500, "500"], [1000, "1000"]], { label: "Genes added" }) : "";
-      case "geneset": return opt("size", [[10, "10"], [25, "25"], [50, "50"], [100, "100"], [200, "200"]], { label: "Gene set size" }) +
+      case "geneset": return opt("size", [10, 20, 30, 40, 50, 100, 200, 300, 400, 500].map(v => [v, String(v)]), { label: "Gene set size" }) +
         ((paper || cfg.scenario <= 2)
           ? opt("noise", [[0, "0% (all signal)"], [0.2, "20%"], [0.5, "50%"], [0.8, "80%"], [1, "100% (no signal)"]], { label: "Noise: non-signal share" })
           : opt("cs", [[0, "0% (null)"], [0.02, "2%"], [0.05, "5%"], [0.1, "10%"], [0.2, "20%"]], { label: "Treatment-only share" })) +
         `<button type="button" class="btn ghost" data-act="reroll">New random set</button>`;
-      case "recovery": return opt("nSets", [[30, "30"], [100, "100"]], { label: "Gene sets" }) + `<button type="button" class="btn" data-act="recovery">Run</button>`;
+      case "recovery": return opt("nSets", [[30, "30 (quick)"], [100, "100 (as the paper)"]], { label: "Gene sets" }) + `<button type="button" class="btn" data-act="recovery">Run</button>`;
       case "sweep": return `<button type="button" class="btn" data-act="sweep">Run sweep (sizes 10–100)</button>`;
       default: return "";
     }
   }
 
   const BLURB = {
-    data: "The root. Everything below is computed from this, in your browser.",
+    build: "The root: where the cells come from. These steps ran offline, once (R + Python in paper-data/); everything from node 2 down runs in your browser.",
+    data: "Fetch the packed raw counts and decode them.",
     draw: "2n random cells; first half control, second half treatment. Same population, so any difference later is put there by the steps below.",
     norm: "Per cell: log1p(count ÷ cell total × 10,000) — Seurat's LogNormalize.",
     filter: "Drop genes with zero counts in every drawn cell.",
@@ -184,8 +195,8 @@
     prepare: "Per-cell work that doesn't depend on the gene set: rankings for AUCell, UCell, ssGSEA, JASMINE; bins for AddModuleScore.",
     score: "Each method turns the gene set into one number per cell. Click any dot to open that cell.",
     test: "Two-sided Wilcoxon rank-sum on the scores of control vs. treatment cells, per method.",
-    recovery: "Many random gene sets with these settings; Benjamini–Hochberg per method; identified = adjusted p < 0.05.",
-    sweep: "Recovery at sizes 10, 25, 50, 100 (20 sets each).",
+    recovery: "Many random gene sets with these settings; Benjamini–Hochberg per method; identified = adjusted p < 0.05. Where the paper ran the same setting, its published result (Zenodo) is shown beside ours.",
+    sweep: "Recovery at sizes 10, 20, 50, 100 (20 sets each); dashed lines are the authors' published means where available.",
     toy: "Negative-binomial counts for made-up genes; the scenario's change is applied inside. For mechanisms, not magnitudes.",
   };
 
@@ -265,6 +276,49 @@
     }
   }
 
+  // ------------------------------------------------------------ dataset provenance + published results
+  let PROV = null, PUB = null;
+  const getJSON = u => fetch(u).then(r => r.ok ? r.json() : null).catch(() => null);
+  async function loadSide() {
+    if (!PROV) PROV = await getJSON("data/provenance.json");
+    if (!PUB) PUB = await getJSON("data/authors_results.json");
+  }
+
+  function describeBuild() {
+    const out = $("out-build");
+    if (!out) return;
+    if (!SOURCES[cfg.source].paper) {
+      out.innerHTML = `<p class="pn-note">No dataset: the toy simulator makes up negative-binomial counts for ${SOURCES[cfg.source].toy.genes.toLocaleString()} genes, each with a random mean (log-normal, μ = ${SOURCES[cfg.source].toy.meanLog}, σ = ${SOURCES[cfg.source].toy.sdLog}) and dispersion 0.2.</p>`;
+      return;
+    }
+    if (!PROV) { out.innerHTML = `<p class="pn-note">(provenance.json not found)</p>`; return; }
+    const P = PROV, steps = [
+      [`${P.geo.samples.length} samples · ${P.geo.cells.toLocaleString()} cells`, `GEO ${P.geo.accession}: filtered 10x matrices, PBMC B cells from 4 healthy donors and 7 mild COVID-19 patients (Hoehn et al. 2021)`],
+      [`4 healthy donors · ${P.healthy_cells.toLocaleString()} cells`, `The authors' input is "Naive <em>Normal</em> B cell": healthy donors only`],
+      [`QC · ${P.qc.cells_after.toLocaleString()} cells`, esc(P.qc.rule)],
+      [`${P.clustering.n_clusters} clusters`, esc(P.clustering.steps)],
+      [`naive B · ${P.naive_b.cells.toLocaleString()} cells × ${P.naive_b.genes.toLocaleString()} genes`, `Keep clusters whose naive markers (${P.clustering.naive_markers.join(", ")}) beat memory markers (${P.clustering.memory_markers.join(", ")}), with no T/NK/plasma signal — table below`],
+    ];
+    if (cfg.source === "ssd") steps.push([`Splatter · ${P.splatter.pool_cells.toLocaleString()} synthetic cells`, `splatEstimate on those counts (mean ~ Gamma(${P.splatter.mean_shape}, ${P.splatter.mean_rate}); library log-normal(${P.splatter.lib_loc}, ${P.splatter.lib_scale}); BCV ${P.splatter.bcv_common}, df ${P.splatter.bcv_df}), then splatSimulate`]);
+    steps.push([cfg.source === "ssd" ? "packed · data/ssd/" : "packed · data/naive_b/", "Raw counts, every gene, varint-compressed for the browser"]);
+    let h = `<ol class="chain">${steps.map(([b, t]) => `<li><b>${b}</b><span>${t}</span></li>`).join("")}</ol>`;
+    const M = P.clustering.markers_shown;
+    h += `<details><summary>Cluster marker table (mean normalised expression)</summary><div class="table-wrap"><table class="clus"><tr><th>cluster</th><th class="num">cells</th><th class="num">naive − memory</th>${M.map(m => `<th class="num">${m}</th>`).join("")}</tr>` +
+      P.clustering.clusters.map(c => `<tr class="${c.kept ? "kept" : ""}"><td>${c.cluster}${c.kept ? " ✓" : ""}</td><td class="num">${c.cells.toLocaleString()}</td><td class="num">${c.naive_minus_memory}</td>${M.map(m => `<td class="num">${c[m]}</td>`).join("")}</tr>`).join("") +
+      `</table></div></details>`;
+    h += `<p class="pn-note"><b>Why rebuilt:</b> the paper says the cells were "normalized, clustered and annotated as described in the original paper", and its data statement points only to GEO ${P.geo.accession}. We checked the paper, its supplement and its Zenodo archive (doi:10.5281/zenodo.13620619): code and result tables, no cell labels or processed object. So the naive-B subset is our marker-based reconstruction. It reproduces the paper's own numbers (≈485 dense genes, 43% median detection vs. their "at least 500" and 44.5%).</p>`;
+    out.innerHTML = h;
+  }
+
+  // The authors' published recovery for the current setting, if they ran it.
+  function published(size, noise) {
+    if (!PUB || !SOURCES[cfg.source].paper) return null;
+    if (cfg.fold !== 1.2 || cfg.nAdded !== 250 || (cfg.scenario >= 3 && cfg.boostNull)) return null;
+    const d = PUB.data[cfg.source];
+    const node = d && d[String(cfg.cells)] && d[String(cfg.cells)][String(cfg.scenario)];
+    return (node && node[String(size)] && node[String(size)][Number(noise).toFixed(1)]) || null;
+  }
+
   function kv(items) { return `<div class="kvs">${items.map(([b, s]) => `<div class="kv"><b>${b}</b><span>${s}</span></div>`).join("")}</div>`; }
 
   function describeSim() {
@@ -275,9 +329,7 @@
       $("out-data").innerHTML = kv([
         [P.nCells.toLocaleString(), "cells in the pool"], [P.nGenes.toLocaleString(), "genes"],
         [(P.bytes / 1e6).toFixed(1) + " MB", "packed raw counts"],
-      ]) + `<p class="pn-note">${cfg.source === "rwsd"
-        ? `GSE164381: naive B cells (our marker-based reconstruction) from the 4 healthy donors — the input the authors' script names "Naive Normal B cell". Raw 10x counts, every gene.`
-        : `4,000 cells from Splatter (splatEstimate on the naive-B counts, then splatSimulate), as the authors build SSD. Genes are synthetic (Gene1, …).`}</p>`;
+      ]) + (cfg.source === "ssd" ? `<p class="pn-note">Splatter genes are synthetic (Gene1, …), not real genes.</p>` : "");
       const donors = {};
       sim.cellInfo.forEach(c => { donors[c.donor] = (donors[c.donor] || 0) + 1; });
       $("out-draw").innerHTML = kv([[`${sim.n} + ${sim.n}`, "control + treatment cells"],
@@ -364,17 +416,22 @@
     const spec = (sim.paper || sim.opt.scenario <= 2) ? { size: cfg.size, noise: cfg.noise } : { size: cfg.size, withCS: cfg.cs > 0, csFrac: cfg.cs };
     const r = S.recovery(sim, prep, spec, cfg.nSets, 1000 + cfg.setSeed);
     const nul = sim.paper ? (cfg.scenario <= 2 ? cfg.noise === 1 : sim.boost === 1 && cfg.noise === 0) : (cfg.scenario <= 2 ? cfg.noise === 1 : cfg.cs === 0);
+    const pub = published(cfg.size, cfg.noise);
+    const grade = v => nul ? (v <= 10 ? "good" : v <= 40 ? "mid" : "bad") : (v >= 80 ? "good" : v >= 40 ? "mid" : "bad");
     out.innerHTML = `<p class="pn-note">${nul ? "These sets contain no real difference: every identification is a false positive." : "Rate of identifying the sets."}</p>` +
-      `<table class="rec">` + METHODS.map(m => {
-        const v = Math.round(100 * r[m]);
-        const cls = nul ? (v <= 10 ? "good" : v <= 40 ? "mid" : "bad") : (v >= 80 ? "good" : v >= 40 ? "mid" : "bad");
-        return `<tr><td>${m}</td><td class="num"><span class="pill ${cls}">${v}%</span></td><td class="bar"><span style="width:${v}%;background:var(--${cls})"></span></td></tr>`;
-      }).join("") + `</table>`;
+      `<table class="rec"><tr><th>Method</th><th class="num">ours (${cfg.nSets} sets)</th><th></th>${pub ? `<th class="num">authors' published</th>` : ""}</tr>` + METHODS.map(m => {
+        const v = Math.round(100 * r[m]), cls = grade(v);
+        const a = pub && pub[m];
+        return `<tr><td>${m}</td><td class="num"><span class="pill ${cls}">${v}%</span></td><td class="bar"><span style="width:${v}%;background:var(--${cls})"></span></td>` +
+          (pub ? `<td class="num">${a ? `<span class="pill ${grade(a[0])}">${a[0]}%</span> <small>± ${a[1]}</small>` : "—"}</td>` : "") + `</tr>`;
+      }).join("") + `</table>` +
+      `<p class="pn-note">${pub ? `Authors' published: mean ± SD over their ${Object.values(pub)[0][2]} replicates of 100 gene sets each, same data type, cells per group, scenario, size and noise (Zenodo, "Two side dat matrix.csv"). Ours: one replicate of ${cfg.nSets} sets.`
+        : "No published result for this exact setting (the paper ran sizes 10–500 at 20/50/200/500 cells for S1/S2, and 200 cells for S3/S4, with ×1.2 and 250 added genes)."}</p>`;
   }
 
   async function sweepRun() {
     const out = $("out-sweep");
-    const sizes = [10, 25, 50, 100], acc = {};
+    const sizes = [10, 20, 50, 100], acc = {};
     METHODS.forEach(m => { acc[m] = []; });
     const spec = size => (sim.paper || sim.opt.scenario <= 2) ? { size, noise: cfg.noise } : { size, withCS: cfg.cs > 0, csFrac: cfg.cs };
     for (const size of sizes) {
@@ -389,11 +446,14 @@
     let h = `<svg class="sweep" viewBox="0 0 ${W} ${H}"><line class="ax" x1="${L}" y1="${Y(0)}" x2="${W - R}" y2="${Y(0)}"/><line class="ax" x1="${L}" y1="${Y(0)}" x2="${L}" y2="${Y(1)}"/>`;
     [0, 0.5, 1].forEach(v => { h += `<text x="${L - 32}" y="${Y(v) + 4}">${v * 100}%</text>`; });
     sizes.forEach((s, i) => { h += `<text x="${X(i) - 6}" y="${H - 12}">${s}</text>`; });
+    let anyPub = false;
     METHODS.forEach((m, k) => {
+      const pubPts = sizes.map((sz, i) => { const p = published(sz, cfg.noise); return p && p[m] ? `${X(i).toFixed(1)},${Y(p[m][0] / 100).toFixed(1)}` : null; }).filter(Boolean);
+      if (pubPts.length > 1) { anyPub = true; h += `<polyline fill="none" stroke="${colors[k]}" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.8" points="${pubPts.join(" ")}"/>`; }
       h += `<polyline fill="none" stroke="${colors[k]}" stroke-width="2" points="${acc[m].map((v, i) => `${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ")}"/>`;
       h += `<text x="${W - R + 8}" y="${T + 12 + k * 17}" style="fill:${colors[k]};font-weight:600">${m}</text>`;
     });
-    out.innerHTML = h + `</svg><p class="pn-note">x: gene set size · y: share of 20 sets identified.</p>`;
+    out.innerHTML = h + `</svg><p class="pn-note">x: gene set size · y: share of sets identified. Solid: ours (20 sets per size).${anyPub ? " Dashed: the authors' published means for the same setting." : ""}</p>`;
   }
 
   // ------------------------------------------------------------ one cell
@@ -451,14 +511,15 @@
     if (!k) return;
     const v = e.target.value;
     cfg[k] = k === "source" || k === "inject" ? v : Number(v);
-    if (k === "source" || k === "scenario") render();
-    if (k === "boostNull" || k === "fold") render();
+    if (k === "source" || k === "scenario") { render(); describeBuild(); }
+    if (k === "boostNull" || k === "fold") { render(); describeBuild(); }
     run(SIM_KEYS.has(k) ? "sim" : "set");
   }
 
   function init() {
     applyHash();
     render();
+    loadSide().then(describeBuild);
     const g = $("graph");
     g.addEventListener("change", onChange);
     g.addEventListener("click", e => {

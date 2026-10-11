@@ -12,6 +12,8 @@ the packed browser data is in `../scgsa-site/data/{naive_b,ssd}/`.
 | `03_export_browser.py [naive_b\|ssd]` | packs raw counts (varint sparse) for the browser |
 | `04_authors_rwsd_reference.R` | runs the authors' RWSD script (S1, S3) on `naive_b.rds`, saves its draws and matrices; `../scgsa-site/validate/rwsd_check.js` replays them in the browser simulator and must match exactly |
 | `05_splatter_pool.R` | the authors' SSD: `splatEstimate` on the naive-B counts, then a 4,000-cell Splatter pool |
+| `06_provenance.R` | records each build step's numbers and the cluster marker table → `scgsa-site/data/provenance.json` (the playground's "Build the dataset" node) |
+| `07_authors_results.py` | the authors' published recovery rates from their Zenodo archive → `scgsa-site/data/authors_results.json` (shown beside ours in the recovery and sweep nodes) |
 
 Runs with `~/.local/share/mamba/envs/scgsa/bin/Rscript` (R 4.4, Seurat 5.5.1,
 splatter 1.30.0) and `uv run --python 3.12 --with scipy --with numpy`.
@@ -51,3 +53,24 @@ paper's 32%. Its results match the paper's SSD in direction (UCell and
 ssGSEA weak; the S3 trap fires for every method except scPS and UCell) but
 its null false-positive rates are lower (JASMINE ~58%, AUCell ~8%, SCSE ~11%
 at 100% noise). Splatter gene names (Gene1, ...) are synthetic, not real genes.
+
+## Is the authors' processed dataset published anywhere?
+
+No. Checked on 2026-10-11:
+
+- **The paper's data statement** lists only GEO GSE164381 (and GSE198339 for
+  the HIV example), plus code at GitHub and Zenodo.
+- **The supplement** (PMC11420841, one PDF) holds figures only. Its captions
+  do settle one question: "For SSD and RWSD, no signal was assigned to the
+  signal genes in scenarios 3 … and 4". So S3/S4 used no ×1.2 boost, which is
+  the playground's default.
+- **The Zenodo archive** (doi:10.5281/zenodo.13620619, CC-BY-4.0, 123 MB) is
+  a snapshot of the GitHub repo (RuoqiaoWrqqq/scPS v1.0.0): code, the HIV
+  example's score tables, and the simulation **results**
+  (`Results/{RWSD,SSD}/Sample size N/Scenario X/Two side dat matrix.csv`).
+  There are no cell labels and no `Naive Normal B cell.RData`.
+- **Reference 25** (Hoehn et al. 2021, J Immunol) has no processed object on
+  Zenodo either.
+
+So the naive-B subset stays a reconstruction. Against the published results
+(07), our RWSD runs match closely for every method except ssGSEA.

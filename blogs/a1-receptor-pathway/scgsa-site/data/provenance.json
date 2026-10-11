@@ -1,0 +1,294 @@
+{
+  "geo": {
+    "accession": "GSE164381",
+    "samples": [
+      {
+        "gsm": "GSM5008746",
+        "cells": 4032,
+        "healthy": true
+      },
+      {
+        "gsm": "GSM5008747",
+        "cells": 3554,
+        "healthy": true
+      },
+      {
+        "gsm": "GSM5008748",
+        "cells": 7426,
+        "healthy": true
+      },
+      {
+        "gsm": "GSM5008749",
+        "cells": 2350,
+        "healthy": true
+      },
+      {
+        "gsm": "GSM5008750",
+        "cells": 3946,
+        "healthy": false
+      },
+      {
+        "gsm": "GSM5008751",
+        "cells": 2443,
+        "healthy": false
+      },
+      {
+        "gsm": "GSM5008752",
+        "cells": 2311,
+        "healthy": false
+      },
+      {
+        "gsm": "GSM5008753",
+        "cells": 1620,
+        "healthy": false
+      },
+      {
+        "gsm": "GSM5008754",
+        "cells": 1701,
+        "healthy": false
+      },
+      {
+        "gsm": "GSM5008755",
+        "cells": 1191,
+        "healthy": false
+      },
+      {
+        "gsm": "GSM5008756",
+        "cells": 4202,
+        "healthy": false
+      }
+    ],
+    "cells": 34776
+  },
+  "healthy_cells": 17362,
+  "qc": {
+    "rule": "min.cells = 3, min.features = 200; percent.mt < 15; nFeature_RNA < 4000",
+    "cells_after": 14515
+  },
+  "clustering": {
+    "steps": "LogNormalize; 2,000 variable genes; ScaleData; PCA (20); neighbours on PCs 1-15; Louvain resolution 0.5",
+    "n_clusters": 14,
+    "markers_shown": ["MS4A1", "IGHD", "TCL1A", "CD27", "IGHG1", "CD3E", "NKG7", "JCHAIN"],
+    "naive_markers": ["IGHD", "TCL1A", "FCER2", "IL4R", "BACH2", "IGHM"],
+    "memory_markers": ["CD27", "IGHG1", "IGHA1", "AIM2", "TNFRSF13B", "CD80"],
+    "clusters": [
+      {
+        "cluster": "4",
+        "cells": 1494,
+        "naive_minus_memory": 3.69,
+        "kept": true,
+        "MS4A1": 11.16,
+        "IGHD": 2.13,
+        "TCL1A": 3.72,
+        "CD27": 0.05,
+        "IGHG1": 0.02,
+        "CD3E": 0.02,
+        "NKG7": 0.2,
+        "JCHAIN": 1.56
+      },
+      {
+        "cluster": "7",
+        "cells": 374,
+        "naive_minus_memory": 3.37,
+        "kept": true,
+        "MS4A1": 31.04,
+        "IGHD": 1.17,
+        "TCL1A": 1.17,
+        "CD27": 0.11,
+        "IGHG1": 0.05,
+        "CD3E": 0,
+        "NKG7": 0.48,
+        "JCHAIN": 0.72
+      },
+      {
+        "cluster": "1",
+        "cells": 2661,
+        "naive_minus_memory": 3.1,
+        "kept": true,
+        "MS4A1": 9.15,
+        "IGHD": 1.84,
+        "TCL1A": 1.37,
+        "CD27": 0.06,
+        "IGHG1": 0.02,
+        "CD3E": 0,
+        "NKG7": 0.17,
+        "JCHAIN": 1.29
+      },
+      {
+        "cluster": "3",
+        "cells": 2090,
+        "naive_minus_memory": 2.65,
+        "kept": true,
+        "MS4A1": 21.75,
+        "IGHD": 1.37,
+        "TCL1A": 0.51,
+        "CD27": 0.04,
+        "IGHG1": 0.09,
+        "CD3E": 0.04,
+        "NKG7": 0.48,
+        "JCHAIN": 0.92
+      },
+      {
+        "cluster": "0",
+        "cells": 2909,
+        "naive_minus_memory": 2.29,
+        "kept": true,
+        "MS4A1": 5.71,
+        "IGHD": 1.42,
+        "TCL1A": 0.63,
+        "CD27": 0.01,
+        "IGHG1": 0.01,
+        "CD3E": 0,
+        "NKG7": 0.02,
+        "JCHAIN": 0.27
+      },
+      {
+        "cluster": "13",
+        "cells": 50,
+        "naive_minus_memory": 1.26,
+        "kept": false,
+        "MS4A1": 2.85,
+        "IGHD": 0.28,
+        "TCL1A": 1.86,
+        "CD27": 0,
+        "IGHG1": 0,
+        "CD3E": 0.19,
+        "NKG7": 0.86,
+        "JCHAIN": 5.7
+      },
+      {
+        "cluster": "8",
+        "cells": 343,
+        "naive_minus_memory": 0.49,
+        "kept": false,
+        "MS4A1": 1.54,
+        "IGHD": 0.18,
+        "TCL1A": 0.11,
+        "CD27": 0.14,
+        "IGHG1": 0,
+        "CD3E": 0.53,
+        "NKG7": 10.67,
+        "JCHAIN": 0.61
+      },
+      {
+        "cluster": "5",
+        "cells": 851,
+        "naive_minus_memory": 0.39,
+        "kept": false,
+        "MS4A1": 0.37,
+        "IGHD": 0.11,
+        "TCL1A": 0.04,
+        "CD27": 0.01,
+        "IGHG1": 0.01,
+        "CD3E": 0.05,
+        "NKG7": 0.6,
+        "JCHAIN": 0.51
+      },
+      {
+        "cluster": "6",
+        "cells": 647,
+        "naive_minus_memory": 0.29,
+        "kept": false,
+        "MS4A1": 1.02,
+        "IGHD": 0.15,
+        "TCL1A": 0.15,
+        "CD27": 0.03,
+        "IGHG1": 0.01,
+        "CD3E": 3.39,
+        "NKG7": 69.48,
+        "JCHAIN": 0.24
+      },
+      {
+        "cluster": "2",
+        "cells": 2432,
+        "naive_minus_memory": 0.18,
+        "kept": false,
+        "MS4A1": 8.96,
+        "IGHD": 0.64,
+        "TCL1A": 0.11,
+        "CD27": 0.64,
+        "IGHG1": 0.32,
+        "CD3E": 0.01,
+        "NKG7": 0.12,
+        "JCHAIN": 2.27
+      },
+      {
+        "cluster": "9",
+        "cells": 298,
+        "naive_minus_memory": 0.17,
+        "kept": false,
+        "MS4A1": 0.48,
+        "IGHD": 0.15,
+        "TCL1A": 0.08,
+        "CD27": 0.36,
+        "IGHG1": 0.04,
+        "CD3E": 6.31,
+        "NKG7": 23.78,
+        "JCHAIN": 0.04
+      },
+      {
+        "cluster": "12",
+        "cells": 78,
+        "naive_minus_memory": 0.09,
+        "kept": false,
+        "MS4A1": 0.77,
+        "IGHD": 0.1,
+        "TCL1A": 0.32,
+        "CD27": 0.06,
+        "IGHG1": 0.2,
+        "CD3E": 0.01,
+        "NKG7": 0.24,
+        "JCHAIN": 1.38
+      },
+      {
+        "cluster": "10",
+        "cells": 168,
+        "naive_minus_memory": 0.03,
+        "kept": false,
+        "MS4A1": 0.76,
+        "IGHD": 0.07,
+        "TCL1A": 0.06,
+        "CD27": 0.01,
+        "IGHG1": 0.17,
+        "CD3E": 0,
+        "NKG7": 0.26,
+        "JCHAIN": 0.1
+      },
+      {
+        "cluster": "11",
+        "cells": 120,
+        "naive_minus_memory": -16.51,
+        "kept": false,
+        "MS4A1": 0.89,
+        "IGHD": 0.29,
+        "TCL1A": 0.01,
+        "CD27": 3.91,
+        "IGHG1": 19.63,
+        "CD3E": 0,
+        "NKG7": 0.31,
+        "JCHAIN": 127.48
+      }
+    ]
+  },
+  "naive_b": {
+    "cells": 9528,
+    "genes": 16614,
+    "donors": {
+      "GSM5008746_2010113866": 1772,
+      "GSM5008747_2010113873": 2312,
+      "GSM5008748_2010113875": 4218,
+      "GSM5008749_2010113904": 1226
+    }
+  },
+  "splatter": {
+    "nGenes": 16614,
+    "mean_shape": 0.459,
+    "mean_rate": 14.063,
+    "lib_loc": 7.308,
+    "lib_scale": 0.539,
+    "bcv_common": 0.177,
+    "bcv_df": 21.65,
+    "out_prob": 0.0137,
+    "pool_cells": 4000
+  }
+}
