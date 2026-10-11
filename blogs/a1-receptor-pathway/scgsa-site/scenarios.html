@@ -16,6 +16,7 @@
   .schem .cs { fill: var(--s3); }
   .schem .lbl { fill: var(--muted); font-size: 11px; }
   .schem .hdr { fill: var(--ink); font-size: 12px; font-weight: 600; }
+  .schem .thresh { stroke: var(--s1); stroke-width: 1; stroke-dasharray: 5 3; opacity: 0.7; }
   .schem .divider { stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 3 3; }
   .legend { font: 13px/1.5 system-ui, sans-serif; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.4rem; }
   .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 0.35rem; vertical-align: -1px; }
@@ -34,13 +35,13 @@
 
 <div class="legend">
   <span><i style="background:var(--muted)"></i>expressed, unchanged</span>
-  <span><i style="background:var(--s1)"></i>expressed, +20% in treatment (signal)</span>
+  <span><i style="background:var(--s1)"></i>expressed, ×1.2 (log values) in treatment (signal)</span>
   <span><i style="background:var(--s3)"></i>expressed only in treatment (condition-specific)</span>
 </div>
 
 <h2><span class="s-tag s1">S1</span> Signal on densely expressed genes</h2>
 <figure><svg class="schem" id="sch1" viewBox="0 0 440 250" role="img" aria-label="Scenario 1 schematic"></svg>
-<figcaption>Rows are genes, dots are cells with a nonzero count. The top rows are dense genes (detected in nearly every cell) and carry the +20% signal in treatment.</figcaption></figure>
+<figcaption>Rows are genes, labelled with the share of cells that detect them; dots are cells with a nonzero count. In the authors' code <em>every</em> gene detected in more than 25% of cells (above the dashed line) is a signal gene, multiplied by 1.2 in treatment cells; nothing below the line changes. In the real B cells these are ~485 genes, typically detected in ~43% of cells.</figcaption></figure>
 <p><strong>Design.</strong> "Densely expressed" genes — about 500 of them — get a 20% boost in treatment cells. Everything else is left alone.</p>
 <div class="callout warn"><div class="tag">The code differs from the text</div>
 <p>The paper says dense means "expressed in at least 90% of cells (SSD) and 75% (RWSD)". The authors' script keeps genes whose <em>zero fraction</em> is below 0.9 / 0.75 — detected in more than <strong>10% (SSD) / 25% (RWSD)</strong> of cells. The code's version is the one that matches the paper's own numbers: on the real naive-B cells it selects ~485 genes ("at least 500") whose median detection is 43% (the paper: 44.5%), while only ~105 genes reach 75%. And the "20% increase" is a ×1.2 on the <strong>log-normalised</strong> values, not on counts. In these B cells the dense genes are mostly ribosomal and mitochondrial. Try it on the real cells in the <a href="playground.html">playground</a>.</p></div>
@@ -50,14 +51,14 @@
 
 <h2><span class="s-tag s2">S2</span> Signal on randomly chosen genes</h2>
 <figure><svg class="schem" id="sch2" viewBox="0 0 440 250" role="img" aria-label="Scenario 2 schematic"></svg>
-<figcaption>Same +20% signal, but on 550 random genes. Most genes are sparse, so most signal genes are rarely detected at all.</figcaption></figure>
+<figcaption>Same ×1.2 signal, but on 550 random genes. Most genes are sparse, so most signal genes are rarely detected at all.</figcaption></figure>
 <p><strong>Design.</strong> 550 randomly chosen genes get the +20%. Because most genes are sparse, the median signal gene is detected in just <strong>1.75% of cells</strong>, against 41.25% in scenario 1.</p>
 <p><strong>What it tests.</strong> Whether a method can find a real change that is mostly hidden behind zeros. A 20% increase in a gene you almost never observe is nearly invisible cell by cell.</p>
 <p><strong>What happened.</strong> Everything got harder. Recovery fell faster as noise rose, but most methods still found above 80% of sets at 20% noise. scPS and SCSE suffered most with few cells: PCA needs enough cells to estimate covariance from a mostly-zero matrix, and scPS only exceeded 90% recovery with more than 200 cells per group. False positives were lower than in S1, with JASMINE (6–25%) and AUCell (3–17%) again the highest.</p>
 
 <h2><span class="s-tag s3">S3</span> No signal — extra dense genes in treatment</h2>
 <figure><svg class="schem" id="sch3" viewBox="0 0 440 280" role="img" aria-label="Scenario 3 schematic"></svg>
-<figcaption>No gene changes. Treatment cells additionally express about 250 genes (~2%) that are zero in every control cell, and those genes are dense.</figcaption></figure>
+<figcaption>No gene changes. Treatment cells additionally express 250 genes (~2%) that are zero in every control cell, and those genes are dense (detected in more than 25% of cells).</figcaption></figure>
 <p><strong>Design.</strong> Nothing gets a signal. Instead, about 250 extra genes (~2%) are added to the treatment group only — they are zero in every control cell. In S3 these condition-specific genes are densely expressed. Gene sets are built from the dense genes plus a "noise" share drawn from all other genes — a pool that now includes the 250 added genes, about 2% of it.</p>
 <p>In the authors' script the added genes are values copied from a second, independent draw of real cells, set to zero in control cells; how many land in a given set is left to chance. The script also still multiplies the dense genes by 1.2 (<code>Signal_Level</code>); run that way, scPS fires on every set, which contradicts the paper's result, so their S3/S4 runs must have used 1 — as their "without signal" result folders do for S1/S2. The playground lets you flip it.</p>
 <p><strong>What a good method should do.</strong> A gene set with <em>no</em> condition-specific genes contains only genes that are identical in both groups. The correct answer is "no difference", every time.</p>
@@ -115,8 +116,13 @@
   function draw(id, opts) {
     const svg = document.getElementById(id);
     const r = rand(opts.seed);
-    const nc = 10, cellW = 17, x0 = 96, y0 = 34, rowH = 16;
+    const nc = 10, cellW = 17, x0 = 100, y0 = 34, rowH = 16;
     const rows = opts.rows;
+    // size the drawing to its content so the treatment column is never clipped;
+    // extra room on the right holds the threshold note
+    const dotsEnd = x0 + 2 * nc * cellW + 12, note = opts.thresholdAfter !== undefined ? 66 : 0;
+    const W = dotsEnd + 8 + note, H = y0 + rows.length * rowH + 8;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
     const mk = (tag, attrs, text) => {
       const e = document.createElementNS(NS, tag);
       for (const k in attrs) e.setAttribute(k, attrs[k]);
@@ -124,13 +130,21 @@
       svg.appendChild(e);
       return e;
     };
+    mk("text", { x: 4, y: 18, class: "lbl" }, "detected in");
     mk("text", { x: x0 + (nc * cellW) / 2 - 22, y: 18, class: "hdr" }, "control");
     mk("text", { x: x0 + nc * cellW + 12 + (nc * cellW) / 2 - 26, y: 18, class: "hdr" }, "treatment");
     const splitX = x0 + nc * cellW + 6;
     mk("line", { x1: splitX, y1: 24, x2: splitX, y2: y0 + rows.length * rowH, class: "divider" });
     rows.forEach((row, i) => {
       const y = y0 + i * rowH + rowH / 2;
-      mk("text", { x: 4, y: y + 4, class: "lbl" }, row.label);
+      const det = row.kind === "cs" ? "treatment only" : `${Math.round(row.p * 100)}%`;
+      mk("text", { x: 4, y: y + 4, class: "lbl" }, det + (row.kind === "sig" ? " · signal" : ""));
+      if (opts.thresholdAfter === i) {
+        const ty = y0 + (i + 1) * rowH;
+        mk("line", { x1: 4, y1: ty, x2: dotsEnd + 4, y2: ty, class: "thresh" });
+        mk("text", { x: dotsEnd + 10, y: ty - 2, class: "lbl" }, "25%");
+        mk("text", { x: dotsEnd + 10, y: ty + 10, class: "lbl" }, "threshold");
+      }
       for (let side = 0; side < 2; side++) {
         for (let c = 0; c < nc; c++) {
           const cx = x0 + side * (nc * cellW + 12) + c * cellW + cellW / 2;
@@ -145,12 +159,12 @@
       }
     });
   }
-  const denseSig = { label: "dense · signal", p: 0.95, kind: "sig" };
-  const dense = { label: "dense", p: 0.9, kind: "ctl" };
-  const mid = { label: "moderate", p: 0.45, kind: "ctl" };
-  const sparse = { label: "sparse", p: 0.12, kind: "ctl" };
-  const sparseSig = { label: "sparse · signal", p: 0.12, kind: "sig" };
-  draw("sch1", { seed: 3, rows: [denseSig, denseSig, denseSig, dense, mid, mid, sparse, sparse, sparse, sparse, sparse, sparse, sparse] });
+  const g = (p, kind) => ({ p, kind: kind || "ctl" });
+  const dense = g(0.9), mid = g(0.45), sparse = g(0.12);
+  const sparseSig = g(0.12, "sig");
+  // S1 as the authors' code has it: every gene above 25% detection is boosted.
+  draw("sch1", { seed: 3, thresholdAfter: 3, rows: [g(0.95, "sig"), g(0.75, "sig"), g(0.5, "sig"), g(0.35, "sig"),
+    g(0.2), g(0.12), g(0.12), g(0.08), sparse, g(0.05), g(0.05), g(0.03), g(0.03)] });
   draw("sch2", { seed: 5, rows: [dense, dense, dense, mid, sparseSig, mid, sparse, sparseSig, sparse, sparse, sparseSig, sparse, sparse] });
   draw("sch3", { seed: 7, rows: [dense, dense, dense, mid, mid, sparse, sparse, sparse, sparse, sparse, sparse,
     { label: "treatment-only", p: 0.9, kind: "cs" }, { label: "treatment-only", p: 0.9, kind: "cs" }, { label: "treatment-only", p: 0.85, kind: "cs" }] });
