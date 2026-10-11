@@ -282,10 +282,10 @@ the two implementations; `scgsa_scps_sensitivity.R` is the stability check.
 
 ## Open TODOs
 
-- [ ] **Answer the cognitive-debt questions in `post.md` before using any of
-      this in prose.** Nothing here resolves them; the zero-count question in
-      particular is now more load-bearing, not less, because no imputation was
-      run.
+- [ ] **Answer the cognitive-debt questions in `post.md` in the author's own
+      words before using any of this in prose.** The reading companion now
+      has worked explanations; the zero-count question remains load-bearing
+      because no imputation was run.
 - [ ] Re-run scPS sign-stably (exact SVD, top-10 variance normalisation,
       fixed PC signs) and treat those as the canonical scPS numbers — see the
       correction above; plain `approx=FALSE` changes the method.

@@ -394,7 +394,11 @@ small panel. The authors hardcode `npcs = 10`, which cannot run on 8 genes
 `did not converge--results might be invalid!`. With `approx = TRUE` the
 top-ranked cell type changes with the seed; with `approx = FALSE` it is stable
 across seeds. The authors' own code has `# approx = FALSE` commented out on
-that line.
+that line. This is a diagnostic, not a recommended replacement: exact SVD
+also changes how Seurat normalizes explained variance and therefore changes
+the scPS 50% cutoff. The planned stable rerun uses exact SVD, the original
+top-10 variance normalization, and a fixed PC sign convention; see
+`blogs/a1-receptor-pathway/all-methods-scratchpad.md`.
 
 ### `figures/a1_allmethods_direct_hbca.csv`
 

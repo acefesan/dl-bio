@@ -2,6 +2,13 @@
 > Answers "does each cell type express *which* pathway branch," which the
 > single combined score in `module-score-scratchpad.md` could not.
 
+> **Historical method note.** These branch scores use the earlier simplified
+> pseudobulk implementation. The later per-cell comparison changes the
+> full61 ranking, and differences in genes detected per cell remain an
+> uncontrolled explanation for some cell-type rankings. Use the per-gene
+> table descriptively; see `all-methods-scratchpad.md` and
+> `scgsa-site/ours.html` before making a pathway claim.
+
 ## Method
 
 Same AddModuleScore-style approach (`score_a1_branches.py`), but the
@@ -68,13 +75,12 @@ The per-gene table explains it concretely. Raw mean expression:
 | `PRKCA` | 63.1 | **0.6** | effectively absent |
 | `PRKCE` | 61.0 | 10.1 | 6× lower |
 
-**So it's real, not an artifact: thalamic excitatory neurons carry the
-receptor and the presynaptic calcium-channel machinery, but are largely
-missing GIRK2 and the PLC/PKC effector arm that hippocampal neurons are
-loaded with.** Receptor presence ≠ same downstream wiring. This is a
-genuinely interesting result for the post — arguably more interesting
-than CA4 winning, because it's a concrete case where "expresses ADORA1"
-and "can run the A1 pathway the way the hippocampus does" come apart.
+**The measured means differ:** thalamic excitatory neurons show ADORA1 and
+calcium-channel transcripts, with much lower measured `KCNJ6`, `PLCB1`,
+`PRKCA`, and `PRKCE` than CA4. This explains the branch-score difference in
+these data. It does not establish that either cell type runs a particular
+functional signaling branch; sequencing depth and gene-detection differences
+still need controls.
 
 Same logic explains **Mammillary body** (worst combined, −0.83):
 `PLCB1` = 1.1 (vs. CA4's 85.7) and `ADORA1` = 0.2 — depleted across the

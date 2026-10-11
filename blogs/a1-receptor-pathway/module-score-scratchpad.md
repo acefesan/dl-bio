@@ -2,6 +2,12 @@
 > interpretation notes for post 2, answering the open TODO from
 > `pathway-scratchpad-ca4.md` ("no baseline comparison cell type").
 
+> **Historical result.** This simplified pseudobulk run was superseded by
+> per-cell scoring with all seven methods. Its CA4/full61 ranking should not
+> be used as the current finding; see `all-methods-scratchpad.md`. The
+> thalamic and mammillary per-gene breakdown was completed in
+> `branch-score-scratchpad.md`.
+
 ## Method
 
 AddModuleScore-style (Tirosh et al. 2016, *Science* — same method behind
@@ -40,7 +46,7 @@ no filtering needed — smallest group here is >10k cells)
 | Cerebellar inhibitory | 14,411 | -0.10 |
 | Mammillary body | 16,602 | -1.45 |
 
-**Headline: CA4 answers the open TODO.** Relative to an expression-matched
+**Initial interpretation, superseded by the per-cell comparison:** Relative to an expression-matched
 random background, CA4 (and CA1-3 right behind it) are genuinely elevated
 for the full A1 pathway panel, not just "has the machinery like every
 neuron does" — this is the real signal the raw co-expression pull
@@ -53,12 +59,11 @@ be CA4 alone or "the hippocampus (CA1-4)" as a region-level story —
 picking CA4 specifically over CA1-3 by 0.02 is not obviously
 defensible as a meaningful distinction.
 
-**Real discrepancy to resolve, not yet explained:** Thalamic excitatory
+**Question at the time, later investigated:** Thalamic excitatory
 was our **#2 ranked cell type for ADORA1 alone** (`entry.md`: mean 2.41
 among expressing cells, 60.2%) but scores near **zero (0.02)** on the
 full pathway panel — and Mammillary body scores the single worst
-(-1.45) despite reasonable ADORA1 presence. Two non-exclusive
-possibilities, neither checked yet:
+(-1.45) despite reasonable ADORA1 presence. We considered two possibilities:
 - These cell types express ADORA1 itself but comparatively little of
   the downstream machinery (a real biological asymmetry — worth
   actually looking at which specific panel genes are low there).
@@ -85,14 +90,11 @@ is more robust here).
 
 ## Open TODOs
 
-- [ ] **Filter Tabula results to a minimum cell count (e.g. n >= 500)
-  before drawing any conclusion from it** — rerun the ranking with that
-  filter applied rather than treating the current top-15 as meaningful.
-- [ ] **Investigate the thalamic/mammillary discrepancy** — pull the
-  per-gene breakdown for those two groups from the raw pseudobulk data
-  (same approach as the CA4 gene table) to see which specific branches
-  are driving the low score, before deciding whether it's biological or
-  a scoring artifact.
+- [x] Filter Tabula groups to n ≥ 500 in the later branch-score and per-cell
+  comparisons. The original unfiltered top-15 here remains historical.
+- [x] Pull the thalamic/mammillary per-gene breakdown in
+  `branch-score-scratchpad.md`. Its transcript differences are descriptive;
+  detection-depth controls are still needed for a functional claim.
 - [ ] Decide CA4 vs. CA1-3 framing given the near-tie.
 - [ ] Consider re-running with Seurat's actual defaults (24 bins / 100
   controls per gene) instead of the lighter 25/20 used here, as a

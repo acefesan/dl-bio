@@ -1,7 +1,6 @@
-> **OUTLINE — nothing below is written yet.** This is a structural skeleton
-> only: section headers and bullet points describing what needs to be
-> researched, analyzed, and written. Every bullet is a TODO for us, not a
-> claim or a draft sentence. Do not read anything here as finished prose.
+> **OUTLINE — no prose sections written yet.** Research and analysis now exist
+> for several items below; the checklist describes what still has to be
+> evaluated or incorporated into the post. See the README for current results.
 
 # A1 Receptor: Distribution and Signaling Pathway (outline)
 
@@ -44,15 +43,15 @@ can't defend.
 
 ## 1. Where is A1 expressed?
 
-- [ ] Pull the A1-specific slice out of our existing artifacts (tissue +
-      cell-type distributions) rather than re-running the analysis —
-      `projects/caffeine/lab/001_adora_expression/ARTIFACTS.md` and
-      `entry.md` already have this for A1 (hippocampal CA4, thalamic
-      excitatory, deep-layer cortical neurons; oligodendrocytes, OPCs,
-      astrocytes).
+- [x] Pull the A1-specific cell-type distribution from the existing
+      artifacts. The export and interpretation are in
+      `distribution-scratchpad.md`; Census-scale results and their different
+      cell-type resolution are in `census-scratchpad.md`.
 - [ ] By-tissue view — which figure/table shows this cleanly for A1
       specifically (as opposed to all four receptors at once)?
-- [ ] By-cell-type view — same question.
+- [x] Identify the by-cell-type source table — `adora1_top_cell_types.csv`.
+- [ ] Decide how to present the HBCA table alongside the broader Census
+      result, which uses different cell-type labels.
 - [ ] Decide whether we need a new, A1-only figure (isolating just the one
       receptor from the existing multi-receptor dotplots) or whether the
       existing ones are legible enough to reference directly.
@@ -92,14 +91,12 @@ can't defend.
 
 ## 5. Check the pathway against our actual data
 
-- [ ] For each cell type above, does our single-cell data show expression
-      of the *downstream* pathway components too (not just the ADORA1
-      gene itself) — e.g. relevant adenylyl cyclase isoforms, PKA
-      subunits, GIRK channel genes, CREB?
-- [ ] This is new analysis, not something we've already run — scope it as
-      its own mini-methods section (which genes to query, which atlas(es),
-      what "signs of the chain" operationally means — some minimum
-      co-expression threshold?).
+- [x] Extract and score downstream pathway genes in HBCA and Tabula; see
+      `pathway-scratchpad-ca4.md`, `all-methods-scratchpad.md`, and the lab
+      artifact guide. The 8-gene and 61-gene panels give different rankings.
+- [ ] Define a defensible mini-methods section for the completed analysis,
+      including panel selection, cell sampling, scoring, zeros, and the
+      expression-matched random-set control still to be run.
 - [ ] Be explicit about what this can and can't prove — co-expression of
       pathway genes is suggestive, not functional proof the pathway is
       active in that cell type (same epistemic caution as the "can our

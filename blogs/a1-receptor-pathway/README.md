@@ -23,10 +23,11 @@ written:
    benchmark variable rather than a preprocessing step?
 3. Why are bigger gene sets *shadier*, per the paper's scenarios 3 and 4?
 
-Reference material for these is `lqae124.pdf` (Wang & Thakar 2024) — sitting
-in the main checkout, not committed. None of the analysis below resolves these
-questions; if anything the zero-count one is now more load-bearing, because
-nothing was run with imputation.
+Reference material is the committed [`lqae124.pdf`](./lqae124.pdf) (Wang &
+Thakar 2024). The [reading companion](./scgsa-site/) has worked explanations
+of all three questions, but the author has not yet answered them in their own
+words in the post. The zero-count question remains especially consequential
+because the A1 scoring runs did not use imputation.
 
 ## The two gene panels
 
@@ -50,13 +51,17 @@ published anywhere in the body.
 
 ## Where the analysis currently stands
 
-**The panel choice, not the method choice, decides the answer.** Run per-cell
+**Panel choice strongly changes the answer.** Run per-cell
 with all seven methods from Wang & Thakar 2024: on **full61** hippocampal CA4
 is mid-pack (ranks 5–10) and CA1-3 leads; on **minimal8** CA4 is first or
 second under all seven. Two independent implementations agree exactly
 (rho +1.000). The likely cause is that the 61-gene panel is dominated by
 ubiquitous signalling genes and was partly measuring generic signalling
-abundance. Details in [`all-methods-scratchpad.md`](./all-methods-scratchpad.md).
+abundance. This interpretation is provisional: HBCA superclusters differ
+4.2-fold in genes detected per cell, and an expression-matched random-set
+control has not yet been run. Details in
+[`all-methods-scratchpad.md`](./all-methods-scratchpad.md) and the companion's
+[A1 analysis page](./scgsa-site/ours.html).
 
 **This superseded the earlier read.** Every number before that run came from
 one method (AddModuleScore) in a simplified pseudobulk variant that the paper
