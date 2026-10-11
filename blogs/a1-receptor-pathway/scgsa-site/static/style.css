@@ -94,6 +94,79 @@ body {
 
 a { color: var(--accent); text-underline-offset: 2px; }
 
+/* Wilcoxon playground */
+.wil-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem 1.5rem;
+  margin: 1.5rem 0 0.5rem;
+  padding: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: 14px/1.4 system-ui, sans-serif;
+}
+.wil-controls label { display: grid; gap: 0.35rem; min-width: 10rem; }
+.wil-controls output { color: var(--accent); font-weight: 700; }
+.wil-controls input { width: 100%; accent-color: var(--accent); }
+.wil-presets { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.wil-presets button {
+  padding: 0.4rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.wil-presets button:hover { background: var(--accent-soft); }
+.wil-instruction { color: var(--muted); font: 13px/1.4 system-ui, sans-serif; }
+.wil-panel h2 { margin-top: 1.7rem; }
+.wil-chart { width: 100%; display: block; touch-action: none; overflow: visible; }
+.wil-axis, .wil-tick, .wil-row-line { stroke: var(--line); stroke-width: 1.5; }
+.wil-row-line { stroke-dasharray: 3 4; }
+.wil-tick-label, .wil-axis-label, .wil-row-label, .wil-rank-label,
+.wil-legend-control, .wil-legend-treatment {
+  fill: var(--muted);
+  font: 13px system-ui, sans-serif;
+}
+.wil-row-label { fill: var(--ink); font-weight: 600; }
+.wil-dot { cursor: grab; outline: none; }
+.wil-dot:active { cursor: grabbing; }
+.wil-dot circle, .wil-rank-mark > circle, .wil-rank-mark > rect { stroke-width: 2; }
+.wil-control circle, .wil-control > rect { fill: var(--panel); stroke: var(--s1); }
+.wil-treatment circle, .wil-treatment > rect { fill: var(--accent-soft); stroke: var(--s3); }
+.wil-dot:focus circle { stroke: var(--ink); stroke-width: 4; }
+.wil-dot text, .wil-rank-mark text {
+  fill: var(--ink);
+  font: 600 12px system-ui, sans-serif;
+  pointer-events: none;
+}
+.wil-legend-control { fill: var(--s1); }
+.wil-legend-treatment { fill: var(--s3); }
+.wil-results {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+.wil-results > div {
+  padding: 0.8rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font: 13px/1.4 system-ui, sans-serif;
+}
+.wil-results span, .wil-results small { display: block; color: var(--muted); }
+.wil-results strong { display: block; margin: 0.2rem 0; font-size: 1.4rem; color: var(--ink); }
+.wil-interpretation { font-weight: 600; }
+@media (max-width: 650px) {
+  .wil-results { grid-template-columns: 1fr; }
+  .wil-chart { min-width: 34rem; }
+  .wil-panel { overflow-x: auto; }
+}
+
 .layout {
   display: grid;
   grid-template-columns: 15rem minmax(0, 1fr);

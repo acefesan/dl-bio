@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="wilcoxon">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wilcoxon rank-sum playground</title>
+<link rel="stylesheet" href="static/style.css">
+<script defer src="static/common.js"></script>
+<script defer src="static/wilcoxon.js"></script>
+</head>
+<body>
+<div class="layout"><main><article class="content wide">
+
+<div class="kicker">Hands on</div>
+<h1>Wilcoxon rank-sum playground</h1>
+<p class="lede">Move the cell scores, then watch the pooled ranks and two-sided test change. Each dot is one cell; the number on it is that cell's score.</p>
+
+<div class="wil-controls" aria-label="Playground controls">
+  <label>Control cells <output id="w-n-control">3</output><input id="w-control-count" type="range" min="2" max="6" value="3"></label>
+  <label>Treatment cells <output id="w-n-treatment">3</output><input id="w-treatment-count" type="range" min="2" max="6" value="3"></label>
+  <div class="wil-presets" aria-label="Example arrangements">
+    <button type="button" data-preset="overlap">Mixed</button>
+    <button type="button" data-preset="separated">Treatment higher</button>
+    <button type="button" data-preset="reverse">Treatment lower</button>
+    <button type="button" data-preset="ties">Ties</button>
+  </div>
+</div>
+
+<p class="wil-instruction">Drag dots left or right. Arrow keys move a selected dot; Shift + arrow moves it farther.</p>
+
+<section class="wil-panel" aria-labelledby="w-score-title">
+  <h2 id="w-score-title">1. Scores in the two groups</h2>
+  <svg id="w-score-chart" class="wil-chart" role="img" aria-label="Control and treatment cell scores"></svg>
+</section>
+
+<section class="wil-panel" aria-labelledby="w-rank-title">
+  <h2 id="w-rank-title">2. Pool the cells and assign ranks</h2>
+  <svg id="w-rank-chart" class="wil-chart" role="img" aria-label="All cell scores sorted into pooled ranks"></svg>
+</section>
+
+<div class="wil-results" aria-live="polite">
+  <div><span>Treatment rank sum</span><strong id="w-rank-sum">—</strong><small id="w-rank-list"></small></div>
+  <div><span>U statistic</span><strong id="w-u">—</strong><small id="w-u-range"></small></div>
+  <div><span>Two-sided exact p</span><strong id="w-p">—</strong><small id="w-verdict"></small></div>
+</div>
+
+<p id="w-interpretation" class="wil-interpretation"></p>
+
+<div class="callout ours">
+<div class="tag">What the test can and cannot say</div>
+<p>Wilcoxon sees only the final cell scores and their ordering. It can say that one group's scores tend to be higher or lower. It cannot say whether the difference came from biology, the scoring method, or an artifact.</p>
+</div>
+
+<div class="pager">
+  <a href="basics.html"><span class="lbl">Back to foundations</span>Scoring from zero</a>
+  <a href="playground.html" style="text-align:right"><span class="lbl">Next playground</span>Gene-set scoring</a>
+</div>
+
+</article></main></div>
+</body>
+</html>

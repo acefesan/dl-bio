@@ -29,6 +29,7 @@
       ["pathways", "pathways.html", "Gene sets and pathways"],
     ]},
     { title: "Hands on", items: [
+      ["wilcoxon", "wilcoxon.html", "Wilcoxon playground"],
       ["playground", "playground.html", "Playground"],
       ["ours", "ours.html", "Our A1 data"],
     ]},

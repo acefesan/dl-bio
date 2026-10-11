@@ -78,6 +78,7 @@ $$x_{gc} = \log\!\left(1 + \frac{\text{count}_{gc}}{\sum_{g'} \text{count}_{g'c}
 <p>A method gives each cell a number for the gene set. The paper then asks whether the numbers differ between the two groups of cells (control vs. treatment) with a <strong>Wilcoxon rank-sum test</strong>. The test pools both groups' scores, ranks them, and asks whether one group's ranks are systematically higher:</p>
 $$W = \sum_{c \in \text{treatment}} \operatorname{rank}(s_c) - \frac{n_1(n_1+1)}{2}$$
 <p>Here \(s_c\) is cell \(c\)'s score, \(\operatorname{rank}(s_c)\) is its position when all cells from both groups are sorted by score (smallest = 1), \(n_1\) is the number of treatment cells and \(n_2\) the number of control cells. Under no difference, \(W\) centres on \(n_1 n_2 / 2\). The test is two-sided: it fires whether treatment scores go up <em>or down</em>. That matters later, because some artifacts push scores down.</p>
+<p><a href="wilcoxon.html"><strong>Open the Wilcoxon playground</strong></a> to move individual cell scores and watch the pooled ranks, \(W\), and exact p-value update.</p>
 <p>With many gene sets tested at once, p-values are adjusted with the <strong>Benjamini–Hochberg</strong> false discovery rate. A set counts as "identified" when its adjusted p-value is below 0.05.</p>
 
 <div class="callout warn">
