@@ -98,8 +98,8 @@ $$\text{recovery} = \frac{\#\{\text{gene sets with BH-adjusted } p < 0.05\}}{\#\
 
 <h2>7. Two kinds of simulated data</h2>
 <ul>
-<li><strong>SSD</strong> (Splatter-simulated data): synthetic counts from the Splatter package, with parameters fitted to a real 10x dataset (GSE164381, from a study of B-cell repertoires in COVID-19, Hoehn et al. 2021). Sparser, with a lower signal-to-noise ratio.</li>
-<li><strong>RWSD</strong> (real-world simulated data): the real, log-normalised GSE164381 matrix, cells randomly split into "control" and "treatment", with signal added to chosen genes in the treatment half.</li>
+<li><strong>SSD</strong> (Splatter-simulated data): synthetic counts from the Splatter package, with parameters fitted (<code>splatEstimate</code>) to the naive B cells of the healthy donors in a real 10x dataset (GSE164381, from a study of B-cell repertoires in COVID-19, Hoehn et al. 2021). Sparser, with a lower signal-to-noise ratio.</li>
+<li><strong>RWSD</strong> (real-world simulated data): the real, log-normalised GSE164381 matrix — per the authors' script, only the <strong>naive B cells of the four healthy donors</strong>, not the COVID patients — cells randomly split into "control" and "treatment", with signal added to chosen genes in the treatment half.</li>
 </ul>
 <p>RWSD usually gave better results. Each setting was replicated 10 times.</p>
 

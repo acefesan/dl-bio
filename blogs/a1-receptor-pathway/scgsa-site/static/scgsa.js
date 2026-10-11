@@ -158,7 +158,128 @@
     const csGenes = [];
     for (let g = G0; g < G; g++) csGenes.push(g);
 
-    return { opt: o, G, G0, N, n, nCS, group, counts, data, mu, signal, nonSignal, csGenes, isSignal, dense };
+    const geneNames = Array.from({ length: G }, (_, g) => (g < G0 ? "gene" : "extra") + (g + 1));
+    return { opt: o, G, G0, N, n, nCS, group, counts, data, mu, signal, nonSignal, csGenes, isSignal, dense, geneNames };
+  }
+
+  // ------------------------------------------------------------ real data (RWSD)
+  // Decode the packed naive-B counts (paper-data/03_export_browser.py):
+  // per cell varint(nnz), then nnz × (varint gene-index delta, varint count).
+  function decodePool(buf, meta) {
+    const b = new Uint8Array(buf);
+    let p = 0;
+    const rd = () => { let v = 0, s = 0, x; do { x = b[p++]; v += (x & 0x7f) * 2 ** s; s += 7; } while (x & 0x80); return v; };
+    const nC = meta.nCells;
+    const ptr = new Uint32Array(nC + 1);
+    const gi = new Uint16Array(meta.nnz);
+    const ct = new Uint16Array(meta.nnz);
+    let k = 0;
+    for (let c = 0; c < nC; c++) {
+      ptr[c] = k;
+      const m = rd();
+      let g = -1;
+      for (let j = 0; j < m; j++) { g += rd() + 1; gi[k] = g; ct[k] = rd(); k++; }
+    }
+    ptr[nC] = k;
+    return { meta, ptr, gi, ct, nCells: nC, nGenes: meta.nGenes, genes: meta.genes };
+  }
+
+  // Seurat LogNormalize of one pool cell into a dense row over all pool genes.
+  function poolRow(pool, c, out) {
+    out.fill(0);
+    let lib = 0;
+    for (let k = pool.ptr[c]; k < pool.ptr[c + 1]; k++) lib += pool.ct[k];
+    const f = 1e4 / lib;
+    for (let k = pool.ptr[c]; k < pool.ptr[c + 1]; k++) out[pool.gi[k]] = Math.log1p(pool.ct[k] * f);
+    return out;
+  }
+
+  // Wang & Thakar's real-world simulated data, following their script
+  // (Thakar-Lab/scPS, "Comparison analysis/Rscript RWSD and GS simulation.rmd"):
+  //  1. draw 2n cells from the naive-B pool; split them at random into
+  //     control and treatment (n each);
+  //  2. keep genes detected in at least one of those cells;
+  //  3. "Signal": S1/S3 = genes whose zero fraction is < 0.75, i.e. detected
+  //     in MORE THAN 25% of cells (Threshold = 0.75 in the code; the paper's
+  //     text says "at least 75%"); S2/S4 = 550 random detected genes;
+  //  4. multiply the log-normalised values of Signal genes in treatment cells
+  //     by 1.2 (Signal_Level). For S3/S4 the boost is off by default (the
+  //     authors' null runs use Signal_Level = 1; see paper-data/README);
+  //  5. S3/S4 only: draw a second, independent sample of 2n cells, pick 250
+  //     genes from it (S3: zero fraction < 0.75; S4: any detected gene), and
+  //     append them as new genes: their values from that second sample in
+  //     treatment cells, 0 in control cells. They join the non-signal pool.
+  function simulateRWSD(pool, opt) {
+    const o = Object.assign({ cellsPerGroup: 200, scenario: 1, seed: 7, threshold: 0.75,
+      foldChange: 1.2, nRandomSignal: 550, nAdded: 250, boostNull: false }, opt || {});
+    const rng = makeRng(o.seed);
+    const n = o.cellsPerGroup, N = 2 * n, PG = pool.nGenes;
+    const all = Array.from({ length: pool.nCells }, (_, i) => i);
+    // o.cells / o.signal / o.cells2 / o.added let validate/rwsd_check.js replay
+    // the exact random draws of an R run of the authors' script.
+    const cells = o.cells || sampleWithout(rng, all, N); // first n = control, rest = treatment
+    const row = new Float32Array(PG);
+
+    // zero fraction over the sampled cells, on the full pool gene space
+    const nz = new Uint32Array(PG);
+    for (const c of cells) for (let k = pool.ptr[c]; k < pool.ptr[c + 1]; k++) nz[pool.gi[k]]++;
+    const genesKept = [];
+    for (let g = 0; g < PG; g++) if (nz[g] > 0) genesKept.push(g);
+    const G0 = genesKept.length;
+
+    let signalPool;
+    if (o.scenario === 1 || o.scenario === 3) signalPool = genesKept.filter(g => 1 - nz[g] / N < o.threshold);
+    else signalPool = o.signal || sampleWithout(rng, genesKept, o.nRandomSignal);
+    const sigSet = new Set(signalPool);
+    const boost = o.scenario <= 2 || o.boostNull ? o.foldChange : 1;
+
+    // second sample for the condition-specific (added) genes
+    let added = [], cells2 = null;
+    if (o.scenario >= 3) {
+      cells2 = o.cells2 || sampleWithout(rng, all, N);
+      const nz2 = new Uint32Array(PG);
+      for (const c of cells2) for (let k = pool.ptr[c]; k < pool.ptr[c + 1]; k++) nz2[pool.gi[k]]++;
+      const cand = [];
+      for (let g = 0; g < PG; g++) if (nz2[g] > 0 && (o.scenario === 4 || 1 - nz2[g] / N < o.threshold)) cand.push(g);
+      added = o.added || sampleWithout(rng, cand, o.nAdded);
+    }
+    const nCS = added.length, G = G0 + nCS;
+
+    const col = new Int32Array(PG).fill(-1);
+    genesKept.forEach((g, j) => { col[g] = j; });
+    const group = new Uint8Array(N);
+    const data = new Float32Array(N * G);
+    for (let i = 0; i < N; i++) {
+      group[i] = i < n ? 0 : 1;
+      poolRow(pool, cells[i], row);
+      for (let j = 0; j < G0; j++) {
+        const g = genesKept[j];
+        let v = row[g];
+        if (group[i] === 1 && boost !== 1 && sigSet.has(g)) v *= boost;
+        data[i * G + j] = v;
+      }
+      if (nCS && group[i] === 1) {
+        poolRow(pool, cells2[i], row);
+        for (let a = 0; a < nCS; a++) data[i * G + G0 + a] = row[added[a]];
+      }
+    }
+
+    const signal = signalPool.map(g => col[g]);
+    const isSignal = new Uint8Array(G);
+    signal.forEach(j => { isSignal[j] = 1; });
+    const nonSignal = [];
+    for (let j = 0; j < G0; j++) if (!isSignal[j]) nonSignal.push(j);
+    const csGenes = [];
+    for (let a = 0; a < nCS; a++) { csGenes.push(G0 + a); nonSignal.push(G0 + a); }
+    const geneNames = genesKept.map(g => pool.genes[g]).concat(added.map(g => pool.genes[g] + " (added)"));
+    const dense = signalPool.length && (o.scenario === 1 || o.scenario === 3) ? signal : [];
+    const cellInfo = cells.map((c, i) => ({
+      pool: c, donor: pool.meta.donors[pool.meta.cellDonor[c]], barcode: pool.meta.barcodes[c],
+      addedFrom: cells2 && i >= n ? cells2[i] : null,
+    }));
+    return { opt: Object.assign(o, { paper: true }), paper: true, G, G0, N, n, nCS, group, data, signal,
+      nonSignal, csGenes, isSignal, dense, geneNames, cellInfo, boost,
+      zeroFrac: Array.from({ length: G }, (_, j) => j < G0 ? 1 - nz[genesKept[j]] / N : null) };
   }
 
   // ------------------------------------------------------------ ranking helpers
@@ -262,7 +383,10 @@
     for (let g = 0; g < G; g++) bins[bin[g]].push(g);
 
     const aucMaxRank = Math.ceil(0.05 * G);
-    const ucellMaxRank = Math.max(10, Math.round(o.ucellMaxRankFrac * G));
+    // Real data: irGSEA's default, a fixed 1500 (what the authors ran). The toy
+    // has 3-6k genes, so there the cutoff is scaled to the same share of a
+    // ~20,000-gene transcriptome.
+    const ucellMaxRank = sim.paper ? 1500 : Math.max(10, Math.round(o.ucellMaxRankFrac * G));
 
     return { rAUC, rU, ssPos, ssRa, rNZ, nnz, colSum, avg, bin, bins, aucMaxRank, ucellMaxRank };
   }
@@ -594,7 +718,10 @@
   // ------------------------------------------------------------ gene sets
   function makeSet(sim, spec, rng) {
     const size = spec.size;
-    if (sim.opt.scenario <= 2) {
+    // Paper mode, all four scenarios: size × (1 − noise) genes from "Signal",
+    // the rest from the non-signal pool (which in S3/S4 also holds the added
+    // condition-specific genes, so their share in a set is left to chance).
+    if (sim.paper || sim.opt.scenario <= 2) {
       const nSig = Math.min(sim.signal.length, Math.round(size * (1 - spec.noise)));
       return sampleWithout(rng, sim.signal, nSig)
         .concat(sampleWithout(rng, sim.nonSignal, size - nSig));
@@ -660,5 +787,5 @@
     };
   }
 
-  return { makeRng, simulate, prepare, METHODS, scoreAll, recovery, makeSet, wilcox, bh, dataSummary, jacobiEigen };
+  return { makeRng, simulate, simulateRWSD, decodePool, prepare, METHODS, scoreAll, recovery, makeSet, wilcox, bh, dataSummary, jacobiEigen };
 });

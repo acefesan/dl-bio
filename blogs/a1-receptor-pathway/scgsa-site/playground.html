@@ -38,6 +38,27 @@
   #sweep .ax { stroke: var(--muted); stroke-width: 1; }
   #sweep text { fill: var(--muted); font-size: 11px; }
   @media (max-width: 560px) { .mrow { grid-template-columns: 6.5rem 1fr 5.5rem; } }
+  /* clickable cells + the one-cell side panel */
+  circle.cell { cursor: pointer; stroke: transparent; stroke-width: 7; }
+  circle.cell:hover { opacity: 1; }
+  circle.cell.sel { fill: var(--mid); opacity: 1; stroke: var(--ink); stroke-width: 1.4; }
+  .cell-panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(30rem, 100vw); overflow-y: auto; z-index: 50;
+    background: var(--panel); border-left: 1px solid var(--line); box-shadow: -8px 0 24px rgba(0,0,0,.18);
+    padding: 1.1rem 1.2rem 2rem; font: 14px/1.45 system-ui, -apple-system, sans-serif; }
+  .cell-panel h3 { margin: 0.2rem 0 0.6rem; font-size: 16px; }
+  .cell-panel h4 { margin: 1.1rem 0 0.4rem; font-size: 14px; }
+  .cell-panel table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .cell-panel th, .cell-panel td { padding: 0.25rem 0.4rem; border-bottom: 1px solid var(--line); text-align: left; }
+  .cell-panel .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .cell-panel td.hm { border-radius: 3px; }
+  .cell-panel td small { color: var(--muted); margin-right: 0.2rem; }
+  .cp-close { position: absolute; top: 0.6rem; right: 0.7rem; font-size: 22px; line-height: 1; background: none; border: none; color: var(--muted); cursor: pointer; }
+  .cp-note { color: var(--muted); font-size: 12.5px; margin: 0.3rem 0; }
+  .cp-sum { grid-template-columns: 1fr 1fr; }
+  .role { display: inline-block; font-size: 11px; font-weight: 600; padding: 0.05rem 0.4rem; border-radius: 999px; white-space: nowrap; }
+  .role.signal { background: var(--try); color: var(--try-ink); }
+  .role.added { background: var(--warn); color: var(--warn-ink); }
+  .role.non { background: var(--code-bg); color: var(--muted); }
 </style>
 </head>
 <body>
@@ -45,11 +66,17 @@
 
 <div class="kicker">Hands on</div>
 <h1>Playground</h1>
-<p class="lede">Simulate the paper's scenarios in your browser and run all seven methods on them. Each method uses the same formula as its R package, checked against the real packages on identical data.</p>
+<p class="lede">Rebuild the paper's scenarios from the same real cells it used and run all seven methods on them, in your browser. Click any cell in the results to open it.</p>
+
+<div class="callout" style="max-width:46rem">
+<div class="tag">What "paper's real cells" means</div>
+<p>All 9,528 naive B cells from the four healthy donors in <strong>GSE164381</strong>, every gene, raw counts — the input the authors' script names ("Naive Normal B cell"). Each run draws 2 × <em>n</em> of them and follows the authors' own code (<a href="https://github.com/Thakar-Lab/scPS">Thakar-Lab/scPS</a>, "RWSD and GS simulation"), step for step: keep genes detected in at least one drawn cell; pick "signal" genes; multiply their log-normalised values by 1.2 in treatment cells; for S3/S4, append 250 genes that are zero in every control cell. The browser version rebuilds the authors' R matrix exactly on the same draws (<code>validate/rwsd_check.js</code>).</p>
+<p>Two things the code says that the paper's text does not: scenario 1's "densely expressed" genes are those detected in <strong>more than 25%</strong> of cells (the text says "at least 75%"), and the "+20%" is a ×1.2 on <strong>log-normalised</strong> values. In these cells the dense genes are mostly ribosomal and mitochondrial — scenario 1 boosts housekeeping genes, not a pathway. The naive-B labels are our reconstruction (the authors' annotation isn't published); see <code>paper-data/</code>.</p>
+</div>
 
 <div class="callout warn" style="max-width:46rem">
-<div class="tag">Mechanisms, not magnitudes</div>
-<p>The simulator is much smaller than the paper's data (3,000–6,000 genes, not ~20,000) and its exact regime is a guess. It reproduces the scenario 3 false positives, their growth with gene set size, and scPS's immunity. It does <em>not</em> reproduce ssGSEA's near-total failure, or UCell's low scenario-1 false-positive rate. See <a href="compare.html">what matches</a>.</p>
+<div class="tag">On these cells vs. the paper</div>
+<p>Reproduced (gene set size 100, 200 cells per group): S1 detection by every method except ssGSEA; the S1 null pattern (JASMINE ~100%, AUCell ~97%, SCSE ~21%; AddModuleScore, scPS, UCell ≤ 2%); scPS losing power at 20 cells per group; the S3 trap — every method except scPS fires on sets with no condition-specific gene — and S4's much smaller effect. Not reproduced: ssGSEA almost never fires here, including in S3, where the paper says it did. <strong>SSD</strong> (Splatter fitted to the same cells, as the paper's second dataset) is sparser than the paper's — its median S1 signal gene is detected in ~15% of cells vs. their 32% — and its genes are synthetic (Gene1, …). The toy simulator (other "Data" options) is kept for comparison; it has 3,000–6,000 made-up genes and is for mechanisms, not magnitudes.</p>
 </div>
 
 <div class="panel">
@@ -57,21 +84,28 @@
 <div class="controls">
   <div><label for="scenario">Scenario</label>
     <select id="scenario">
-      <option value="1">S1 · +20% on dense genes</option>
-      <option value="2">S2 · +20% on random genes</option>
+      <option value="1">S1 · ×1.2 on dense genes</option>
+      <option value="2">S2 · ×1.2 on random genes</option>
       <option value="3">S3 · no signal, extra dense genes</option>
       <option value="4">S4 · no signal, extra sparse genes</option>
     </select></div>
-  <div><label for="regime">Expression regime</label>
+  <div><label for="regime">Data</label>
     <select id="regime">
-      <option value="dense">dense · 3,000 genes</option>
-      <option value="sparse">sparse · 6,000 genes (more realistic)</option>
+      <option value="paper" selected>RWSD · paper's real cells (naive B, GSE164381)</option>
+      <option value="ssd">SSD · Splatter fitted to those cells</option>
+      <option value="dense">toy simulator · dense, 3,000 genes</option>
+      <option value="sparse">toy simulator · sparse, 6,000 genes</option>
     </select></div>
   <div><label for="cells">Cells per group</label>
     <select id="cells">
       <option>20</option><option>50</option><option selected>200</option><option>500</option>
     </select></div>
-  <div><label for="inject">Where the change is applied</label>
+  <div id="boostBox" hidden><label for="boostNull">S3/S4 "signal" genes</label>
+    <select id="boostNull">
+      <option value="0" selected>not boosted (authors' null runs)</option>
+      <option value="1">×1.2 (script as literally written)</option>
+    </select></div>
+  <div id="injectBox"><label for="inject">Where the change is applied</label>
     <select id="inject">
       <option value="log">after normalisation (as the paper)</option>
       <option value="counts">before normalisation (leaks)</option>
@@ -121,14 +155,16 @@
 
 <h2>Things to try</h2>
 <ul>
-<li><a href="#s3-null">Scenario 3, null sets</a>: condition-specific share 0%, recovery over 30 sets. Everything except scPS fires.</li>
+<li><a href="#s3-null">Scenario 3, null sets</a> (real cells): noise 0%, so every set is drawn from dense genes that were not changed and holds no added gene. Everything except scPS fires — and the arrows point down: the 250 extra genes in treatment cells push the set's genes down each cell's ranking. Click a treatment cell to see its added genes.</li>
 <li>Then <strong>Sweep gene set size</strong> on the same setting: the "bigger is shadier" curve.</li>
-<li><a href="#s1-null">Scenario 1, noise 100%</a>: AUCell, JASMINE and SCSE flag gene sets containing no signal gene.</li>
-<li>Scenario 1 again, with <strong>before normalisation</strong>: raising the densest genes shrinks every other gene through the library size, and more methods start seeing ghosts.</li>
-<li><a href="#s2-signal">Scenario 2, sparse regime, 20 cells per group</a>: scPS loses power before the rank-based methods do (about 40% against 100% for AUCell, UCell and JASMINE), as the paper found below 50 cells.</li>
-<li><a href="#s2-small">Scenario 2, gene set size 25, 20 cells</a>: AUCell and JASMINE — the pair the paper recommends for small sparse sets — keep their power while AddModuleScore, SCSE and scPS drop to about a third.</li>
+<li><a href="#s1-null">Scenario 1, noise 100%</a> (real cells): sets with no boosted gene. AUCell and JASMINE flag nearly all of them, SCSE about a fifth; AddModuleScore, UCell and scPS stay quiet.</li>
+<li><a href="#s4-null">Scenario 4, null sets</a> (real cells): the added genes are sparse, each treatment cell gains few detections, and the false positives almost vanish.</li>
+<li><a href="#s2-signal">Scenario 2, 20 cells per group</a> (real cells): scPS loses power (about a third of sets found) while AUCell, UCell and JASMINE still find them all, as the paper reports below 50 cells.</li>
+<li><a href="#s2-small">Scenario 2, gene set size 25, 20 cells</a> (toy, dense): AUCell and JASMINE — the pair the paper recommends for small sparse sets — keep their power while AddModuleScore, SCSE and scPS drop.</li>
+<li>Switch <strong>S3/S4 "signal" genes</strong> to ×1.2 to see the scenario as the script literally reads: the dense genes are then boosted, so scPS fires on every set (and UCell goes quiet, the boost cancelling the rank push). The paper reports scPS staying quiet in S3, so the authors' runs cannot have used the boost — the script's <code>Signal_Level = 1.2</code> must have been set to 1, as in their "without signal" result folders.</li>
 </ul>
 
 </article></main></div>
+<aside id="cellPanel" class="cell-panel" hidden aria-label="One cell"></aside>
 </body>
 </html>
