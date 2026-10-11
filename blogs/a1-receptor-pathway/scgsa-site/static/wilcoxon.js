@@ -8,6 +8,13 @@
   let control = makeGroup("C", [2.0, 4.8, 7.0]);
   let treatment = makeGroup("T", [3.0, 5.6, 8.0]);
   let drag = null;
+  // Each move redraws the chart, replacing the dragged element, so the drag is
+  // tracked on the window rather than on the dot (pointer capture would be lost).
+  window.addEventListener("pointermove", event => {
+    if (drag) moveDot(event.clientX, scoreSvg.getBoundingClientRect());
+  });
+  window.addEventListener("pointerup", () => { drag = null; });
+  window.addEventListener("pointercancel", () => { drag = null; });
 
   const presets = {
     overlap: [[2.0, 4.8, 7.0, 8.5, 9.2, 9.7], [3.0, 5.6, 8.0, 8.8, 9.4, 9.9]],
@@ -29,12 +36,25 @@
   }
 
   function clamp(value) { return Math.max(0, Math.min(10, Math.round(value * 10) / 10)); }
-  function sx(value, width) { return 76 + value / 10 * (width - 106); }
+  const PLOT_L = 116; // left edge of the score axis; room for the row labels
+  function sx(value, width) { return PLOT_L + value / 10 * (width - PLOT_L - 30); }
   function el(name, attrs, text) {
     const node = document.createElementNS(NS, name);
     for (const [key, value] of Object.entries(attrs || {})) node.setAttribute(key, value);
     if (text !== undefined) node.textContent = text;
     return node;
+  }
+
+  // One shape per group everywhere: control = square, treatment = circle.
+  // Fill/stroke are also set as SVG attributes so the groups stay distinct
+  // even if the stylesheet is missing or stale (CSS overrides them).
+  const LOOK = { Control: { fill: "#e3ecf6", stroke: "#3b7bbf" }, Treatment: { fill: "#f8e6d6", stroke: "#d0762b" } };
+  function shape(group, half) {
+    const look = LOOK[group];
+    const common = { fill: look.fill, stroke: look.stroke, "stroke-width": 2 };
+    return group === "Treatment"
+      ? el("circle", Object.assign({ r: half }, common))
+      : el("rect", Object.assign({ x: -half, y: -half, width: 2 * half, height: 2 * half, rx: Math.round(half / 4) }, common));
   }
 
   function ranked() {
@@ -82,13 +102,13 @@
   }
 
   function drawAxes(svg, width, y, label) {
-    svg.append(el("line", { x1: 76, y1: y, x2: width - 30, y2: y, class: "wil-axis" }));
+    svg.append(el("line", { x1: PLOT_L, y1: y, x2: width - 30, y2: y, class: "wil-axis" }));
     for (let v = 0; v <= 10; v += 2) {
       const x = sx(v, width);
       svg.append(el("line", { x1: x, y1: y, x2: x, y2: y + 6, class: "wil-tick" }));
       svg.append(el("text", { x, y: y + 23, class: "wil-tick-label", "text-anchor": "middle" }, String(v)));
     }
-    svg.append(el("text", { x: (76 + width - 30) / 2, y: y + 43, class: "wil-axis-label", "text-anchor": "middle" }, label));
+    svg.append(el("text", { x: (PLOT_L + width - 30) / 2, y: y + 43, class: "wil-axis-label", "text-anchor": "middle" }, label));
   }
 
   function drawScoreChart(pooled) {
@@ -98,8 +118,11 @@
     scoreSvg.replaceChildren();
     const rows = [{ name: "Control", data: control, y: 65 }, { name: "Treatment", data: treatment, y: 145 }];
     for (const row of rows) {
-      scoreSvg.append(el("text", { x: 66, y: row.y + 5, class: "wil-row-label", "text-anchor": "end" }, row.name));
-      scoreSvg.append(el("line", { x1: 76, y1: row.y, x2: width - 30, y2: row.y, class: "wil-row-line" }));
+      const label = el("text", { x: PLOT_L - 12, y: row.y + 5, class: "wil-row-label", "text-anchor": "end", "font-size": 13 });
+      label.append(el("tspan", { fill: LOOK[row.name].stroke, class: `wil-legend-${row.name.toLowerCase()}` }, row.name === "Treatment" ? "● " : "■ "));
+      label.append(document.createTextNode(row.name));
+      scoreSvg.append(label);
+      scoreSvg.append(el("line", { x1: PLOT_L, y1: row.y, x2: width - 30, y2: row.y, class: "wil-row-line" }));
       row.data.forEach((d, index) => {
         const x = sx(d.value, width);
         const g = el("g", {
@@ -109,17 +132,13 @@
           "aria-valuemin": "0", "aria-valuemax": "10", "aria-valuenow": d.value,
           "data-id": d.id,
         });
-        g.append(el("circle", { r: 22 }));
+        g.append(shape(row.name, row.name === "Treatment" ? 22 : 20));
         g.append(el("text", { y: 5, "text-anchor": "middle" }, d.value.toFixed(1)));
         g.addEventListener("pointerdown", event => {
+          event.preventDefault();
           drag = { id: d.id, width };
-          g.setPointerCapture(event.pointerId);
           moveDot(event.clientX, scoreSvg.getBoundingClientRect());
         });
-        g.addEventListener("pointermove", event => {
-          if (drag && drag.id === d.id) moveDot(event.clientX, scoreSvg.getBoundingClientRect());
-        });
-        g.addEventListener("pointerup", () => { drag = null; });
         g.addEventListener("keydown", event => {
           if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
           event.preventDefault();
@@ -135,7 +154,7 @@
   function moveDot(clientX, rect) {
     if (!drag) return;
     const local = (clientX - rect.left) / rect.width * drag.width;
-    const value = clamp((local - 76) / (drag.width - 106) * 10);
+    const value = clamp((local - PLOT_L) / (drag.width - PLOT_L - 30) * 10);
     const point = [...control, ...treatment].find(d => d.id === drag.id);
     if (point && point.value !== value) { point.value = value; render(point.id); }
   }
@@ -152,7 +171,7 @@
       const x = n === 1 ? (left + right) / 2 : left + index / (n - 1) * (right - left);
       const isTreatment = d.group === "Treatment";
       const mark = el("g", { class: `wil-rank-mark wil-${d.group.toLowerCase()}`, transform: `translate(${x} ${y})` });
-      mark.append(el(isTreatment ? "circle" : "rect", isTreatment ? { r: 17 } : { x: -16, y: -16, width: 32, height: 32, rx: 5 }));
+      mark.append(shape(d.group, isTreatment ? 17 : 15));
       mark.append(el("text", { y: 5, "text-anchor": "middle" }, d.value.toFixed(1)));
       rankSvg.append(mark);
       rankSvg.append(el("text", { x, y: 120, class: "wil-rank-label", "text-anchor": "middle" }, `rank ${format(d.rank)}`));
