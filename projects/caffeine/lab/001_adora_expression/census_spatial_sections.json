@@ -1,0 +1,52 @@
+[
+ {
+  "key": "thymus",
+  "org": "homo_sapiens",
+  "dataset_id": "73632d4a-2160-43da-8006-92968cd1a102",
+  "label": "Human thymus, 3 months (Visium)",
+  "why": "The loudest adenosine-receptor signal anywhere in the spatial Census: ADORA2A is detected in about 80% of in-tissue spots of this infant thymus. Thymus is ADORA2A's strongest tissue across all 361 human spatial datasets."
+ },
+ {
+  "key": "heart_la",
+  "org": "homo_sapiens",
+  "dataset_id": "aeb253a3-b194-4500-9f1c-6f503ecc76f0",
+  "label": "Human left atrium, donor D6 (Visium)",
+  "why": "ADORA1 is the cardiac adenosine receptor (it slows the heart). In this donor the atrium detects it in 12% of spots, against 2% in the same donor's ventricle (next section). Same lab, donor and OCT protocol, so the contrast is not a batch artefact between studies."
+ },
+ {
+  "key": "heart_lv",
+  "org": "homo_sapiens",
+  "dataset_id": "090fede8-fac6-4bea-b6c4-6dedea5cca1c",
+  "label": "Human left ventricle, donor D6 (Visium)",
+  "why": "The ventricle partner of the left-atrium section: same donor, same study, same protocol. ADORA1 is detected in about 2% of spots here."
+ },
+ {
+  "key": "heart_san",
+  "org": "homo_sapiens",
+  "dataset_id": "e0f37114-5e98-406e-bbeb-594603360606",
+  "label": "Human sinoatrial node, donor AV1, FFPE (Visium)",
+  "why": "The pacemaker region, where adenosine acting on A1 receptors slows the heart rate. This section has the highest ADORA1 detection of any heart section (37%), but it is one of three FFPE (probe-based) sections from one donor that all read high for ADORA1 and ADORA2A, while the fresh-frozen sinoatrial node sections read 4 to 10%. Treat it as a chemistry contrast as much as an anatomical one."
+ },
+ {
+  "key": "rectum_crc",
+  "org": "homo_sapiens",
+  "dataset_id": "2d821164-4681-47dd-b2ac-eb5fddb5b621",
+  "label": "Human rectum, colorectal cancer (Visium)",
+  "why": "A non-cardiac, non-immune contrast for ADORA2B, the epithelial receptor in the dissociated Census. This rectal cancer section has ADORA2B in 21% of spots, among the highest of any human spatial dataset."
+ },
+ {
+  "key": "mouse_lung",
+  "org": "mus_musculus",
+  "dataset_id": "c9d294c7-857f-4ae5-8abe-6480d1584c6f",
+  "label": "Mouse lung, 5 months (Visium)",
+  "why": "Mouse lung is where Adora2b is most often detected in the spatial Census (about 30% of spots across eight sections). A second organism, and a lung for the A2B-in-airway story."
+ },
+ {
+  "key": "mouse_embryo",
+  "org": "mus_musculus",
+  "dataset_id": "3e65f4c0-8e2a-40ec-904f-c0e3bfef4cdd",
+  "label": "Mouse embryo E9.5, whole section (Slide-seqV2)",
+  "why": "The closest thing to nervous tissue in the spatial Census: a whole E9.5 embryo with neural tube and early brain, at 10 um bead resolution and with author cell-type labels. It shows what near-absence looks like: all four receptors are detected in under 1% of beads, and the few Adora1 beads sit mostly in the embryonic heart region, not the neural tube.",
+  "cell_type": true
+ }
+]

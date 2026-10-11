@@ -26,6 +26,7 @@
       ["census", "census.html", "What is in the Census"],
       ["census-tree", "census-tree.html", "Cell type tree"],
       ["adora-census", "adora-census.html", "ADORA across the Census"],
+      ["adora-spatial", "adora-spatial.html", "ADORA in tissue sections"],
       ["pathways", "pathways.html", "Gene sets and pathways"],
     ]},
     { title: "Hands on", items: [
