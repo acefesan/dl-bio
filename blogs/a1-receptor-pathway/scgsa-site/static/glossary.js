@@ -10,6 +10,7 @@
     [["UMIs", "UMI"], "Unique molecular identifier: a random tag stuck on each captured RNA molecule, so copies of one molecule are counted once."],
     [["barcodes", "barcode"], "A DNA tag shared by every molecule from one droplet; it tells you which cell a molecule came from."],
     [["droplets", "droplet"], "A tiny oil-wrapped bubble that (ideally) holds one cell and one barcoded bead."],
+    [["negative selection"], "Purifying one cell type by removing all the others: antibodies against non-B-cell markers pull those cells out with magnets, leaving untouched B cells."],
     [["PBMC"], "Peripheral blood mononuclear cells: the white blood cells with one round nucleus (T, B and NK cells, monocytes)."],
     [["quality control", "QC"], "Removing cells and genes that are broken, empty or uninformative before any analysis."],
     [["mitochondrial", "MT-"], "Genes carried by the mitochondria, the cell's power plants. When a large share of a cell's RNA is mitochondrial, the cell was probably dying."],
