@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="static/style.css?v=236e2de9">
 <script defer src="static/common.js?v=ba56bb89"></script>
 <script defer src="static/scgsa.js?v=6b5699f6"></script>
-<script defer src="static/pipeline.js?v=ade237d7"></script>
+<script defer src="static/pipeline.js?v=924ebdf5"></script>
 <style>
   /* pipeline graph: a vertical chain of nodes, root (data) at the top */
   #graph { margin: 1.5rem 0 2rem; font: 14px/1.45 system-ui, -apple-system, sans-serif; }
@@ -57,6 +57,31 @@
   table.rec th.num, table.rec td.num { text-align: right; }
   table.rec small { color: var(--muted); }
   #n-build .pn-num { background: var(--s3); }
+  /* explanations */
+  .explainbtn { margin-left: 0.5rem; font: 600 12px system-ui, sans-serif; padding: 0.15rem 0.55rem; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--accent); background: transparent; color: var(--accent); white-space: nowrap; }
+  .pn-state:empty + .explainbtn { margin-left: auto; }
+  .explainbtn:hover { background: var(--accent-soft); }
+  ol.chain li[data-explain] { cursor: pointer; border-radius: 6px; padding: 0.15rem 0.35rem; margin-left: -0.35rem; }
+  ol.chain li[data-explain]:hover, ol.chain li[data-explain]:focus { background: var(--accent-soft); outline: none; }
+  ol.chain .more { font-weight: 600; font-size: 11.5px; color: var(--accent); }
+  .side-panel .steps li { margin-bottom: 0.35rem; }
+  .linkbtn { background: none; border: none; padding: 0; font: inherit; color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+  .side-panel .formula { font: 14px/1.5 ui-monospace, monospace; background: var(--code-bg); padding: 0.4rem 0.6rem; border-radius: 6px; }
+  svg.hist { width: 100%; height: auto; display: block; }
+  svg.hist .bar { fill: var(--s1); opacity: 0.75; }
+  svg.hist .cut { stroke: var(--bad); stroke-width: 1.5; stroke-dasharray: 4 3; }
+  svg.hist .cutl { fill: var(--bad); font-size: 11px; font-weight: 600; }
+  svg.hist .ax { stroke: var(--muted); }
+  svg.hist text { fill: var(--muted); font-size: 10.5px; }
+  .umap canvas { width: 100%; display: block; background: var(--bg); border-radius: 8px; margin: 0.4rem 0; }
+  .umap .legend2 { flex-wrap: wrap; gap: 0.3rem 0.8rem; }
+  .sio-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+  .sio { flex: 1 1 12rem; min-width: 0; }
+  .sio-t { font: 600 12px system-ui, sans-serif; color: var(--muted); margin-bottom: 0.2rem; }
+  .sio-arrow { font-size: 20px; color: var(--muted); }
+  .side-panel table.sio-tab td, .side-panel table.sio-tab th { font-size: 12px; padding: 0.15rem 0.35rem; }
+  .side-panel td.chg { background: color-mix(in srgb, var(--s3) 22%, transparent); font-weight: 600; }
   /* fan-out: the score node branches into one sub-node per method */
   .pn-methods { margin: 0.4rem 0 0 1.5rem; border-left: 2px solid var(--line); padding-left: 0.9rem; }
   .mnode { position: relative; }

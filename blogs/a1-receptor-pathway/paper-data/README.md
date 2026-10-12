@@ -14,6 +14,8 @@ the packed browser data is in `../scgsa-site/data/{naive_b,ssd}/`.
 | `05_splatter_pool.R` | the authors' SSD: `splatEstimate` on the naive-B counts, then a 4,000-cell Splatter pool |
 | `06_provenance.R` | records each build step's numbers and the cluster marker table → `scgsa-site/data/provenance.json` (the playground's "Build the dataset" node) |
 | `07_authors_results.py` | the authors' published recovery rates from their Zenodo archive → `scgsa-site/data/authors_results.json` (shown beside ours in the recovery and sweep nodes) |
+| `08_umap.R` | UMAP of the QC-passed healthy-donor cells (5,000-cell sample: cluster, donor, marker genes) → `data/provenance_umap.json` |
+| `09_qc_stats.R` | what each QC rule removed, plus genes-per-cell and %-mitochondrial histograms → `data/provenance_qc.json` |
 
 Runs with `~/.local/share/mamba/envs/scgsa/bin/Rscript` (R 4.4, Seurat 5.5.1,
 splatter 1.30.0) and `uv run --python 3.12 --with scipy --with numpy`.

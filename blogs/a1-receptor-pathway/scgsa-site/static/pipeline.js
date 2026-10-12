@@ -205,7 +205,7 @@
     g.innerHTML = nodesFor().map((key, i) => {
       const fan = key === "score";
       return `<section class="pnode${fan ? " fan" : ""}" id="n-${key}" data-key="${key}">
-        <div class="pn-head"><span class="pn-num">${i + 1}</span><h3>${esc(TITLES[key])}</h3><span class="pn-state" id="st-${key}"></span></div>
+        <div class="pn-head"><span class="pn-num">${i + 1}</span><h3>${esc(TITLES[key])}</h3><span class="pn-state" id="st-${key}"></span><button type="button" class="explainbtn" data-explain="${key}">explain ›</button></div>
         <p class="pn-blurb">${BLURB[key] || ""}</p>
         ${controls(key) ? `<div class="pn-ctrls">${controls(key)}</div>` : ""}
         <div class="pn-out" id="out-${key}"></div>
@@ -277,10 +277,11 @@
   }
 
   // ------------------------------------------------------------ dataset provenance + published results
-  let PROV = null, PUB = null;
+  let PROV = null, PUB = null, QC = null, UMAP = null;
   const getJSON = u => fetch(u).then(r => r.ok ? r.json() : null).catch(() => null);
   async function loadSide() {
     if (!PROV) PROV = await getJSON("data/provenance.json");
+    if (!QC) QC = await getJSON("data/provenance_qc.json");
     if (!PUB) PUB = await getJSON("data/authors_results.json");
   }
 
@@ -293,15 +294,15 @@
     }
     if (!PROV) { out.innerHTML = `<p class="pn-note">(provenance.json not found)</p>`; return; }
     const P = PROV, steps = [
-      [`${P.geo.samples.length} samples · ${P.geo.cells.toLocaleString()} cells`, `GEO ${P.geo.accession}: filtered 10x matrices, PBMC B cells from 4 healthy donors and 7 mild COVID-19 patients (Hoehn et al. 2021)`],
-      [`4 healthy donors · ${P.healthy_cells.toLocaleString()} cells`, `The authors' input is "Naive <em>Normal</em> B cell": healthy donors only`],
-      [`QC · ${P.qc.cells_after.toLocaleString()} cells`, esc(P.qc.rule)],
-      [`${P.clustering.n_clusters} clusters`, esc(P.clustering.steps)],
-      [`naive B · ${P.naive_b.cells.toLocaleString()} cells × ${P.naive_b.genes.toLocaleString()} genes`, `Keep clusters whose naive markers (${P.clustering.naive_markers.join(", ")}) beat memory markers (${P.clustering.memory_markers.join(", ")}), with no T/NK/plasma signal — table below`],
+      ["b-geo", `${P.geo.samples.length} samples · ${P.geo.cells.toLocaleString()} cells`, `GEO ${P.geo.accession}: filtered 10x matrices, PBMC B cells from 4 healthy donors and 7 mild COVID-19 patients (Hoehn et al. 2021)`],
+      ["b-healthy", `4 healthy donors · ${P.healthy_cells.toLocaleString()} cells`, `The authors' input is "Naive <em>Normal</em> B cell": healthy donors only`],
+      ["b-qc", `QC · ${P.qc.cells_after.toLocaleString()} cells`, esc(P.qc.rule)],
+      ["b-cluster", `${P.clustering.n_clusters} clusters`, esc(P.clustering.steps)],
+      ["b-naive", `naive B · ${P.naive_b.cells.toLocaleString()} cells × ${P.naive_b.genes.toLocaleString()} genes`, `Keep clusters whose naive markers (${P.clustering.naive_markers.join(", ")}) beat memory markers (${P.clustering.memory_markers.join(", ")}), with no T/NK/plasma signal — table below`],
     ];
-    if (cfg.source === "ssd") steps.push([`Splatter · ${P.splatter.pool_cells.toLocaleString()} synthetic cells`, `splatEstimate on those counts (mean ~ Gamma(${P.splatter.mean_shape}, ${P.splatter.mean_rate}); library log-normal(${P.splatter.lib_loc}, ${P.splatter.lib_scale}); BCV ${P.splatter.bcv_common}, df ${P.splatter.bcv_df}), then splatSimulate`]);
-    steps.push([cfg.source === "ssd" ? "packed · data/ssd/" : "packed · data/naive_b/", "Raw counts, every gene, varint-compressed for the browser"]);
-    let h = `<ol class="chain">${steps.map(([b, t]) => `<li><b>${b}</b><span>${t}</span></li>`).join("")}</ol>`;
+    if (cfg.source === "ssd") steps.push(["b-splatter", `Splatter · ${P.splatter.pool_cells.toLocaleString()} synthetic cells`, `splatEstimate on those counts (mean ~ Gamma(${P.splatter.mean_shape}, ${P.splatter.mean_rate}); library log-normal(${P.splatter.lib_loc}, ${P.splatter.lib_scale}); BCV ${P.splatter.bcv_common}, df ${P.splatter.bcv_df}), then splatSimulate`]);
+    steps.push(["b-pack", cfg.source === "ssd" ? "packed · data/ssd/" : "packed · data/naive_b/", "Raw counts, every gene, varint-compressed for the browser"]);
+    let h = `<p class="pn-note">Click any step for the full story.</p><ol class="chain">${steps.map(([k, b, t]) => `<li data-explain="${k}" tabindex="0" role="button"><b>${b} <span class="more">explain ›</span></b><span>${t}</span></li>`).join("")}</ol>`;
     const M = P.clustering.markers_shown;
     h += `<details><summary>Cluster marker table (mean normalised expression)</summary><div class="table-wrap"><table class="clus"><tr><th>cluster</th><th class="num">cells</th><th class="num">naive − memory</th>${M.map(m => `<th class="num">${m}</th>`).join("")}</tr>` +
       P.clustering.clusters.map(c => `<tr class="${c.kept ? "kept" : ""}"><td>${c.cluster}${c.kept ? " ✓" : ""}</td><td class="num">${c.cells.toLocaleString()}</td><td class="num">${c.naive_minus_memory}</td>${M.map(m => `<td class="num">${c[m]}</td>`).join("")}</tr>`).join("") +
@@ -505,6 +506,284 @@
     d.querySelector(".cp-close").addEventListener("click", closePanel);
   }
 
+  // ------------------------------------------------------------ explanations
+  // Every build step and pipeline node opens a panel: what it does from first
+  // principles, the real numbers, and (for the in-browser nodes) a small
+  // "sample in → sample out": the same few cells × genes before and after.
+  const n0 = v => Number(v).toLocaleString();
+  const f2 = v => (v === 0 ? "0" : Number(v).toFixed(2));
+
+  function histSVG(h, lines, xlab) {
+    const W = 460, H = 150, L = 34, B = 26, T = 8, R = 8;
+    const n = h.counts.length, max = Math.max(...h.counts) || 1;
+    const x0 = h.breaks[0], x1 = h.breaks[h.breaks.length - 1];
+    const X = v => L + (v - x0) / (x1 - x0) * (W - L - R), bw = (W - L - R) / n;
+    let s = `<svg class="hist" viewBox="0 0 ${W} ${H}">`;
+    h.counts.forEach((c, i) => {
+      const hh = (H - T - B) * c / max;
+      s += `<rect x="${(L + i * bw).toFixed(1)}" y="${(H - B - hh).toFixed(1)}" width="${Math.max(0.5, bw - 0.6).toFixed(1)}" height="${hh.toFixed(1)}" class="bar"/>`;
+    });
+    for (const [v, label] of lines) {
+      s += `<line x1="${X(v)}" x2="${X(v)}" y1="${T}" y2="${H - B}" class="cut"/><text x="${X(v) + 3}" y="${T + 10}" class="cutl">${label}</text>`;
+    }
+    s += `<line x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}" class="ax"/>`;
+    for (let k = 0; k <= 4; k++) { const v = x0 + k * (x1 - x0) / 4; s += `<text x="${X(v)}" y="${H - 10}" text-anchor="middle">${n0(Math.round(v))}</text>`; }
+    return s + `<text x="${(L + W) / 2}" y="${H}" text-anchor="middle">${xlab}</text></svg>`;
+  }
+
+  // small matrix table: rows = genes, cols = cells
+  function grid(title, cells, genes, val, opts) {
+    opts = opts || {};
+    let h = `<div class="sio"><div class="sio-t">${title}</div><div class="table-wrap"><table class="sio-tab"><tr><th></th>` +
+      cells.map(c => `<th class="num">${c.label}</th>`).join("") + `</tr>`;
+    for (const g of genes) {
+      h += `<tr><td>${esc(g.label)}${g.tag ? ` <span class="role ${g.tagcls || "non"}">${g.tag}</span>` : ""}</td>` +
+        cells.map(c => { const v = val(c, g); const hi = opts.mark && opts.mark(c, g); return `<td class="num${hi ? " chg" : ""}">${v === null ? "—" : (opts.fmt || f2)(v)}</td>`; }).join("") + `</tr>`;
+    }
+    return h + `</table></div></div>`;
+  }
+  const sio = (a, b, note) => `<h4>Sample in → sample out</h4><div class="sio-row">${a}<div class="sio-arrow">→</div>${b}</div>${note ? `<p class="cp-note">${note}</p>` : ""}`;
+
+  // a fixed small sample: 2 control + 2 treatment cells, and genes of each role
+  function sample() {
+    const cells = [0, 1, sim.n, sim.n + 1].map(i => ({ i, label: `${sim.group[i] ? "T" : "C"}${i < sim.n ? i + 1 : i - sim.n + 1}` }));
+    const G = sim.G, has = g => cells.some(c => sim.data[c.i * G + g] > 0);
+    const pick = (list, k) => list.filter(has).slice(0, k);
+    const sig = pick(sim.signal, 2);
+    const non = pick(sim.nonSignal.filter(g => !sim.csGenes.includes(g)), 2);
+    const cs = pick(sim.csGenes, 1);
+    const genes = [...sig.map(g => ({ g, label: sim.geneNames[g], tag: sim.paper && sim.boost === 1 ? "pool" : "signal", tagcls: "signal" })),
+      ...cs.map(g => ({ g, label: sim.geneNames[g], tag: "added", tagcls: "added" })),
+      ...non.map(g => ({ g, label: sim.geneNames[g] }))];
+    return { cells, genes };
+  }
+  const rawCount = (c, gName) => {
+    if (!poolNow) return null;
+    const pc = sim.cellInfo[c.i].pool, gi = poolNow.genes.indexOf(gName);
+    for (let k = poolNow.ptr[pc]; k < poolNow.ptr[pc + 1]; k++) if (poolNow.gi[k] === gi) return poolNow.ct[k];
+    return 0;
+  };
+  const libSize = c => { const pc = sim.cellInfo[c.i].pool; let s = 0; for (let k = poolNow.ptr[pc]; k < poolNow.ptr[pc + 1]; k++) s += poolNow.ct[k]; return s; };
+  const isBoosted = (c, g) => sim.group[c.i] === 1 && sim.isSignal[g.g] && (sim.paper ? sim.boost !== 1 : sim.opt.scenario <= 2);
+
+  async function umapPanel(colorBy) {
+    if (!UMAP) UMAP = await getJSON("data/provenance_umap.json");
+    const box = $("umapBox");
+    if (!UMAP || !box) return;
+    const cv = box.querySelector("canvas"), ctx = cv.getContext("2d");
+    const css = getComputedStyle(document.documentElement);
+    const W = cv.width = box.clientWidth * 2, H = cv.height = Math.round(W * 0.8);
+    cv.style.height = `${H / 2}px`;
+    const xs = UMAP.x, ys = UMAP.y;
+    const mnx = Math.min(...xs), mxx = Math.max(...xs), mny = Math.min(...ys), mxy = Math.max(...ys);
+    const X = v => 12 + (v - mnx) / (mxx - mnx) * (W - 24), Y = v => H - 12 - (v - mny) / (mxy - mny) * (H - 24);
+    ctx.clearRect(0, 0, W, H);
+    const cat = (i, n) => `hsl(${Math.round(i * 360 / n)}, 60%, 52%)`;
+    const kept = new Set(UMAP.kept.map(Number));
+    let color, legend = "";
+    if (colorBy === "cluster") {
+      color = i => cat(UMAP.cluster[i], 14);
+      legend = Array.from({ length: 14 }, (_, k) => `<span><i style="background:${cat(k, 14)}"></i>${k}${kept.has(k) ? "✓" : ""}</span>`).join("");
+    } else if (colorBy === "kept") {
+      const on = css.getPropertyValue("--s3").trim(), off = css.getPropertyValue("--line").trim();
+      color = i => kept.has(UMAP.cluster[i]) ? on : off;
+      legend = `<span><i style="background:${on}"></i>kept as naive B</span><span><i style="background:${off}"></i>dropped</span>`;
+    } else if (colorBy === "donor") {
+      color = i => cat(UMAP.donor[i], 4);
+      legend = UMAP.donors.map((d, k) => `<span><i style="background:${cat(k, 4)}"></i>${d}</span>`).join("");
+    } else {
+      const v = UMAP.expr[colorBy], mx = Math.max(...v) || 1, hot = css.getPropertyValue("--s1").trim(), cold = css.getPropertyValue("--line").trim();
+      color = i => v[i] > 0 ? `color-mix(in srgb, ${hot} ${Math.round(25 + 75 * v[i] / mx)}%, ${cold})` : cold;
+      legend = `<span><i style="background:${cold}"></i>0</span><span><i style="background:${hot}"></i>high ${colorBy}</span>`;
+    }
+    const order = UMAP.x.map((_, i) => i);
+    if (colorBy !== "cluster" && colorBy !== "donor") order.sort((a, b) => (colorBy === "kept" ? Number(kept.has(UMAP.cluster[a])) - Number(kept.has(UMAP.cluster[b])) : UMAP.expr[colorBy][a] - UMAP.expr[colorBy][b]));
+    for (const i of order) { ctx.fillStyle = color(i); ctx.beginPath(); ctx.arc(X(xs[i]), Y(ys[i]), 2.6, 0, 7); ctx.fill(); }
+    // cluster labels at centroids
+    if (colorBy === "cluster" || colorBy === "kept") {
+      ctx.font = "bold 22px system-ui"; ctx.fillStyle = css.getPropertyValue("--ink").trim(); ctx.textAlign = "center";
+      for (let k = 0; k < 14; k++) {
+        let sx = 0, sy = 0, m = 0;
+        UMAP.cluster.forEach((c, i) => { if (c === k) { sx += X(xs[i]); sy += Y(ys[i]); m++; } });
+        if (m) ctx.fillText(String(k), sx / m, sy / m);
+      }
+    }
+    box.querySelector(".legend2").innerHTML = legend;
+  }
+
+  const EXPLAIN = {
+    build: () => {
+      if (!SOURCES[cfg.source].paper) return EXPLAIN.toy();
+      const steps = [["b-geo", "Raw data from GEO"], ["b-healthy", "Healthy donors only"], ["b-qc", "Quality control"], ["b-cluster", "Clustering"], ["b-naive", "Which clusters are naive B cells"]]
+        .concat(cfg.source === "ssd" ? [["b-splatter", "Splatter (SSD)"]] : []).concat([["b-pack", "Packing for the browser"]]);
+      return `<p>The paper's input is "naive B cells from the healthy donors of GSE164381, annotated as in the original study". That object was never published, so it is rebuilt here from the raw GEO files, offline, once. Each step:</p>
+        <ol class="steps">${steps.map(([k, t]) => `<li><button type="button" class="linkbtn" data-explain="${k}">${t} ›</button></li>`).join("")}</ol>
+        <p class="cp-note">Check that it worked: on these cells the authors' own S1 rule picks ~485 genes with median detection 43%, against the paper's "at least 500" and 44.5%; and our recovery rates sit beside their published ones in the recovery node.</p>`;
+    },
+    "b-geo": () => {
+      const P = PROV;
+      return `<p>A 10x experiment puts each cell in a droplet with a barcoded bead, reads ~90 letters of each captured RNA, and counts how many distinct molecules (UMIs) of each gene each barcode caught. Cell Ranger's <b>filtered</b> matrix keeps only barcodes it judged to be real cells (not empty droplets). Each file is cells × <b>${n0(QC ? QC.genes_total : 36601)} genes</b>, values = UMI counts, mostly zero.</p>
+        <p>GSE164381 is from Hoehn et al. 2021 (J Immunol), a study of B-cell receptor repertoires in mild vs severe COVID-19; the gene-expression libraries here are mostly B cells (MS4A1 is detected in ~70% of cells), with some T, NK and myeloid cells mixed in.</p>
+        <table class="cp-scores"><tr><th>GEO sample</th><th>group</th><th class="num">cells</th></tr>${P.geo.samples.map(s => `<tr><td>${s.gsm}</td><td>${s.healthy ? "healthy" : "mild COVID-19"}</td><td class="num">${n0(s.cells)}</td></tr>`).join("")}</table>`;
+    },
+    "b-healthy": () => `<p>The authors' simulation script loads an object named <code>Naive Normal B cell</code>: "Normal" is GEO's label for the healthy donors ("disease state: Normal healthy"). So the paper's input excludes all 7 COVID-19 samples — none of its simulated "treatment" effects should be confused with disease.</p>
+        <table class="cp-scores"><tr><th>donor</th><th>GEO</th><th>age, sex</th><th class="num">cells</th></tr>
+        <tr><td>healthy donor 1</td><td>GSM5008746</td><td>53, M</td><td class="num">${n0(PROV.geo.samples[0].cells)}</td></tr><tr><td>healthy donor 2</td><td>GSM5008747</td><td>31, F</td><td class="num">${n0(PROV.geo.samples[1].cells)}</td></tr>
+        <tr><td>healthy donor 3</td><td>GSM5008748</td><td>26, M</td><td class="num">${n0(PROV.geo.samples[2].cells)}</td></tr><tr><td>healthy donor 4</td><td>GSM5008749</td><td>23, M</td><td class="num">${n0(PROV.geo.samples[3].cells)}</td></tr></table>`,
+    "b-qc": () => {
+      if (!QC) return "<p>(provenance_qc.json missing)</p>";
+      return `<p>Quality control removes barcodes that are not one healthy cell, and genes too rare to carry information. Four rules (Seurat <code>CreateSeuratObject(min.cells = 3, min.features = 200)</code>, then <code>subset(percent.mt &lt; 15 &amp; nFeature_RNA &lt; 4000)</code>):</p>
+        <table class="cp-scores"><tr><th>rule</th><th>why</th><th class="num">removed</th></tr>
+        <tr><td>gene detected in ≥ 3 cells</td><td>a gene seen in 0–2 cells can't vary in any useful way; ${n0(QC.genes_in_0_cells)} of them are never seen at all</td><td class="num">${n0(QC.genes_in_lt3_cells)} genes</td></tr>
+        <tr><td>cell has ≥ 200 genes</td><td>very few genes = an empty or broken droplet that slipped past the filter</td><td class="num">${n0(QC.cells_lt200_genes)} cells</td></tr>
+        <tr><td>mitochondrial reads &lt; 15%</td><td>a dying cell's membrane leaks its cytoplasmic mRNA but keeps the mitochondria, so its reads skew to MT- genes</td><td class="num">${n0(QC.cells_mt_ge15)} cells</td></tr>
+        <tr><td>&lt; 4,000 genes</td><td>far more genes than a typical cell = probably two cells in one droplet (a doublet)</td><td class="num">${n0(QC.cells_genes_ge4000)} cells</td></tr></table>
+        <p class="cp-note">${n0(QC.cells_total)} cells × ${n0(QC.genes_total)} genes in → ${n0(PROV.qc.cells_after)} cells × ${n0(QC.genes_total - QC.genes_in_lt3_cells)} genes out. Typical cell after QC: ${n0(QC.median_genes)} genes, ${n0(QC.median_umi)} UMIs, ${QC.median_pmt}% mitochondrial. (Seurat counts genes per cell after dropping the rare genes, which moves 3 cells across the lines; hence ${n0(PROV.qc.cells_after)} rather than ${n0(QC.cells_after)}.)</p>
+        <h4>Genes detected per cell</h4>${histSVG(QC.hist_genes, [[200, "200"], [4000, "4,000"]], "genes detected per cell")}
+        <h4>% of a cell's reads from mitochondrial genes</h4>${histSVG(QC.hist_pmt, [[15, "15%"]], "% mitochondrial")}
+        <p class="cp-note">Thresholds are ours (the authors' are not published); 15% sits in the usual 10–20% range and cuts the long right tail.</p>`;
+    },
+    "b-cluster": () => `<p>Clustering groups cells by similar expression without being told what they are. Step by step:</p>
+        <ol class="steps"><li><b>LogNormalize</b> each cell (log1p(count ÷ total × 10⁴)) so deep and shallow cells are comparable.</li>
+        <li><b>2,000 variable genes</b>: genes that vary between cells more than their average level predicts. Housekeeping genes vary little; identity genes (IGHD, CD3E, …) vary a lot. Only these carry "which kind of cell" information.</li>
+        <li><b>Scale</b> each gene to mean 0, SD 1, so a highly expressed gene doesn't dominate.</li>
+        <li><b>PCA</b>: compress 2,000 correlated genes into 20 axes of shared variation; the first ~15 hold the structure, the rest mostly noise.</li>
+        <li><b>Neighbour graph</b>: link each cell to the cells closest to it in PC 1–15 space, weighting links by how many neighbours they share.</li>
+        <li><b>Louvain</b>: find groups of cells more densely linked to each other than chance would give. Resolution 0.5 sets the granularity; here it gives 14 clusters.</li></ol>
+        <p>The map below is a <b>UMAP</b> of the same PCs — a 2-D picture for the eye only; clusters were found on the graph, not on this picture. ${UMAP_NOTE}</p>${umapHTML("cluster")}`,
+    "b-naive": () => {
+      const P = PROV, M = P.clustering.markers_shown, kept = new Set(P.clustering.clusters.filter(c => c.kept).map(c => c.cluster));
+      return `<p>Clusters have numbers, not names; we name them by their <b>marker genes</b>:</p>
+        <table class="cp-scores"><tr><th>gene</th><th>marks</th></tr>
+        <tr><td>MS4A1 (CD20)</td><td>any B cell</td></tr><tr><td>IGHD, IGHM</td><td>an unswitched antibody receptor (IgD/IgM) — naive B cells carry both</td></tr>
+        <tr><td>TCL1A, FCER2 (CD23), IL4R, BACH2</td><td>the naive-B programme</td></tr><tr><td>CD27, AIM2, TNFRSF13B (TACI), CD80</td><td>memory B cells</td></tr>
+        <tr><td>IGHG1, IGHA1</td><td>class-switched antibody (memory/plasma)</td></tr><tr><td>CD3E · NKG7 · LYZ · JCHAIN</td><td>T cells · NK/cytotoxic · monocytes · plasma cells</td></tr></table>
+        <p><b>The rule.</b> For each cluster, average each marker's normalised expression; score = mean(naive markers) − mean(memory markers). Keep clusters with a high score, MS4A1 present, and no T/NK/monocyte/plasma signal. The kept five score 2.29–3.69; the next, cluster 13 (1.26), is plasma-like (JCHAIN 5.7). The cut falls in a clear gap — but it was chosen by reading this table, not by a pre-set threshold.</p>
+        ${umapHTML("kept")}
+        <h4>Marker table</h4><div class="table-wrap"><table class="clus"><tr><th>cl.</th><th class="num">cells</th><th class="num">score</th>${M.map(m => `<th class="num">${m}</th>`).join("")}</tr>` +
+        P.clustering.clusters.map(c => `<tr class="${c.kept ? "kept" : ""}"><td>${c.cluster}${c.kept ? " ✓" : ""}</td><td class="num">${n0(c.cells)}</td><td class="num">${c.naive_minus_memory}</td>${M.map(m => `<td class="num">${c[m]}</td>`).join("")}</tr>`).join("") + `</table></div>
+        <h4>Why five naive clusters? Donors.</h4><p>Each kept cluster is mostly one donor — the clustering separated <em>people</em> (age, sex, sample handling) before cell states, because nothing corrected for donor. It doesn't change which cells are naive B, but it means "5 clusters" is not 5 kinds of naive B cell.</p>
+        ${UMAP && UMAP.cluster_donor_pct ? `<div class="table-wrap"><table class="clus"><tr><th>cl.</th>${UMAP.donors.map(d => `<th class="num">${d.replace("healthy ", "")}</th>`).join("")}</tr>${UMAP.cluster_donor_pct.filter(r => kept.has(r.cluster)).map(r => `<tr class="kept"><td>${r.cluster}</td>${r.pct.map(v => `<td class="num">${v}%</td>`).join("")}</tr>`).join("")}</table></div>` : ""}`;
+    },
+    "b-splatter": () => `<p><b>Splatter</b> fits a statistical model of a scRNA-seq dataset and draws new cells from it. <code>splatEstimate</code> learns, from the naive-B counts: how gene means are spread (Gamma(${PROV.splatter.mean_shape}, ${PROV.splatter.mean_rate})), how library sizes vary (log-normal(${PROV.splatter.lib_loc}, ${PROV.splatter.lib_scale})), how noisy each gene is beyond Poisson (BCV ${PROV.splatter.bcv_common}), and how often a gene is an outlier (${PROV.splatter.out_prob}). <code>splatSimulate</code> then draws ${n0(PROV.splatter.pool_cells)} synthetic cells. They look statistically like the real ones, but their genes are anonymous — Gene1 is not any real gene — and real biology (co-expressed programmes, cell subtypes) is gone.</p>`,
+    "b-pack": () => `<p>The browser can't read an R object, so the kept cells' raw counts are packed into one binary file: per cell, the number of nonzero genes, then for each nonzero gene its index (as the gap from the previous one) and its count, each as a variable-length integer (1 byte when small). ${n0(PROV.naive_b.cells)} cells × ${n0(PROV.naive_b.genes)} genes become ~12 MB; nothing is lost. Node 2 decodes it.</p>`,
+
+    data: () => {
+      const s0 = sample(), c = s0.cells.slice(0, 2);
+      return `<p>Fetch the packed counts and decode them back into, per cell, a list of (gene, count) pairs. Nothing is computed yet — this is the dataset exactly as built in node 1.</p>` +
+        (poolNow ? sio(`<div class="sio"><div class="sio-t">in: bytes of counts.bin</div><p class="cp-note">a varint byte stream, ${(poolNow.bytes / 1e6).toFixed(1)} MB</p></div>`,
+          grid("out: raw counts (UMIs)", c.map(x => ({ ...x, label: sim.cellInfo[x.i].barcode.slice(0, 8) })), s0.genes, (x, g) => rawCount(x, g.label.replace(" (added)", "")), { fmt: v => String(v) }),
+          "Rows: genes; columns: two real cells (barcodes). Most entries in a full row would be 0.") : "");
+    },
+    draw: () => `<p>The paper's "control" and "treatment" are not two biological groups: they are one population, split at random. ${2 * sim.n} cells are drawn without replacement from the ${poolNow ? n0(poolNow.nCells) : ""} pool; the first ${sim.n} are labelled control, the rest treatment. Because the split is random, the two groups differ only by chance — every real difference later is one the next nodes put there. That is what gives the benchmark its ground truth.</p>
+        <p>Cells, not people, are the unit here. For a real experiment, the person is the replicate; for testing whether a method can find a planted difference, cells are fine.</p>` +
+      sio(`<div class="sio"><div class="sio-t">in</div><p class="cp-note">${poolNow ? n0(poolNow.nCells) : "?"} cells, unlabelled</p></div>`,
+        `<div class="sio"><div class="sio-t">out</div><div class="table-wrap"><table class="sio-tab"><tr><th>cell</th><th>group</th><th>donor</th><th>barcode</th></tr>${sample().cells.map(c => `<tr><td>${c.label}</td><td>${sim.group[c.i] ? "treatment" : "control"}</td><td>${esc(sim.cellInfo[c.i].donor)}</td><td><code>${esc(sim.cellInfo[c.i].barcode)}</code></td></tr>`).join("")}</table></div></div>`),
+    norm: () => {
+      const s0 = sample(), c = s0.cells[0], T = libSize(c), g = s0.genes.find(x => rawCount(c, x.label.replace(" (added)", "")) > 0) || s0.genes[0], k = rawCount(c, g.label.replace(" (added)", ""));
+      return `<p>Cells are captured with very different efficiency: one may yield 600 molecules, another 5,000. Raw counts would mostly measure that. Seurat's LogNormalize divides each gene's count by the cell's total, scales to 10,000, and takes log(1 + x): the log tames the few very high genes, the +1 keeps zeros at zero.</p>
+        <p class="formula">x<sub>gc</sub> = log(1 + count<sub>gc</sub> ÷ total<sub>c</sub> × 10,000)</p>
+        <p class="cp-note">Worked example — cell ${c.label}, gene ${esc(g.label)}: count ${k}, cell total ${n0(T)} → log(1 + ${k} ÷ ${n0(T)} × 10,000) = log(1 + ${(k / T * 1e4).toFixed(2)}) = <b>${Math.log1p(k / T * 1e4).toFixed(3)}</b>.</p>` +
+        sio(grid("in: raw counts", s0.cells, s0.genes, (x, gg) => rawCount(x, gg.label.replace(" (added)", "")), { fmt: v => String(v) }),
+          grid("out: log-normalised", s0.cells, s0.genes, (x, gg) => { const r = rawCount(x, gg.label.replace(" (added)", "")); return Math.log1p(r / libSize(x) * 1e4); }),
+          "Before any boost. C = control, T = treatment cells.");
+    },
+    filter: () => {
+      const P = poolNow, drawn = sim.cellInfo.map(c => c.pool), N = drawn.length, nz = new Uint32Array(P.nGenes);
+      for (const pc of drawn) for (let k = P.ptr[pc]; k < P.ptr[pc + 1]; k++) nz[P.gi[k]]++;
+      const bins = [["0 cells (removed)", g => nz[g] === 0], ["1 cell", g => nz[g] === 1], ["2 – 1%", g => nz[g] > 1 && nz[g] / N <= 0.01],
+        ["1 – 10%", g => nz[g] / N > 0.01 && nz[g] / N <= 0.1], ["10 – 25%", g => nz[g] / N > 0.1 && nz[g] / N <= 0.25], ["> 25% (S1 signal)", g => nz[g] / N > 0.25]];
+      const cnt = bins.map(([, f]) => { let k = 0; for (let g = 0; g < P.nGenes; g++) if (f(g)) k++; return k; });
+      const gone = []; for (let g = 0; g < P.nGenes && gone.length < 8; g++) if (nz[g] === 0) gone.push(P.genes[g]);
+      const max = Math.max(...cnt);
+      return `<p>The pool has ${n0(P.nGenes)} genes, but a random ${N} cells only ever see part of them. A gene that is zero in <b>every</b> drawn cell is identical in both groups and can't be scored or tested, so the authors drop it (<code>rows_zeros &lt; 1</code>). This is re-done for every draw: with more cells, more genes survive.</p>
+        <p>It matters more than it looks: the kept genes are the "universe" the rank-based methods rank within (AUCell's top-5% cut-off is 5% of <em>this</em> number) and the pool non-signal genes are drawn from.</p>
+        <h4>How many of the drawn ${N} cells detect each gene</h4><table class="rec">${bins.map(([l], i) => `<tr><td>${l}</td><td class="num">${n0(cnt[i])}</td><td class="bar"><span style="width:${(100 * cnt[i] / max).toFixed(0)}%;background:var(--${i === 0 ? "bad" : i === 5 ? "s1" : "muted"})"></span></td></tr>`).join("")}</table>` +
+        sio(`<div class="sio"><div class="sio-t">in</div><p class="cp-note">${n0(P.nGenes)} genes × ${N} cells</p></div>`,
+          `<div class="sio"><div class="sio-t">out</div><p class="cp-note">${n0(sim.G0)} genes kept; ${n0(P.nGenes - sim.G0)} removed, e.g. ${gone.map(esc).join(", ")}</p></div>`,
+          "Most genes in a single-cell experiment are rare: the median kept gene is seen in under 2% of cells.");
+    },
+    signal: () => `<p><b>S1/S3:</b> every kept gene whose zero fraction is below ${SOURCES[cfg.source].threshold ?? 0.75} — detected in more than ${Math.round(100 * (1 - (SOURCES[cfg.source].threshold ?? 0.75)))}% of the drawn cells — becomes a "signal" gene. <b>S2/S4:</b> 550 kept genes at random. In S1/S2 these are the genes that get changed; in S3/S4 nothing is changed and they are just the pool gene sets are drawn from.</p>
+        <p>In these B cells the S1 genes are mostly ribosomal (RPL/RPS), mitochondrial (MT-) and other housekeeping genes, plus a few B-cell genes (CD74, CD52): what every cell expresses. So S1 asks "can a method see a small shift in very commonly detected genes", not "can it see a pathway". S2's random genes are mostly rarely detected, which is why S2 is harder.</p>
+        <p class="cp-note">${sim.signal.length} genes this run; their median detection ${S.dataSummary(sim).medianPctCellsExpressingSignal.toFixed(1)}%. First 30: ${sim.signal.slice(0, 30).map(g => esc(sim.geneNames[g])).join(", ")}…</p>`,
+    boost: () => {
+      const s0 = sample(), b = sim.paper ? sim.boost : sim.opt.foldChange;
+      const ex = [0.5, 1, 2, 3].map(x => [x, Math.expm1(x), Math.expm1(x * 1.2)]);
+      return `<p>The "signal" is a multiplication of the <b>log-normalised</b> value of each signal gene, in treatment cells only: x → ${b} × x. Control cells and all other genes are untouched.</p>
+        <p>×1.2 on the log scale is <em>not</em> +20% expression. Undo the log: x = log(1 + y), so 1.2x means y' = (1 + y)<sup>1.2</sup> − 1. The change grows with the level, and zeros stay zero (a gene not detected in a cell is never "boosted"):</p>
+        <table class="cp-scores"><tr><th class="num">log value x</th><th class="num">expression y</th><th class="num">after ×1.2</th><th class="num">change in y</th></tr>${ex.map(([x, y, y2]) => `<tr><td class="num">${x}</td><td class="num">${y.toFixed(2)}</td><td class="num">${y2.toFixed(2)}</td><td class="num">+${(100 * (y2 / y - 1)).toFixed(0)}%</td></tr>`).join("")}</table>` +
+        (sim.paper ? sio(grid("in: log-normalised", s0.cells, s0.genes, (c, g) => isBoosted(c, g) ? sim.data[c.i * sim.G + g.g] / b : sim.data[c.i * sim.G + g.g]),
+          grid("out", s0.cells, s0.genes, (c, g) => sim.data[c.i * sim.G + g.g], { mark: isBoosted }),
+          sim.boost === 1 ? "No boost in this scenario: in = out." : "Highlighted: changed values (signal genes × treatment cells).") : "");
+    },
+    added: () => {
+      if (cfg.scenario < 3) return `<p>Only in S3/S4. Switch the scenario in node "Choose the signal genes".</p>`;
+      const s0 = sample(), cs = sim.csGenes.slice(0, 3).map(g => ({ g, label: sim.geneNames[g], tag: "added", tagcls: "added" }));
+      return `<p>S3/S4 model two groups that differ in how many genes they express (e.g. cancer vs normal cells), without changing any shared gene. The authors draw a second, independent set of ${2 * sim.n} cells, pick ${sim.nCS} genes from it (S3: genes detected in >25% of those cells; S4: any detected gene), and append them as <b>new</b> genes: in treatment cell <i>i</i>, the value is that gene's value in the second draw's cell <i>i</i>; in every control cell it is 0.</p>
+        <p>Result: treatment cells detect more genes (${S.dataSummary(sim).genesPerCell.map(v => v.toFixed(0)).join(" → ")} per cell). A gene set with none of the added genes is truly unchanged — yet rank- and total-based scores shift, because the added genes change each cell's ranks and totals. That's the trap S3 exposes.</p>` +
+        sio(`<div class="sio"><div class="sio-t">in</div><p class="cp-note">${n0(sim.G0)} genes</p></div>`,
+          grid(`out: ${n0(sim.G)} genes (added rows shown)`, s0.cells, cs, (c, g) => sim.data[c.i * sim.G + g.g], { mark: (c, g) => sim.group[c.i] === 1 }));
+    },
+    geneset: () => {
+      const csSet = new Set(sim.csGenes);
+      return `<p>A "gene set" here is just a list of genes to score. The authors build ${cfg.size}-gene sets as ${cfg.size} × (1 − noise) genes drawn from the signal pool plus ${cfg.size} × noise from all other kept genes (in S3/S4 that "other" pool includes the added genes, so a set may pick some up by chance). Noise 0 = the set is pure signal; noise 1 = it contains no signal at all, so any detection is a false positive.</p>
+        <p class="cp-note">This set (${set.length} genes): ${set.map(g => `${esc(sim.geneNames[g])}${sim.isSignal[g] ? "*" : csSet.has(g) ? "†" : ""}`).join(", ")}<br>* signal pool · † added (treatment-only)</p>`;
+    },
+    prepare: () => {
+      const s0 = sample(), c = s0.cells[0], G = sim.G;
+      const vals = Array.from(sim.data.subarray(c.i * G, (c.i + 1) * G));
+      const order = vals.map((v, g) => [v, g]).sort((a, b) => b[0] - a[0]).slice(0, 6);
+      return `<p>Rank-based methods don't use the values themselves but each gene's <b>rank within its cell</b> (1 = the cell's highest). Ranks are independent of the gene set, so they are computed once for all ${n0(sim.N)} cells × ${n0(G)} genes: AUCell (ties broken at random), UCell (ties averaged), ssGSEA (its own rank transform), JASMINE (ranks among the cell's detected genes only). AddModuleScore instead bins all genes by average expression, to pick matched control genes later.</p>
+        <p>Zeros are the catch: a cell with 600 detected genes out of ${n0(G)} has ${n0(G - 600)} genes tied at the bottom. How a method treats that tie is much of why the methods disagree.</p>` +
+        sio(grid(`in: cell ${c.label}, top values`, [c], order.map(([, g]) => ({ g, label: sim.geneNames[g] })), (x, g) => sim.data[x.i * G + g.g]),
+          grid("out: rank in the cell (UCell)", [c], order.map(([, g]) => ({ g, label: sim.geneNames[g] })), (x, g) => prep.rU[x.i * G + g.g], { fmt: v => String(Math.round(v * 10) / 10) }));
+    },
+    score: () => `<p>Each method turns "this cell's values for the set's genes" into one number. In one line each (full first-principles pages under <em>Methods</em> in the sidebar):</p>
+        <table class="cp-scores"><tr><td><a href="methods/addmodulescore.html">AddModuleScore</a></td><td>mean of the set's genes minus mean of matched random control genes</td></tr>
+        <tr><td><a href="methods/aucell.html">AUCell</a></td><td>how many of the set's genes sit in the cell's top 5% of ranks (area under a recovery curve)</td></tr>
+        <tr><td><a href="methods/ucell.html">UCell</a></td><td>a Mann–Whitney U on the set's ranks, capped at rank 1,500</td></tr>
+        <tr><td><a href="methods/ssgsea.html">ssGSEA</a></td><td>a running-sum walk down the cell's ranked genes</td></tr>
+        <tr><td><a href="methods/jasmine.html">JASMINE</a></td><td>rank among detected genes, plus an odds ratio of detection in vs out of the set</td></tr>
+        <tr><td><a href="methods/scse.html">SCSE</a></td><td>the set's share of the cell's total expression</td></tr>
+        <tr><td><a href="methods/scps.html">scPS</a></td><td>PCA on the set's genes alone, weighted by the set's mean expression</td></tr></table>` +
+      (res ? sio(grid("in: this set's genes", sample().cells, sample().genes.filter(g => set.includes(g.g)).slice(0, 4), (c, g) => sim.data[c.i * sim.G + g.g]),
+        `<div class="sio"><div class="sio-t">out: one score per cell</div><div class="table-wrap"><table class="sio-tab"><tr><th></th>${sample().cells.map(c => `<th class="num">${c.label}</th>`).join("")}</tr>${METHODS.map(m => `<tr><td>${m}</td>${sample().cells.map(c => `<td class="num">${Number(res[m].scores[c.i]).toPrecision(3)}</td>`).join("")}</tr>`).join("")}</table></div></div>`,
+        "Only the set genes these four cells detect are shown on the left; each score uses all the set's genes (and, for some methods, the rest of the cell).") : ""),
+    test: () => `<p>For each method: are treatment cells' scores systematically higher or lower than control cells'? The Wilcoxon rank-sum test pools all ${n0(sim.N)} scores, ranks them, and asks whether the treatment ranks sum to more (or less) than chance would give. Two-sided, with a continuity correction, as the authors' <code>row_wilcoxon_twosample</code>. It sees only the final scores, not why they differ — so an artefact that shifts scores is "detected" just like real signal. <a href="wilcoxon.html">Play with it here</a>.</p>` +
+      (res ? `<table class="cp-scores"><tr><th>method</th><th class="num">p</th><th class="num">P(treatment &gt; control)</th></tr>${METHODS.map(m => `<tr><td>${m}</td><td class="num">${res[m].test.p < 1e-4 ? res[m].test.p.toExponential(1) : res[m].test.p.toFixed(4)}</td><td class="num">${(100 * res[m].test.auc).toFixed(0)}%</td></tr>`).join("")}</table>` : ""),
+    recovery: () => `<p>One gene set says little. The paper scores 100 random sets per setting, tests each, and — because testing 100 sets would give ~5 false hits at p &lt; 0.05 by chance — adjusts the p-values with <b>Benjamini–Hochberg</b>, which controls the expected share of false discoveries. A set counts as "identified" if its adjusted p &lt; 0.05. The recovery rate is the share identified: on sets with real signal that's sensitivity; on sets with none, it's the false-positive rate. They repeat this for 10 replicate draws; we show one.</p>`,
+    sweep: () => `<p>Same as the recovery node, at several gene set sizes. The paper's key observation: with a systematic artefact (S3), bigger sets make false positives <em>more</em> likely, because averaging more genes shrinks random noise but not a shift shared by every gene.</p>`,
+    toy: () => `<p>Made-up data: each gene gets a random mean, and each cell's count is drawn from a negative binomial around it (a Poisson whose rate itself varies — the usual model for single-cell counts). The scenario's change is applied inside. Useful for seeing mechanisms on a small, fast dataset; not the paper's data.</p>`,
+  };
+  const UMAP_NOTE = "Colour by cluster, by kept/dropped, by donor, or by any marker gene.";
+  function umapHTML(def) {
+    const genes = ["MS4A1", "IGHD", "TCL1A", "FCER2", "CD27", "IGHG1", "CD3E", "NKG7", "LYZ", "JCHAIN"];
+    return `<div id="umapBox" class="umap" data-def="${def}"><label class="cp-note">Colour by <select id="umapColor">${[["cluster", "cluster"], ["kept", "kept as naive B"], ["donor", "donor"], ...genes.map(g => [g, g])].map(([v, t]) => `<option value="${v}"${v === def ? " selected" : ""}>${t}</option>`).join("")}</select></label><canvas></canvas><div class="legend2"></div><p class="cp-note">5,000 of the ${PROV ? n0(PROV.qc.cells_after) : ""} QC-passed cells, random sample.</p></div>`;
+  }
+
+  async function explain(key) {
+    if (key === "b-cluster" || key === "b-naive") { if (!UMAP) UMAP = await getJSON("data/provenance_umap.json"); }
+    const f = EXPLAIN[key];
+    if (!f) return;
+    const needsSim = !key.startsWith("b-") && key !== "toy" && key !== "recovery" && key !== "sweep";
+    if (needsSim && !sim) return;
+    let body;
+    try { body = f(); } catch (e) { body = `<p class="cp-note">(Couldn't build this explanation: ${esc(e.message)})</p>`; }
+    const title = key.startsWith("b-") ? { "b-geo": "Raw data from GEO", "b-healthy": "Healthy donors only", "b-qc": "Quality control", "b-cluster": "Clustering", "b-naive": "Which clusters are naive B cells", "b-splatter": "Splatter (SSD)", "b-pack": "Packing for the browser" }[key] : TITLES[key];
+    const panel = $("sidePanel");
+    panel.innerHTML = `<button class="cp-close" type="button" aria-label="Close">×</button><div class="kicker">${key.startsWith("b-") ? "Build the dataset" : "Node"}</div><h3>${esc(title)}</h3>${body}` +
+      (CODE[key] ? `<p class="cp-note"><button type="button" class="codechip" data-codepanel="${key}">show the code</button></p>` : "");
+    panel.hidden = false;
+    panel.scrollTop = 0;
+    panel.querySelector(".cp-close").addEventListener("click", closePanel);
+    const cp = panel.querySelector("[data-codepanel]");
+    if (cp) cp.addEventListener("click", () => showCode(cp.dataset.codepanel));
+    panel.querySelectorAll("[data-explain]").forEach(b => b.addEventListener("click", () => explain(b.dataset.explain)));
+    const sel = panel.querySelector("#umapColor");
+    if (sel) { sel.addEventListener("change", () => umapPanel(sel.value)); umapPanel(sel.value); }
+  }
+
+
   // ------------------------------------------------------------ events
   function onChange(e) {
     const k = e.target.dataset.k;
@@ -525,6 +804,8 @@
     g.addEventListener("click", e => {
       const code = e.target.closest("[data-code]");
       if (code) { showCode(code.dataset.code); return; }
+      const ex = e.target.closest("[data-explain]");
+      if (ex) { explain(ex.dataset.explain); return; }
       const act = e.target.closest("[data-act]");
       if (act) {
         if (act.dataset.act === "reroll") { cfg.setSeed++; newSet(); scoreNow(); }
@@ -535,7 +816,10 @@
       const dot = e.target.closest("circle.cell");
       if (dot) openCell(Number(dot.dataset.c));
     });
-    document.addEventListener("keydown", e => { if (e.key === "Escape") closePanel(); });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") closePanel();
+      if (e.key === "Enter" && e.target.matches && e.target.matches("li[data-explain]")) explain(e.target.dataset.explain);
+    });
     window.addEventListener("hashchange", () => { applyHash(); render(); run("sim").then(() => { if (PRESETS[location.hash.slice(1)]) recoveryRun(); }); });
     run("sim").then(() => { if (PRESETS[location.hash.slice(1)]) { recoveryRun(); $("n-recovery").scrollIntoView({ behavior: "smooth", block: "center" }); } });
   }
