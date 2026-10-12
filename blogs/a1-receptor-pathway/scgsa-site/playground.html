@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-root="" data-page="playground">
+<html lang="en" data-root="" data-page="playground" data-glossary="#graph, #sidePanel">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +7,8 @@
 <link rel="stylesheet" href="static/style.css?v=236e2de9">
 <script defer src="static/common.js?v=ba56bb89"></script>
 <script defer src="static/scgsa.js?v=6b5699f6"></script>
-<script defer src="static/pipeline.js?v=924ebdf5"></script>
+<script defer src="static/pipeline.js?v=4fd6c12d"></script>
+<script defer src="static/glossary.js?v=e62784c3"></script>
 <style>
   /* pipeline graph: a vertical chain of nodes, root (data) at the top */
   #graph { margin: 1.5rem 0 2rem; font: 14px/1.45 system-ui, -apple-system, sans-serif; }
@@ -57,6 +58,11 @@
   table.rec th.num, table.rec td.num { text-align: right; }
   table.rec small { color: var(--muted); }
   #n-build .pn-num { background: var(--s3); }
+  /* glossary terms */
+  .term { text-decoration: underline dotted; text-decoration-color: var(--muted); text-underline-offset: 3px; cursor: help; }
+  .term:hover, .term:focus { text-decoration-color: var(--accent); outline: none; }
+  .gloss-tip { position: absolute; z-index: 80; background: var(--ink); color: var(--bg); font: 13px/1.4 system-ui, sans-serif;
+    padding: 0.5rem 0.65rem; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,.25); pointer-events: none; }
   /* explanations */
   .explainbtn { margin-left: 0.5rem; font: 600 12px system-ui, sans-serif; padding: 0.15rem 0.55rem; border-radius: 999px; cursor: pointer;
     border: 1px solid var(--accent); background: transparent; color: var(--accent); white-space: nowrap; }
@@ -140,7 +146,7 @@
 <p>Dense genes are those detected in <strong>more than 25%</strong> of cells (10% for SSD), not "at least 75%"; the "+20%" is a ×1.2 on <strong>log-normalised</strong> values; S3/S4 add 250 genes copied from a second draw of cells, and their share in a gene set is left to chance. The browser rebuilds the authors' R matrices exactly on the same random draws (<code>validate/rwsd_check.js</code>). On these cells the paper's results reproduce, except that ssGSEA almost never fires — including in S3 — and our SSD is sparser than theirs. Details: <a href="scenarios.html">the four scenarios</a> and <code>paper-data/README.md</code>.</p>
 </div>
 
-<div id="graph" aria-live="polite"></div>
+<div id="graph" class="per-section" aria-live="polite"></div>
 
 <h2>Things to try</h2>
 <ul>

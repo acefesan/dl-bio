@@ -183,22 +183,23 @@
   }
 
   const BLURB = {
-    build: "The root: where the cells come from. These steps ran offline, once (R + Python in paper-data/); everything from node 2 down runs in your browser.",
-    data: "Fetch the packed raw counts and decode them.",
-    draw: "2n random cells; first half control, second half treatment. Same population, so any difference later is put there by the steps below.",
-    norm: "Per cell: log1p(count ÷ cell total × 10,000) — Seurat's LogNormalize.",
-    filter: "Drop genes with zero counts in every drawn cell.",
-    signal: "Which genes the scenario changes (S1/S2) or treats as the gene-set pool (S3/S4).",
-    boost: "The signal: their log-normalised values × the factor, in treatment cells only. Nothing else moves.",
-    added: "Copy genes from a second, independent draw of cells into treatment cells only (zero in control). They join the non-signal pool.",
-    geneset: "size × (1 − noise) genes from the signal pool, the rest from everything else.",
-    prepare: "Per-cell work that doesn't depend on the gene set: rankings for AUCell, UCell, ssGSEA, JASMINE; bins for AddModuleScore.",
-    score: "Each method turns the gene set into one number per cell. Click any dot to open that cell.",
-    test: "Two-sided Wilcoxon rank-sum on the scores of control vs. treatment cells, per method.",
-    recovery: "Many random gene sets with these settings; Benjamini–Hochberg per method; identified = adjusted p < 0.05. Where the paper ran the same setting, its published result (Zenodo) is shown beside ours.",
-    sweep: "Recovery at sizes 10, 20, 50, 100 (20 sets each); dashed lines are the authors' published means where available.",
-    toy: "Negative-binomial counts for made-up genes; the scenario's change is applied inside. For mechanisms, not magnitudes.",
+    build: "Where the cells come from. These steps ran once, offline, in R and Python; everything from step 2 on runs live in your browser. Click any step to see it explained.",
+    data: "Download the saved counts and unpack them.",
+    draw: "Pick some cells at random and split them into two equal groups, \"control\" and \"treatment\". They're the same kind of cell, so any difference found later was put there on purpose by the next steps.",
+    norm: "Put every cell on the same scale: some cells yield more molecules than others, so each gene's count is divided by the cell's total, then log-transformed.",
+    filter: "Drop genes that none of the picked cells expressed — they can't differ between the groups.",
+    signal: "Choose which genes the experiment changes (S1/S2), or which genes gene sets are drawn from when nothing is changed (S3/S4).",
+    boost: "The planted difference: in treatment cells only, multiply those genes' log-normalised values by a factor. Nothing else changes.",
+    added: "S3/S4 only: give treatment cells extra genes that control cells don't have at all, without changing any shared gene.",
+    geneset: "Pick a list of genes to test: some share from the changed genes, the rest (\"noise\") from everything else.",
+    prepare: "Sort each cell's genes from highest to lowest, once; most methods work from these ranks.",
+    score: "Each of the 7 methods boils the gene set down to one number per cell. Click any dot to open that cell.",
+    test: "Ask, per method: do treatment cells score differently from control cells? (Wilcoxon test.)",
+    recovery: "Repeat with many random gene sets and count how often each method says \"different\". Where the paper ran the same setting, its published number is shown beside ours.",
+    sweep: "The same, at several gene set sizes, to see whether bigger sets make mistakes more or less likely.",
+    toy: "Made-up counts from a simple statistical model, with the scenario's change built in. Good for seeing mechanisms; not the paper's data.",
   };
+
 
   function render() {
     const g = $("graph");
@@ -294,14 +295,14 @@
     }
     if (!PROV) { out.innerHTML = `<p class="pn-note">(provenance.json not found)</p>`; return; }
     const P = PROV, steps = [
-      ["b-geo", `${P.geo.samples.length} samples · ${P.geo.cells.toLocaleString()} cells`, `GEO ${P.geo.accession}: filtered 10x matrices, PBMC B cells from 4 healthy donors and 7 mild COVID-19 patients (Hoehn et al. 2021)`],
-      ["b-healthy", `4 healthy donors · ${P.healthy_cells.toLocaleString()} cells`, `The authors' input is "Naive <em>Normal</em> B cell": healthy donors only`],
-      ["b-qc", `QC · ${P.qc.cells_after.toLocaleString()} cells`, esc(P.qc.rule)],
-      ["b-cluster", `${P.clustering.n_clusters} clusters`, esc(P.clustering.steps)],
-      ["b-naive", `naive B · ${P.naive_b.cells.toLocaleString()} cells × ${P.naive_b.genes.toLocaleString()} genes`, `Keep clusters whose naive markers (${P.clustering.naive_markers.join(", ")}) beat memory markers (${P.clustering.memory_markers.join(", ")}), with no T/NK/plasma signal — table below`],
+      ["b-geo", `${P.geo.samples.length} samples · ${P.geo.cells.toLocaleString()} cells`, `Downloaded from GEO (${P.geo.accession}): one file per person, a table of how many RNA molecules of each gene were counted in each cell. Mostly B cells from blood; 4 healthy people and 7 with mild COVID-19 (Hoehn et al. 2021).`],
+      ["b-healthy", `4 healthy donors · ${P.healthy_cells.toLocaleString()} cells`, `Keep only the 4 healthy people. The authors' input is named "Naive <em>Normal</em> B cell" — "Normal" is GEO's word for healthy.`],
+      ["b-qc", `Quality control · ${P.qc.cells_after.toLocaleString()} cells`, `Throw out what can't be trusted: genes seen in fewer than 3 cells; "cells" with fewer than 200 genes (empty droplets); cells with 15% or more of their RNA from mitochondria (dying cells); cells with 4,000+ genes (probably two cells stuck together).`],
+      ["b-cluster", `Group similar cells · ${P.clustering.n_clusters} clusters`, `Without telling the computer what any cell is: put cells on a common scale, keep the 2,000 genes that differ most between cells, compress them into 20 summary axes (PCA), link each cell to its most similar cells, and find the tightly linked groups (Louvain).`],
+      ["b-naive", `naive B · ${P.naive_b.cells.toLocaleString()} cells × ${P.naive_b.genes.toLocaleString()} genes`, `Name each group by its marker genes and keep the groups that look like naive B cells: high ${P.clustering.naive_markers.slice(0, 3).join(", ")}…, low memory-B markers (${P.clustering.memory_markers.slice(0, 2).join(", ")}…), and no sign of T, NK or plasma cells.`],
     ];
-    if (cfg.source === "ssd") steps.push(["b-splatter", `Splatter · ${P.splatter.pool_cells.toLocaleString()} synthetic cells`, `splatEstimate on those counts (mean ~ Gamma(${P.splatter.mean_shape}, ${P.splatter.mean_rate}); library log-normal(${P.splatter.lib_loc}, ${P.splatter.lib_scale}); BCV ${P.splatter.bcv_common}, df ${P.splatter.bcv_df}), then splatSimulate`]);
-    steps.push(["b-pack", cfg.source === "ssd" ? "packed · data/ssd/" : "packed · data/naive_b/", "Raw counts, every gene, varint-compressed for the browser"]);
+    if (cfg.source === "ssd") steps.push(["b-splatter", `Splatter · ${P.splatter.pool_cells.toLocaleString()} synthetic cells`, `Fit a statistical model to those naive B cells (how common each gene is, how many molecules a cell yields, how noisy genes are), then generate ${P.splatter.pool_cells.toLocaleString()} made-up cells from it. Gene names are lost: Gene1, Gene2, …`]);
+    steps.push(["b-pack", cfg.source === "ssd" ? "packed · data/ssd/" : "packed · data/naive_b/", "Save the kept cells' counts (every gene, nothing averaged) in a compact file the browser can read."]);
     let h = `<p class="pn-note">Click any step for the full story.</p><ol class="chain">${steps.map(([k, b, t]) => `<li data-explain="${k}" tabindex="0" role="button"><b>${b} <span class="more">explain ›</span></b><span>${t}</span></li>`).join("")}</ol>`;
     const M = P.clustering.markers_shown;
     h += `<details><summary>Cluster marker table (mean normalised expression)</summary><div class="table-wrap"><table class="clus"><tr><th>cluster</th><th class="num">cells</th><th class="num">naive − memory</th>${M.map(m => `<th class="num">${m}</th>`).join("")}</tr>` +
