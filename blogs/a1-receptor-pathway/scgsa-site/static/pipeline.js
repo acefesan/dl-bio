@@ -61,10 +61,15 @@
 
   let srcText = null;
   async function ourSnippet(ref) {
-    if (!srcText) srcText = await fetch("static/scgsa.js").then(r => r.text());
+    // Fetch the exact (versioned) file this page runs, revalidating, so the
+    // snippet can't come from a stale cached copy of an older scgsa.js.
+    if (!srcText) {
+      const tag = document.querySelector('script[src*="static/scgsa.js"]');
+      srcText = await fetch(tag ? tag.src : "static/scgsa.js", { cache: "no-cache" }).then(r => r.text());
+    }
     const lines = srcText.split("\n");
     const i = lines.findIndex(l => l.includes(ref.find));
-    if (i < 0) return { start: 0, end: 0, text: "(not found)" };
+    if (i < 0) return null;
     let end = i;
     if (ref.lines) end = i + ref.lines - 1;
     else {
@@ -94,8 +99,9 @@
     }
     if (c.ours) {
       const s = await ourSnippet(c.ours);
-      h += `<h4>Ours · <a href="${OURS}scgsa-site/static/scgsa.js#L${s.start}-L${s.end}" target="_blank" rel="noopener">static/scgsa.js L${s.start}–${s.end}</a></h4>` +
-        `<pre class="code"><code>${esc(s.text)}</code></pre>`;
+      h += s
+        ? `<h4>Ours · <a href="${OURS}scgsa-site/static/scgsa.js#L${s.start}-L${s.end}" target="_blank" rel="noopener">static/scgsa.js L${s.start}–${s.end}</a></h4><pre class="code"><code>${esc(s.text)}</code></pre>`
+        : `<h4>Ours · <code>${esc(c.ours.label)}</code></h4><p class="cp-note">Couldn't locate this in static/scgsa.js — please reload the page (an old copy may be cached). <a href="${OURS}scgsa-site/static/scgsa.js" target="_blank" rel="noopener">Open the file on GitHub</a>.</p>`;
     }
     if (c.pipe) h += `<p class="cp-note">Built offline by <a href="${OURS}${c.pipe.href}" target="_blank" rel="noopener">${esc(c.pipe.label)}</a>.</p>`;
     for (const ref of c.auth || []) {
