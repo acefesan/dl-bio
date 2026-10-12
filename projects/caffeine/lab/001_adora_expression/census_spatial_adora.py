@@ -21,6 +21,15 @@ Two steps, both narrow (4 genes only):
           spot's coordinate plus raw count and CP10K for the 4 genes, and a
           small downscaled H&E JPEG for Visium, into the site's data/ folder.
           -> <site>/data/spatial/*.json, *.jpg, and spatial_index.json
+          (superseded by export_all; kept for reference)
+
+  export_all
+          Every one of the 540 spatial datasets, one compact binary file per
+          section (format in _write_bin's docstring), a ~1000 px H&E JPEG per
+          Visium section cropped to the tissue, and one index JSON.
+          Resumable: a dataset whose file and sidecar already exist is
+          skipped. Progress goes to stdout and results/census_spatial/export_all.log.
+          -> <site>/data/spatial_all/{index.json, s/<dataset_id>.bin, img/<dataset_id>.jpg}
 
 CP10K = 10,000 * count / total counts of that spot (obs.raw_sum), which is
 what the Census "normalized" layer is for the non-spatial collection.
@@ -218,5 +227,185 @@ def overview():
     print("wrote", len(rows), "datasets")
 
 
+# ---------------------------------------------------------------- export_all
+ALL = SITE / "spatial_all"
+SIDE = OUT / "all_meta"          # per-dataset metadata sidecars (resume + index)
+MAGIC = b"ADSP"
+FORMAT_VERSION = 1
+
+
+def _log(msg, fh=[None]):
+    import time
+    if fh[0] is None:
+        OUT.mkdir(parents=True, exist_ok=True)
+        fh[0] = open(OUT / "export_all.log", "a")
+    line = time.strftime("%H:%M:%S ") + msg
+    print(line, flush=True); fh[0].write(line + "\n"); fh[0].flush()
+
+
+def _hires_crop(scene, bbox, out_path, max_px=1000, margin=0.04):
+    """Visium H&E 'hires' image, cropped to the in-tissue spots' bounding box
+    (plus a small margin) and downscaled to <= max_px on the long side.
+    Returns the rectangle of *spot coordinates* the JPEG covers, so the page
+    can draw it with one drawImage call."""
+    from PIL import Image
+    imgs = scene["img"]; name = list(imgs.keys())[0]; im = imgs[name]
+    arr = im["hires"].read().to_numpy()
+    perm = json.loads(im.metadata["soma_multiscale_image_schema"])["data_axis_permutation"]
+    assert perm == [2, 1, 0], perm          # stored (channel, x, y): see hires_jpeg()
+    arr = np.transpose(arr, (2, 1, 0)).astype(np.uint8)   # -> (y, x, channel)
+    tr = scene.get_transform_to_multiscale_image(name, subcollection="img", level="hires")
+    A = np.asarray(tr.augmented_matrix, float)
+    # Spot -> hires pixel is a pure isotropic scale in every Visium scene checked;
+    # assert it so a scene with a translation or anisotropy fails loudly instead
+    # of being drawn misaligned.
+    assert abs(A[0, 1]) < 1e-9 and abs(A[1, 0]) < 1e-9 and abs(A[0, 2]) < 1e-9 and abs(A[1, 2]) < 1e-9, A
+    assert abs(A[0, 0] - A[1, 1]) <= 1e-6 * abs(A[0, 0]), A
+    s = A[0, 0]
+    H, W = arr.shape[:2]
+    x0, y0, x1, y1 = bbox
+    m = margin * max(x1 - x0, y1 - y0)
+    cx0 = max(0, int(np.floor((x0 - m) * s))); cy0 = max(0, int(np.floor((y0 - m) * s)))
+    cx1 = min(W, int(np.ceil((x1 + m) * s))); cy1 = min(H, int(np.ceil((y1 + m) * s)))
+    img = Image.fromarray(arr[cy0:cy1, cx0:cx1])
+    f = min(1.0, max_px / max(img.size))
+    if f < 1:
+        img = img.resize((max(1, round(img.size[0] * f)), max(1, round(img.size[1] * f))), Image.LANCZOS)
+    img.save(out_path, quality=75, optimize=True, progressive=True)
+    return dict(w=img.size[0], h=img.size[1], x0=cx0 / s, y0=cy0 / s, x1=cx1 / s, y1=cy1 / s,
+                hires_w=W, hires_h=H, hires_scale=s, src=name)
+
+
+def _write_bin(path, header, xq, yq, umi, sparse):
+    """Binary section file, little-endian, every block 4-byte aligned:
+
+      0   'ADSP'                     magic
+      4   uint32 version (1)
+      8   uint32 header length L (bytes of UTF-8 JSON, before padding)
+      12  header JSON, zero-padded to a multiple of 4
+      ..  x    uint16[n]  quantised: x = x0 + q * (x1 - x0) / 65535  (pad to 4)
+      ..  y    uint16[n]  same with y0, y1                          (pad to 4)
+      ..  umi  uint16[n] or uint32[n] (header.umi_bytes): spot total counts (raw_sum)
+      ..  per gene g, for the nnz[g] spots with a count > 0:
+            idx   uint32[nnz]   spot index (0..n-1, ascending)
+            count uint16[nnz]   raw count                            (pad to 4)
+    CP10K is not stored: the page computes 1e4 * count / max(umi, 1), the same
+    expression the exporter used everywhere else. A gene the dataset did not
+    list has nnz 0 and header.listed[g] false ("not measured").
+    """
+    def pad(b):
+        return b + b"\0" * (-len(b) % 4)
+    hj = json.dumps(header, separators=(",", ":")).encode()
+    parts = [MAGIC, np.array([FORMAT_VERSION, len(hj)], "<u4").tobytes(), pad(hj),
+             pad(xq.astype("<u2").tobytes()), pad(yq.astype("<u2").tobytes()),
+             pad(umi.astype("<u2" if header["umi_bytes"] == 2 else "<u4").tobytes())]
+    for idx, cnt in sparse:
+        parts += [idx.astype("<u4").tobytes(), pad(cnt.astype("<u2").tobytes())]
+    tmp = path.with_suffix(".tmp")
+    tmp.write_bytes(b"".join(parts)); tmp.replace(path)
+
+
+def export_all():
+    import time
+    t_start = time.time()
+    (ALL / "s").mkdir(parents=True, exist_ok=True); (ALL / "img").mkdir(parents=True, exist_ok=True)
+    SIDE.mkdir(parents=True, exist_ok=True)
+    only = set(sys.argv[2:])        # optional: dataset ids to (re)do, for testing
+    failed = []
+    with soma.open(URI) as c:
+        dsinfo = c["census_info"]["datasets"].read(column_names=["dataset_id", "collection_name", "dataset_title", "citation"]).concat().to_pandas().set_index("dataset_id")
+        for org in ORGS:
+            exp = c["census_spatial_sequencing"][org]
+            sel = genes_of(exp); vids = sel.soma_joinid.to_numpy()
+            pres = presence(c, org, exp, vids)
+            obs = exp.obs.read(column_names=OBS_COLS).concat().to_pandas()
+            for k in ["dataset_id", "assay", "tissue", "tissue_general", "disease", "development_stage", "donor_id"]:
+                obs[k] = obs[k].astype(str)
+            groups = obs.groupby("dataset_id", observed=True)
+            dsids = sorted(groups.groups)
+            _log(f"{org}: {len(dsids)} datasets, {len(obs):,} obs rows")
+            for k, dsid in enumerate(dsids, 1):
+                fbin, fside = ALL / "s" / f"{dsid}.bin", SIDE / f"{dsid}.json"
+                if (not only and fbin.exists() and fside.exists()) or (only and dsid not in only):
+                    continue
+                t0 = time.time()
+                try:
+                    g = groups.get_group(dsid)
+                    n_all = len(g)
+                    g = g[g.in_tissue.isna() | (g.in_tissue == 1)]
+                    scene = exp.spatial[dsid]
+                    loc = scene["obsl"]["loc"].read().concat().to_pandas()
+                    d = g.merge(loc, on="soma_joinid", how="inner").sort_values("soma_joinid").reset_index(drop=True)
+                    assert len(d) == len(g), f"{len(g) - len(d)} in-tissue spots without a location"
+                    M = read_counts(exp, d.soma_joinid.to_numpy(), vids).astype(np.int64)
+                    assert (M == np.round(M)).all()
+                    umi = d.raw_sum.to_numpy()
+                    assert (umi == np.round(umi)).all() and umi.min() >= 0
+                    umi = umi.astype(np.int64)
+                    cp = 1e4 * M / np.maximum(umi, 1)[:, None]
+                    p = pres.get(dsid, np.zeros(4, bool))
+                    # A gene the dataset did not list must have no counts at all.
+                    for j in range(4):
+                        if not p[j]:
+                            assert (M[:, j] == 0).all(), (dsid, GENES[j])
+                    assert M.max() < 65536
+                    x, y = d.x.to_numpy(float), d.y.to_numpy(float)
+                    x0, x1, y0, y1 = x.min(), x.max(), y.min(), y.max()
+                    q = lambda v, a, b: np.round((v - a) / max(b - a, 1e-9) * 65535).astype(np.uint16)
+                    xq, yq = q(x, x0, x1), q(y, y0, y1)
+                    radius = float(scene["obsl"]["loc"].metadata.get("soma_geometry", 0))
+                    hdr = dict(dataset_id=dsid, org=org, n=len(d), genes=GENES, listed=[bool(v) for v in p],
+                               nnz=[int((M[:, j] > 0).sum()) for j in range(4)],
+                               x0=float(x0), x1=float(x1), y0=float(y0), y1=float(y1), radius=radius,
+                               units=json.loads(scene.metadata.get("soma_coordinate_space", "[]")),
+                               umi_bytes=2 if umi.max() < 65536 else 4)
+                    img_meta = None
+                    if "img" in scene:
+                        img_meta = _hires_crop(scene, (x0, y0, x1, y1), ALL / "img" / f"{dsid}.jpg")
+                        img_meta["file"] = f"img/{dsid}.jpg"
+                        hdr["image"] = img_meta
+                    sparse = [(np.nonzero(M[:, j] > 0)[0], M[M[:, j] > 0, j]) for j in range(4)]
+                    _write_bin(fbin, hdr, xq, yq, umi, sparse)
+                    info = dsinfo.loc[dsid] if dsid in dsinfo.index else None
+                    nz = [int((M[:, j] > 0).sum()) for j in range(4)]
+                    meta = dict(
+                        id=dsid, org=org, assay="Visium" if g.assay.iat[0].startswith("Visium") else g.assay.iat[0],
+                        tissue_general=g.tissue_general.iat[0], tissue=g.tissue.iat[0], disease=g.disease.iat[0],
+                        stage=g.development_stage.iat[0], donor=str(g.donor_id.iat[0]),
+                        title=str(info.dataset_title) if info is not None else "",
+                        collection=str(info.collection_name) if info is not None else "",
+                        n=len(d), n_all=n_all, med_umi=float(np.median(umi)), med_genes=float(np.median(d.nnz)),
+                        listed=[bool(v) for v in p],
+                        expr=[nz[j] if p[j] else None for j in range(4)],
+                        pct=[round(100 * nz[j] / max(len(d), 1), 3) if p[j] else None for j in range(4)],
+                        cp_mean=[round(float(cp[:, j].mean()), 4) if p[j] else None for j in range(4)],
+                        radius=radius, img=bool(img_meta), bytes=fbin.stat().st_size,
+                        img_bytes=(ALL / "img" / f"{dsid}.jpg").stat().st_size if img_meta else 0)
+                    fside.write_text(json.dumps(meta))
+                    _log(f"{org} {k}/{len(dsids)} {dsid} {meta['assay']} {meta['tissue']!r} n={len(d)} "
+                         f"pct={meta['pct']} bin={meta['bytes']//1024}KB img={meta['img_bytes']//1024}KB {time.time()-t0:.1f}s")
+                except Exception as e:  # keep going; report at the end
+                    failed.append((dsid, repr(e)))
+                    _log(f"FAILED {org} {dsid}: {e!r}")
+    _build_index()
+    _log(f"export_all done in {(time.time()-t_start)/60:.1f} min; {len(failed)} failed: {failed}")
+
+
+def _build_index():
+    rows = [json.loads(p.read_text()) for p in sorted(SIDE.glob("*.json"))]
+    rows.sort(key=lambda r: (r["org"], r["tissue_general"], r["tissue"], r["id"]))
+    feat = []
+    for s in SECTIONS:
+        feat.append(dict(id=s["dataset_id"], label=s["label"], why=s["why"]))
+    cols = ["id", "org", "assay", "tissue_general", "tissue", "disease", "stage", "donor", "title", "collection",
+            "n", "n_all", "med_umi", "med_genes", "listed", "expr", "pct", "cp_mean", "radius", "img", "bytes", "img_bytes"]
+    out = dict(census="2025-11-08", genes=GENES, format_version=FORMAT_VERSION, featured=feat,
+               cols=cols, rows=[[r[k] for k in cols] for r in rows])
+    (ALL / "index.json").write_text(json.dumps(out, separators=(",", ":")))
+    tot = sum(r["bytes"] + r["img_bytes"] for r in rows)
+    _log(f"index: {len(rows)} datasets, {tot/1e6:.1f} MB of section files + images")
+
+
 if __name__ == "__main__":
-    {"scan": scan, "export": export, "overview": overview}[sys.argv[1]]()
+    {"scan": scan, "export": export, "overview": overview, "export_all": export_all,
+     "index": _build_index}[sys.argv[1]]()

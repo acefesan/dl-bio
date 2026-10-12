@@ -48,6 +48,13 @@
     [["dispersion"], "How much extra spread counts have beyond pure chance."],
     [["varint"], "A compact way to store whole numbers: 1 byte for small ones, more only when needed."],
     [["scGSA"], "Single-cell gene-set analysis: turning a gene set into one score per cell."],
+    [["Visium"], "10x's spatial method: a slide printed with ~5,000 barcoded spots (55 µm); each spot captures the RNA of the 1–10 cells above it."],
+    [["Slide-seqV2", "Slide-seq"], "A spatial method using a 'puck' of 10 µm barcoded beads, about one cell each, but catching far fewer molecules per bead than Visium."],
+    [["H&E"], "Haematoxylin and eosin: the standard pink-and-purple tissue stain; the photo under the Visium spots."],
+    [["CP10K"], "Counts per 10,000: a gene's molecules divided by the spot's total molecules, times 10,000 — the spot-size-corrected expression level."],
+    [["FFPE"], "Formalin-fixed, paraffin-embedded: tissue preserved for long storage; it needs a different, probe-based Visium protocol, so its numbers aren't directly comparable with fresh-frozen tissue."],
+    [["fresh-frozen"], "Tissue snap-frozen without chemical fixation; the original Visium protocol."],
+    [["in-tissue"], "Visium spots that the software judged to lie under tissue; the rest, on bare glass, are dropped."],
     [["pseudobulk"], "Adding up all cells of a group into one sample before analysis."],
   ];
   const lookup = new Map();

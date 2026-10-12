@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-root="" data-page="adora-spatial">
+<html lang="en" data-root="" data-page="adora-spatial" data-glossary="main">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,38 +7,60 @@
 <link rel="stylesheet" href="static/style.css?v=236e2de9">
 <link rel="stylesheet" href="static/viz.css?v=9f547a1e">
 <script defer src="static/common.js?v=ba56bb89"></script>
+<script defer src="static/glossary.js?v=905179a1"></script>
 <script defer src="static/viz.js?v=4bbdc25e"></script>
 <style>
 /* Page-only colours for the spot maps. Higher expression is always the more
    salient end: dark red on the light page, bright yellow on the dark page. */
-:root { --sp-zero: #b9b3a8; --sp-lo: #f0b13a; --sp-hi: #a3123f; --sp-ring: rgba(255,255,255,0.85); }
+:root { --sp-zero: #b9b3a8; --sp-lo: #f0b13a; --sp-hi: #a3123f; --sp-ring: rgba(255,255,255,0.85); --sp-sel: #111; }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --sp-zero: #4a4c55; --sp-lo: #9c3c78; --sp-hi: #ffe066; --sp-ring: rgba(0,0,0,0.75); }
+  :root:not([data-theme="light"]) { --sp-zero: #4a4c55; --sp-lo: #9c3c78; --sp-hi: #ffe066; --sp-ring: rgba(0,0,0,0.75); --sp-sel: #fff; }
 }
-:root[data-theme="dark"] { --sp-zero: #4a4c55; --sp-lo: #9c3c78; --sp-hi: #ffe066; --sp-ring: rgba(0,0,0,0.75); }
+:root[data-theme="dark"] { --sp-zero: #4a4c55; --sp-lo: #9c3c78; --sp-hi: #ffe066; --sp-ring: rgba(0,0,0,0.75); --sp-sel: #fff; }
 
-.spmap { position: relative; width: 100%; max-width: 760px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); overflow: hidden; touch-action: manipulation; }
-.spmap canvas { display: block; width: 100%; height: auto; cursor: crosshair; }
+.spmap { position: relative; width: 100%; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); overflow: hidden; }
+.spmap canvas { display: block; width: 100%; cursor: crosshair; touch-action: none; }
+.spmap.active { border-color: var(--accent); }
+.spmap .zbtn { position: absolute; right: 8px; top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.spmap .zbtn button { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--ink); font: 600 15px/1 system-ui, sans-serif; cursor: pointer; opacity: 0.92; }
+.spmap .zbtn button.fit { font-size: 11px; }
+.spmap .msg { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 0.5rem 0.8rem; font: 13px/1.35 system-ui, sans-serif; max-width: 80%; text-align: center; pointer-events: none; }
+.spmap .msg:empty { display: none; }
 .sp-ramp { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.6rem; margin: 0.55rem 0 0.2rem; color: var(--muted); font: 12px system-ui, sans-serif; }
-.sp-ramp .bar { width: 9rem; height: 10px; border-radius: 3px; background: linear-gradient(90deg, var(--sp-lo), var(--sp-hi)); }
-.sp-ramp .z { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--sp-zero); vertical-align: -1px; margin-right: 0.3rem; }
-.sp-readout { min-height: 1.35em; color: var(--muted); font: 12.5px/1.35 system-ui, sans-serif; margin: 0.25rem 0 0; }
-.sp-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 0.5rem; margin: 0.7rem 0; }
-.sp-facts .tile .n { font-size: 1.35rem; }
-.sp-facts .tile.src { grid-column: span 2; }
+.sp-ramp .bar { width: 8rem; height: 10px; border-radius: 3px; background: linear-gradient(90deg, var(--sp-lo), var(--sp-hi)); }
+.sp-ramp .z, .sp-ramp .h { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--sp-zero); vertical-align: -1px; margin-right: 0.3rem; }
+.sp-ramp .h { background: var(--sp-hi); }
+.sp-readout { min-height: 2.7em; color: var(--muted); font: 12.5px/1.35 system-ui, sans-serif; margin: 0.25rem 0 0; }
+.sp-readout b { color: var(--ink); }
+.sp-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.5rem; margin: 0.7rem 0; }
+.sp-facts .tile .n { font-size: 1.05rem; letter-spacing: 0; }
+.sp-facts .tile.src { grid-column: 1 / -1; }
 .sp-why { border-left: 3px solid var(--accent); padding: 0.1rem 0 0.1rem 0.8rem; margin: 0.6rem 0; color: var(--ink); font-size: 0.95rem; max-width: 48rem; }
-.sp-mult { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.6rem; max-width: 760px; }
-.sp-mult figure { margin: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 0.35rem; }
-.sp-mult canvas { display: block; width: 100%; height: auto; }
-.sp-mult figcaption { font: 12px/1.3 system-ui, sans-serif; color: var(--muted); margin-top: 0.25rem; }
-.sp-mult figcaption b { color: var(--ink); }
-.sp-sel { font: inherit; font-size: 12.5px; padding: 0.28rem 0.5rem; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); color: var(--ink); max-width: 100%; }
+.sp-why:empty { display: none; }
+.sp-sel { font: inherit; font-size: 12.5px; padding: 0.28rem 0.5rem; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); color: var(--ink); max-width: 100%; min-width: 0; }
+.sp-pick { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.45rem 0.7rem; align-items: center; margin: 0.4rem 0 0.8rem; font-size: 12.5px; }
+.sp-pick > .lab { color: var(--muted); font-size: 12px; }
+.sp-pick .row { display: flex; flex-wrap: wrap; gap: 0.4rem 0.8rem; align-items: center; min-width: 0; }
+.sp-pick .row .grp { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
+.sp-pick .row .grp button { font: inherit; font-size: 12.5px; padding: 0.28rem 0.6rem; border: 0; background: var(--panel); color: var(--ink); cursor: pointer; border-right: 1px solid var(--line); }
+.sp-pick .row .grp button:last-child { border-right: 0; }
+.sp-pick .row .grp button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 650; }
+.sp-pick input[type=search] { font: inherit; font-size: 12.5px; padding: 0.3rem 0.6rem; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); color: var(--ink); width: 100%; max-width: 22rem; min-width: 0; }
+.sp-pick select.ds { width: 100%; }
+.sp-pick .nav { font: inherit; font-size: 13px; padding: 0.25rem 0.55rem; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); color: var(--ink); cursor: pointer; }
+.sp-pick .cnt { color: var(--muted); font-size: 12px; }
+.sp-feat { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.3rem 0 0.6rem; }
+.sp-feat button { font: 12px/1.2 system-ui, sans-serif; padding: 0.3rem 0.6rem; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--ink); cursor: pointer; }
+.sp-feat button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.sp-op { display: inline-flex; align-items: center; gap: 0.4rem; }
+.sp-op input { width: 7rem; accent-color: var(--accent); }
 .strip { font: 12.5px/1.3 system-ui, sans-serif; }
-.strip .r { display: grid; grid-template-columns: minmax(7rem, 13rem) minmax(0, 1fr) 3.6rem; gap: 0 0.6rem; align-items: center; padding: 3px 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent); }
+.strip .r { display: grid; grid-template-columns: minmax(7rem, 13rem) minmax(0, 1fr) 3.6rem; gap: 0 0.6rem; align-items: center; padding: 2px 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 50%, transparent); }
 .strip .l { text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .strip .t { position: relative; height: 16px; }
-.strip .d { position: absolute; top: 3px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: color-mix(in oklab, var(--accent) 55%, transparent); border: 1px solid var(--accent); }
-.strip .d.pick { background: var(--sp-hi); border: 2px solid var(--ink); width: 12px; height: 12px; top: 2px; margin-left: -6px; cursor: pointer; z-index: 2; }
+.strip .d { position: absolute; top: 3px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: color-mix(in oklab, var(--accent) 45%, transparent); border: 1px solid var(--accent); cursor: pointer; }
+.strip .d.feat { background: color-mix(in oklab, var(--sp-hi) 70%, transparent); border-color: var(--sp-hi); }
+.strip .d.cur { background: var(--sp-hi); border: 2px solid var(--ink); width: 13px; height: 13px; top: 1px; margin-left: -6.5px; z-index: 2; }
 .strip .v { color: var(--muted); font-variant-numeric: tabular-nums; }
 .strip .ax { display: grid; grid-template-columns: minmax(7rem, 13rem) minmax(0, 1fr) 3.6rem; gap: 0 0.6rem; color: var(--muted); font-size: 11px; }
 .strip .ax .t { height: 14px; }
@@ -47,10 +69,29 @@
 .asy th, .asy td { border-bottom: 1px solid var(--line); padding: 0.3rem 0.45rem; text-align: right; font-variant-numeric: tabular-nums; }
 .asy th:first-child, .asy td:first-child { text-align: left; }
 .asy th { color: var(--muted); font-weight: 600; font-size: 12px; }
+.asy tr.cur td { font-weight: 650; }
+.asy td.na { color: var(--muted); font-style: italic; }
+.asy td.hc { text-align: center; }
+.asy td.hatch { background: repeating-linear-gradient(45deg, var(--line) 0 3px, transparent 3px 6px); color: var(--muted); }
+.asy tbody tr.click { cursor: pointer; }
+.asy tbody tr.click:hover td:first-child { color: var(--accent); }
 .tblwrap { overflow-x: auto; }
+.asy .sm { display: none; }
 @media (max-width: 560px) {
   .strip .r, .strip .ax { grid-template-columns: 6.5rem minmax(0, 1fr) 2.9rem; gap: 0 0.4rem; }
+  .sp-pick { grid-template-columns: minmax(0, 1fr); gap: 0.2rem; }
+  .sp-pick > .lab { margin-top: 0.35rem; }
+  .asy { font-size: 12px; }
+  .asy th, .asy td { padding: 0.25rem 0.3rem; }
+  .asy .lg { display: none; }
+  .asy .sm { display: inline; }
 }
+</style>
+<style>
+  .term { text-decoration: underline dotted; text-decoration-color: var(--muted); text-underline-offset: 3px; cursor: help; }
+  .term:hover, .term:focus { text-decoration-color: var(--accent); outline: none; }
+  .gloss-tip { position: absolute; z-index: 80; background: var(--ink); color: var(--bg); font: 13px/1.4 system-ui, sans-serif;
+    padding: 0.5rem 0.65rem; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,.25); pointer-events: none; }
 </style>
 </head>
 <body>
@@ -58,11 +99,11 @@
 
 <div class="kicker">Census (SOMA) · spatial</div>
 <h1>Where the adenosine receptors sit in tissue sections</h1>
-<p class="lede">The Census also carries a separate spatial collection: tissue sections where every measurement has an x and a y. This page maps ADORA1, ADORA2A, ADORA2B and ADORA3 onto real sections from it. As on the other Census pages, every percentage counts only spots from datasets that listed the gene, so a gene a dataset never counted is not scored as "off".</p>
+<p class="lede">The Census also carries a separate spatial collection: tissue sections where every measurement has an x and a y. This page lets you open <strong>every one of its <span id="nds">540</span> sections</strong> and see where ADORA1, ADORA2A, ADORA2B and ADORA3 were detected, spot by spot. As on the other Census pages, a gene a dataset never counted is shown as "not measured", never as a section full of zeros.</p>
 
 <div class="callout warn" style="max-width:48rem">
 <div class="tag">The honest headline first</div>
-<p style="margin:0.3rem 0 0">There is <strong>no brain</strong> in the spatial part of this Census release (2025-11-08), in either organism, and the brain is where ADORA1 lives. The closest thing is a whole mouse embryo at day 9.5 with its neural tube, and there all four receptors are almost silent. So this page cannot show the A1 receptor in the place the rest of this site cares about. What it can show is ADORA2A lighting up the thymus, ADORA1 favouring the atria over the ventricle of the heart, and ADORA2B in gut and lung.</p>
+<p style="margin:0.3rem 0 0">There is <strong>no brain and no spinal cord</strong> in the spatial part of this Census release (2025-11-08), in either organism, and the brain is where ADORA1 lives. The closest thing is 74 sections of whole early mouse embryos (Theiler stage 14, about day 9) with their neural tube, and there all four receptors are almost silent. So this page cannot show the A1 receptor in the place the rest of this site cares about. What it can show is ADORA2A lighting up the thymus, ADORA1 favouring the atria over the ventricle of the heart, and ADORA2B in gut, kidney and lung.</p>
 </div>
 
 <h2>1. What spatial data is in the Census</h2>
@@ -71,74 +112,76 @@
 <li><strong>Visium</strong> (10x Genomics, "Spatial Gene Expression V1"): a glass slide printed with about 5,000 spots, each 55 µm across with centres 100 µm apart. A tissue section is laid on top, and each spot captures the RNA of whatever is above it, typically somewhere between one and ten cells. Each Visium dataset also comes with a photograph of the stained section (H&amp;E).</li>
 <li><strong>Slide-seqV2</strong>: a "puck" tiled with 10 µm barcoded beads, roughly one cell across, so each bead is close to a single cell, but each bead catches far fewer transcripts. No tissue image comes with these.</li>
 </ul>
-<div class="tiles" id="tiles"></div>
+<div class="tiles" id="tiles"><div class="loading">Loading the index of all sections…</div></div>
 <div class="tblwrap"><table class="asy" id="asy"></table></div>
 <details class="how"><summary>How these numbers were made</summary>
-<p><code>census_spatial_adora.py scan</code> (in <code>projects/caffeine/lab/001_adora_expression/</code>) opens the local Census with <code>tiledbsoma</code> and reads the whole <code>obs</code> table of each spatial experiment. One dataset is one tissue section ("scene"), and every row of <code>obs</code> is one Visium spot or one Slide-seq bead. A Visium slide records every spot on the slide, including the ones with no tissue above them; <code>obs</code> flags those with <code>in_tissue = 0</code> and I drop them (that is 795,602 of the 3,042,411 human spots, and 40,372 mouse ones). Slide-seq has no such flag, so every bead is kept. "Spots" in the tiles is what remains. "Tissues" counts distinct values of the Census's coarse <code>tissue_general</code> column, "datasets" counts distinct <code>dataset_id</code>, and "collections" counts the published studies the datasets belong to.</p>
-<p>The table's last two columns are per-spot medians taken first within each dataset, then the median across that assay's datasets: <code>raw_sum</code> is the total number of RNA molecules (UMIs) a spot captured and <code>nnz</code> is the number of distinct genes with a count above zero. They show how much each assay sees per spot. I also checked the scene layout directly: every one of the 540 scenes has spot coordinates (<code>spatial/&lt;dataset&gt;/obsl/loc</code>), and every Visium scene (302) has an H&amp;E image (<code>img/…/hires</code>); none of the Slide-seq scenes does.</p></details>
+<p><code>census_spatial_adora.py export_all</code> (in <code>projects/caffeine/lab/001_adora_expression/</code>) opens the local Census with <code>tiledbsoma</code> and reads the whole <code>obs</code> table of each spatial experiment. One dataset is one tissue section ("scene"), and every row of <code>obs</code> is one Visium spot or one Slide-seq bead. A Visium slide records every spot on the slide, including the ones with no tissue above them; <code>obs</code> flags those with <code>in_tissue = 0</code> and the script drops them. Slide-seq has no such flag, so every bead is kept. "Spots" in the tiles is what remains. "Tissues" counts distinct values of the Census's coarse <code>tissue_general</code> column, and "collections" counts the published studies the datasets belong to.</p>
+<p>The table's last two columns are per-spot medians taken first within each dataset, then the median across that assay's datasets: <code>raw_sum</code> is the total number of RNA molecules (UMIs) a spot captured and <code>nnz</code> is the number of distinct genes with a count above zero. They show how much each assay sees per spot. Every one of the 540 scenes has spot coordinates (<code>spatial/&lt;dataset&gt;/obsl/loc</code>), every Visium scene has an H&amp;E image (<code>img/…/hires</code>), and none of the Slide-seq scenes does. All of these numbers are read from the one index file the viewer below also uses, so the page and the maps can never disagree.</p></details>
 
 <h2>2. Which tissues detect which receptor</h2>
-<p>Before the maps, the bird's-eye view: for every tissue in the spatial collection, how often each receptor is seen. Colour is the percentage of measurable in-tissue spots with at least one count; the number is the same percentage. The number after each tissue is how many sections it has. The thymus appears as "endocrine gland", which is the Census's coarse group for it.</p>
+<p>Before the maps, the bird's-eye view: for every tissue in the spatial collection, how often each receptor is seen, and which of the four is seen most. Click a row to open that tissue's sections in the viewer below.</p>
 <div class="viz">
-  <div class="viz-title">% of measurable spots detecting each receptor, by tissue</div>
+  <div class="viz-title">% of measurable in-tissue spots detecting each receptor, by tissue</div>
   <div class="viz-sub" id="hsub"></div>
   <div class="viz-controls" id="hc"></div>
-  <div id="heat"></div>
+  <div class="tblwrap"><table class="asy" id="ovt"></table></div>
   <div class="ramp"><span>0</span><span class="bar"></span><span>column maximum</span></div>
 </div>
-<details class="how"><summary>How this figure was made</summary>
-<p>From the same scan. For each dataset and each receptor the script asks the Census presence matrix (<code>ms/RNA/feature_dataset_presence_matrix</code>) whether that dataset listed the gene at all. If it did not, the dataset contributes nothing to that receptor's column, not a pile of zeros. If it did, all its in-tissue spots are "measurable", and the script reads the <code>raw</code> count layer for just the four receptor genes and counts the spots with a count above zero. The figure then sums measurable spots and detecting spots over all datasets of a tissue (and, with the buttons, of one assay and organism) and divides. Tissue rows are sorted by the receptor you rank by. Cells are hatched when fewer than 500 spots could have measured the gene. As on the other pages the colour is scaled per column, so it compares tissues within one receptor; use the numbers to compare receptors.</p>
-<p>Two things make this different from the dissociated heatmap on <a href="adora-census.html">ADORA across the Census</a>. A Visium "spot" is a little patch of tissue, so a spot detects a receptor if <em>any</em> of the several cells in it contributed a molecule; spot percentages are therefore not comparable with cell percentages. And the two assays differ by more than tenfold in molecules per spot, so pooling them would mostly measure the mix of assays, which is why the buttons keep them apart.</p></details>
+<details class="how"><summary>How this table was made</summary>
+<p>For each dataset and each receptor the export asks the Census presence matrix (<code>ms/RNA/feature_dataset_presence_matrix</code>) whether that dataset listed the gene at all. If it did not, the dataset contributes nothing to that receptor's column, not a pile of zeros. If it did, all its in-tissue spots are "measurable", and the script reads the <code>raw</code> count layer for just the four receptor genes and counts the spots with a count above zero. The table then sums measurable spots and detecting spots over all datasets of a tissue (limited to the organism and assay chosen with the buttons) and divides. So a tissue's number is pooled over its spots, which means big sections weigh more than small ones. Cells are hatched when fewer than 500 spots could have measured the gene, because a percentage from a handful of spots is noise. "Most detected" names the receptor with the highest of the four percentages, among those with at least 500 measurable spots. Shading is scaled per column, so it compares tissues within one receptor; use the numbers to compare receptors. Rows are sorted by the receptor chosen under "Rank by". "Endocrine gland" is the Census's coarse group for the thymus.</p>
+<p>Two things make this different from the dissociated heatmap on <a href="adora-census.html">ADORA across the Census</a>. A Visium "spot" is a little patch of tissue, so a spot detects a receptor if <em>any</em> of the several cells in it contributed a molecule; spot percentages are therefore not comparable with cell percentages. And the two assays differ by more than tenfold in molecules per spot, so pooling them mostly measures the mix of assays, which is why the buttons keep them apart by default.</p></details>
 
 <div class="viz">
   <div class="viz-title" id="stitle"></div>
-  <div class="viz-sub">Every dot is one tissue section (dataset); its position is the % of its in-tissue spots detecting the receptor. Square-root scale, so small values are spread out. The highlighted dots are the sections mapped below: click one to open it.</div>
+  <div class="viz-sub">Every dot is one tissue section (dataset); its position is the % of its in-tissue spots detecting the receptor. Square-root scale, so small values are spread out. Red-filled dots are the featured sections; the outlined one is the section open in the viewer. Click any dot to open it.</div>
   <div id="strip" class="strip"></div>
 </div>
 <details class="how"><summary>How this figure was made</summary>
-<p>The same per-dataset numbers as the heatmap, without pooling. Each row is a fine-grained Census <code>tissue</code> term (for example "sinoatrial node" rather than "heart"), limited to the organism and assay chosen above, and only datasets that listed the gene are drawn. The number on the right is the pooled percentage of the row. The x axis is a square root of the percentage so that the many sections between 0 and 5% do not pile up on one pixel. Hover a dot for the dataset title, the number of spots and the exact percentage. This is the figure to check before trusting any single map: several tissues have sections that disagree with each other by a factor of five or more.</p></details>
+<p>The same per-dataset numbers as the table, without pooling. Each row is a fine-grained Census <code>tissue</code> term (for example "sinoatrial node" rather than "heart"), limited to the organism and assay chosen above, and only datasets that listed the gene are drawn. The number on the right is the pooled percentage of the row. The x axis is the square root of the percentage so that the many sections between 0 and 5% do not pile up on one pixel. Hover a dot for the dataset title, the number of spots and the exact percentage. This is the figure to check before trusting any single map: several tissues have sections that disagree with each other by a factor of five or more.</p></details>
 
-<h2>3. The maps</h2>
-<p>Seven sections, picked for being striking and for each telling one clear story (the reason is shown under the selector). Each dot is one in-tissue spot or bead at its real position. Grey dots detected no molecule of the chosen receptor; coloured dots did, and the colour scale runs from the lowest to the 99th-percentile nonzero value in that section. Hover (or tap) a spot to read its numbers.</p>
+<h2 id="viewer">3. The maps: every section</h2>
+<p>Pick any section. Each dot is one in-tissue spot or bead at its real position. In <strong>detected</strong> mode a dot is coloured if the spot caught at least one molecule of the chosen receptor and grey if it caught none. In <strong>expression level</strong> mode the coloured dots are shaded by CP10K (see below), from the lowest nonzero value in the section to its 99th percentile. Drag to pan, use the buttons, a pinch, a double click, or the mouse wheel (after clicking the map, or with Ctrl held) to zoom. Hover or tap a spot to read all four receptors in it.</p>
 <div class="viz">
+  <div class="viz-title" style="font-size:13px;color:var(--muted);font-weight:600">Featured sections</div>
+  <div class="sp-feat" id="feat"></div>
+  <div class="sp-pick" id="pick"></div>
   <div class="viz-controls" id="mc"></div>
   <div class="sp-why" id="why"></div>
-  <div class="spmap"><canvas id="map" width="760" height="600" aria-label="spatial map"></canvas></div>
+  <div class="spmap" id="spmap"><canvas id="map" aria-label="spatial map of the selected section"></canvas>
+    <div class="zbtn"><button type="button" id="zin" aria-label="zoom in">+</button><button type="button" id="zout" aria-label="zoom out">−</button><button type="button" id="zfit" class="fit" aria-label="fit section">fit</button></div>
+    <div class="msg" id="msg">Loading…</div></div>
   <div class="sp-ramp" id="ramp"></div>
   <div class="sp-readout" id="readout">Hover or tap a spot.</div>
+  <div class="tblwrap"><table class="asy" id="dst"></table></div>
   <div class="sp-facts" id="facts"></div>
 </div>
 <details class="how"><summary>How this map was made</summary>
-<p><code>census_spatial_adora.py export</code> handles each picked section in turn. It reads the scene's spot table (<code>spatial/&lt;dataset_id&gt;/obsl/loc</code>: one row per spot with <code>x</code>, <code>y</code> in pixels of the original full-resolution image, plus the spot's <code>soma_joinid</code>), joins it to <code>obs</code> to get each spot's total UMI count (<code>raw_sum</code>) and the <code>in_tissue</code> flag, drops off-tissue spots, and reads the <code>raw</code> count of the four receptor genes for exactly those spots. Only nonzero entries are stored in the Census, so every spot not returned has a count of zero. Nothing is smoothed, imputed or interpolated: one dot is one stored spot.</p>
-<p><strong>Raw counts</strong> is the number of molecules of the receptor's RNA the spot captured: almost always 0, 1 or 2. <strong>CP10K</strong> divides that by the spot's total molecules and multiplies by 10,000, which is the same normalisation as the dissociated Census's <code>normalized</code> layer (the spatial collection only ships raw counts, so I computed it). CP10K lets a spot that captured few molecules overall weigh its single receptor molecule more, which also means one stray molecule in a thin spot can look "high"; that is why the colour scale caps at the 99th percentile instead of the maximum.</p>
-<p>The dot size is the real spot size: the Census stores each scene's spot radius (<code>soma_geometry</code>), so Visium dots are 55 µm discs at 100 µm spacing and Slide-seq beads are drawn at their radius with a one-pixel minimum. Coloured dots are drawn after the grey ones, lowest value first, so the highest spots sit on top.</p>
-<p><strong>The H&amp;E background</strong> is the Visium "hires" image stored with each scene, downscaled to at most 900 pixels and saved as a JPEG. The Census stores the image's pixels in (channel, x, y) order (<code>data_axis_permutation</code> = [2, 1, 0]) and a scale factor from spot coordinates to image pixels; I reordered the pixels to (y, x, channel) and checked by overlaying the in-tissue spots that they land on the tissue and not on blank glass. Read the other way round they do not. The image is drawn faint by default so the spots stay readable; the photo itself is a light pink slide in both colour themes.</p>
-<p>For the mouse embryo the "Colour by" switch also offers the authors' cell-type labels, which the Census stores per bead, to help find the neural tube.</p></details>
-
-<h3>All four receptors on the same section</h3>
-<p>The section chosen above, four times, once per receptor, each with its own colour scale. Raw counts or CP10K follows the choice above.</p>
-<div class="sp-mult" id="mult"></div>
-<details class="how"><summary>How this figure was made</summary>
-<p>Exactly the same spots and values as the big map, drawn four times without the image. Each panel's colour scale runs from its own lowest to its own 99th-percentile nonzero value, so colour intensity cannot be compared across panels; the caption's "% of spots" can. A receptor the dataset did not list is shown as "not measured" instead of an all-grey map.</p></details>
+<p><code>census_spatial_adora.py export_all</code> goes through all 540 datasets in turn. For each one it reads the scene's spot table (<code>spatial/&lt;dataset_id&gt;/obsl/loc</code>: one row per spot with <code>x</code>, <code>y</code> in pixels of the original full-resolution image, plus the spot's <code>soma_joinid</code>), joins it to <code>obs</code> to get each spot's total molecule count (<code>raw_sum</code>) and the <code>in_tissue</code> flag, drops off-tissue spots, and reads the <code>raw</code> count of the four receptor genes for exactly those spots. Only nonzero entries are stored in the Census, so every spot not returned has a count of zero. Nothing is smoothed, imputed or interpolated: one dot is one stored spot, and the export checks that every in-tissue spot has a position.</p>
+<p>To keep 4.9 million spots small enough for a static web page, each section is one compact binary file, fetched only when you pick that section. Positions are stored as 16-bit integers spread over the section's bounding box, which is a rounding error of well under a micrometre at any size in this collection (Visium spots are 55 µm). Each spot's total molecule count is stored exactly, and for each receptor only the spots with a count above zero are listed, with their count. A typical (median) Visium section is about 16 kB plus a JPEG of about 125 kB, and a typical Slide-seq puck about 100 kB (the largest, 44,588 beads, is 262 kB). All 540 sections together are about 70 MB: 30 MB of spot files and 40 MB of H&amp;E photos.</p>
+<p><strong>Detected</strong> means a raw count of at least one. <strong>CP10K</strong> divides the receptor's count by the spot's total molecules and multiplies by 10,000. The page computes it from the two stored integers with exactly the expression the exporter uses, which is the same normalisation as the dissociated Census's <code>normalized</code> layer (the spatial collection only ships raw counts). CP10K lets a spot that captured few molecules overall weigh its single receptor molecule more, which also means one stray molecule in a thin spot can look "high"; that is why the colour scale caps at the 99th percentile of the section's nonzero values instead of the maximum. Colour intensity is therefore relative to the section; compare sections with the percentages in the table, not with colour.</p>
+<p>The dot size is the real spot size: the Census stores each scene's spot radius (<code>soma_geometry</code>), so Visium dots are 55 µm discs at 100 µm spacing. Slide-seq beads are tiny at full view, so detected beads are drawn at least about 4 pixels across and undetected ones at least 1 pixel; zoom in to see them at their true size. Grey dots are drawn first, then coloured ones from the lowest value to the highest, so the highest spots sit on top.</p>
+<p><strong>The H&amp;E background</strong> is the Visium "hires" image stored with each scene, cropped to the in-tissue spots plus a small margin, downscaled to at most 1,000 pixels on the long side and saved as a JPEG. The Census stores the image's pixels in (channel, x, y) order (<code>data_axis_permutation</code> = [2, 1, 0]) and a pure scale factor from spot coordinates to image pixels; the exporter reorders the pixels to (y, x, channel), asserts that the transform has no rotation, shear or offset, and records which rectangle of spot coordinates the JPEG covers. The page then draws the photo into exactly that rectangle under the spots. Read the other way round, the in-tissue spots land on blank glass, which is how the axis order was checked. Use the slider to fade the photo; it is a light pink slide in both colour themes.</p></details>
 
 <h2>4. What the maps show</h2>
+<p>These notes come from the featured sections (the quick links above the viewer) and from the table and strip plot, which cover every section.</p>
 <ul>
-<li><strong>The thymus is the brightest adenosine-receptor tissue in the spatial Census, and it is ADORA2A.</strong> In this 3-month-old human thymus ADORA2A is detected in 80% of in-tissue spots (1,976 of 2,481), and thymus is that receptor's top tissue: all 31 human thymus sections (from two studies) detect it, from 7% to 82% of spots. In the map the signal fills the densely packed lobules rather than tracing a thin structure, which is what you would expect if developing T cells (thymocytes), the bulk of the organ, carry it. Detection rates overlap between fetal and postnatal sections (medians 47% and 41%), but the amount per spot does not: the median postnatal section reads 1.6 CP10K against 0.6 for fetal ones. The other three receptors are close to absent in the same spots (ADORA3 4%, ADORA1 and ADORA2B under 1%).</li>
+<li><strong>The thymus is the brightest adenosine-receptor tissue in the spatial Census, and it is ADORA2A.</strong> In the featured 3-month-old human thymus ADORA2A is detected in 80% of in-tissue spots (1,976 of 2,481), and thymus is that receptor's top tissue: all 31 human thymus sections (from two studies) detect it, from 7% to 82% of spots. In the map the signal fills the densely packed lobules rather than tracing a thin structure, which is what you would expect if developing T cells (thymocytes), the bulk of the organ, carry it. Detection rates overlap between fetal and postnatal sections (medians 47% and 41%), but the amount per spot does not: the median postnatal section reads 1.6 CP10K against 0.6 for fetal ones. The other three receptors are close to absent in the same spots (ADORA3 4%, ADORA1 and ADORA2B under 1%).</li>
 <li><strong>ADORA1 prefers the atrium to the ventricle.</strong> In donor D6, the left-atrium section detects ADORA1 in 12% of spots against 2% in the same donor's left ventricle, from the same study and the same fresh-frozen protocol. Across all 23 fresh-frozen atrium, ventricle, septum and apex sections from that heart study, the eight atrial sections read 3.6 to 12% and the ventricle and septum sections 1 to 4%, with one exception (an apex section at 9%). This matches the textbook picture (A1 receptors in atrial muscle and the nodes slow the heart), but with detection this low a single section is weak evidence; the strip plot is the stronger version.</li>
-<li><strong>The sinoatrial node section is mostly a chemistry story.</strong> The three sinoatrial node sections from donor AV1 were made with the FFPE (probe-based) Visium protocol and read ADORA1 in 33% of spots and ADORA2A in 17%. The eight fresh-frozen sinoatrial node sections from other donors read 6% and 0.1%. An anatomical difference that large, all in one donor and one protocol, is more likely the probe panel being more sensitive for these genes than a real tenfold difference in the node. The map is still worth a look: in the FFPE section ADORA1 is spread broadly over the section, denser on the right-hand side than over the pale, loose tissue on the left, rather than concentrated in one small patch (I have not matched it to the authors' annotation of where the node itself is).</li>
-<li><strong>ADORA2B sits in gut and lung.</strong> The rectal cancer section detects ADORA2B in 21% of spots and the mouse lung in 35%. In the dissociated Census ADORA2B is the epithelial receptor (colon epithelium, bladder urothelium); mouse lung has 8 Visium sections, all between 18 and 35%.</li>
-<li><strong>The embryo is nearly silent.</strong> In the E9.5 mouse embryo (Slide-seqV2, 15,452 beads) the receptors are detected in 84, 45, 71 and 4 beads respectively, all under 1%. The few ADORA1 beads are not in the neural tube: 39 of the 84 carry the authors' "cardiac valve cell" label (the embryonic heart region) and 18 are "paraxial cell" (2.7% of those beads, the highest rate of any label), while only 6 are "spinal cord interneuron", 0.2% of the 3,132 beads with that label. Switch "Colour by" to cell type to see where the labels sit. So at this stage the neural tube does not detectably make ADORA1, which fits A1 coming up later in brain development; with a median of about 2,700 molecules per bead it could also simply be missed. ADORA2B is the one receptor whose beads do lean neural (23 of 71 are spinal cord interneurons), but at 0.7% of those beads that is a handful of molecules.</li>
-<li><strong>Everything is sparse, again.</strong> Outside the thymus, a "high" section is one where a receptor is seen in 10 to 35% of spots, and the spots that see it nearly always hold one or two molecules (92% or more of lit spots in every mapped section except the thymus). The colour differences between lit spots are mostly the difference between one molecule and two.</li>
+<li><strong>The sinoatrial node section is mostly a chemistry story.</strong> The three sinoatrial node sections from donor AV1 were made with the FFPE (probe-based) Visium protocol and read ADORA1 in 33 to 37% of spots and ADORA2A in about 17 to 20%. The eight fresh-frozen sinoatrial node sections from other donors read about 6% and 0.1%. An anatomical difference that large, all in one donor and one protocol, is more likely the probe panel being more sensitive for these genes than a real tenfold difference in the node. The map is still worth a look: in the FFPE section ADORA1 is spread broadly over the section, denser on the right-hand side than over the pale, loose tissue on the left, rather than concentrated in one small patch (I have not matched it to the authors' annotation of where the node itself is).</li>
+<li><strong>ADORA2B sits in gut and lung.</strong> The featured rectal cancer section detects ADORA2B in 21% of spots and the mouse lung in 35%. In the dissociated Census ADORA2B is the epithelial receptor (colon epithelium, bladder urothelium); mouse lung has 8 Visium sections, all between 18 and 35%.</li>
+<li><strong>The embryo is nearly silent.</strong> In the featured E9.5 mouse embryo (Slide-seqV2, 15,452 beads) the receptors are detected in 84, 45, 71 and 4 beads respectively, all under 1%. An earlier pass with the authors' per-bead cell-type labels (not part of this viewer's files) found the few ADORA1 beads mostly in the embryonic heart region ("cardiac valve cell", 39 of 84) and among "paraxial cell" beads, and only 6 among the 3,132 "spinal cord interneuron" beads. So at this stage the neural tube does not detectably make ADORA1, which fits A1 coming up later in brain development; with a median of about 2,700 molecules per bead it could also simply be missed.</li>
+<li><strong>Everything is sparse, again.</strong> Outside the thymus, a "high" section is one where a receptor is seen in 10 to 35% of spots, and the spots that see it nearly always hold one or two molecules. In expression-level mode, the colour differences between lit spots are mostly the difference between one molecule and two, divided by how many molecules the spot caught in total.</li>
 </ul>
 
 <h2>5. Caveats</h2>
 <div class="callout" style="max-width:48rem">
 <ul style="margin:0.2rem 0 0 1.1rem">
+<li><strong>No brain, no spinal cord.</strong> Neither organism's spatial collection has a single brain or spinal cord section, so the A1 receptor's home tissue is simply not here.</li>
 <li><strong>A Visium spot is not a cell.</strong> Each 55 µm spot mixes the RNA of several cells, often of different types. A lit spot says "some cell under here gave a molecule", not which one. A lit lobule in the thymus could be thymocytes, or the stromal cells between them. Slide-seq beads are closer to single cells but capture far less.</li>
-<li><strong>Spatial assays see fewer molecules and fewer genes.</strong> A Slide-seq bead holds a median of about 190 molecules from about 160 genes in human sections; a Visium spot holds thousands of molecules but they are shared among several cells. A low-abundance receptor transcript is easily missed, so the percentages here are a floor, and not comparable with the dissociated-cell percentages on the other pages.</li>
-<li><strong>A grey dot means "not detected", not "absent".</strong> Zero molecules of a receptor in a spot is entirely compatible with the receptor being made there at a low level. Where a dataset did not list a gene at all, it is "not measured" and excluded, never drawn as zeros. This matters most for human Slide-seq: only datasets holding 28% of its beads listed ADORA2A, and 24% listed ADORA3.</li>
-<li><strong>Protocols differ.</strong> Fresh-frozen Visium captures polyadenylated RNA; FFPE Visium uses a fixed panel of gene probes, and its sensitivity per gene is different. The sinoatrial node sections above are the clearest example in this collection.</li>
-<li><strong>Coverage is narrow.</strong> 23 human and 6 mouse tissue groups, no brain or spinal cord, and much of the human collection is disease tissue (cancers, myocardial infarction, Sjögren's). The mouse collection is mostly kidney and early embryo. The seven sections are a hand-picked illustration, not a sample.</li>
+<li><strong>Spatial assays see fewer molecules and fewer genes.</strong> A Slide-seq bead holds a median of a few hundred molecules from a few hundred genes; a Visium spot holds thousands of molecules but they are shared among several cells. A low-abundance receptor transcript is easily missed, so the percentages here are a floor, and not comparable with the dissociated-cell percentages on the other pages.</li>
+<li><strong>A grey dot means "not detected", not "absent".</strong> Zero molecules of a receptor in a spot is entirely compatible with the receptor being made there at a low level. Where a dataset did not list a gene at all, it is "not measured" and excluded, never drawn as zeros. This matters most for human Slide-seq, where many datasets did not list ADORA2A or ADORA3.</li>
+<li><strong>Protocols differ.</strong> Fresh-frozen Visium captures polyadenylated RNA; FFPE Visium uses a fixed panel of gene probes, and its sensitivity per gene is different. The sinoatrial node sections are the clearest example in this collection: the FFPE ones read ADORA1 several times higher than the fresh-frozen ones.</li>
+<li><strong>Coverage is narrow.</strong> Much of the human collection is disease tissue (kidney disease, cancers, myocardial infarction, Sjögren's), and the mouse collection is mostly kidney and early embryo. Use the "normal / disease" filter to keep them apart.</li>
 </ul>
 </div>
 
@@ -150,215 +193,396 @@
 </article></main></div>
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
+  const BASE = "data/spatial_all/";
   const GN = ["ADORA1", "ADORA2A", "ADORA2B", "ADORA3"];
   const ORG = { homo_sapiens: "Human", mus_musculus: "Mouse" };
-  const ASY = a => a.startsWith("Visium") ? "Visium" : "Slide-seqV2";
-  const nf = n => Math.round(n).toLocaleString();
-  let OV, IDX;
-  try { [OV, IDX] = await Promise.all([V.load("data/spatial_overview.json"), V.load("data/spatial_index.json")]); }
-  catch (e) { document.getElementById("tiles").innerHTML = '<div class="loading">Could not load the spatial data.</div>'; return; }
-  const DS = OV.datasets;
-  const picked = new Map(IDX.map(s => [s.dataset_id, s.key]));
+  const nf = n => Math.round(n).toLocaleString("en-US");
+  const $ = id => document.getElementById(id);
+  const gname = (org, g) => org === "mus_musculus" ? "Adora" + GN[g].slice(5).toLowerCase() : GN[g];
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
-  // ---------- 1. summary
+  // ---------------------------------------------------------------- index
+  let IX;
+  try { IX = await V.load(BASE + "index.json"); }
+  catch (e) { $("tiles").innerHTML = '<div class="loading">Could not load the spatial index.</div>'; return; }
+  const DS = IX.rows.map(r => Object.fromEntries(IX.cols.map((c, i) => [c, r[i]])));
+  const BYID = new Map(DS.map(d => [d.id, d]));
+  const FEAT = (IX.featured || []).filter(f => BYID.has(f.id));
+  const FEATID = new Map(FEAT.map(f => [f.id, f]));
+  $("nds").textContent = DS.length;
+  const pctOf = (d, g) => d.listed[g] ? d.expr[g] / Math.max(d.n, 1) : null;
+
+  // ---------------------------------------------------------------- 1. summary
   (function summary() {
     const tiles = [];
+    const tile = (k, n, subs) => V.h("div", { class: "tile" }, [V.h("div", { class: "k", html: k }), V.h("div", { class: "n", html: n }), ...subs.map(s => V.h("div", { class: "s", html: s }))]);
     for (const org of ["homo_sapiens", "mus_musculus"]) {
       const d = DS.filter(r => r.org === org);
       const tis = new Set(d.map(r => r.tissue_general)), col = new Set(d.map(r => r.collection));
-      const nv = d.filter(r => ASY(r.assay) === "Visium").length;
-      tiles.push(V.h("div", { class: "tile" }, [V.h("div", { class: "k", html: ORG[org] + " datasets (sections)" }), V.h("div", { class: "n", html: nf(d.length) }),
-        V.h("div", { class: "s", html: nv + " Visium · " + (d.length - nv) + " Slide-seqV2" }), V.h("div", { class: "s", html: col.size + " published collections" })]));
-      tiles.push(V.h("div", { class: "tile" }, [V.h("div", { class: "k", html: ORG[org] + " in-tissue spots" }), V.h("div", { class: "n", html: V.fmtN(d.reduce((a, r) => a + r.n_spots, 0)) }),
-        V.h("div", { class: "s", html: "of " + V.fmtN(d.reduce((a, r) => a + r.n_spots_all, 0)) + " stored" }), V.h("div", { class: "s", html: tis.size + " tissues · " + (tis.has("brain") ? "includes brain" : "no brain") })]));
+      const nv = d.filter(r => r.assay === "Visium").length;
+      const brain = [...tis].some(t => /brain|spinal/.test(t));
+      tiles.push(tile(ORG[org] + " sections", nf(d.length), [nv + " Visium · " + (d.length - nv) + " Slide-seqV2", col.size + " published collections"]));
+      tiles.push(tile(ORG[org] + " in-tissue spots", V.fmtN(d.reduce((a, r) => a + r.n, 0)), ["of " + V.fmtN(d.reduce((a, r) => a + r.n_all, 0)) + " stored", tis.size + " tissues · " + (brain ? "includes brain" : "<strong>no brain or spinal cord</strong>")]));
     }
-    document.getElementById("tiles").replaceChildren(...tiles);
+    $("tiles").replaceChildren(...tiles);
     const med = a => { const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
-    let html = "<thead><tr><th>Organism · assay</th><th>Datasets</th><th>In-tissue spots</th><th>Tissues</th><th>Median molecules per spot</th><th>Median genes per spot</th></tr></thead><tbody>";
+    let html = "<thead><tr><th>Organism · assay</th><th>Sections</th><th>In-tissue spots</th><th>Tissues</th><th>Median molecules per spot</th><th>Median genes per spot</th></tr></thead><tbody>";
     for (const org of ["homo_sapiens", "mus_musculus"]) for (const a of ["Visium", "Slide-seqV2"]) {
-      const d = DS.filter(r => r.org === org && ASY(r.assay) === a); if (!d.length) continue;
-      html += `<tr><td>${ORG[org]} · ${a}</td><td>${d.length}</td><td>${nf(d.reduce((s, r) => s + r.n_spots, 0))}</td><td>${new Set(d.map(r => r.tissue_general)).size}</td><td>${nf(med(d.map(r => r.med_umi)))}</td><td>${nf(med(d.map(r => r.med_genes)))}</td></tr>`;
+      const d = DS.filter(r => r.org === org && r.assay === a); if (!d.length) continue;
+      html += `<tr><td>${ORG[org]} · ${a}</td><td>${d.length}</td><td>${nf(d.reduce((s, r) => s + r.n, 0))}</td><td>${new Set(d.map(r => r.tissue_general)).size}</td><td>${nf(med(d.map(r => r.med_umi)))}</td><td>${nf(med(d.map(r => r.med_genes)))}</td></tr>`;
     }
-    document.getElementById("asy").innerHTML = html + "</tbody>";
+    $("asy").innerHTML = html + "</tbody>";
   })();
 
-  // ---------- 2. heatmap + strip
+  // ---------------------------------------------------------------- 2. overview table + strip
   const hs = { org: "homo_sapiens", assay: "Visium", gene: 1 };
-  function pooled(rows) { const m = [0, 0, 0, 0], e = [0, 0, 0, 0]; rows.forEach(r => { for (let i = 0; i < 4; i++) { m[i] += r.meas[i]; e[i] += r.expr[i]; } }); return { m, e }; }
-  function heat() {
-    const rows = DS.filter(r => r.org === hs.org && (hs.assay === "all" || ASY(r.assay) === hs.assay));
+  const inAssay = (r, a) => a === "all" || r.assay === a;
+  function pooled(rows) { const m = [0, 0, 0, 0], e = [0, 0, 0, 0]; rows.forEach(r => { for (let i = 0; i < 4; i++) if (r.listed[i]) { m[i] += r.n; e[i] += r.expr[i]; } }); return { m, e }; }
+  function overview() {
+    const rows = DS.filter(r => r.org === hs.org && inAssay(r, hs.assay));
     const by = new Map(); rows.forEach(r => { if (!by.has(r.tissue_general)) by.set(r.tissue_general, []); by.get(r.tissue_general).push(r); });
-    const A = [...by.entries()].map(([k, rs]) => ({ k, n: rs.length, s: rs.reduce((a, r) => a + r.n_spots, 0), ...pooled(rs) }));
+    const A = [...by.entries()].map(([k, rs]) => ({ k, n: rs.length, s: rs.reduce((a, r) => a + r.n, 0), ...pooled(rs) }));
     const pct = (o, i) => o.m[i] >= 500 ? o.e[i] / o.m[i] : null;
     A.sort((a, b) => (pct(b, hs.gene) ?? -1) - (pct(a, hs.gene) ?? -1));
     const mx = GN.map((_, i) => Math.max(1e-9, ...A.map(o => pct(o, i) ?? 0)));
-    document.getElementById("hsub").textContent = ORG[hs.org] + ", " + (hs.assay === "all" ? "both assays" : hs.assay) + ": " + rows.length + " datasets in " + A.length + " tissues. Hatched = fewer than 500 spots could have measured the gene.";
-    V.heat(document.getElementById("heat"), A.map(o => o.k + " (" + o.n + ")"), GN, A.map(o => GN.map((g, i) => { const p = pct(o, i);
-      const tip = g + " · " + o.k + "\n" + nf(o.e[i]) + " of " + nf(o.m[i]) + " measurable spots detect it\n" + o.n + " datasets, " + nf(o.s) + " in-tissue spots";
-      return p == null ? { t: null, text: "", tip: tip + "\n(too few measurable spots)" } : { t: p / mx[i], text: V.fmtP(p), tip: tip }; })), { rowW: 210, colW: 76 });
+    $("hsub").textContent = ORG[hs.org] + ", " + (hs.assay === "all" ? "both assays" : hs.assay) + ": " + rows.length + " sections in " + A.length + " tissues. Hatched = fewer than 500 spots could have measured the gene.";
+    const two = (i, org) => `<span class="lg">${gname(org, i)}</span><span class="sm">${gname(org, i).slice(4)}</span>`;
+    let h = "<thead><tr><th>Tissue (sections)</th>" + GN.map((g, i) => `<th style="text-align:center">${two(i, hs.org)}</th>`).join("") + "<th><span class=\"lg\">Most detected</span><span class=\"sm\">Top</span></th></tr></thead><tbody>";
+    for (const o of A) {
+      const ps = GN.map((_, i) => pct(o, i));
+      let top = -1; ps.forEach((p, i) => { if (p != null && (top < 0 || p > ps[top])) top = i; });
+      h += `<tr class="click" data-t="${V.esc(o.k)}"><td>${V.esc(o.k)} <span style="color:var(--muted)">(${o.n})</span></td>` + ps.map((p, i) => {
+        const tip = `${gname(hs.org, i)} · ${o.k}\n${nf(o.e[i])} of ${nf(o.m[i])} measurable spots detect it\n${o.n} sections, ${nf(o.s)} in-tissue spots`;
+        if (p == null) return `<td class="hc hatch" data-tip="${V.esc(tip + "\n(too few measurable spots)")}">${o.m[i] ? "" : "n/m"}</td>`;
+        const t = p / mx[i];
+        return `<td class="hc" style="background:${V.seqColor(t)};color:${t > 0.62 ? "var(--bg)" : "var(--ink)"}" data-tip="${V.esc(tip)}">${V.fmtP(p)}</td>`;
+      }).join("") + `<td>${top < 0 ? "–" : "<b>" + two(top, hs.org) + "</b>"}</td></tr>`;
+    }
+    $("ovt").innerHTML = h + "</tbody>";
+    $("ovt").querySelectorAll("tr.click").forEach(tr => tr.onclick = () => {
+      Object.assign(F, { org: hs.org, tissue: tr.dataset.t, assay: hs.assay === "all" ? "all" : hs.assay, q: "", status: "all" });
+      pickers(); const L = filtered(); if (L.length) openSection(L[0].id); $("viewer").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
     strip();
   }
   function strip() {
     const g = hs.gene;
-    const rows = DS.filter(r => r.org === hs.org && (hs.assay === "all" || ASY(r.assay) === hs.assay) && r.meas[g] > 0);
-    document.getElementById("stitle").textContent = GN[g] + ": every " + ORG[hs.org].toLowerCase() + " section, by tissue";
+    const rows = DS.filter(r => r.org === hs.org && inAssay(r, hs.assay) && r.listed[g]);
+    $("stitle").textContent = gname(hs.org, g) + ": every " + ORG[hs.org].toLowerCase() + " section, by tissue";
     const by = new Map(); rows.forEach(r => { if (!by.has(r.tissue)) by.set(r.tissue, []); by.get(r.tissue).push(r); });
     const T = [...by.entries()].map(([k, rs]) => { const p = pooled(rs); return { k, rs, p: p.e[g] / p.m[g] }; }).sort((a, b) => b.p - a.p);
-    const maxP = Math.max(0.01, ...rows.map(r => r.expr[g] / r.meas[g]));
+    const maxP = Math.max(0.01, ...rows.map(r => pctOf(r, g)));
     const top = Math.min(1, Math.ceil(Math.sqrt(maxP) * 10) / 10) ** 2;
     const X = p => 100 * Math.sqrt(p) / Math.sqrt(top);
-    const el = document.getElementById("strip"); el.replaceChildren();
+    const el = $("strip"); el.replaceChildren();
+    const rank = r => (r.id === cur.id ? 2 : FEATID.has(r.id) ? 1 : 0);
     T.forEach(t => {
       const tr = V.h("div", { class: "t" });
-      t.rs.slice().sort((a, b) => picked.has(a.dataset_id) - picked.has(b.dataset_id)).forEach(r => { const p = r.expr[g] / r.meas[g], pk = picked.get(r.dataset_id);
-        const d = V.h("div", { class: "d" + (pk ? " pick" : ""), style: `left:${X(p)}%`, "data-tip": r.title + "\n" + r.tissue + " · " + r.disease + "\n" + nf(r.expr[g]) + " of " + nf(r.meas[g]) + " spots (" + V.fmtP(p, 1) + ")" + (pk ? "\nClick to open this map" : "") });
-        if (pk) d.onclick = () => { st.key = pk; st.gene = g; controls(); openSection(); document.getElementById("mc").scrollIntoView({ behavior: "smooth", block: "start" }); };
+      t.rs.slice().sort((a, b) => rank(a) - rank(b)).forEach(r => { const p = pctOf(r, g);
+        const d = V.h("div", { class: "d" + (FEATID.has(r.id) ? " feat" : "") + (r.id === cur.id ? " cur" : ""), style: `left:${X(p)}%`,
+          "data-tip": (r.title || r.id) + "\n" + r.tissue + " · " + r.disease + " · " + r.assay + "\n" + nf(r.expr[g]) + " of " + nf(r.n) + " spots (" + V.fmtP(p, 1) + ")\nClick to open this section" });
+        d.onclick = () => { st.gene = g; openSection(r.id, true); $("viewer").scrollIntoView({ behavior: "smooth", block: "start" }); };
         tr.append(d); });
       el.append(V.h("div", { class: "r" }, [V.h("div", { class: "l", title: t.k, html: V.esc(t.k) + " <span style='color:var(--muted)'>(" + t.rs.length + ")</span>" }), tr, V.h("div", { class: "v", html: V.fmtP(t.p, 1) })]));
     });
     const ax = V.h("div", { class: "t" }); [0, 0.01, 0.05, 0.1, 0.2, 0.4, 0.6, 0.8, 1].filter(p => p <= top + 1e-9).forEach(p => ax.append(V.h("span", { style: `left:${X(p)}%`, html: Math.round(100 * p) + "%" })));
     el.append(V.h("div", { class: "ax" }, [V.h("div"), ax, V.h("div")]));
   }
-  document.getElementById("hc").replaceChildren(
-    V.seg("Organism", [["homo_sapiens", "Human"], ["mus_musculus", "Mouse"]], hs.org, v => { hs.org = v; heat(); }),
-    V.seg("Assay", [["Visium", "Visium"], ["Slide-seqV2", "Slide-seqV2"], ["all", "both"]], hs.assay, v => { hs.assay = v; heat(); }),
-    V.seg("Rank by", GN.map((g, i) => [i, g]), hs.gene, v => { hs.gene = +v; heat(); }));
-  heat();
+  $("hc").replaceChildren(
+    V.seg("Organism", [["homo_sapiens", "Human"], ["mus_musculus", "Mouse"]], hs.org, v => { hs.org = v; overview(); }),
+    V.seg("Assay", [["Visium", "Visium"], ["Slide-seqV2", "Slide-seqV2"], ["all", "both"]], hs.assay, v => { hs.assay = v; overview(); }),
+    V.seg("Rank by", GN.map((g, i) => [i, g]), hs.gene, v => { hs.gene = +v; overview(); }));
 
-  // ---------- 3. maps
-  const st = { key: IDX[0].key, gene: 1, val: "counts", bg: "faint", by: "expr" };
-  const cache = new Map(); let S = null, IMG = null, LAY = null;
-  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  function hex(c) { // css colour -> [r,g,b] via a 1px canvas
-    const cv = hex.cv || (hex.cv = document.createElement("canvas")); cv.width = cv.height = 1; const x = cv.getContext("2d", { willReadFrequently: true });
-    x.clearRect(0, 0, 1, 1); x.fillStyle = c; x.fillRect(0, 0, 1, 1); return [...x.getImageData(0, 0, 1, 1).data.slice(0, 3)]; }
-  function ramp() { const lo = hex(css("--sp-lo")), hi = hex(css("--sp-hi"));
-    return t => { t = Math.max(0, Math.min(1, t)); return `rgb(${lo.map((v, i) => Math.round(v + (hi[i] - v) * t)).join(",")})`; }; }
-  const CT_COLORS = ["#3b7bbf", "#d0762b", "#3d9a8b", "#8a5cc2", "#c2477a", "#7a9a2e", "#b08a12", "#4a5fc1", "#c25b3b", "#2f8f5b", "#9b4fa8", "#5b8fa8", "#a8763b", "#6c6c6c", "#9aa0a6"];
+  // ---------------------------------------------------------------- 3. viewer state
+  const st = { gene: 1, mode: "det", op: 0.5 };
+  const F = { org: "homo_sapiens", tissue: "", assay: "all", status: "all", q: "" };
+  let cur = { id: null }, S = null, IMG = null, view = null, sel = -1, LAY = null, active = false;
+  const cache = new Map();
 
-  async function getSection(key) { if (!cache.has(key)) cache.set(key, V.load("data/spatial/" + key + ".json")); return cache.get(key); }
-  function loadImg(src) { return new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; }); }
+  function filtered() {
+    const q = F.q.trim().toLowerCase();
+    return DS.filter(d => d.org === F.org && (!F.tissue || d.tissue_general === F.tissue) && inAssay(d, F.assay)
+      && (F.status === "all" || (F.status === "normal") === (d.disease === "normal"))
+      && (!q || [d.tissue, d.tissue_general, d.disease, d.title, d.collection, d.id, d.stage].some(s => String(s).toLowerCase().includes(q))))
+      .sort((a, b) => a.tissue.localeCompare(b.tissue) || a.disease.localeCompare(b.disease) || (a.title || "").localeCompare(b.title || "") || a.id.localeCompare(b.id));
+  }
+  const dsLabel = d => `${d.tissue} · ${d.disease} · ${d.assay} · ${nf(d.n)} spots — ${d.title || d.id}`;
 
-  function values(s, g, kind) { return kind === "counts" ? s.counts[g] : s.cp10k[g]; }
-  function scaleOf(v) { const nz = v.filter(x => x > 0).sort((a, b) => a - b); if (!nz.length) return null;
-    return { lo: nz[0], hi: Math.max(nz[0], nz[Math.min(nz.length - 1, Math.floor(0.99 * (nz.length - 1)))]), n: nz.length }; }
-
-  function layout(s, W) { // fit spot bounding box (plus a margin) into a canvas W px wide
-    const r = s.radius || 1; let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
-    for (let i = 0; i < s.x.length; i++) { if (s.x[i] < x0) x0 = s.x[i]; if (s.x[i] > x1) x1 = s.x[i]; if (s.y[i] < y0) y0 = s.y[i]; if (s.y[i] > y1) y1 = s.y[i]; }
-    const pad = Math.max(r * 2, 0.03 * Math.max(x1 - x0, y1 - y0)); x0 -= pad; x1 += pad; y0 -= pad; y1 += pad;
-    const k = W / (x1 - x0), H = Math.round((y1 - y0) * k);
-    return { x0, y0, k, W, H, rad: Math.max(1.1, r * k) };
+  function segIn(opts, init, cb) { // a segmented control without its own label (labels sit in the grid)
+    const g = V.h("span", { class: "grp" });
+    const bs = opts.map(([v, l]) => { const b = V.h("button", { type: "button", "aria-pressed": v === init }); b.textContent = l;
+      b.onclick = () => { bs.forEach((x, i) => x.setAttribute("aria-pressed", opts[i][0] === v)); cb(v); }; g.append(b); return b; });
+    return g;
   }
 
-  function draw(cv, s, g, opt) {
-    const dpr = window.devicePixelRatio || 1, W = Math.max(120, Math.round(cv.parentElement.clientWidth - (opt.inset || 0)));
-    const L = layout(s, W); cv.width = Math.round(W * dpr); cv.height = Math.round(L.H * dpr); cv.style.aspectRatio = W + " / " + L.H;
-    const x = cv.getContext("2d"); x.setTransform(dpr, 0, 0, dpr, 0, 0);
-    x.fillStyle = css("--panel"); x.fillRect(0, 0, W, L.H);
-    if (opt.img && s.image && opt.bg !== "off") { const I = s.image; // image px = spot px * (sx, sy)
-      x.globalAlpha = opt.bg === "full" ? 1 : 0.42; x.drawImage(opt.img, -L.x0 * L.k, -L.y0 * L.k, (I.w / I.sx) * L.k, (I.h / I.sy) * L.k); x.globalAlpha = 1; }
-    const n = s.x.length, P = i => [(s.x[i] - L.x0) * L.k, (s.y[i] - L.y0) * L.k];
-    const dot = (i, r) => { const [px, py] = P(i); x.beginPath(); x.arc(px, py, r, 0, 6.2832); x.fill(); };
-    if (opt.by === "ct" && s.ct) {
-      for (let i = 0; i < n; i++) { x.fillStyle = CT_COLORS[s.ct[i] % CT_COLORS.length]; dot(i, L.rad); }
-      return L;
-    }
-    const v = values(s, g, opt.val), sc = scaleOf(v), col = ramp();
-    x.fillStyle = css("--sp-zero"); x.globalAlpha = opt.img && opt.bg !== "off" && s.image ? 0.55 : 0.8;
-    for (let i = 0; i < n; i++) if (!(v[i] > 0)) dot(i, L.rad * 0.85);
-    x.globalAlpha = 1;
-    if (sc) { const ord = []; for (let i = 0; i < n; i++) if (v[i] > 0) ord.push(i); ord.sort((a, b) => v[a] - v[b]);
-      const ring = css("--sp-ring");
-      for (const i of ord) { const t = sc.hi > sc.lo ? (v[i] - sc.lo) / (sc.hi - sc.lo) : 1; const [px, py] = P(i);
-        const r = Math.max(L.rad, opt.minLit || 0);
-        x.beginPath(); x.arc(px, py, r, 0, 6.2832); x.fillStyle = col(t); x.fill();
-        if (r >= 2.5) { x.lineWidth = 0.8; x.strokeStyle = ring; x.stroke(); } } }
-    L.sc = sc; return L;
+  let qTimer;
+  function pickers() {
+    const P = $("pick"); P.replaceChildren();
+    const row = kids => V.h("div", { class: "row" }, kids);
+    const lab = t => V.h("span", { class: "lab", html: t });
+    // organism
+    P.append(lab("Organism"), row([segIn([["homo_sapiens", "Human"], ["mus_musculus", "Mouse"]], F.org, v => { F.org = v; F.tissue = ""; pickers(); autoOpen(); })]));
+    // tissue
+    const tsel = V.h("select", { class: "sp-sel", "aria-label": "Tissue" });
+    const tcount = new Map(); DS.filter(d => d.org === F.org).forEach(d => tcount.set(d.tissue_general, (tcount.get(d.tissue_general) || 0) + 1));
+    tsel.append(new Option("all tissues (" + [...tcount.values()].reduce((a, b) => a + b, 0) + ")", ""));
+    [...tcount.keys()].sort().forEach(t => { const o = new Option(t + " (" + tcount.get(t) + ")", t); if (t === F.tissue) o.selected = true; tsel.append(o); });
+    tsel.onchange = () => { F.tissue = tsel.value; pickers(); autoOpen(); };
+    P.append(lab("Tissue"), row([tsel]));
+    // filters
+    P.append(lab("Filter"), row([
+      segIn([["all", "all"], ["normal", "normal"], ["disease", "disease"]], F.status, v => { F.status = v; dsList(); }),
+      segIn([["all", "both assays"], ["Visium", "Visium"], ["Slide-seqV2", "Slide-seq"]], F.assay, v => { F.assay = v; dsList(); })]));
+    const q = V.h("input", { type: "search", placeholder: "search tissue, disease, title…", "aria-label": "Search sections" }); q.value = F.q;
+    // a search looks through every tissue of the organism, so it clears the tissue picker
+    q.oninput = () => { clearTimeout(qTimer); qTimer = setTimeout(() => { F.q = q.value; if (F.q.trim() && F.tissue) { F.tissue = ""; tsel.value = ""; } dsList(); }, 200); };
+    P.append(lab("Search"), row([q]));
+    // dataset
+    const dsel = V.h("select", { class: "sp-sel ds", id: "dsel", "aria-label": "Section" });
+    const prev = V.h("button", { type: "button", class: "nav", "aria-label": "previous section", html: "‹" }), next = V.h("button", { type: "button", class: "nav", "aria-label": "next section", html: "›" });
+    prev.onclick = () => step(-1); next.onclick = () => step(1);
+    P.append(lab("Section"), row([dsel]), lab(""), row([prev, next, V.h("span", { class: "cnt", id: "dcnt" })]));
+    dsel.onchange = () => { if (dsel.value) openSection(dsel.value); };
+    dsList();
   }
-
-  function pctOf(s, g) { if (!s.listed[g]) return null; let e = 0; for (const c of s.counts[g]) if (c > 0) e++; return e / s.counts[g].length; }
-  const gname = (s, g) => s.org === "mus_musculus" ? GN[g].charAt(0) + GN[g].slice(1).toLowerCase() : GN[g];
-
-  function render() {
-    if (!S) return;
-    const s = S, g = st.gene, cv = document.getElementById("map");
-    const byCt = st.by === "ct" && s.ct;
-    LAY = draw(cv, s, g, { img: IMG, bg: st.bg, val: st.val, by: byCt ? "ct" : "expr", minLit: s.assay.startsWith("Slide") ? 2.2 : 0 });
-    const rp = document.getElementById("ramp");
-    if (byCt) {
-      rp.replaceChildren(V.legend(s.cell_types.map((c, i) => [CT_COLORS[i % CT_COLORS.length], c])));
-    } else if (!s.listed[g]) {
-      rp.innerHTML = "This dataset did not list " + gname(s, g) + ", so it was not measured here.";
-    } else {
-      const sc = LAY.sc, u = st.val === "counts" ? " molecule" : " CP10K";
-      rp.innerHTML = `<span><span class="z"></span>not detected (${nf(s.x.length - (sc ? sc.n : 0))} spots)</span>` +
-        (sc ? `<span>${st.val === "counts" ? sc.lo : sc.lo.toFixed(1)}${u}${st.val === "counts" && sc.lo === 1 ? "" : (st.val === "counts" ? "s" : "")}</span><span class="bar"></span><span>${st.val === "counts" ? sc.hi : sc.hi.toFixed(1)}${u}${st.val === "counts" && sc.hi === 1 ? "" : (st.val === "counts" ? "s" : "")} or more · ${nf(sc.n)} spots detect it</span>` : "<span>no spot detected it</span>");
-    }
-    mult();
+  function dsList() {
+    const L = filtered(), dsel = $("dsel"); dsel.replaceChildren();
+    if (!L.some(d => d.id === cur.id)) { const o = new Option(L.length ? `— ${L.length} sections match; pick one —` : "— no section matches —", ""); o.selected = true; dsel.append(o); }
+    L.forEach(d => { const o = new Option(dsLabel(d), d.id); if (d.id === cur.id) o.selected = true; dsel.append(o); });
+    const i = L.findIndex(d => d.id === cur.id);
+    $("dcnt").textContent = (i >= 0 ? (i + 1) + " of " : "") + L.length + " matching section" + (L.length === 1 ? "" : "s") + " (of " + DS.length + ")";
   }
+  function step(k) { const L = filtered(); if (!L.length) return; let i = L.findIndex(d => d.id === cur.id); i = i < 0 ? 0 : (i + k + L.length) % L.length; openSection(L[i].id); }
+  function autoOpen() { const L = filtered(); if (L.length && !L.some(d => d.id === cur.id)) openSection(L[0].id); }
 
-  function mult() {
-    const s = S, el = document.getElementById("mult"); el.replaceChildren();
-    GN.forEach((_, g) => { const cv = V.h("canvas"), p = pctOf(s, g);
-      const fig = V.h("figure", {}, [cv, V.h("figcaption", { html: `<b>${gname(s, g)}</b> · ` + (p == null ? "not measured" : V.fmtP(p, 1) + " of spots") })]);
-      el.append(fig);
-      if (p == null) { cv.width = 10; cv.height = 10; cv.style.display = "none"; return; }
-      requestAnimationFrame(() => draw(cv, s, g, { val: st.val, by: "expr", inset: 12, minLit: s.assay.startsWith("Slide") ? 1.6 : 0 })); });
-  }
-
-  function facts() { const s = S;
-    document.getElementById("why").textContent = s.why;
-    const t = (k, n, sub, cls) => V.h("div", { class: "tile" + (cls ? " " + cls : "") }, [V.h("div", { class: "k", html: k }), V.h("div", { class: "n", html: n }), V.h("div", { class: "s", html: sub || "" })]);
-    const tiles = [t("Section", ORG[s.org] + " · " + V.esc(s.tissue), V.esc(s.assay) + " · " + V.esc(s.disease) + " · " + V.esc(s.stage)),
-      t("In-tissue spots", nf(s.n_spots), "median " + nf(s.med_umi) + " molecules, " + nf(s.med_genes) + " genes per spot")];
-    GN.forEach((_, g) => { const p = pctOf(s, g); let tot = 0; if (p != null) s.counts[g].forEach(c => tot += c);
-      tiles.push(t(gname(s, g), p == null ? "not measured" : V.fmtP(p, 1), p == null ? "dataset did not list it" : "of spots · " + nf(tot) + " molecules in all")); });
-    tiles.push(t("Source", "", V.esc(s.title) + "<br>" + V.esc(s.collection) + "<br><code style='font-size:11px'>" + s.dataset_id + "</code>", "src"));
-    document.getElementById("facts").replaceChildren(...tiles);
-  }
-
-  async function openSection() {
-    const cv = document.getElementById("map"); document.getElementById("readout").textContent = "Loading…";
-    S = await getSection(st.key); IMG = S.image ? await loadImg(S.image.file) : null;
-    if (!S.ct && st.by === "ct") st.by = "expr";
-    controls(); facts(); render(); document.getElementById("readout").textContent = "Hover or tap a spot.";
+  function feats() {
+    $("feat").replaceChildren(...FEAT.map(f => { const b = V.h("button", { type: "button", "aria-pressed": f.id === cur.id, title: f.why }); b.textContent = f.label;
+      b.onclick = () => openSection(f.id, true); return b; }));
   }
 
   function controls() {
-    const sel = V.h("select", { class: "sp-sel", "aria-label": "Section" });
-    IDX.forEach(s => { const o = V.h("option", { value: s.key }); o.textContent = s.label; if (s.key === st.key) o.selected = true; sel.append(o); });
-    sel.onchange = () => { st.key = sel.value; openSection(); };
-    const kids = [V.h("span", {}, [V.h("span", { class: "lab", html: "Section" }), sel]),
-      V.seg("Receptor", GN.map((g, i) => [i, g]), st.gene, v => { st.gene = +v; if (st.by === "ct") { st.by = "expr"; controls(); } render(); }),
-      V.seg("Value", [["counts", "raw counts"], ["cp10k", "CP10K"]], st.val, v => { st.val = v; render(); })];
-    if (S && S.image) kids.push(V.seg("H&E", [["off", "off"], ["faint", "faint"], ["full", "full"]], st.bg, v => { st.bg = v; render(); }));
-    if (S && S.ct) kids.push(V.seg("Colour by", [["expr", "receptor"], ["ct", "cell type"]], st.by, v => { st.by = v; render(); }));
-    document.getElementById("mc").replaceChildren(...kids);
+    const kids = [V.seg("Receptor", GN.map((g, i) => [i, S ? gname(S.h.org, i) : g]), st.gene, v => { st.gene = +v; render(); table(); }),
+      V.seg("Show", [["det", "detected yes/no"], ["cp", "expression level (CP10K)"]], st.mode, v => { st.mode = v; render(); })];
+    if (S && S.h.image) {
+      const r = V.h("input", { type: "range", min: 0, max: 100, step: 5, value: Math.round(st.op * 100), "aria-label": "H&E opacity" });
+      const out = V.h("span", { class: "lab", html: Math.round(st.op * 100) + "%" });
+      r.oninput = () => { st.op = r.value / 100; out.textContent = r.value + "%"; render(); };
+      kids.push(V.h("span", { class: "sp-op" }, [V.h("span", { class: "lab", html: "H&amp;E opacity" }), r, out]));
+    }
+    $("mc").replaceChildren(...kids);
   }
 
-  // hover / tap readout: nearest spot within reach
-  function nearest(ev) { if (!S || !LAY) return -1; const cv = document.getElementById("map"), b = cv.getBoundingClientRect();
-    const mx = (ev.clientX - b.left) * LAY.W / b.width, my = (ev.clientY - b.top) * LAY.H / b.height;
-    const X = mx / LAY.k + LAY.x0, Y = my / LAY.k + LAY.y0, reach = Math.max(LAY.rad, 5) / LAY.k; let best = -1, bd = reach * reach;
-    for (let i = 0; i < S.x.length; i++) { const dx = S.x[i] - X, dy = S.y[i] - Y, d = dx * dx + dy * dy; if (d < bd) { bd = d; best = i; } }
-    return best; }
-  function describe(i) { const s = S;
-    let t = "Spot " + (i + 1) + " of " + nf(s.n_spots) + " · " + nf(s.umi[i]) + " molecules in total";
-    if (s.ct) t += " · cell type: " + s.cell_types[s.ct[i]];
-    t += "\n" + GN.map((_, g) => gname(s, g) + " " + (s.listed[g] ? s.counts[g][i] + " (" + s.cp10k[g][i].toFixed(2) + " CP10K)" : "n/m")).join(" · ");
-    return t; }
-  const cvm = document.getElementById("map");
-  cvm.addEventListener("mousemove", ev => { const i = nearest(ev); if (i < 0) { cvm.removeAttribute("data-tip"); return; } cvm.setAttribute("data-tip", describe(i)); });
-  cvm.addEventListener("mouseleave", () => cvm.removeAttribute("data-tip"));
-  cvm.addEventListener("click", ev => { const i = nearest(ev); document.getElementById("readout").textContent = i < 0 ? "No spot there." : describe(i).replace("\n", " — "); });
+  // ---------------------------------------------------------------- binary section file
+  function parse(buf) {
+    const dv = new DataView(buf);
+    if (String.fromCharCode(...new Uint8Array(buf, 0, 4)) !== "ADSP") throw new Error("bad magic");
+    const L = dv.getUint32(8, true);
+    const h = JSON.parse(new TextDecoder().decode(new Uint8Array(buf, 12, L)));
+    let o = 12 + L + ((4 - L % 4) % 4); const n = h.n;
+    const al = () => { o += (4 - o % 4) % 4; };
+    const u16 = k => { const a = new Uint16Array(buf, o, k); o += 2 * k; al(); return a; };
+    const u32 = k => { const a = new Uint32Array(buf, o, k); o += 4 * k; return a; };
+    const xq = u16(n), yq = u16(n), umi = h.umi_bytes === 2 ? u16(n) : u32(n);
+    const x = new Float32Array(n), y = new Float32Array(n), dx = (h.x1 - h.x0) / 65535, dy = (h.y1 - h.y0) / 65535;
+    for (let i = 0; i < n; i++) { x[i] = h.x0 + xq[i] * dx; y[i] = h.y0 + yq[i] * dy; }
+    const cnt = [], cp = [], nz = [];
+    for (let g = 0; g < 4; g++) {
+      const idx = u32(h.nnz[g]), c = u16(h.nnz[g]);
+      const C = new Uint16Array(n), P = new Float32Array(n);
+      for (let j = 0; j < idx.length; j++) { C[idx[j]] = c[j]; P[idx[j]] = 1e4 * c[j] / Math.max(umi[idx[j]], 1); }
+      cnt.push(C); cp.push(P); nz.push(Uint32Array.from(idx));
+    }
+    if (o !== buf.byteLength) throw new Error("file length mismatch");
+    return { h, n, x, y, umi, cnt, cp, nz };
+  }
+  function getSection(id) {
+    if (!cache.has(id)) {
+      cache.set(id, fetch(BASE + "s/" + id + ".bin").then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); }).then(parse));
+      if (cache.size > 12) cache.delete(cache.keys().next().value);
+    }
+    return cache.get(id);
+  }
+  function loadImg(src) { return new Promise(res => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; }); }
 
-  let rz; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(render, 150); });
-  // redraw when the theme flips (canvas colours are read from CSS variables)
-  new MutationObserver(render).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+  // ---------------------------------------------------------------- drawing
+  const cv = $("map");
+  let cols = null;
+  function hex(c) { const t = hex.cv || (hex.cv = document.createElement("canvas")); t.width = t.height = 1; const x = t.getContext("2d", { willReadFrequently: true });
+    x.clearRect(0, 0, 1, 1); x.fillStyle = c; x.fillRect(0, 0, 1, 1); return [...x.getImageData(0, 0, 1, 1).data.slice(0, 3)]; }
+  function readCols() { const lo = hex(css("--sp-lo")), hi = hex(css("--sp-hi"));
+    cols = { zero: css("--sp-zero"), hi: css("--sp-hi"), ring: css("--sp-ring"), sel: css("--sp-sel"), panel: css("--panel"), muted: css("--muted"),
+      ramp: Array.from({ length: 24 }, (_, i) => `rgb(${lo.map((v, k) => Math.round(v + (hi[k] - v) * i / 23)).join(",")})`) }; }
 
-  controls(); await openSection();
+  function canvasSize() {
+    const W = Math.max(200, Math.round(cv.parentElement.clientWidth));
+    const h = S.h, bw = h.x1 - h.x0 || 1, bh = h.y1 - h.y0 || 1;
+    const H = Math.round(Math.max(240, Math.min(W * bh / bw, Math.min(720, innerHeight * 0.72))));
+    return [W, H];
+  }
+  function fit() {
+    const [W, H] = canvasSize(), h = S.h, r = h.radius || 1;
+    const pad = Math.max(2 * r, 0.03 * Math.max(h.x1 - h.x0, h.y1 - h.y0));
+    const k = Math.min(W / (h.x1 - h.x0 + 2 * pad || 1), H / (h.y1 - h.y0 + 2 * pad || 1));
+    view = { k, k0: k, cx: (h.x0 + h.x1) / 2, cy: (h.y0 + h.y1) / 2 };
+  }
+  const scale99 = v => { const a = []; for (let i = 0; i < v.length; i++) if (v[i] > 0) a.push(v[i]); if (!a.length) return null; a.sort((p, q) => p - q);
+    return { lo: a[0], hi: Math.max(a[0], a[Math.floor(0.99 * (a.length - 1))]), n: a.length }; };
+
+  function render() {
+    if (!S) return;
+    if (!cols) readCols();
+    const [W, H] = canvasSize(), dpr = window.devicePixelRatio || 1;
+    if (cv.width !== Math.round(W * dpr) || cv.height !== Math.round(H * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); cv.style.height = H + "px"; }
+    const x = cv.getContext("2d"); x.setTransform(dpr, 0, 0, dpr, 0, 0);
+    x.fillStyle = cols.panel; x.fillRect(0, 0, W, H);
+    const k = view.k, ox = W / 2 - view.cx * k, oy = H / 2 - view.cy * k;
+    LAY = { W, H, k, ox, oy };
+    const h = S.h, g = st.gene, n = S.n;
+    if (IMG && h.image && st.op > 0) { const I = h.image; x.globalAlpha = st.op; x.imageSmoothingQuality = "high";
+      x.drawImage(IMG, ox + I.x0 * k, oy + I.y0 * k, (I.x1 - I.x0) * k, (I.y1 - I.y0) * k); x.globalAlpha = 1; }
+    const R = (h.radius || 1) * k, slide = h.image == null;
+    const rz = Math.max(slide ? 0.6 : 0.8, R * 0.85), rl = Math.max(slide ? 2.2 : 1.2, R);
+    const measured = h.listed[g];
+    const C = S.cnt[g], V2 = st.mode === "cp" ? S.cp[g] : C;
+    const PX = new Float32Array(n), PY = new Float32Array(n);
+    for (let i = 0; i < n; i++) { PX[i] = ox + S.x[i] * k; PY[i] = oy + S.y[i] * k; }
+    const vis = i => PX[i] > -rl && PX[i] < W + rl && PY[i] > -rl && PY[i] < H + rl;
+    const pathDots = (ids, r) => { x.beginPath();
+      if (r < 1.3) { for (const i of ids) if (vis(i)) x.rect(PX[i] - r, PY[i] - r, 2 * r, 2 * r); }
+      else for (const i of ids) if (vis(i)) { x.moveTo(PX[i] + r, PY[i]); x.arc(PX[i], PY[i], r, 0, 6.2832); } };
+    // grey: undetected (or every spot when the gene was not measured)
+    const zeros = []; for (let i = 0; i < n; i++) if (!(C[i] > 0)) zeros.push(i);
+    x.fillStyle = cols.zero; x.globalAlpha = !measured ? 0.35 : (IMG && h.image && st.op > 0 ? 0.6 : 0.85);
+    pathDots(zeros, rz); x.fill(); x.globalAlpha = 1;
+    let sc = null;
+    if (measured && S.nz[g].length) {
+      const ids = Array.from(S.nz[g]);
+      if (st.mode === "det") { x.fillStyle = cols.hi; pathDots(ids, rl); x.fill(); if (rl >= 2.5) { x.lineWidth = 0.8; x.strokeStyle = cols.ring; x.stroke(); } }
+      else {
+        sc = scale99(V2); const bins = Array.from({ length: 24 }, () => []);
+        for (const i of ids) { const t = sc.hi > sc.lo ? (V2[i] - sc.lo) / (sc.hi - sc.lo) : 1; bins[Math.max(0, Math.min(23, Math.round(t * 23)))].push(i); }
+        bins.forEach((b, j) => { if (!b.length) return; x.fillStyle = cols.ramp[j]; pathDots(b, rl); x.fill(); if (rl >= 2.5) { x.lineWidth = 0.8; x.strokeStyle = cols.ring; x.stroke(); } });
+      }
+    }
+    if (sel >= 0 && sel < n) { x.beginPath(); x.arc(PX[sel], PY[sel], Math.max(rl, 4) + 2.5, 0, 6.2832); x.lineWidth = 2; x.strokeStyle = cols.sel; x.stroke(); }
+    $("msg").textContent = measured ? "" : `${gname(h.org, g)} was not measured in this dataset (the dataset did not list the gene), so there is nothing to show; spots are drawn faint for orientation.`;
+    legend(sc);
+  }
+
+  function legend(sc) {
+    const h = S.h, g = st.gene, rp = $("ramp"), nm = gname(h.org, g);
+    if (!h.listed[g]) { rp.innerHTML = `<span><span class="z" style="opacity:.4"></span>${nm}: not measured in this dataset</span>`; return; }
+    const det = S.nz[g].length, n = S.n;
+    if (st.mode === "det" || !det) {
+      rp.innerHTML = `<span><span class="z"></span>not detected (${nf(n - det)} spots)</span><span><span class="h"></span>${nm} detected, 1 or more molecules (${nf(det)} spots, ${V.fmtP(det / n, 1)})</span>`;
+    } else {
+      rp.innerHTML = `<span><span class="z"></span>not detected (${nf(n - det)})</span><span>${sc.lo.toFixed(1)}</span><span class="bar"></span><span>${sc.hi.toFixed(1)} or more CP10K · ${nf(det)} spots detect ${nm}; scale = this section's lowest to 99th-percentile nonzero value</span>`;
+    }
+  }
+
+  function table() {
+    const s = S, h = s.h, org = h.org;
+    let t = "<thead><tr><th>Receptor</th><th>Spots detecting</th><th>% of spots</th><th>Molecules</th><th>Mean CP10K</th><th>Max count</th></tr></thead><tbody>";
+    for (let g = 0; g < 4; g++) {
+      const nm = gname(org, g);
+      if (!h.listed[g]) { t += `<tr class="${g === st.gene ? "cur" : ""}"><td>${nm}</td><td class="na" colspan="5">not measured: this dataset did not list the gene</td></tr>`; continue; }
+      let tot = 0, mx = 0, cps = 0; for (const i of s.nz[g]) { tot += s.cnt[g][i]; mx = Math.max(mx, s.cnt[g][i]); cps += s.cp[g][i]; }
+      t += `<tr class="${g === st.gene ? "cur" : ""}"><td>${nm}</td><td>${nf(s.nz[g].length)}</td><td>${V.fmtP(s.nz[g].length / s.n, 1)}</td><td>${nf(tot)}</td><td>${(cps / s.n).toFixed(3)}</td><td>${mx}</td></tr>`;
+    }
+    $("dst").innerHTML = t + `</tbody><caption style="caption-side:bottom;text-align:left;color:var(--muted);font-size:12px;padding-top:0.3rem">Over all ${nf(s.n)} in-tissue spots of this section. Mean CP10K averages every spot, zeros included.</caption>`;
+  }
+
+  function facts() {
+    const d = BYID.get(cur.id), h = S.h;
+    const t = (k, n, sub, cls) => V.h("div", { class: "tile" + (cls ? " " + cls : "") }, [V.h("div", { class: "k", html: k }), V.h("div", { class: "n", html: n }), V.h("div", { class: "s", html: sub || "" })]);
+    $("facts").replaceChildren(
+      t("Section", ORG[d.org] + " · " + V.esc(d.tissue), V.esc(d.tissue_general) + " · " + V.esc(d.assay)),
+      t("Condition", V.esc(d.disease), V.esc(d.stage) + " · donor " + V.esc(d.donor)),
+      t("In-tissue spots", nf(d.n), "of " + nf(d.n_all) + " stored · median " + nf(d.med_umi) + " molecules, " + nf(d.med_genes) + " genes per spot"),
+      t("Files", ((d.bytes + d.img_bytes) / 1024).toFixed(0) + " kB", "spots " + (d.bytes / 1024).toFixed(0) + " kB" + (d.img ? " · H&amp;E " + (d.img_bytes / 1024).toFixed(0) + " kB" : " · no image (Slide-seq)")),
+      t("Source", "", V.esc(d.title) + "<br>" + V.esc(d.collection) + "<br><code style='font-size:11px;word-break:break-all'>" + d.id + "</code>", "src"));
+    const f = FEATID.get(cur.id); $("why").textContent = f ? f.why : "";
+  }
+
+  let token = 0;
+  async function openSection(id, syncFilters) {
+    const d = BYID.get(id); if (!d) return;
+    const my = ++token;
+    if (syncFilters || d.org !== F.org) { const L = filtered(); if (syncFilters || !L.some(x => x.id === id)) { Object.assign(F, { org: d.org, tissue: d.tissue_general, q: "", status: "all", assay: "all" }); } }
+    cur = d; sel = -1; $("msg").textContent = "Loading " + (d.bytes / 1024).toFixed(0) + " kB…";
+    pickers(); feats();
+    let s;
+    try { s = await getSection(id); } catch (e) { if (my === token) $("msg").textContent = "Could not load this section (" + e.message + ")."; return; }
+    if (my !== token) return;
+    S = s; IMG = null; fit(); controls(); render(); table(); facts(); readout(-1);
+    try { history.replaceState(null, "", "#" + id); } catch (e) { /* ignore */ }
+    strip();
+    if (S.h.image) { const im = await loadImg(BASE + S.h.image.file); if (my === token) { IMG = im; render(); } }
+  }
+
+  // ---------------------------------------------------------------- interaction
+  function toData(cx, cy) { const b = cv.getBoundingClientRect(); const px = cx - b.left, py = cy - b.top; return [(px - LAY.ox) / LAY.k, (py - LAY.oy) / LAY.k, px, py]; }
+  function nearest(cx, cy) {
+    if (!S || !LAY) return -1;
+    const [X, Y] = toData(cx, cy), R = (S.h.radius || 1) * LAY.k, reach = Math.max(R, 7) / LAY.k; let best = -1, bd = reach * reach;
+    for (let i = 0; i < S.n; i++) { const dx = S.x[i] - X, dy = S.y[i] - Y, dd = dx * dx + dy * dy; if (dd < bd) { bd = dd; best = i; } }
+    return best;
+  }
+  function describe(i) {
+    const s = S, org = s.h.org;
+    return GN.map((_, g) => gname(org, g) + ": " + (s.h.listed[g] ? s.cnt[g][i] + " (" + s.cp[g][i].toFixed(2) + " CP10K)" : "not measured")).join("\n");
+  }
+  function readout(i) {
+    $("readout").innerHTML = i < 0 ? "Hover or tap a spot to read all four receptors in it." :
+      `<b>Spot ${nf(i + 1)} of ${nf(S.n)}</b> · ${nf(S.umi[i])} molecules in total · ` + describe(i).split("\n").map((l, g) => g === st.gene ? "<b>" + V.esc(l) + "</b>" : V.esc(l)).join(" · ");
+  }
+  function zoomAt(f, px, py) {
+    if (!view) return; const nk = Math.max(view.k0 * 0.5, Math.min(view.k0 * 60, view.k * f)); const W = LAY.W, H = LAY.H;
+    const dx = (px - W / 2) / view.k + view.cx, dy = (py - H / 2) / view.k + view.cy; // data point under cursor stays put
+    view.cx = dx - (px - W / 2) / nk; view.cy = dy - (py - H / 2) / nk; view.k = nk; render();
+  }
+  const ptrs = new Map(); let drag = null, pinch = null;
+  cv.addEventListener("pointerdown", e => {
+    cv.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+    if (ptrs.size === 1) drag = { x: e.clientX, y: e.clientY, cx: view && view.cx, cy: view && view.cy, moved: 0 };
+    if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinch = { d: Math.hypot(a[0] - b[0], a[1] - b[1]), k: view.k }; drag = null; }
+  });
+  cv.addEventListener("pointermove", e => {
+    if (!S || !view) return;
+    if (ptrs.has(e.pointerId)) ptrs.set(e.pointerId, [e.clientX, e.clientY]);
+    if (pinch && ptrs.size === 2) { const [a, b] = [...ptrs.values()], b0 = cv.getBoundingClientRect();
+      const d = Math.hypot(a[0] - b[0], a[1] - b[1]); zoomAt(pinch.k * d / pinch.d / view.k, (a[0] + b[0]) / 2 - b0.left, (a[1] + b[1]) / 2 - b0.top); return; }
+    if (drag && ptrs.size === 1) { const dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.moved = Math.max(drag.moved, Math.hypot(dx, dy));
+      if (drag.moved > 4) { view.cx = drag.cx - dx / view.k; view.cy = drag.cy - dy / view.k; cv.removeAttribute("data-tip"); render(); return; } }
+    if (e.pointerType === "mouse" && !ptrs.size) { const i = nearest(e.clientX, e.clientY);
+      if (i < 0) cv.removeAttribute("data-tip"); else cv.setAttribute("data-tip", `Spot ${nf(i + 1)} · ${nf(S.umi[i])} molecules\n` + describe(i)); }
+  });
+  const up = e => {
+    const wasTap = drag && drag.moved <= 4 && ptrs.size === 1;
+    ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch = null;
+    if (wasTap && e.type === "pointerup") { sel = nearest(e.clientX, e.clientY); readout(sel); render(); active = true; $("spmap").classList.add("active"); }
+    if (!ptrs.size) drag = null;
+  };
+  cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
+  cv.addEventListener("mouseleave", () => cv.removeAttribute("data-tip"));
+  cv.addEventListener("dblclick", e => { const b = cv.getBoundingClientRect(); zoomAt(2, e.clientX - b.left, e.clientY - b.top); });
+  cv.addEventListener("wheel", e => { if (!(active || e.ctrlKey || e.metaKey) || !view) return; e.preventDefault();
+    const b = cv.getBoundingClientRect(); zoomAt(Math.exp(-e.deltaY * (e.deltaMode ? 0.05 : 0.0015)), e.clientX - b.left, e.clientY - b.top); }, { passive: false });
+  document.addEventListener("pointerdown", e => { if (!$("spmap").contains(e.target)) { active = false; $("spmap").classList.remove("active"); } });
+  $("zin").onclick = () => LAY && zoomAt(1.6, LAY.W / 2, LAY.H / 2);
+  $("zout").onclick = () => LAY && zoomAt(1 / 1.6, LAY.W / 2, LAY.H / 2);
+  $("zfit").onclick = () => { if (S) { fit(); render(); } };
+
+  let rzT, lastW = 0; new ResizeObserver(() => { clearTimeout(rzT); rzT = setTimeout(() => { if (!S) return; const w = cv.parentElement.clientWidth; if (Math.abs(w - lastW) > 1) { lastW = w; fit(); render(); } }, 120); }).observe($("spmap"));
+  const retheme = () => { cols = null; render(); overview(); };
+  new MutationObserver(retheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", retheme);
+
+  // ---------------------------------------------------------------- start
+  overview();
+  const start = BYID.has(location.hash.slice(1)) ? location.hash.slice(1) : (FEAT[0] ? FEAT[0].id : filtered()[0].id);
+  await openSection(start, true);
+  window.__spatial = { get S() { return S; }, get LAY() { return LAY; }, get view() { return view; }, get IMG() { return IMG; }, openSection, st, DS };
 });
 </script>
 </body>
