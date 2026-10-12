@@ -690,11 +690,12 @@
     norm: () => {
       const s0 = sample(), c = s0.cells[0], T = libSize(c), g = s0.genes.find(x => rawCount(c, x.label.replace(" (added)", "")) > 0) || s0.genes[0], k = rawCount(c, g.label.replace(" (added)", ""));
       return `<p>Cells are captured with very different efficiency: one may yield 600 molecules, another 5,000. Raw counts would mostly measure that. Seurat's LogNormalize divides each gene's count by the cell's total, scales to 10,000, and takes log(1 + x): the log tames the few very high genes, the +1 keeps zeros at zero.</p>
-        <p class="formula">x<sub>gc</sub> = log(1 + count<sub>gc</sub> ÷ total<sub>c</sub> × 10,000)</p>
-        <p class="cp-note">Worked example — cell ${c.label}, gene ${esc(g.label)}: count ${k}, cell total ${n0(T)} → log(1 + ${k} ÷ ${n0(T)} × 10,000) = log(1 + ${(k / T * 1e4).toFixed(2)}) = <b>${Math.log1p(k / T * 1e4).toFixed(3)}</b>.</p>` +
+        <p class="formula">x<sub>gc</sub> = ln(1 + count<sub>gc</sub> ÷ total<sub>c</sub> × 10,000)</p>
+        <p class="cp-note"><b>total<sub>c</sub></b> is the cell's count summed over <em>all</em> ${n0(poolNow.nGenes)} genes, not just the few shown below. <b>ln</b> is the natural log (base e), as R's and JavaScript's <code>log1p</code>.</p>
+        <p class="cp-note">Worked example — cell ${c.label}, gene ${esc(g.label)}: count ${k}, cell total ${n0(T)} → ln(1 + ${k} ÷ ${n0(T)} × 10,000) = ln(1 + ${(k / T * 1e4).toFixed(2)}) = <b>${Math.log1p(k / T * 1e4).toFixed(3)}</b>.</p>` +
         sio(grid("in: raw counts", s0.cells, s0.genes, (x, gg) => rawCount(x, gg.label.replace(" (added)", "")), { fmt: v => String(v) }),
           grid("out: log-normalised", s0.cells, s0.genes, (x, gg) => { const r = rawCount(x, gg.label.replace(" (added)", "")); return Math.log1p(r / libSize(x) * 1e4); }),
-          "Before any boost. C = control, T = treatment cells.");
+          `Cell totals over all genes: ${s0.cells.map(x => `${x.label} ${n0(libSize(x))}`).join(" · ")}. Before any boost. C = control, T = treatment cells.`);
     },
     filter: () => {
       const P = poolNow, drawn = sim.cellInfo.map(c => c.pool), N = drawn.length, nz = new Uint32Array(P.nGenes);
