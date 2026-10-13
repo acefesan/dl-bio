@@ -96,6 +96,9 @@ The Census work needs `tiledbsoma`, which has no Python 3.14 wheels — use 3.12
 
 ## Next steps
 
+Open questions to answer once the pipeline runs on SOMA data are collected in
+[`soma-questions.md`](./soma-questions.md).
+
 - [ ] Answer the three cognitive-debt questions. Everything else is secondary.
 - [ ] Re-run once dissociated mouse lands in the local Census — mouse is
       absent from the current sync, and it is the species nearly all the A1
