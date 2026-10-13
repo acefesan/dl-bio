@@ -8,3 +8,9 @@ numbers refer to the playground graph.
 1. **Node 5, "Keep genes detected in the drawn cells".** The paper drops
    genes that are zero in every drawn cell. How could that filter affect the
    SOMA results? (Asked 2026-10-12.)
+
+2. **10x chemistry and molecules per cell.** Which 10x chemistries
+   (3′ v2/v3/v3.1, 5′ v1/v2, …) make up the SOMA data, and what is the
+   distribution of molecules (UMIs) per cell, overall and by chemistry? How
+   do people estimate how many RNA molecules a cell actually contains (i.e.
+   what fraction a 10x run captures)? (Asked 2026-10-12.)
