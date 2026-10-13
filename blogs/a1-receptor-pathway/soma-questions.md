@@ -26,3 +26,19 @@ numbers refer to the playground graph.
    the cell types we compare, does the ADORA/A1 ranking still hold against
    expression-matched random gene sets and after depth-matched downsampling,
    and which scoring methods are least affected? (Asked 2026-10-12.)
+
+4. **Making cross-cell-type comparisons defensible.** Not considered at
+   first, but scores (and detection rates) compared across *different cell
+   types* are the analyses most exposed to depth and transcriptome-breadth
+   effects — be careful how they're used. Checks to run on SOMA:
+   - **Depth-matched downsampling:** randomly thin every cell to the same
+     number of molecules, then recompute detection and scores. If CA4 (or
+     the top SOMA cell type) still leads, depth isn't the explanation.
+   - **Expression-matched random gene sets as a null:** does a random 8-gene
+     set with similar expression levels also rank the same cell type first?
+   - **Report detection alongside genes-detected-per-cell** for every group,
+     so the confound is visible next to each result.
+   - **Compare within a cell type across conditions** (e.g. ADORA1 in the
+     same neuron type, caffeine-exposed vs not) wherever such data exists —
+     the comparison normalisation handles well.
+   (Added 2026-10-12.)
