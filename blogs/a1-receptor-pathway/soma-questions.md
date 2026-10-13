@@ -14,3 +14,15 @@ numbers refer to the playground graph.
    distribution of molecules (UMIs) per cell, overall and by chemistry? How
    do people estimate how many RNA molecules a cell actually contains (i.e.
    what fraction a 10x run captures)? (Asked 2026-10-12.)
+
+3. **Transcriptome breadth confounds cross-cell-type scores.** Gene-set
+   scores compared across cell types or groups that differ in how many genes
+   each cell detects behave like the paper's scenario 3, with biology rather
+   than a simulation providing the difference. This is the CA4 caveat: HBCA
+   neuron groups differ ~4.2× in genes detected per cell, and the A1 score
+   ranking follows that gap. Rank-based scores move because the extra genes
+   reshuffle each cell's ranks; share-based scores (SCSE) move because the
+   cell's total grows. On SOMA: how large is the genes-per-cell gap between
+   the cell types we compare, does the ADORA/A1 ranking still hold against
+   expression-matched random gene sets and after depth-matched downsampling,
+   and which scoring methods are least affected? (Asked 2026-10-12.)
