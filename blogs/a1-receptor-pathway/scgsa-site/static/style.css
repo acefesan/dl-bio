@@ -407,3 +407,57 @@ svg text { font-family: system-ui, -apple-system, sans-serif; }
   h1 { font-size: 1.6rem; }
   body { font-size: 16.5px; }
 }
+
+/* ---- method pages: "Step by step on real cells" (static/methodgraph.js) ---- */
+#mg { font: 14px/1.45 system-ui, -apple-system, sans-serif; margin: 1rem 0 2rem; }
+#mg .mg-ctrls { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: end; margin: 0.6rem 0; }
+#mg .mg-ctrls label { display: grid; gap: 0.2rem; font-size: 12px; color: var(--muted); font-weight: 600; }
+#mg select { font: 14px system-ui, sans-serif; padding: 0.35rem 0.5rem; border-radius: 7px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+#mg .btn { font: 600 13px/1 system-ui, sans-serif; padding: 0.5rem 0.8rem; border-radius: 8px; border: 1px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; }
+#mg .mg-graph { margin-top: 1rem; }
+#mg .pnode { position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.8rem 1rem 0.9rem; margin: 0 0 2.1rem; }
+#mg .pnode + .pnode::before { content: ""; position: absolute; left: 1.55rem; top: -2.15rem; height: 2.1rem; border-left: 2px solid var(--line); }
+#mg .pnode + .pnode::after { content: ""; position: absolute; left: calc(1.55rem - 5px); top: -0.6rem; border: 6px solid transparent; border-top-color: var(--line); }
+#mg .pn-head { display: flex; align-items: center; gap: 0.6rem; }
+#mg .pn-head h3 { margin: 0; font-size: 15px; }
+#mg .pn-num { flex: none; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--accent); color: var(--bg); font: 700 12px/1.5rem system-ui, sans-serif; text-align: center; }
+#mg .pn-blurb { margin: 0.35rem 0 0.5rem 2.1rem; color: var(--muted); font-size: 13px; }
+#mg .pn-out, #mg .pn-code, #mg .mg-code { margin-left: 2.1rem; }
+#mg .kvs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.4rem 0; }
+#mg .kv { background: var(--bg); border-radius: 8px; padding: 0.4rem 0.65rem; min-width: 7rem; }
+#mg .kv b { display: block; font-size: 16px; }
+#mg .kv span { font-size: 12px; color: var(--muted); }
+#mg .cp-note { color: var(--muted); font-size: 12.5px; margin: 0.35rem 0; }
+#mg table.mg-tab { border-collapse: collapse; font-size: 12.5px; margin: 0.2rem 0; }
+#mg table.mg-tab th, #mg table.mg-tab td { padding: 0.2rem 0.5rem; border-bottom: 1px solid var(--line); text-align: left; }
+#mg table.mg-tab .num { text-align: right; font-variant-numeric: tabular-nums; }
+#mg .sio-row { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+#mg .sio { flex: 1 1 12rem; min-width: 0; }
+#mg .sio-t { font: 600 12px system-ui, sans-serif; color: var(--muted); }
+#mg .sio-arrow { font-size: 20px; color: var(--muted); }
+#mg .role { display: inline-block; font-size: 11px; font-weight: 600; padding: 0.05rem 0.4rem; border-radius: 999px; }
+#mg .role.signal { background: var(--try); color: var(--try-ink); }
+#mg .role.added { background: var(--warn); color: var(--warn-ink); }
+#mg .codebtn { font: 12px system-ui, sans-serif; padding: 0.2rem 0.55rem; border-radius: 999px; cursor: pointer; border: 1px solid var(--line); background: var(--code-bg); color: var(--ink); margin-top: 0.4rem; }
+#mg pre.code { background: var(--code-bg); border-radius: 8px; padding: 0.6rem 0.7rem; overflow-x: auto; font-size: 12px; }
+#mg .mg-check { font-weight: 600; font-size: 13px; }
+#mg .mg-check.ok { color: var(--good); }
+#mg .mg-check.bad { color: var(--bad); }
+#mg svg.mg-plot { width: 100%; max-width: 30rem; height: auto; display: block; }
+#mg svg.mg-plot .ax, #mg svg.mg-plot .zero { stroke: var(--muted); stroke-width: 1; }
+#mg svg.mg-plot .zero { stroke-dasharray: 3 3; }
+#mg svg.mg-plot .rec, #mg svg.mg-plot .walk { fill: none; stroke: var(--s1); stroke-width: 2; }
+#mg svg.mg-plot .ideal { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 4 3; }
+#mg svg.mg-plot text { fill: var(--muted); font-size: 10.5px; }
+#mg svg.mg-strip { width: 100%; height: 46px; display: block; }
+#mg .dot-c { fill: var(--muted); opacity: 0.55; }
+#mg .dot-t { fill: var(--s1); opacity: 0.6; }
+#mg circle.cell { cursor: pointer; stroke: transparent; stroke-width: 7; }
+#mg circle.cell.sel { fill: var(--mid); opacity: 1; stroke: var(--ink); stroke-width: 1.2; }
+#mg .legend2 { font-size: 12.5px; color: var(--muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+#mg .legend2 i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 0.3rem; }
+@media (max-width: 560px) { #mg .pn-blurb, #mg .pn-out, #mg .pn-code, #mg .mg-code { margin-left: 0; } }
+/* glossary (static/glossary.js) */
+.term { text-decoration: underline dotted; text-decoration-color: var(--muted); text-underline-offset: 3px; cursor: help; }
+.term:hover, .term:focus { text-decoration-color: var(--accent); outline: none; }
+.gloss-tip { position: absolute; z-index: 80; background: var(--ink); color: var(--bg); font: 13px/1.4 system-ui, sans-serif; padding: 0.5rem 0.65rem; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,.25); pointer-events: none; }

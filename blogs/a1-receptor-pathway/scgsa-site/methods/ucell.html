@@ -4,11 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UCell</title>
-<link rel="stylesheet" href="../static/style.css?v=236e2de9">
+<link rel="stylesheet" href="../static/style.css?v=54ced9fe">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 <script defer src="../static/common.js?v=ba56bb89"></script>
+<script defer src="../static/scgsa.js?v=6b5699f6"></script>
+<script defer src="../static/methodgraph.js?v=b9a2529f"></script>
+<script defer src="../static/glossary.js?v=905179a1"></script>
 </head>
 <body>
 <div class="layout"><main><article class="content">
@@ -30,6 +33,10 @@ $$\text{UCell} = 1 - \frac{\sum_i r_i - \frac{k(k+1)}{2}}{k \cdot R_{\max} - \fr
 <li>\(k \cdot R_{\max} - k(k+1)/2\) is the largest \(U\) can be once ranks are capped: every set gene at the cap.</li>
 <li>So the score is 1 when the set sits at the very top, and 0 when every set gene is at or beyond the cap.</li>
 </ul>
+
+<h2>Step by step on real cells</h2>
+<p>The same computation as a chain of steps, run in your browser on the paper's real cells (naive B cells from GSE164381, split 200 control / 200 treatment, exactly as in the <a href="../playground.html">playground</a>). One cell is followed through every step with its real numbers; the last step checks the result against the score the playground uses. Change the setting, the gene set or the cell; open each step's code.</p>
+<div id="mg" data-method="UCell"></div>
 
 <h2>On our toy cell</h2>
 <p>Use \(R_{\max} = 5\) for illustration. B = 3, D = 4. G is one of four tied zeros at ranks 7–10, so it gets their average, 8.5, then the cap, 5.</p>
