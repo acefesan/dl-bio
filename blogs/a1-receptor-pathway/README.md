@@ -96,6 +96,13 @@ The Census work needs `tiledbsoma`, which has no Python 3.14 wheels — use 3.12
 
 ## Next steps
 
+**Direction (2026-10-14): narrow to adenosine-driven vasodilation.** It's a
+short, well-characterised chain (A2A/A2B → cAMP in smooth muscle; → eNOS/NO in
+endothelium) with a measurable outcome (vessel diameter, blood flow; caffeine
+lowers cerebral blood flow ~20–30%) in identifiable cell types. Signalling
+diagrams and gene sets for A1, A2A and vasodilation are in section 4 of
+[`scgsa-site/pathways.html`](./scgsa-site/pathways.html).
+
 Open questions to answer once the pipeline runs on SOMA data are collected in
 [`soma-questions.md`](./soma-questions.md).
 

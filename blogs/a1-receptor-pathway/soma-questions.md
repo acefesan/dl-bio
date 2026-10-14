@@ -42,3 +42,16 @@ numbers refer to the playground graph.
      same neuron type, caffeine-exposed vs not) wherever such data exists —
      the comparison normalisation handles well.
    (Added 2026-10-12.)
+
+5. **Narrow focus: adenosine-driven vasodilation.** (Direction set
+   2026-10-14.) Caffeine's alertness runs mostly through A2A in the nucleus
+   accumbens (Huang 2005; Lazarus 2011), but mapping that onto behaviour
+   goes through whole circuits. Vasodilation is a short, measurable chain:
+   A2A/A2B → Gs → cAMP → PKA → K⁺ channels / MLCK → smooth-muscle relaxation,
+   plus endothelial A2A/A2B → eNOS → NO → sGC → cGMP → PKG. On SOMA: which
+   vascular cell types (endothelial cells, vascular smooth muscle, pericytes;
+   brain vs heart vs kidney vs elsewhere) detect ADORA2A/ADORA2B and the rest
+   of the vasodilation gene set (diagram 4c on `scgsa-site/pathways.html`),
+   with the depth checks from items 3–4. Genes not yet in our Census panel
+   (NOS3, GUCY1A1/B1, PRKG1, KCNJ8, ABCC9, KCNMA1, CACNA1C, MYLK, PPP1R12A)
+   need a new scan.

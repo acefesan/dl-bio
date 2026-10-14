@@ -4,10 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gene sets and pathways</title>
-<link rel="stylesheet" href="static/style.css?v=54ced9fe">
+<link rel="stylesheet" href="static/style.css?v=e66d15b7">
 <link rel="stylesheet" href="static/viz.css?v=9f547a1e">
 <script defer src="static/common.js?v=ba56bb89"></script>
 <script defer src="static/viz.js?v=4bbdc25e"></script>
+<script defer src="static/flow.js?v=89e939a9"></script>
+<script defer src="static/pathway-diagrams.js?v=75af8d73"></script>
+<script defer src="static/glossary.js?v=76c8898d"></script>
 </head>
 <body>
 <div class="layout"><main><article class="content wide">
@@ -70,7 +73,30 @@
 <p>For every gene in the panel, <code>census_gene_groups.py</code> reads the Census <code>normalized</code> layer over all 10x primary cells (not a sample). Counts are summed per group, then here per tissue or per cell type. Each cell of the grid is (cells with a count above zero) ÷ (cells from datasets that listed the gene). Columns are the tissues or cell types with the most cells; a cell type must have at least 200 measurable cells to be coloured. The colour scale is chosen by the button: <em>within gene</em> stretches each row from 0 to its own maximum so a rare gene's pattern is visible; <em>absolute</em> uses 0 to 100% for all rows so genes can be compared with each other. Hatched cells could not be measured.</p>
 <p>What it can't show: this is per-group detection, not per-cell co-expression. It tells you which tissues and cell types detect each gene, not whether a single cell has the receptor <em>and</em> its G protein <em>and</em> its effector at once. That needs the per-cell matrix and is the next step.</p></details>
 
-<h2>4. What a pathway score would measure here: detection tracks depth</h2>
+<h2>4. How the signal flows: what activates and what inhibits what</h2>
+<p>A gene set is a list; biology is a chain. These are <strong>signalling-pathway diagrams</strong> (also called signal-transduction or "activity flow" diagrams): each box is a molecule or a process, an arrow <b>→</b> means "activates / increases", a bar <b>⊣</b> means "inhibits / decreases". They describe <strong>pharmacodynamics</strong> — what caffeine does to the body (blocks a receptor, which changes cAMP, which changes the cell). The other half, <strong>pharmacokinetics</strong> — what the body does to caffeine — is in the box at the end. Hover or tap a box to see its genes; genes in <b>bold</b> are in our Census panel above.</p>
+
+<h3>4a. A1 in a wake-promoting neuron: why adenosine makes you sleepy</h3>
+<p>While you're awake, active brain cells release ATP, which is broken down to adenosine; adenosine builds up through the day ("sleep pressure"). On neurons, A1 is an <em>inhibitory</em> receptor: it quietens the cell three ways at once. Caffeine sits in the receptor without activating it, so adenosine can't act.</p>
+<figure><svg class="flow" id="fl-a1" role="img" aria-label="A1 receptor signalling in a neuron"></svg></figure>
+<div id="gt-a1"></div>
+
+<h3>4b. A2A in the striatum: the main route of caffeine's wake-up effect</h3>
+<p>In the nucleus accumbens and the rest of the striatum, A2A sits on the "indirect-pathway" neurons that also carry dopamine D2 receptors, and the two work against each other. Mice lacking A2A don't wake up on caffeine, while mice lacking A1 still do (Huang et al. 2005); the key site is the nucleus accumbens shell (Lazarus et al. 2011). So caffeine's alertness comes mostly from <em>blocking A2A here</em>, with A1 contributing. Mapping this onto behaviour runs through whole circuits — the reason to start somewhere narrower (4c).</p>
+<figure><svg class="flow" id="fl-a2a" role="img" aria-label="A2A receptor signalling in a striatal neuron"></svg></figure>
+<div id="gt-a2a"></div>
+
+<h3>4c. Vasodilation: a short chain with a measurable outcome</h3>
+<p>Adenosine widens blood vessels: tissue that is working hard or short of oxygen releases adenosine, which tells nearby vessels to open and bring more blood. Two cell types do it. In the <b>vessel wall's smooth muscle</b>, A2A/A2B raise cAMP, which relaxes the muscle. In the <b>endothelium</b> (the vessel's inner lining), the same receptors switch on nitric-oxide synthase; nitric oxide diffuses into the muscle and relaxes it through cGMP. Caffeine blocks both, so vessels narrow: it lowers blood flow to the brain by roughly 20–30%, which is why it's in headache pills and why stopping it gives a rebound, vessel-widening withdrawal headache. (In some beds, notably the kidney's afferent arteriole, A1 does the opposite and <em>constricts</em>.) Hospitals use the same mechanism: adenosine or the A2A agonist regadenoson dilates heart arteries for "stress" scans, and patients must skip caffeine for 12–24 h first.</p>
+<figure><svg class="flow" id="fl-vaso" role="img" aria-label="Adenosine-driven vasodilation in endothelium and smooth muscle"></svg></figure>
+<div id="gt-vaso"></div>
+<p class="note-plain">Why this is a good narrow focus: one or two receptors (A2A, A2B), one messenger per cell type (cAMP, NO/cGMP), one clear outcome (vessel diameter, blood flow), and specific cell types — endothelial cells, vascular smooth muscle cells and pericytes — that the Census, including its brain atlases, contains. Next step for the A1 post: map these genes across those cell types (see <code>soma-questions.md</code>).</p>
+
+<div class="callout"><div class="tag">Pharmacokinetics: how much caffeine reaches the receptors</div>
+<p>Absorbed in about 45 minutes; half-life ~5 hours (shorter in smokers, much longer in pregnancy); broken down in the liver mainly by CYP1A2 into paraxanthine, theobromine and theophylline — which also block adenosine receptors. A cup or two gives a few micromolar in the blood. Caffeine binds the human receptors at roughly <b>A2A ~2 µM, A1 ~10 µM, A2B ~10 µM, A3 ~80 µM</b> (Fredholm et al.), so everyday doses occupy a real share of A2A and A1, less of A2B, and almost none of A3.</p></div>
+<p class="cp-note">Sources: receptor coupling and caffeine affinities, Fredholm et al., Pharmacol Rev 2001 / 2011 (linked in section 3); caffeine arousal via A2A, Huang et al., Nat Neurosci 2005, and Lazarus et al., J Neurosci 2011; adenosine vasodilation via A2A/A2B, cAMP/K⁺ channels and endothelial NO, reviewed in Mustafa et al., Handb Exp Pharmacol 2009; caffeine and cerebral blood flow, Addicott et al., Hum Brain Mapp 2009. Diagrams are simplified: they show the main textbook links, not every isoform or feedback loop.</p>
+
+<h2>5. What a pathway score would measure here: detection tracks depth</h2>
 <p>To see what a generic pathway score reflects, take the thirteen KEGG pathways above and ask, for a sample of cells, what fraction of each pathway's genes is detected. If that fraction mostly follows how many genes were detected in the cell overall, a pathway "score" would mostly be reporting sequencing depth.</p>
 <div class="viz">
   <div class="viz-title">Share of each pathway's genes detected per cell, by tissue</div>
@@ -90,7 +116,7 @@
 <li><strong>Different lists answer different questions.</strong> Parkinson disease is detected far more than the signalling pathways. I have not checked its membership, but KEGG's Parkinson map is known to include many mitochondrial and ribosome-adjacent genes that nearly every cell expresses, so a high score there says "this cell is metabolically active", not "dopaminergic". This is the "list is shared" point from section 1 in the data.</li>
 </ul>
 
-<h2>5. Before trusting any gene-set score, ask</h2>
+<h2>6. Before trusting any gene-set score, ask</h2>
 <ol>
 <li><strong>What is in the list, and how big is it?</strong> If your gene of interest is one of 200, the score is not about it.</li>
 <li><strong>What is it compared against?</strong> Other genes in the cell, other cells, or random control genes. That reference is also what can fool it (see <a href="scenarios.html">the four scenarios</a>).</li>
