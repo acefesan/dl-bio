@@ -83,6 +83,22 @@ picking whichever framing is convenient.
 
 ## Data and code
 
+**Three data sources — keep them apart** (full explanation:
+[`scgsa-site/data.html`](./scgsa-site/data.html); every site page carries a
+badge naming its source):
+
+| Source | What it is | Used for |
+|---|---|---|
+| **GEO GSE164381** | the paper's own raw 10x files; our naive-B rebuild (`paper-data/`) | playground, method pages, scenarios |
+| **CELLxGENE single-dataset files** | HBCA neurons, HBCA non-neuronal, Tabula Sapiens — one study per file, same CELLxGENE format as the Census, plus each study's own columns (HBCA `supercluster_term` → CA4) | the seven-method CA4 comparison, "Our A1 data" |
+| **CELLxGENE Census (SOMA), 2025-11-08, local** | every study stacked in one store with standard columns only and a shared gene axis; separate spatial collection | all Census pages, spatial viewer, Census scoring |
+
+"Harmonised" in the Census means a common metadata format (ontology labels,
+one gene reference, raw + count÷total layers, duplicates flagged). It does
+**not** mean batch-corrected, re-annotated, measured on the same genes, or
+split by cells vs nuclei. The HBCA/Tabula cells are also in the Census, so a
+Census result is not an independent replication of an HBCA one.
+
 Results and scripts live in
 [`projects/caffeine/lab/001_adora_expression/`](../../projects/caffeine/lab/001_adora_expression/)
 — see its [`ARTIFACTS.md`](../../projects/caffeine/lab/001_adora_expression/ARTIFACTS.md)

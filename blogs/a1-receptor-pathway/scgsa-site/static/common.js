@@ -7,6 +7,7 @@
       ["index", "index.html", "Overview"],
       ["paper", "paper.html", "Read the paper"],
       ["debt", "debt.html", "Cognitive debt"],
+      ["data", "data.html", "Which data is this?"],
     ]},
     { title: "Foundations", items: [
       ["basics", "basics.html", "Scoring from zero"],
@@ -53,6 +54,23 @@
   mob.className = "mobile-nav";
   mob.innerHTML = sections.flatMap(s => s.items).map(([key, href, label]) =>
     `<a class="${key === here ? "active" : ""}" href="${root}${href}">${label}</a>`).join("");
+
+  // Data badge: <html data-source="geo|bulk|census|spatial ..."> names the
+  // page's data source(s), linked to the matching card on data.html.
+  const SRC = {
+    geo: ["Paper data · GEO GSE164381", "the paper's own cells, rebuilt from GEO; not the Census"],
+    bulk: ["Single-dataset files · HBCA / Tabula", "three CELLxGENE study files with their own labels (e.g. CA4)"],
+    census: ["Census (SOMA) · 2025-11-08", "all studies in one harmonised store; standard labels; no batch correction"],
+    spatial: ["Census spatial (SOMA) · 2025-11-08", "the Census's separate spatial collection, 540 sections"],
+  };
+  const srcs = (document.documentElement.dataset.source || "").split(/\s+/).filter(k => SRC[k]);
+  if (srcs.length) {
+    const kick = document.querySelector("article .kicker");
+    const div = document.createElement("div");
+    div.className = "data-badges";
+    div.innerHTML = srcs.map(k => `<a class="data-badge ${k === "spatial" ? "census" : k}" href="${root}data.html#${k === "spatial" ? "census" : k}" title="${SRC[k][1]}">Data: ${SRC[k][0]}</a>`).join("");
+    if (kick) kick.after(div);
+  }
 
   const layout = document.querySelector(".layout");
   if (layout) {

@@ -29,3 +29,16 @@ UniRef sequences — tracked by the pretraining scripts; paths in the shell driv
 ## Checkpoints
 
 ESM2 pretraining checkpoints under `checkpoints/` (git-ignored). Inference uses HuggingFace cached models.
+
+## Caffeine / adenosine (A1) project
+
+Large data lives on the bulk drive, not under `assets/`. Three distinct
+sources — see `blogs/a1-receptor-pathway/scgsa-site/data.html` for how they
+relate and what "harmonised" means:
+
+| Source | Location | What |
+|---|---|---|
+| CELLxGENE Census (SOMA), release 2025-11-08 | `/mnt/bulk/dl_bio/cellxgene_census/2025-11-08/soma/` | all studies, harmonised metadata, raw + normalized layers; `census_data/{homo_sapiens,mus_musculus}`, `census_spatial_sequencing/` |
+| CELLxGENE single-dataset H5ADs (HBCA neurons / non-neuronal, Tabula Sapiens) | `projects/caffeine/lab/001_adora_expression/cache/` | per-study files with study-specific labels (e.g. HBCA `supercluster_term`) |
+| GEO GSE164381 (the scGSA paper's input) | `/mnt/bulk/dl_bio/gse164381/` | raw 10x files; naive-B rebuild by `blogs/a1-receptor-pathway/paper-data/` |
+| Census scoring sample (38 cell types × 200 cells) | `/mnt/bulk/dl_bio/scgsa_census/data/` | full raw rows from `census_scgsa_sample.py`; scoring paused pending methodology |

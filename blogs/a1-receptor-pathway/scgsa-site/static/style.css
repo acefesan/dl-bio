@@ -482,3 +482,13 @@ svg.flow .fl-node.effect rect { fill: color-mix(in srgb, var(--good) 14%, var(--
 svg.flow .fl-node:focus rect, svg.flow .fl-node:hover rect { stroke-width: 2.4; }
 table.fl-tab { border-collapse: collapse; font-size: 12.5px; margin: 0.3rem 0; }
 table.fl-tab td, table.fl-tab th { padding: 0.2rem 0.5rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+/* ---- data-source badges (common.js, data.html) ---- */
+.data-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.15rem 0 0.6rem; }
+.data-badge { display: inline-block; font: 600 12px/1.3 system-ui, sans-serif; padding: 0.2rem 0.6rem; border-radius: 999px; text-decoration: none; border: 1px solid; }
+.data-badge.geo { color: var(--paper-ink); background: var(--paper); border-color: color-mix(in srgb, var(--paper-ink) 30%, transparent); }
+.data-badge.bulk { color: var(--code-ink); background: var(--code); border-color: color-mix(in srgb, var(--code-ink) 30%, transparent); }
+.data-badge.census { color: var(--ours-ink); background: var(--ours); border-color: color-mix(in srgb, var(--ours-ink) 30%, transparent); }
+a.data-badge:hover { filter: brightness(0.96); }
+table.data { border-collapse: collapse; width: 100%; font: 13.5px/1.45 system-ui, sans-serif; margin: 0.6rem 0 1.2rem; }
+table.data th, table.data td { border-bottom: 1px solid var(--line); padding: 0.45rem 0.55rem; text-align: left; vertical-align: top; }
+table.data th { font-size: 12.5px; color: var(--muted); }

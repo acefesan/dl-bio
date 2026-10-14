@@ -1,0 +1,50 @@
+{
+ "A1_neuron": [
+  "ADORA1",
+  "GNAI1",
+  "GNAI2",
+  "GNAI3",
+  "GNAO1",
+  "GNB1",
+  "GNG2",
+  "ADCY1",
+  "ADCY5",
+  "ADCY8",
+  "KCNJ3",
+  "KCNJ6",
+  "CACNA1A",
+  "CACNA1B"
+ ],
+ "A2A_striatum": [
+  "ADORA2A",
+  "DRD2",
+  "GNAL",
+  "GNB1",
+  "GNG7",
+  "ADCY5",
+  "PRKACA",
+  "PRKACB",
+  "PRKAR1B",
+  "PRKAR2B",
+  "PPP1R1B"
+ ],
+ "vasodilation": [
+  "ADORA2A",
+  "ADORA2B",
+  "NOS3",
+  "GNAS",
+  "ADCY3",
+  "ADCY5",
+  "ADCY6",
+  "PRKACA",
+  "GUCY1A1",
+  "GUCY1B1",
+  "PRKG1",
+  "KCNJ8",
+  "ABCC9",
+  "KCNMA1",
+  "CACNA1C",
+  "MYLK",
+  "PPP1R12A"
+ ]
+}

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" data-root="" data-page="data">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Which data is this?</title>
+<link rel="stylesheet" href="static/style.css?v=8d1d596c">
+<script defer src="static/common.js?v=9b00bfb3"></script>
+<script defer src="static/glossary.js?v=76c8898d"></script>
+<style>
+  .src-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+  .src-card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 0.8rem 1rem; font: 14px/1.45 system-ui, sans-serif; }
+  .src-card h3 { margin: 0.2rem 0 0.4rem; font-size: 15px; }
+  .src-card .tagline { color: var(--muted); font-size: 13px; }
+  .rel { font: 13px/1.5 ui-monospace, monospace; background: var(--code-bg); padding: 0.8rem 1rem; border-radius: 8px; overflow-x: auto; white-space: pre; }
+</style>
+</head>
+<body>
+<div class="layout"><main><article class="content">
+
+<div class="kicker">Start</div>
+<h1>Which data is this?</h1>
+<p class="lede">Three different sources feed this site. Each page carries a badge naming its source. This page says what each one is, how they relate, and what "harmonised" does and doesn't mean.</p>
+
+<div class="src-grid">
+  <div class="src-card" id="geo"><div class="data-badge geo">Paper data · GEO</div><h3>GSE164381, the paper's own input</h3>
+    <p class="tagline">Raw 10x files from GEO (Hoehn et al. 2021): 11 samples, 34,776 cells. We rebuilt the authors' subset: <b>9,528 naive B cells from 4 healthy donors</b>. Also a Splatter (SSD) pool fitted to them.</p>
+    <p class="tagline">Used by: <a href="playground.html">Playground</a>, every method page, <a href="scenarios.html">The four scenarios</a>, <a href="basics.html">Scoring from zero</a>. Not part of the Census.</p></div>
+  <div class="src-card" id="bulk"><div class="data-badge bulk">Single-dataset files</div><h3>Three study files from CELLxGENE</h3>
+    <p class="tagline">Downloaded one study at a time: <b>HBCA neurons</b> (~2.48 M cells), <b>HBCA non-neuronal</b> (~0.89 M), <b>Tabula Sapiens</b> (~1.14 M). Same CELLxGENE format as the Census, but each keeps its study's <em>own extra columns</em> — e.g. HBCA's <code>supercluster_term</code> with "Hippocampal CA4", which the combined Census drops.</p>
+    <p class="tagline">Used by: <a href="ours.html">Our A1 data</a> and the seven-method CA4 comparison (lab 001).</p></div>
+  <div class="src-card" id="census"><div class="data-badge census">Census (SOMA)</div><h3>The whole CELLxGENE Census, local copy</h3>
+    <p class="tagline">Release <b>2025-11-08</b>, stored on the home server in SOMA format. Human: 565 datasets, <b>96.6 M</b> primary cells (55.8 M from 10x, healthy, in 430 datasets, roughly 8,800 donors); mouse too. A separate <b>spatial</b> collection holds 540 tissue sections.</p>
+    <p class="tagline">Used by: <a href="census.html">What is in the Census</a>, <a href="census-tree.html">Cell type tree</a>, <a href="adora-census.html">ADORA across the Census</a>, <a href="pathways.html">Gene sets and pathways</a> (detection grids), <a href="adora-spatial.html">ADORA in tissue sections</a> (spatial collection).</p></div>
+</div>
+
+<h2>How they relate: same cells, different packaging</h2>
+<div class="rel">GEO GSE164381 ─────────────► raw 10x files ──► our naive-B rebuild ──► Playground, methods
+   (the paper's data; not in our Census work)
+
+CELLxGENE Discover: one file per study (H5AD, CELLxGENE format, + the study's own columns)
+   ├── HBCA neurons, HBCA non-neuronal, Tabula Sapiens ──► downloaded singly ──► "Our A1 data"
+   └── every human study (565 with primary cells), stacked ──► Census (SOMA): standard columns only,
+                                            one shared gene axis ──► Census pages</div>
+<p>So the HBCA and Tabula cells in the single-dataset files <em>are also in the Census</em>. A result on the Census is a broader view of overlapping data, not an independent replication of an HBCA result. The difference is packaging: the single files keep study-specific labels (CA4); the Census keeps only the standard labels, under which the hippocampal subfields are one "hippocampal pyramidal neuron" group.</p>
+
+<h2>What "harmonised" means — and doesn't</h2>
+<table class="data">
+<tr><th>The Census does harmonise</th><th>The Census does <em>not</em></th></tr>
+<tr><td><b>Metadata format:</b> every study's cell type, tissue, disease, assay, sex, development stage is mapped to standard ontology terms.</td><td><b>Correct batch effects.</b> No integration across studies: a cell type that comes from one lab, one chemistry, one depth carries all of that with it.</td></tr>
+<tr><td><b>Genes:</b> all mapped to one reference (GENCODE), on one shared gene axis.</td><td><b>Measure the same genes everywhere.</b> Each study keeps its own gene list; a gene a study never measured looks like a 0 unless you check the presence table. (Our Census pages do check.)</td></tr>
+<tr><td><b>Counts:</b> raw counts as submitted, plus a "normalized" layer = count ÷ cell total (no ×10,000, no log).</td><td><b>Re-annotate cells.</b> Cell types are the submitters' own calls, translated to standard names — some broad ("neuron", "brain vascular cell"), some fine.</td></tr>
+<tr><td><b>Duplicates:</b> a cell re-published in several studies is flagged; <code>is_primary_data</code> keeps one copy.</td><td><b>Separate cells from nuclei.</b> Whole cells and single nuclei sit side by side (<code>suspension_type</code>); nearly all brain neurons are nuclei.</td></tr>
+</table>
+
+<h2>Where each one lives</h2>
+<table class="data">
+<tr><th>Source</th><th>Location (home server)</th><th>Built by</th></tr>
+<tr><td>Paper data (GEO)</td><td><code>/mnt/bulk/dl_bio/gse164381/</code>; browser copy in <code>data/naive_b/</code>, <code>data/ssd/</code></td><td><code>blogs/a1-receptor-pathway/paper-data/</code></td></tr>
+<tr><td>Single-dataset files</td><td><code>projects/caffeine/lab/001_adora_expression/cache/</code></td><td>lab 001 scripts (<code>fetch_adora_cache.py</code>, <code>scgsa_extract_subsample.py</code>)</td></tr>
+<tr><td>Census (SOMA)</td><td><code>/mnt/bulk/dl_bio/cellxgene_census/2025-11-08/soma/</code> (<code>census_data</code>, <code>census_spatial_sequencing</code>)</td><td><code>census_*.py</code> in lab 001</td></tr>
+</table>
+
+</article></main></div>
+</body>
+</html>

@@ -55,3 +55,20 @@ numbers refer to the playground graph.
    with the depth checks from items 3–4. Genes not yet in our Census panel
    (NOS3, GUCY1A1/B1, PRKG1, KCNJ8, ABCC9, KCNMA1, CACNA1C, MYLK, PPP1R12A)
    need a new scan.
+
+6. **People, not cells, are the replicates.** (Counted 2026-10-14.) The
+   human Census has ~8,800 donor entries in 10x healthy data (donor IDs are
+   only unique within a dataset, so the true count of people is between the
+   distinct-label and dataset-donor counts). Some cell types rest on very
+   few people: midbrain dopaminergic neurons 3 donors (1 dataset),
+   microcirculation smooth muscle 6, brain-vasculature smooth muscle 9,
+   direct/indirect MSNs 14 each (2 datasets). Any cross-cell-type claim
+   should be summarised per donor (pseudobulk) and report donors and
+   datasets per group.
+
+7. **Methodology before scoring the section 4 gene sets on SOMA** (scoring
+   paused 2026-10-14; sample of 38 types × 200 cells is extracted at
+   `/mnt/bulk/dl_bio/scgsa_census/`). Decide: shared gene universe across
+   included datasets; cells vs nuclei kept apart; z-scores against
+   expression-matched random sets; per-dataset breakdown; optional
+   depth-matched downsampling; per-donor summaries (item 6).

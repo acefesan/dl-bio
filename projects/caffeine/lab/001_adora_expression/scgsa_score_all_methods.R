@@ -7,7 +7,13 @@
 #   - Seurat::AddModuleScore() with defaults
 #   - scPS() sourced from the authors' scPS_2024.R
 #
-# Usage: Rscript score_all_methods.R <atlas>   (atlas = hbca | tabula)
+# Usage: Rscript score_all_methods.R <atlas>   (atlas = hbca | tabula | census)
+# Optional environment:
+#   SCGSA_SETS=<file.json>  gene sets {name: [genes]} replacing the A1 panels
+#   SCGSA_NULL=<n>          also score n random sets per gene set, each gene
+#                           swapped for a random gene of the same expression
+#                           bin (24 equal-size bins of mean log expression,
+#                           as AddModuleScore bins), named "<set>__null<i>".
 
 suppressPackageStartupMessages({
   library(Matrix)
@@ -50,6 +56,11 @@ PANEL_FULL <- c(
 )
 
 PANELS <- list(minimal8 = PANEL_MIN, full61 = PANEL_FULL)
+sets_file <- Sys.getenv("SCGSA_SETS", "")
+if (nzchar(sets_file)) {
+  PANELS <- lapply(jsonlite::fromJSON(sets_file), as.character)
+  cat("  gene sets from", sets_file, ":", paste(names(PANELS), collapse = ", "), "\n")
+}
 
 # ------------------------------------------------------------------ load data
 cat("== loading", atlas, "==\n")
@@ -75,16 +86,41 @@ for (nm in names(PANELS)) {
       else "", "\n")
 }
 
+# --------------------------------------------- expression-matched random sets
+n_null <- as.integer(Sys.getenv("SCGSA_NULL", "0"))
+if (n_null > 0) {
+  dat <- GetAssayData(obj, layer = "data")
+  gm <- Matrix::rowMeans(dat)
+  pool <- names(gm)[gm > 0]
+  bins <- cut(rank(gm[pool], ties.method = "random"), 24, labels = FALSE)
+  names(bins) <- pool
+  real <- PANELS
+  for (nm in names(real)) {
+    for (r in seq_len(n_null)) {
+      chosen <- character(0)
+      for (g in real[[nm]]) {
+        b <- if (g %in% pool) bins[[g]] else sample(24, 1)
+        cand <- setdiff(names(bins)[bins == b], c(real[[nm]], chosen))
+        chosen <- c(chosen, sample(cand, 1))
+      }
+      PANELS[[paste0(nm, "__null", r)]] <- chosen
+    }
+  }
+  cat("  added", n_null, "expression-matched random sets per gene set (",
+      length(PANELS), "sets in total)\n")
+}
+
 scores <- list()   # method -> panel -> named numeric vector over cells
 
 # ------------------------------------------------------- 1. AddModuleScore
 # Paper's script: AddModuleScore(obj, predBind) with all defaults
 # (nbin = 24, ctrl = 100).
 cat("== AddModuleScore ==\n")
-for (nm in names(PANELS)) {
-  o <- AddModuleScore(obj, features = list(PANELS[[nm]]), name = "AMS",
-                      seed = 42)
-  scores[["AddModuleScore"]][[nm]] <- setNames(o$AMS1, colnames(o))
+# One call over all sets, as the authors' script does
+# (AddModuleScore(Participant.integrated.1, predBind)).
+o <- AddModuleScore(obj, features = unname(PANELS), name = "AMS", seed = 42)
+for (i in seq_along(PANELS)) {
+  scores[["AddModuleScore"]][[names(PANELS)[i]]] <- setNames(o[[paste0("AMS", i)]][, 1], colnames(o))
 }
 
 # ------------------------------------------------------------------ 2. scPS
@@ -125,9 +161,9 @@ cat("== irGSEA available:", have_irgsea, "==\n")
 
 if (have_irgsea) {
   suppressPackageStartupMessages(library(irGSEA))
-  for (nm in names(PANELS)) {
-    gs <- list(PANELS[[nm]])
-    names(gs) <- nm
+  # one call over all sets (irGSEA renames "_" to "-" in set names)
+  {
+    gs <- PANELS
     o <- irGSEA::irGSEA.score(
       object = obj, assay = "RNA", slot = "data",
       seeds = 42, custom = TRUE, geneset = gs, ncores = 8,
@@ -141,7 +177,11 @@ if (have_irgsea) {
         if (all(m == 0)) m <- GetAssayData(o, assay = a, layer = "counts")
         lbl <- c(AUCell = "AUCell", JASMINE = "JASMINE", ssgsea = "ssGSEA",
                  UCell = "UCell", scSE = "SCSE")[[a]]
-        scores[[lbl]][[nm]] <- setNames(as.numeric(m[1, ]), colnames(m))
+        for (nm in names(PANELS)) {
+          row <- match(gsub("_", "-", nm), rownames(m))
+          if (is.na(row)) row <- match(nm, rownames(m))
+          if (!is.na(row)) scores[[lbl]][[nm]] <- setNames(as.numeric(m[row, ]), colnames(m))
+        }
       }
     }
   }
