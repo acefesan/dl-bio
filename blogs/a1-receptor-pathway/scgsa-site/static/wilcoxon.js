@@ -93,12 +93,14 @@
     const deviation = Math.abs(u - center);
     const assignments = combinations(pooled.length, n1);
     let extreme = 0;
+    const nullUs = [];
     for (const indices of assignments) {
       const r = indices.reduce((sum, i) => sum + pooled[i].rank, 0);
       const candidate = r - n1 * (n1 + 1) / 2;
+      nullUs.push(candidate);
       if (Math.abs(candidate - center) + 1e-9 >= deviation) extreme++;
     }
-    return { n1, n2, treatmentRanks, rankSum, u, center, p: extreme / assignments.length };
+    return { n1, n2, treatmentRanks, rankSum, u, center, deviation, nullUs, extreme, total: assignments.length, p: extreme / assignments.length };
   }
 
   function drawAxes(svg, width, y, label) {
@@ -198,6 +200,8 @@
     if (probability > 0.5) direction = "more likely to outrank";
     if (probability < 0.5) direction = "less likely to outrank";
     document.getElementById("w-interpretation").textContent = `A randomly chosen treatment cell is ${direction} a randomly chosen control cell (${Math.round(probability * 100)}% of pairwise comparisons, with ties counting as half).`;
+    // let the step-by-step pipeline (static/wilcoxon-pipeline.js) follow along
+    document.dispatchEvent(new CustomEvent("wilcoxon:update", { detail: { pooled, stats } }));
     if (focusId) requestAnimationFrame(() => scoreSvg.querySelector(`[data-id="${focusId}"]`)?.focus());
   }
 

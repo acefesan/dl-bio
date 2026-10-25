@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Wilcoxon rank-sum playground</title>
-<link rel="stylesheet" href="static/style.css?v=8d1d596c">
+<link rel="stylesheet" href="static/style.css?v=98b86ccc">
 <script defer src="static/common.js?v=9b00bfb3"></script>
-<script defer src="static/wilcoxon.js?v=33d9e2ba"></script>
+<script defer src="static/wilcoxon-pipeline.js?v=31a5613d"></script>
+<script defer src="static/wilcoxon.js?v=9340950f"></script>
 </head>
 <body>
 <div class="layout"><main><article class="content wide">
@@ -45,6 +46,10 @@
 </div>
 
 <p id="w-interpretation" class="wil-interpretation"></p>
+
+<h2>The test as a pipeline</h2>
+<p>The same test, one step at a time. Each step shows what goes in and what comes out, with the numbers from the chart above: drag a dot and every step updates.</p>
+<div id="wpipe"></div>
 
 <div class="callout ours">
 <div class="tag">What the test can and cannot say</div>

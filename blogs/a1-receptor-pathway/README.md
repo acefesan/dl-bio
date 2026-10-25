@@ -12,6 +12,16 @@ full step-by-step walk through its signaling pathway, cell type by cell
 type, checked against what our data in
 [`projects/caffeine`](../../projects/caffeine/) actually shows.
 
+
+> **Pivot (2026-10-25).** The multi-part A1 / caffeine blog series is on hold:
+> too much is still unknown. This exploration is now an engine for finding
+> smaller things to write. **Next post: a write-up of the Wilcoxon rank-sum
+> test**, drafted by the author in a Claude doc ("The Wilcoxon rank-sum test
+> (draft)", https://claude.ai/artifact/Hy4W5sMi5iRDSFrhwpQjHL) under the
+> `docs-no-prose` rule (Claude adds tables, visualizations and links only; the
+> author writes all prose). Companion: the Wilcoxon page on the reading site,
+> now with the test drawn as a step-by-step pipeline.
+
 ## What's blocking
 
 Section 0 of [`post.md`](./post.md) is a **cognitive-debt list** — three
